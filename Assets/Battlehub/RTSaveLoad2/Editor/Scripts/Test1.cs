@@ -6,15 +6,9 @@ using System;
 using ProtoBuf.Meta;
 using UnityEngine;
 using System.IO;
-<<<<<<< HEAD
-using Battlehub.RTSaveLoad;
-
-namespace Battlehub.RTSaveLoad2
-=======
 
 
 namespace Battlehub.RTSaveLoad
->>>>>>> 086cf4e5... PeristentObjectMapping editor window
 {
     /*Serialization of object field*/
     [ProtoContract]
@@ -78,12 +72,6 @@ namespace Battlehub.RTSaveLoad
         }
     }
 
-<<<<<<< HEAD
-    
-
-
-  
-=======
 
     [ProtoContract]
     public class Vector3Surrogate
@@ -110,35 +98,20 @@ namespace Battlehub.RTSaveLoad
 
     }
     
->>>>>>> 086cf4e5... PeristentObjectMapping editor window
 
     public class TypeModelCreator2
     {
         public RuntimeTypeModel Create()
         {
-<<<<<<< HEAD
             RuntimeTypeModel model = TypeModel.Create();
             RegisterTypes(model);
-=======
-            
-           
-            RuntimeTypeModel model = TypeModel.Create();
-
-            RegisterTypes(model);
-
->>>>>>> 086cf4e5... PeristentObjectMapping editor window
             return model;
         }
 
         protected void RegisterTypes(RuntimeTypeModel model)
         {
-<<<<<<< HEAD
-           // model.Add(typeof(Vector3), false).SetSurrogate(typeof(Vector3Surrogate));
-            //model.Add(typeof(TestData1), true).AddSubType(500, typeof(TestData2))
-=======
             model.Add(typeof(Vector3), false).SetSurrogate(typeof(Vector3Surrogate));
             model.Add(typeof(TestData1), true).AddSubType(500, typeof(TestData2));
->>>>>>> 086cf4e5... PeristentObjectMapping editor window
         }
     }
 
@@ -228,11 +201,7 @@ namespace Battlehub.RTSaveLoad
 }
 
 
-<<<<<<< HEAD
-namespace Battlehub.RTSaveLoad2.Tests
-=======
 namespace Battlehub.RTSaveLoad.Tests
->>>>>>> 086cf4e5... PeristentObjectMapping editor window
 {
 
 
@@ -240,15 +209,6 @@ namespace Battlehub.RTSaveLoad.Tests
     {
 
         [Test]
-<<<<<<< HEAD
-        public void TestPass0()
-        {
-            Debug.Log(typeof(UnityEngine.Object[]).Name);
-        }
-
-        [Test]
-=======
->>>>>>> 086cf4e5... PeristentObjectMapping editor window
         public void TestPass1()
         {
             Assert.DoesNotThrow(() =>

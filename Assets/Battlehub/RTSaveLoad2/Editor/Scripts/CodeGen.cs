@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+<<<<<<< HEAD
 using UnityEngine;
+=======
+>>>>>>> 604c68fa... CodeGen implementation
 using UnityObject = UnityEngine.Object;
 
 namespace Battlehub.RTSaveLoad2
 {
+<<<<<<< HEAD
     /// <summary>
     /// This class is responsible for code generation of persistent objects (surrogates) 
     /// </summary>
@@ -38,10 +42,18 @@ namespace Battlehub.RTSaveLoad2
         /// <summary>
         /// Default namespaces which will be included in all auto-generated classes
         /// </summary>
+=======
+    public class CodeGen
+    {
+        private static readonly string BR = Environment.NewLine;
+        private static readonly string END = BR + BR;
+
+>>>>>>> 604c68fa... CodeGen implementation
         private static string[] DefaultNamespaces =
         {
             "System.Collections.Generic",
             "ProtoBuf",
+<<<<<<< HEAD
             "Battlehub.RTSaveLoad2"
         };
 
@@ -420,10 +432,113 @@ namespace Battlehub.RTSaveLoad2
                     else
                     {
                         typeName = PrepareMappedTypeName(repacementType.Name);
+=======
+        };
+
+        private static readonly string PersistentClassTemplate =
+            "{0}"                                               + BR +
+            "using UnityObject = UnityEngine.Object;"           + BR +
+            "namespace Battlehub.RTSaveLoad2"                   + BR +
+            "{"                                                 + BR +
+            "   [ProtoContract(AsReferenceDefault = true)"      + BR +
+            "   public class {1} : {2}"                         + BR +
+            "   {"                                              + BR +
+            "       {3}"                                        + BR +
+            "   }"                                              + BR +
+            "}"                                                 + END;
+
+        private static readonly string FieldTemplate =
+            "[ProtoMember({0})]"                                + BR +
+            "public {1} {2};"                                   + END;
+
+        private static readonly string ReadFromMethodTemplate =
+            "public override void ReadFrom(object obj)"         + BR +
+            "{"                                                 + BR +
+            "   UnityObject uo = (UnityObject)obj;"             + BR +
+            "   {0}"                                            + BR +
+            "}"                                                 + END;
+
+        private static readonly string WriteToMethodTemplate =
+            "public override void WriteTo(object obj)"          + BR +
+            "{"                                                 + BR +
+            "   UnityObject uo = (UnityObject)obj;"             + BR +
+            "   {0}"                                            + BR +
+            "}"                                                 + END;
+
+        private static readonly string GetDepsMethodTemplate =
+            "public virtual void GetDeps(HashSet<int> dependencies)"                    + BR +
+            "{"                                                                         + BR +
+            "   {0}"                                                                    + BR +
+            "}"                                                                         + END;
+
+        private static readonly string GetDepsFromMethodTemplate =
+            "public virtual void GetDepsFrom(object obj, HashSet<int> dependencies)"    + BR +
+            "{"                                                                         + BR +
+            "   {0}"                                                                    + BR +
+            "}"                                                                         + END;
+
+        public PropertyInfo[] GetProperties(Type type)
+        {
+            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly).Where(p => p.GetGetMethod() != null && p.GetSetMethod() != null).ToArray();
+        }
+
+        public FieldInfo[] GetFields(Type type)
+        {
+            return type.GetFields();
+        }
+
+        public string WritePersistentClassCode(PersistentClassMapping mapping)
+        {
+            StringBuilder sb = new StringBuilder();
+            WritePersistentClassUsings(mapping, sb);
+            string usings = sb.ToString();
+            
+            string className = mapping.PersistentTypeName;
+            string baseClassName = "";
+            string body = "";
+
+            return string.Format(PersistentClassTemplate, usings, className, baseClassName, body);
+        }
+
+        private void WritePersistentClassUsings(PersistentClassMapping mapping, StringBuilder sb)
+        {
+            HashSet<string> namespaces = new HashSet<string>();
+            for(int i = 0; i < DefaultNamespaces.Length; ++i)
+            {
+                namespaces.Add(DefaultNamespaces[i]);
+            }
+
+            if(!namespaces.Contains(mapping.MappedNamespace))
+            {
+                namespaces.Add(mapping.MappedNamespace);
+            }
+
+            if(!namespaces.Contains(mapping.PersistentNamespace))
+            {
+                namespaces.Add(mapping.PersistentNamespace);
+            }
+
+            for(int i = 0; i < mapping.PropertyMappings.Length; ++i)
+            {
+                PersistentPropertyMapping propertyMapping = mapping.PropertyMappings[i];
+                if(!namespaces.Contains(propertyMapping.MappedNamespace))
+                {
+                    namespaces.Add(propertyMapping.MappedNamespace);
+                }
+
+                Type type = Type.GetType(propertyMapping.MappedAssemblyQualifiedName);
+                Type replacementType = GetReplacementType(type);
+                if(replacementType != null)
+                {
+                    if (!namespaces.Contains(replacementType.Namespace))
+                    {
+                        namespaces.Add(replacementType.Namespace);
+>>>>>>> 604c68fa... CodeGen implementation
                     }
                 }
                 else
                 {
+<<<<<<< HEAD
                     string primitiveTypeName;
                     if(m_primitiveNames.TryGetValue(prop.MappedType, out primitiveTypeName))
                     {
@@ -678,10 +793,19 @@ namespace Battlehub.RTSaveLoad2
             }
 
             return sb.ToString();
+=======
+                    if (!namespaces.Contains(propertyMapping.PersistentNamespace))
+                    {
+                        namespaces.Add(propertyMapping.PersistentNamespace);
+                    }
+                }
+            }
+>>>>>>> 604c68fa... CodeGen implementation
         }
 
         private Type GetReplacementType(Type type)
         {
+<<<<<<< HEAD
             if(type.IsArray)
             {
                 Type elementType = type.GetElementType();
@@ -691,11 +815,19 @@ namespace Battlehub.RTSaveLoad2
                 }
             }
 
+=======
+>>>>>>> 604c68fa... CodeGen implementation
             if(type.IsSubclassOf(typeof(UnityObject)))
             {
                 return typeof(int);
             }
             return null;
         }
+<<<<<<< HEAD
+=======
+
+      
+
+>>>>>>> 604c68fa... CodeGen implementation
     }
 }

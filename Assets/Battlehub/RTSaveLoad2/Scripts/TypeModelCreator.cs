@@ -7,6 +7,7 @@ namespace Battlehub.RTSaveLoad2
         public static RuntimeTypeModel Create()
         {
             RuntimeTypeModel model = TypeModel.Create();
+<<<<<<< HEAD
             RegisterAutoTypes(model);
             RegisterUserDefinedTypes(model);
             return model;
@@ -25,5 +26,13 @@ namespace Battlehub.RTSaveLoad2
     //      //  model.Add(typeof(TestData1), false). AddSubType(500, typeof(TestData2)).SetSurrogate()
     //    }
     //}
+=======
+            RegisterTypes(model);
+            return model;
+        }
+
+        static partial void RegisterTypes(RuntimeTypeModel model);
+    }
+>>>>>>> 604c68fa... CodeGen implementation
 }
 
