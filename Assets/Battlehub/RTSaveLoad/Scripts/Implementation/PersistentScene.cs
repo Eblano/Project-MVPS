@@ -166,17 +166,15 @@ namespace Battlehub.RTSaveLoad
                 Debug.LogError("Create Runtime Resource Map");
                 return null;
             }
-
-            GameObject[] gameObjects =
-                SceneManager.GetActiveScene()
-                .GetRootGameObjects()
-                .OrderBy(g => g.transform.GetSiblingIndex())
-                .ToArray();
-
+        
+            GameObject[] gameObjects = SceneManager.GetActiveScene().GetRootGameObjects().OrderBy(g => g.transform.GetSiblingIndex()).ToArray();
             PersistentScene persistentScene = new PersistentScene();
             PersistentData.CreatePersistentDescriptorsAndData(gameObjects, out persistentScene.Descriptors, out persistentScene.Data /*, out persistentScene.ActiveSelf*/);
             
             return persistentScene;
         }
+
+
+       
     }
 }

@@ -67,6 +67,25 @@ namespace Battlehub.RTCommon
         public bool CanSnap = true;
         public bool AddColliders = true;
 
+   
+
+        public string Name
+        {
+            get { return gameObject.name; }
+            set
+            {
+                gameObject.name = value;
+                if (hideFlags != HideFlags.HideAndDontSave)
+                {
+                    if (NameChanged != null)
+                    {
+                        NameChanged(this);
+                    }
+                }
+            }
+        }
+
+
         [SerializeField]
         [HideInInspector]
         private ExposeToEditorObjectType m_objectType;
@@ -169,7 +188,7 @@ namespace Battlehub.RTCommon
             if(Parent != null)
             {
                 int index = Parent.m_children.IndexOf(this);
-                if(index < Parent.m_children.Count - 1)
+                if(index > 0 && index < Parent.m_children.Count - 1)
                 {
                     return Parent.m_children[index - 1];
                 }
@@ -228,6 +247,12 @@ namespace Battlehub.RTCommon
             return oldParent;
         }
 
+
+        //public bool IsInitialized
+        //{
+        //    get { return m_initialized; }
+        //}
+
         private bool m_initialized;
         private void Awake()
         {
@@ -257,6 +282,11 @@ namespace Battlehub.RTCommon
             if (m_initialized)
             {
                 return;
+            }
+
+            if(transform.parent != null)
+            {
+                m_parent = transform.parent.GetComponentInParent<ExposeToEditor>();
             }
             FindChildren(transform);
             m_initialized = true;
@@ -507,18 +537,7 @@ namespace Battlehub.RTCommon
             }
         }
 
-        public void SetName(string name)
-        {
-            gameObject.name = name;
-            if (hideFlags != HideFlags.HideAndDontSave)
-            {
-                if (NameChanged != null)
-                {
-                    NameChanged(this);
-                }
-            }
-        }
-
+     
         private static bool IsExposedToEditor(GameObject go, ExposeToEditorObjectType type, bool roots)
         {
             ExposeToEditor exposeToEditor = go.GetComponent<ExposeToEditor>();

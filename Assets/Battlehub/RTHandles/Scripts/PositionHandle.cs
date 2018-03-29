@@ -124,6 +124,7 @@ namespace Battlehub.RTHandles
             
             if (InputController.GetKeyDown(SnappingKey))
             {
+
                 if(!LockObject.IsPositionLocked)
                 {
                     m_isInSnappingMode = true;

@@ -331,7 +331,7 @@ namespace Battlehub.RTCommon
 
         public static void RegisterCreatedObject(GameObject g)
         {
-            if (!g || !Enabled)
+            if (!Enabled)
             {
                 return;
             }
@@ -558,7 +558,6 @@ namespace Battlehub.RTCommon
             },
             record => { });
         }
-
 
 
         private class SelectionRecord

@@ -8,20 +8,13 @@ using UnityEngine.Rendering;
 using Battlehub.RTSaveLoad;
 using Battlehub.Utils;
 
-using UnityObject = UnityEngine.Object;
-#if PROC_MATERIAL
-using ProcMaterial = UnityEngine.ProceduralMaterial;
-using ProcPropertyDescription = UnityEngine.ProceduralPropertyDescription;
-using ProcPropertyType = UnityEngine.ProceduralPropertyType;
-#endif
-
 namespace Battlehub.RTEditor
 {
-    #if !UNITY_WEBGL && PROC_MATERIAL
+    #if !UNITY_WEBGL
     public class ProceduralMaterialPropertyAccessor
     {
         private string m_inputName;
-        private ProcMaterial m_material;
+        private ProceduralMaterial m_material;
 
         public bool Bool
         {
@@ -103,13 +96,13 @@ namespace Battlehub.RTEditor
             }
         }
 
-        public ProceduralMaterialPropertyAccessor(ProcMaterial material, string inputName)
+        public ProceduralMaterialPropertyAccessor(ProceduralMaterial material, string inputName)
         {
             m_material = material;
             m_inputName = inputName;
         }
     }
-#endif
+    #endif  
 
     public class MaterialPropertyAccessor
     {
@@ -302,8 +295,8 @@ namespace Battlehub.RTEditor
                 shaderInfo = shaderUtil.GetShaderInfo(editor.Material.shader);
             }
 
-#if !UNITY_WEBGL && PROC_MATERIAL
-            ProcMaterial procMaterial = editor.Material as ProcMaterial;       
+#if !UNITY_WEBGL
+            ProceduralMaterial procMaterial = editor.Material as ProceduralMaterial;       
             if (shaderInfo == null && procMaterial == null)
             {
                 return null;
@@ -384,50 +377,50 @@ namespace Battlehub.RTEditor
                     descriptors.Add(propertyDescriptor);
                 }
             }
-#if !UNITY_WEBGL && PROC_MATERIAL
+#if !UNITY_WEBGL
             GetProceduralMaterialDescriptors(procMaterial, descriptors);
 #endif
 
             return descriptors.ToArray();
         }
-#if !UNITY_WEBGL && PROC_MATERIAL
-        public static void GetProceduralMaterialDescriptors(ProcMaterial procMaterial, List<MaterialPropertyDescriptor> descriptors)
+#if !UNITY_WEBGL
+        public static void GetProceduralMaterialDescriptors(ProceduralMaterial procMaterial, List<MaterialPropertyDescriptor> descriptors)
         {
            
             if (procMaterial != null)
             {
-                ProcPropertyDescription[] inputs = procMaterial.GetProceduralPropertyDescriptions();
+                ProceduralPropertyDescription[] inputs = procMaterial.GetProceduralPropertyDescriptions();
                 for (int i = 0; i < inputs.Length; ++i)
                 {
-                    ProcPropertyDescription input = inputs[i];
+                    ProceduralPropertyDescription input = inputs[i];
                     
                     PropertyInfo propertyInfo = null;
 
                     switch (input.type)
                     {
-                        case ProcPropertyType.Boolean:
+                        case ProceduralPropertyType.Boolean:
                             propertyInfo = Strong.PropertyInfo((ProceduralMaterialPropertyAccessor x) => x.Bool);
                             break;
-                        case ProcPropertyType.Color3:
-                        case ProcPropertyType.Color4:
+                        case ProceduralPropertyType.Color3:
+                        case ProceduralPropertyType.Color4:
                             propertyInfo = Strong.PropertyInfo((ProceduralMaterialPropertyAccessor x) => x.Color);
                             break;
-                        case ProcPropertyType.Enum:
+                        case ProceduralPropertyType.Enum:
                             propertyInfo = Strong.PropertyInfo((ProceduralMaterialPropertyAccessor x) => x.Enum);
                             break;
-                        case ProcPropertyType.Float:
+                        case ProceduralPropertyType.Float:
                             propertyInfo = Strong.PropertyInfo((ProceduralMaterialPropertyAccessor x) => x.Float);
                             break;
-                        case ProcPropertyType.Texture:
+                        case ProceduralPropertyType.Texture:
                             propertyInfo = Strong.PropertyInfo((ProceduralMaterialPropertyAccessor x) => x.Texture);
                             break;
-                        case ProcPropertyType.Vector2:
+                        case ProceduralPropertyType.Vector2:
                             propertyInfo = Strong.PropertyInfo((ProceduralMaterialPropertyAccessor x) => x.Vector2);
                             break;
-                        case ProcPropertyType.Vector3:
+                        case ProceduralPropertyType.Vector3:
                             propertyInfo = Strong.PropertyInfo((ProceduralMaterialPropertyAccessor x) => x.Vector3);
                             break;
-                        case ProcPropertyType.Vector4:
+                        case ProceduralPropertyType.Vector4:
                             propertyInfo = Strong.PropertyInfo((ProceduralMaterialPropertyAccessor x) => x.Vector4);
                             break;
                     }
@@ -447,4 +440,4 @@ namespace Battlehub.RTEditor
     }
 
 #endif
-}
+        }

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Battlehub.Utils;
 
 namespace Battlehub.RTSaveLoad
@@ -10,7 +9,7 @@ namespace Battlehub.RTSaveLoad
         [HideInInspector]
         public string Name;
         public Object Object;
-        [ReadOnly]
+        //[ReadOnly]
         public int Id;
 
         public ObjectToID(Object obj, int id)
@@ -26,7 +25,5 @@ namespace Battlehub.RTSaveLoad
         [ReadOnly]
         public string Guid;
         public ObjectToID[] Mapping;
-
-        
     }
 }

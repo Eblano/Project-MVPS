@@ -63,7 +63,7 @@ namespace Battlehub.RTSaveLoad
             { typeof(GameObject), Prefab },
             { typeof(Mesh), Mesh },
             { typeof(Material), Material },
-#if !UNITY_WEBGL && PROC_MATERIAL
+#if !UNITY_WEBGL
             { typeof(ProceduralMaterial), ProceduralMaterial },
 #endif
             { typeof(Texture), Texture },
@@ -363,8 +363,13 @@ namespace Battlehub.RTSaveLoad
 
         public static string GetUniqueName(string desiredName, UnityObject obj, ProjectItem parent)
         {
+            if (parent == null)
+            {
+                throw new ArgumentNullException("parent");
+            }
             string ext = ProjectItemTypes.Ext[ProjectItemTypes.GetProjectItemType(obj.GetType())];
-            string[] existingNames = parent.Children.Select(child => child.NameExt).ToArray();
+            string[] existingNames = parent.Children != null ? parent.Children.Select(child => child.NameExt).ToArray() : new string[0];
+
             string name = PathHelper.GetUniqueName(desiredName, ext, existingNames);
             if (name == null)
             {

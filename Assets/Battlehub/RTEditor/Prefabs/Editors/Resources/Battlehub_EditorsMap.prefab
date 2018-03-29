@@ -9,17 +9,17 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1839616238211750}
+  m_RootGameObject: {fileID: 1260904434272654}
   m_IsPrefabParent: 1
---- !u!1 &1839616238211750
+--- !u!1 &1260904434272654
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4206227172229728}
-  - component: {fileID: 114850798144375962}
+  - component: {fileID: 4575624903506786}
+  - component: {fileID: 114410961198495722}
   m_Layer: 0
   m_Name: Battlehub_EditorsMap
   m_TagString: Untagged
@@ -27,12 +27,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4206227172229728
+--- !u!4 &4575624903506786
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1839616238211750}
+  m_GameObject: {fileID: 1260904434272654}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,12 +40,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114850798144375962
+--- !u!114 &114410961198495722
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1839616238211750}
+  m_GameObject: {fileID: 1260904434272654}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4c556f3441c2c342a2b1779dd1a8c59, type: 3}
@@ -70,6 +70,7 @@ MonoBehaviour:
   - {fileID: 1000013698204324, guid: eca87d2c3ae2cd040a38796b85e02739, type: 2}
   - {fileID: 1000012088153226, guid: 6177c63e05390c745b5a906a8e178499, type: 2}
   - {fileID: 1000013256475392, guid: daf1985b0ff70be4f949269449ad5ab1, type: 2}
+  - {fileID: 1000013256475392, guid: b3869b72d165b1a4bbc0a2af36147707, type: 2}
   - {fileID: 1000013256475392, guid: 2291aaf81204cc74ebdc34c552e56fa6, type: 2}
   IsDefaultMaterialEditorEnabled: 1
   DefaultMaterialEditor: {fileID: 1000013302785078, guid: e271b6853f0d680408d9527a996e88ce,

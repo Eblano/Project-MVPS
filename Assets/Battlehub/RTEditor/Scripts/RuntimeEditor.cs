@@ -9,7 +9,7 @@ using Battlehub.RTCommon;
 
 using System.Collections;
 using Battlehub.RTGizmos;
-using UnityEngine.Rendering.PostProcessing;
+using System.Collections.Generic;
 
 namespace Battlehub.RTEditor
 {
@@ -20,17 +20,15 @@ namespace Battlehub.RTEditor
         public UnityEvent Play;
         public UnityEvent Stop;
 
-        public RTHandles.Grid Grid;
+        public Battlehub.RTHandles.Grid Grid;
         public BoxSelection BoxSelect;
         public SceneGizmo SceneGizmo;
         public GameObject EditButton;
         public GameObject CloseButton;
         public GameObject EditorRoot;
 
-        public GameObject editorCam_Prefab;
-
         public Camera[] SceneCameras;
-        //public KeyCode SwitchSceneCameraKey = KeyCode.H;
+        public KeyCode SwitchSceneCameraKey = KeyCode.H;
 
         public RuntimeSceneView SceneView;
         public GameObject GameView;
@@ -42,16 +40,16 @@ namespace Battlehub.RTEditor
         {
             get
             {
-#if UNITY_EDITOR
+                #if UNITY_EDITOR
                 return EditorModifierKey;
-#else
+                #else
                 return RuntimeModifierKey;
-#endif
+                #endif
             }
         }
         public KeyCode DuplicateKey = KeyCode.D;
         public KeyCode DeleteKey = KeyCode.Delete;
-        //public KeyCode EnterPlayModeKey = KeyCode.P;
+        public KeyCode EnterPlayModeKey = KeyCode.P;
 
         public GameObject GamePrefab;
         private GameObject m_game;
@@ -76,7 +74,7 @@ namespace Battlehub.RTEditor
         }
 
         private void Awake()
-        {
+        {   
             if (m_instance != null)
             {
                 Debug.LogWarning("Another instance of RuntimeEditor exists");
@@ -84,12 +82,12 @@ namespace Battlehub.RTEditor
             m_instance = this;
 
             m_projectManager = Dependencies.ProjectManager;
-            if (m_projectManager == null)
+            if(m_projectManager == null)
             {
                 Debug.LogWarning("ProjectManager not found");
             }
 
-            if (m_projectManager != null)
+            if(m_projectManager != null)
             {
                 m_projectManager.IgnoreTypes(
                     typeof(SpriteGizmo),
@@ -107,7 +105,7 @@ namespace Battlehub.RTEditor
                 m_projectManager.SceneLoaded += OnSceneLoaded;
                 m_projectManager.SceneCreated += OnSceneCreated;
             }
-
+         
             RuntimeEditorApplication.IsOpenedChanged += OnIsOpenedChanged;
             RuntimeEditorApplication.PlaymodeStateChanging += OnPlaymodeStateChanging;
 
@@ -151,12 +149,12 @@ namespace Battlehub.RTEditor
 
         private void Unsubscribe()
         {
-            if (m_projectManager != null)
+            if(m_projectManager != null)
             {
                 m_projectManager.SceneLoaded -= OnSceneLoaded;
                 m_projectManager.SceneCreated -= OnSceneCreated;
             }
-
+            
             RuntimeEditorApplication.IsOpenedChanged -= OnIsOpenedChanged;
             RuntimeEditorApplication.PlaymodeStateChanging -= OnPlaymodeStateChanging;
             BoxSelection.Filtering -= OnBoxSelectionFiltering;
@@ -196,15 +194,15 @@ namespace Battlehub.RTEditor
                 return;
             }
 
-            //if (InputController.GetKeyDown(SwitchSceneCameraKey))
-            //{
-            //    SwitchSceneCamera();
-            //}
+            if (InputController.GetKeyDown(SwitchSceneCameraKey))
+            {
+                SwitchSceneCamera();
+            }
 
-            //if (InputController.GetKeyDown(EnterPlayModeKey) && InputController.GetKey(ModifierKey))
-            //{
-            //    RuntimeEditorApplication.IsPlaying = !RuntimeEditorApplication.IsPlaying;
-            //}
+            if (InputController.GetKeyDown(EnterPlayModeKey) && InputController.GetKey(ModifierKey))
+            {
+                RuntimeEditorApplication.IsPlaying = !RuntimeEditorApplication.IsPlaying;
+            }
             if (InputController.GetKeyDown(DuplicateKey) && InputController.GetKey(ModifierKey))
             {
                 Duplicate();
@@ -217,7 +215,6 @@ namespace Battlehub.RTEditor
 
         private void Start()
         {
-            IsOn = true;
             BoxSelection.Filtering += OnBoxSelectionFiltering;
             ExposeToEditor.Enabled += OnObjectEnabled;
             ExposeToEditor.Disabled += OnObjectDisabled;
@@ -240,8 +237,8 @@ namespace Battlehub.RTEditor
         {
             m_gameViewViewportFitter = GameView.GetComponentInChildren<ViewportFitter>();
             RuntimeEditorApplication.GameCameras = FindObjectsOfType<Camera>()
-                .Where(c => (Grid == null || c.gameObject != Grid.gameObject) &&
-                            (RuntimeEditorApplication.ActiveSceneCamera == null || c.gameObject != RuntimeEditorApplication.ActiveSceneCamera.gameObject) &&
+                .Where(c => (Grid == null || c.gameObject != Grid.gameObject) && 
+                            (RuntimeEditorApplication.ActiveSceneCamera == null || c.gameObject != RuntimeEditorApplication.ActiveSceneCamera.gameObject) && 
                             (SceneGizmo == null || c.gameObject != SceneGizmo.gameObject))
                 .OrderBy(c => c != Camera.main).ToArray();
             for (int i = 0; i < RuntimeEditorApplication.GameCameras.Length; ++i)
@@ -267,11 +264,14 @@ namespace Battlehub.RTEditor
             {
                 if (RuntimeEditorApplication.SceneCameras[i] == null)
                 {
-                    RuntimeEditorApplication.SceneCameras[i] = Instantiate(editorCam_Prefab, transform).GetComponent<Camera>();
-                    RuntimeEditorApplication.SceneCameras[i].transform.SetParent(transform);
+                    GameObject editorCameraGO = new GameObject();
+                    
+                    RuntimeEditorApplication.SceneCameras[i] = editorCameraGO.AddComponent<Camera>();
+                    editorCameraGO.transform.SetParent(transform);
                     RuntimeEditorApplication.SceneCameras[i].transform.position = RuntimeEditorApplication.GameCameras[0].transform.position;
                     RuntimeEditorApplication.SceneCameras[i].transform.rotation = RuntimeEditorApplication.GameCameras[0].transform.rotation;
                     RuntimeEditorApplication.SceneCameras[i].transform.localScale = RuntimeEditorApplication.GameCameras[0].transform.localScale;
+                    RuntimeEditorApplication.SceneCameras[i].tag = "Untagged";
                     RuntimeEditorApplication.SceneCameras[i].name = "Editor Camera";
                 }
 
@@ -301,7 +301,7 @@ namespace Battlehub.RTEditor
                 m_gameViewViewportFitter.gameObject.SetActive(true);
             }
         }
-
+     
         private void OnIsOpenedChanged()
         {
             if (RuntimeEditorApplication.IsOpened)
@@ -316,33 +316,32 @@ namespace Battlehub.RTEditor
 
         private void OnPlaymodeStateChanging()
         {
-            Stop.Invoke();
-            //if (RuntimeEditorApplication.IsPlaying)
-            //{
-            //    if (IsOn)
-            //    {
-            //        if (GamePrefab != null)
-            //        {
-            //            m_game = Instantiate(GamePrefab);
-            //        }
-            //        else
-            //        {
-            //            Debug.Log("GamePrefab is not set");
-            //        }
-            //        Play.Invoke();
-            //    }   
-            //}
-            //else
-            //{
-            //    if(IsOn)
-            //    {
-            //        if (m_game != null)
-            //        {
-            //            DestroyImmediate(m_game);
-            //        }
-            //        Stop.Invoke();
-            //    }
-            //}
+            if (RuntimeEditorApplication.IsPlaying)
+            {
+                if (IsOn)
+                {
+                    if (GamePrefab != null)
+                    {
+                        m_game = Instantiate(GamePrefab);
+                    }
+                    else
+                    {
+                        Debug.Log("GamePrefab is not set");
+                    }
+                    Play.Invoke();
+                }   
+            }
+            else
+            {
+                if(IsOn)
+                {
+                    if (m_game != null)
+                    {
+                        DestroyImmediate(m_game);
+                    }
+                    Stop.Invoke();
+                }
+            }
         }
 
         private void OnGameCameraDestroyed()
@@ -367,7 +366,7 @@ namespace Battlehub.RTEditor
 
         private void OnObjectAwaked(ExposeToEditor obj)
         {
-            if (!m_isStarted)
+            if(!m_isStarted)
             {
                 if (obj.ObjectType == ExposeToEditorObjectType.Undefined)
                 {
@@ -398,7 +397,7 @@ namespace Battlehub.RTEditor
 
         private void OnObjectEnabled(ExposeToEditor obj)
         {
-            // obj.gameObject.layer = SceneView.RaycastLayer;
+           // obj.gameObject.layer = SceneView.RaycastLayer;
         }
 
         private void OnObjectDisabled(ExposeToEditor obj)
@@ -407,7 +406,7 @@ namespace Battlehub.RTEditor
 
         private void OnObjectDestroyed(ExposeToEditor obj)
         {
-
+            
         }
 
         private void OnObjectMarkAsDestoryedChanged(ExposeToEditor obj)
@@ -448,7 +447,7 @@ namespace Battlehub.RTEditor
             for (int i = 0; i < RuntimeEditorApplication.GameCameras.Length; ++i)
             {
                 Camera cam = RuntimeEditorApplication.GameCameras[i];
-                if (cam != null)
+                if(cam != null)
                 {
                     cam.enabled = false;
                 }
@@ -474,7 +473,7 @@ namespace Battlehub.RTEditor
             }
 
             BaseGizmo[] gizmos = FindObjectsOfType<BaseGizmo>();
-            for (int i = 0; i < gizmos.Length; ++i)
+            for(int i = 0; i < gizmos.Length; ++i)
             {
                 BaseGizmo gizmo = gizmos[i];
                 gizmo.SceneCamera = RuntimeEditorApplication.ActiveSceneCamera;
@@ -534,44 +533,99 @@ namespace Battlehub.RTEditor
             InitEditorComponents();
         }
 
+        public bool IsDescendantOf(GameObject ancestor, GameObject obj)
+        {
+            if(obj == null)
+            {
+                throw new System.ArgumentNullException("obj");
+            }
+
+            Transform ancestorTransform = null;
+            if(ancestor != null)
+            {
+                ancestorTransform = ancestor.transform;
+            }
+
+            Transform objTransform = obj.transform;
+
+            while(objTransform != null)
+            {
+                if(objTransform == ancestorTransform)
+                {
+                    return true;
+                }
+
+                objTransform = objTransform.parent;
+            }
+
+            return false;
+        }
+
         public void Duplicate()
         {
             Object[] selectedObjects = RuntimeSelection.objects;
             if (selectedObjects != null && selectedObjects.Length > 0)
             {
                 RuntimeUndo.BeginRecord();
-                Object[] duplicates = new Object[selectedObjects.Length];
-                for (int i = 0; i < duplicates.Length; ++i)
+
+                List<GameObject> duplicatesList = new List<GameObject>();
+                for(int i = 0; i < selectedObjects.Length; ++i)
                 {
                     GameObject go = selectedObjects[i] as GameObject;
-                    Object duplicate = Instantiate(go, go.transform.position, go.transform.rotation);
-                    GameObject duplicateGo = duplicate as GameObject;
-
-                    if (go != null && duplicateGo != null)
+                    if(go != null)
                     {
-                        duplicateGo.SetActive(true);
-                        duplicateGo.SetActive(go.activeSelf);
+                        duplicatesList.Add(go);
+                    }
+                }
+
+                for(int i = 0; i < selectedObjects.Length; ++i)
+                {
+                    GameObject obj = selectedObjects[i] as GameObject;
+                    if(obj == null)
+                    {
+                        continue;
+                    }
+                    for(int j = 0; j < duplicatesList.Count; j++)
+                    {
+                        GameObject ancestor = duplicatesList[j];
+                        if(obj != ancestor && IsDescendantOf(ancestor, obj))
+                        {
+                            duplicatesList.Remove(obj);
+                            break;
+                        }
+                    }
+                }
+
+                for (int i = 0; i < duplicatesList.Count; ++i)
+                {
+                    GameObject go = duplicatesList[i];
+                    GameObject duplicate = Instantiate(go, go.transform.position, go.transform.rotation);
+                    
+                    if (go != null && duplicate != null)
+                    {
+                        duplicate.SetActive(true);
+                        duplicate.SetActive(go.activeSelf);
                         if (go.transform.parent != null)
                         {
-                            duplicateGo.transform.SetParent(go.transform.parent, true);
+                            duplicate.transform.SetParent(go.transform.parent, true);
                         }
                     }
 
-                    duplicates[i] = duplicate;
-                    RuntimeUndo.BeginRegisterCreateObject(duplicateGo);
+                    duplicatesList[i] = duplicate;
+                    RuntimeUndo.BeginRegisterCreateObject(duplicate);
                 }
                 RuntimeUndo.RecordSelection();
                 RuntimeUndo.EndRecord();
 
                 bool isEnabled = RuntimeUndo.Enabled;
                 RuntimeUndo.Enabled = false;
-                RuntimeSelection.objects = duplicates;
+                RuntimeSelection.objects = duplicatesList.ToArray();
                 RuntimeUndo.Enabled = isEnabled;
 
                 RuntimeUndo.BeginRecord();
-                for (int i = 0; i < duplicates.Length; ++i)
+                for (int i = 0; i < duplicatesList.Count; ++i)
                 {
-                    GameObject selectedObj = (GameObject)duplicates[i];
+                    GameObject selectedObj = duplicatesList[i];
                     if (selectedObj != null)
                     {
                         RuntimeUndo.RegisterCreatedObject(selectedObj);
@@ -621,7 +675,7 @@ namespace Battlehub.RTEditor
             RuntimeUndo.EndRecord();
         }
 
-
+ 
         private void OnSceneLoaded(object sender, ProjectManagerEventArgs args)
         {
             OnNewScene();

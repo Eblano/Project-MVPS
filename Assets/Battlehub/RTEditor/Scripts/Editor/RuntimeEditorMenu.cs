@@ -12,10 +12,6 @@ using Battlehub.RTSaveLoad;
 using System;
 
 using UnityObject = UnityEngine.Object;
-#if PROC_MATERIAL
-using ProcMaterial = UnityEngine.ProceduralMaterial;
-#endif
-
 namespace Battlehub.RTEditor
 {
     public static class RTEditorMenu
@@ -184,12 +180,10 @@ namespace Battlehub.RTEditor
         {
             if (template.TypeHint != AssetTypeHint.All)
             {
-                #if PROC_MATERIAL
-                if ((template.TypeHint & AssetTypeHint.ProceduralMaterial) != 0 && obj.GetType() == typeof(ProcMaterial))
+                if ((template.TypeHint & AssetTypeHint.ProceduralMaterial) != 0 && obj.GetType() == typeof(ProceduralMaterial))
                 {
                     return true;
                 }
-                #endif
 
                 if ((template.TypeHint & AssetTypeHint.Material) != 0 && obj.GetType() == typeof(Material))
                 {

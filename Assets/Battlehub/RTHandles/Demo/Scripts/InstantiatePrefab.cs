@@ -52,7 +52,7 @@ namespace Battlehub.RTHandles
             {
                 exposeToEditor = m_instance.AddComponent<ExposeToEditor>();
             }
-            exposeToEditor.SetName(Prefab.name);
+            exposeToEditor.Name = Prefab.name;
             m_instance.SetActive(true);
             
             RuntimeUndo.BeginRecord();

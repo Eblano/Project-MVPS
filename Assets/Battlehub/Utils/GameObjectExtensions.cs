@@ -1,9 +1,4 @@
-﻿
-
-using UnityEngine;
-
-
-using System.Collections;
+﻿using UnityEngine;
 
 namespace Battlehub.Utils
 {
@@ -19,8 +14,12 @@ namespace Battlehub.Utils
                 throw new System.InvalidOperationException("Does not work in edit mode");
                 #endif
             }
-            return go.scene.buildIndex < 0;
-            
+            return go.scene.buildIndex < 0 && 
+                
+                !go.scene.isLoaded;
+                /*詹 先生. Fix for bug:
+                for example : I  load my scene(GHS0821001) from WWW, and drag cubeman to scene, it's was spawn in  my GHS0821001 scene, and it's scene.buildIndex=-1 ,so it's  isPrefab ,and won't show 
+                in hierarchy window. */
         }
 
         public static Bounds CalculateBounds(this GameObject g)

@@ -48,10 +48,11 @@ namespace Battlehub.RTSaveLoad
                     job = go.AddComponent<Job>();
                     go.AddComponent<PersistentIgnore>();
                 }
+
                 return job;
+
             }
         }
-
     }
 }
 

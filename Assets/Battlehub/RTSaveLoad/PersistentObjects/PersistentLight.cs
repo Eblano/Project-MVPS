@@ -40,8 +40,7 @@ namespace Battlehub.RTSaveLoad.PersistentObjects
 			o.cookie = (UnityEngine.Texture)objects.Get(cookie);
 			o.flare = (UnityEngine.Flare)objects.Get(flare);
 			o.renderMode = (UnityEngine.LightRenderMode)renderMode;
-			//o.alreadyLightmapped = alreadyLightmapped;
-            
+			o.alreadyLightmapped = alreadyLightmapped;
 			o.cullingMask = cullingMask;
 
 			return o;
@@ -73,7 +72,7 @@ namespace Battlehub.RTSaveLoad.PersistentObjects
 			cookie = o.cookie.GetMappedInstanceID();
 			flare = o.flare.GetMappedInstanceID();
 			renderMode = (uint)o.renderMode;
-			//alreadyLightmapped = o.alreadyLightmapped;
+			alreadyLightmapped = o.alreadyLightmapped;
 			cullingMask = o.cullingMask;
 
 		}

@@ -1,10 +1,10 @@
 ﻿using Battlehub.RTCommon;
 using Battlehub.RTSaveLoad.PersistentObjects;
 using Battlehub.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System;
 
 using UnityObject = UnityEngine.Object;
 namespace Battlehub.RTSaveLoad
@@ -214,7 +214,7 @@ namespace Battlehub.RTSaveLoad
         {
             m_isProjectLoaded = false;
 
-            if(ProjectLoading != null)
+            if (ProjectLoading != null)
             {
                 ProjectLoading(this, EventArgs.Empty);
             }
@@ -223,10 +223,12 @@ namespace Battlehub.RTSaveLoad
             DestroyDynamicResources();
 
             IJob job = Dependencies.Job;
+
             job.Submit(doneCallback =>
             {
                 bool metaOnly = false;
                 int[] exceptTypes = { ProjectItemTypes.Scene };
+
                 m_project.LoadProject(projectName, loadProjectCompleted =>
                 {
                     m_root = loadProjectCompleted.Data;
@@ -262,6 +264,7 @@ namespace Battlehub.RTSaveLoad
                     {
                         m_root.Item.Children = new List<ProjectItem>();
                     }
+
                     ProjectItem existingTemplateFolder = m_root.Item;//.Children.Where(item => item.Name == ProjectMangerConstants.PROJECT_TEMPLATE_FOLDER).FirstOrDefault();
                     ContinueLoadingProject(() =>
                     {
@@ -280,8 +283,7 @@ namespace Battlehub.RTSaveLoad
             });
         }
 
-
-        private void ContinueLoadingProject(ProjectManagerCallback callback, ProjectItem newTemplateFolder, ProjectItem existingTemplateFolder)
+        private void ContinueLoadingProject(Action callback, ProjectItem newTemplateFolder, ProjectItem existingTemplateFolder)
         {
             List<ProjectItem> itemsToDelete = new List<ProjectItem>();
             if (existingTemplateFolder != null)
@@ -308,10 +310,10 @@ namespace Battlehub.RTSaveLoad
             });
         }
 
-        private void CompleteProjectLoading(ProjectManagerCallback callback)
+        private void CompleteProjectLoading(Action callback)
         {
             bool includeDynamic = false;
-          
+
             Dictionary<long, UnityObject> resources = IdentifiersMap.FindResources(includeDynamic);
 
             bool allowNulls = false;
@@ -561,7 +563,7 @@ namespace Battlehub.RTSaveLoad
                     }
                 }
 
-#if !UNITY_WEBGL && PROC_MATERIAL
+                #if !UNITY_WEBGL
                 if (includeAllAssets)
                 {
                     ProceduralMaterial[] proceduralMaterials = bundle.LoadAllAssets<ProceduralMaterial>();
@@ -579,7 +581,7 @@ namespace Battlehub.RTSaveLoad
                         }
                     }
                 }
-#endif
+                #endif
 
                 ProjectItem[] projectItems = ConvertObjectsToProjectItems(objects.ToArray(), false, bundleName, assetNames, assetTypes);
                 projectItems = projectItems.OrderBy(p => p.NameExt).ToArray();
@@ -884,7 +886,7 @@ namespace Battlehub.RTSaveLoad
                 return false;
             }
 
-#if !UNITY_WEBGL && PROC_MATERIAL
+#if !UNITY_WEBGL
             if(obj is ProceduralMaterial)
             {
                 Debug.LogWarningFormat("ProceduralMaterials can't be added as dynamic resource. Procedural Material {0}. Please consider adding it to main ResourceMap or bundle ResourceMap", obj.name);
@@ -1512,16 +1514,16 @@ namespace Battlehub.RTSaveLoad
             int[] exceptTypes = { ProjectItemTypes.Scene };
 
             List<ProjectItem> loadProjectItems = new List<ProjectItem>();
-            for (int i = 0; i < projectItems.Length; ++i)
+            for(int i = 0; i < projectItems.Length; ++i)
             {
                 ProjectItem projectItem = projectItems[i];
-                if (!processedProjectItems.ContainsKey(InstanceID(projectItem)))
+                if(!processedProjectItems.ContainsKey(InstanceID(projectItem)))
                 {
                     loadProjectItems.Add(projectItem);
                 }
             }
 
-            if (loadProjectItems.Count == 0)
+            if(loadProjectItems.Count == 0)
             {
                 if (callback != null)
                 {
@@ -1530,21 +1532,10 @@ namespace Battlehub.RTSaveLoad
             }
             else
             {
-                IJob job = Dependencies.Job;
-                ProjectItem[] loadedProjectItems = new ProjectItem[0];
-                job.Submit(doneCallback =>
-                {
-                    m_project.LoadData(loadProjectItems.ToArray(), loadProjectItemsCompleted =>
-                    {
-                        loadedProjectItems = loadProjectItemsCompleted.Data;
-                        doneCallback();
-
-                    }, exceptTypes);
-                },
-                () =>
+                m_project.LoadData(loadProjectItems.ToArray(), loadProjectItemsCompleted =>
                 {
                     Dictionary<long, ProjectItem> dependencies = new Dictionary<long, ProjectItem>();
-
+                    ProjectItem[] loadedProjectItems = loadProjectItemsCompleted.Data;
                     for (int i = 0; i < loadedProjectItems.Length; ++i)
                     {
                         ProjectItem projectItem = loadedProjectItems[i];
@@ -1566,9 +1557,8 @@ namespace Battlehub.RTSaveLoad
                             callback();
                         }
                     }
-
-                });
-            }
+                }, exceptTypes);
+            } 
         }
 
         private void RegisterDynamicResource(long mappedInstanceId, UnityObject dynamicResource, Dictionary<long, UnityObject> decomposition)

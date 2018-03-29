@@ -118,7 +118,7 @@ namespace Battlehub.RTEditor
             ExposeToEditor exposeToEditor = go.GetComponent<ExposeToEditor>();
             if(exposeToEditor != null)
             {
-                exposeToEditor.SetName(name);
+                exposeToEditor.Name = name;
             }
             else
             {

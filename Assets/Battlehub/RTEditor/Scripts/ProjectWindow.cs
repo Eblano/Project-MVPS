@@ -5,7 +5,6 @@ using System.Linq;
 using Battlehub.UIControls;
 using Battlehub.RTSaveLoad;
 using Battlehub.Utils;
-using TMPro;
 
 
 namespace Battlehub.RTEditor
@@ -15,7 +14,8 @@ namespace Battlehub.RTEditor
         private IProjectManager m_projectManager;
 
         [SerializeField]
-        private TextMeshProUGUI m_loadingProgressText;
+        private GameObject m_loadingProgressUI;
+
 
         [SerializeField]
         private ProjectTreeWindow m_projectTree;
@@ -48,18 +48,15 @@ namespace Battlehub.RTEditor
         private bool ShowProgress
         {
             get { return m_showProgress; }
-            //Show progress bar if ui here needed
             set
             {
                 if (m_showProgress != value)
                 {
                     m_showProgress = value;
-                    if (m_loadingProgressText != null)
+                    if (m_loadingProgressUI != null)
                     {
-                        m_loadingProgressText.text = "Loading...";
-                        m_loadingProgressText.gameObject.SetActive(m_showProgress);
+                        m_loadingProgressUI.gameObject.SetActive(m_showProgress);
                     }
-
                 }
             }
         }
