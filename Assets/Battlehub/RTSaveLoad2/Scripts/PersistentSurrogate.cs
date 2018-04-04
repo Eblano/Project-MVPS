@@ -1,11 +1,6 @@
 ﻿using ProtoBuf;
 using System.Collections.Generic;
-<<<<<<< HEAD
 using UnityObject = UnityEngine.Object;
-=======
-using UnityEngine;
-
->>>>>>> 83310bd2... Codegen
 namespace Battlehub.RTSaveLoad2
 {
     public interface IPersistentSurrogate
@@ -138,7 +133,6 @@ namespace Battlehub.RTSaveLoad2
                 }
             }
         }
-<<<<<<< HEAD
 
         protected int ToId(UnityObject uo)
         {
@@ -190,49 +184,6 @@ namespace Battlehub.RTSaveLoad2
 
 
     //}
-=======
-    }
-    
-    [ProtoContract]
-    public class Vector3Surrogate : PersistentSurrogate
-    {
-        public float x;
-        public float y;
-        public float z;
-
-        public override void ReadFrom(object obj)
-        {
-            base.ReadFrom(obj);
-            Vector3 o = (Vector3)obj;
-            x = o.x;
-            y = o.y;
-            z = o.z;
-        }
-
-        public override object WriteTo(object obj)
-        {
-            Vector3 o = (Vector3)base.WriteTo(obj);
-            o.x = x;
-            o.y = y;
-            o.z = z;
-            return o;
-        }
-
-        public static implicit operator Vector3(Vector3Surrogate v)
-        {
-            return (Vector3)v.WriteTo(new Vector3()); 
-        }
-
-        public static implicit operator Vector3Surrogate(Vector3 v)
-        {
-            Vector3Surrogate o = new Vector3Surrogate();
-            o.ReadFrom(v);
-            return o;
-        }
-
-
-    }
->>>>>>> 83310bd2... Codegen
 
 }
 
