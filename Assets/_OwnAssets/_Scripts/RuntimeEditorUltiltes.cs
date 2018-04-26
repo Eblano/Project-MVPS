@@ -26,10 +26,6 @@ namespace SealTeam4
         private IProjectManager m_projectManager;
         private string assetsFolderPath;
 
-        [SerializeField] private TextMeshProUGUI assetsFolderHashText;
-        [SerializeField] private float folderHashRefershRate;
-        private float folderHashRefershCD;
-
         // If functions of the script can be triggered via keypresses
         [SerializeField] private bool acceptKeyInput = false;
 
@@ -55,8 +51,6 @@ namespace SealTeam4
 
         private void Update()
         {
-            UpdateAssetsFolderHash();
-
             if (!acceptKeyInput)
                 return;
 
@@ -79,49 +73,6 @@ namespace SealTeam4
                 ImportAssets();
         }
 
-        // Updates Displayed Hash for Runtime Assets Folder
-        private void UpdateAssetsFolderHash()
-        {
-            if (folderHashRefershCD <= 0)
-            {
-                assetsFolderHashText.text = "Project Hash: " + CreateShortMd5ForFolder(assetsFolderPath);
-                folderHashRefershCD = folderHashRefershRate;
-            }
-
-            folderHashRefershCD -= Time.deltaTime;
-        }
-
-        public string CreateShortMd5ForFolder(string path)
-        {
-            // assuming you want to include nested folders
-            var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)
-                                 .OrderBy(p => p).ToList();
-
-            MD5 md5 = MD5.Create();
-
-            for (int i = 0; i < files.Count; i++)
-            {
-                string file = files[i];
-
-                // hash path
-                string relativePath = file.Substring(path.Length + 1);
-                byte[] pathBytes = Encoding.UTF8.GetBytes(relativePath.ToLower());
-                md5.TransformBlock(pathBytes, 0, pathBytes.Length, pathBytes, 0);
-
-                // hash contents
-                byte[] contentBytes = File.ReadAllBytes(file);
-                if (i == files.Count - 1)
-                    md5.TransformFinalBlock(contentBytes, 0, contentBytes.Length);
-                else
-                    md5.TransformBlock(contentBytes, 0, contentBytes.Length, contentBytes, 0);
-            }
-
-            string longMd5 = BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
-            string shortMd5 = String.Format("{0:X}", longMd5.GetHashCode());
-
-            return shortMd5;
-        }
-
         // Exporting Runtime Assets out as a zip
         public void ExportAssets()
         {
@@ -135,10 +86,12 @@ namespace SealTeam4
                 new[] {
             new ExtensionFilter("RTA File", "rta")
                 };
-
-            string projectHash = CreateShortMd5ForFolder(assetsFolderPath);
-
-            string savePath = StandaloneFileBrowser.SaveFilePanel("Export Assets", "", "ProjectExport_" + projectHash, extensions);
+            
+            string savePath = StandaloneFileBrowser.SaveFilePanel(
+                                "Export Assets", 
+                                "", 
+                                "ProjectExport_" + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss"), 
+                                extensions);
 
             if (savePath == "")
             {
