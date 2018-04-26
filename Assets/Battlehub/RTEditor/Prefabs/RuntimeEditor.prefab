@@ -11120,14 +11120,14 @@ MonoBehaviour:
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 1725791098632150, guid: 37c4465149d682d48b774467933a9111,
+  m_PlayerPrefab: {fileID: 1622648763357396, guid: ea0eaf881536a9e45b686d673d560eed,
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: 
   m_OnlineScene: 
   m_SpawnPrefabs:
-  - {fileID: 1139472011510980, guid: 8a1478055a849c043a3fe223563df86b, type: 2}
+  - {fileID: 0}
   m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -11202,7 +11202,8 @@ MonoBehaviour:
   importAssetsKey: 262
   testPopupKey: 263
   switchRTSceneToUnityScene: 259
-  gameObjectsToSpawn: []
+  gameObjectsToSpawn:
+  - {fileID: 1353271438003168, guid: f3df822ba48107e42bba7825ab119716, type: 2}
   gameObjectsToMoveToRoot:
   - {fileID: 1239422284240636}
   gameObjectsToSetActive:
@@ -11210,6 +11211,7 @@ MonoBehaviour:
   gameObjectsToDestroyByName:
   - Job
   - RuntimeEditor
+  - Main Camera
   gameObjectsToDestroy: []
 --- !u!114 &114915474641739616
 MonoBehaviour:
