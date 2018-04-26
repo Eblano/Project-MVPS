@@ -8,6 +8,7 @@ using SFB;
 using UnityEngine.SceneManagement;
 using ICSharpCode.SharpZipLib.Zip;
 using System;
+using Battlehub.UIControls;
 
 /// <summary>
 /// Helper Script to extend functions for the Runtime Editor
@@ -29,6 +30,7 @@ namespace SealTeam4
         [SerializeField] private KeyCode resetRuntimeAssetsAndRestartKey = KeyCode.Keypad4;
         [SerializeField] private KeyCode exportAssetsKey = KeyCode.Keypad5;
         [SerializeField] private KeyCode importAssetsKey = KeyCode.Keypad6;
+        [SerializeField] private KeyCode testPopupKey = KeyCode.Keypad7;
 
         [Header("List Excecuted by Order")]
         [SerializeField] private KeyCode switchRTSceneToUnityScene = KeyCode.Keypad3;
@@ -56,16 +58,19 @@ namespace SealTeam4
                 AddFilesToRTE();
 
             if (Input.GetKeyDown(switchRTSceneToUnityScene))
-                SwitchRTSceneToUnityScene();
+                SwitchRTSceneToUnityScenePopup();
 
             if (Input.GetKeyDown(resetRuntimeAssetsAndRestartKey))
-                ResetRuntimeAssetsAndRestart();
+                ResetRuntimeAssetsAndRestartPopup();
 
             if (Input.GetKeyDown(exportAssetsKey))
                 ExportAssets();
 
             if (Input.GetKeyDown(importAssetsKey))
                 ImportAssets();
+
+            if (Input.GetKeyDown(testPopupKey))
+                TestPopup();
         }
         
         // Exporting Runtime Assets out as a zip
@@ -130,7 +135,22 @@ namespace SealTeam4
         }
 
         // Delete all files from Runtime Assets Folder and Restart Scene
-        public void ResetRuntimeAssetsAndRestart()
+        public void ResetRuntimeAssetsAndRestartPopup()
+        {
+            PopupWindow.Show("Confirmation", "Reset Project? This action cannot be Undone.",
+                "Yes",
+                args =>
+                {
+                    if (!args.Cancel)
+                    {
+                        ResetRuntimeAssetsAndRestart();
+                    }
+                },
+                "Cancel"
+                );
+        }
+
+        private void ResetRuntimeAssetsAndRestart()
         {
             if (Directory.Exists(@Application.persistentDataPath + "/Assets"))
                 Directory.Delete(@Application.persistentDataPath + "/Assets", true);
@@ -138,9 +158,25 @@ namespace SealTeam4
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+        
+        // Popup cofirmation dialog for Method "SwitchRTSceneToUnityScene"
+        public void SwitchRTSceneToUnityScenePopup()
+        {
+            PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
+                "Yes",
+                args =>
+                {
+                    if (!args.Cancel)
+                    {
+                        SwitchRTSceneToUnityScene();
+                    }
+                },
+                "Cancel"
+                );
+        }
 
         // Remove and Add nessesary objects to exit the runtime editor and start the scene properly
-        public void SwitchRTSceneToUnityScene()
+        private void SwitchRTSceneToUnityScene()
         {
             // Spawn selected prefabs
             for (int i = 0; i < gameObjectsToSpawn.Count; i++)
@@ -271,6 +307,10 @@ namespace SealTeam4
                 for (int i = 0; i < addedItems.Length; ++i)
                     Debug.Log(addedItems[i].ToString() + " added");
             });
+        }
+        
+        private void TestPopup()
+        {
         }
 
         // Load PNG from file

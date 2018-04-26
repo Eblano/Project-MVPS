@@ -1512,16 +1512,16 @@ namespace Battlehub.RTSaveLoad
             int[] exceptTypes = { ProjectItemTypes.Scene };
 
             List<ProjectItem> loadProjectItems = new List<ProjectItem>();
-            for(int i = 0; i < projectItems.Length; ++i)
+            for (int i = 0; i < projectItems.Length; ++i)
             {
                 ProjectItem projectItem = projectItems[i];
-                if(!processedProjectItems.ContainsKey(InstanceID(projectItem)))
+                if (!processedProjectItems.ContainsKey(InstanceID(projectItem)))
                 {
                     loadProjectItems.Add(projectItem);
                 }
             }
 
-            if(loadProjectItems.Count == 0)
+            if (loadProjectItems.Count == 0)
             {
                 if (callback != null)
                 {
@@ -1530,10 +1530,21 @@ namespace Battlehub.RTSaveLoad
             }
             else
             {
-                m_project.LoadData(loadProjectItems.ToArray(), loadProjectItemsCompleted =>
+                IJob job = Dependencies.Job;
+                ProjectItem[] loadedProjectItems = new ProjectItem[0];
+                job.Submit(doneCallback =>
+                {
+                    m_project.LoadData(loadProjectItems.ToArray(), loadProjectItemsCompleted =>
+                    {
+                        loadedProjectItems = loadProjectItemsCompleted.Data;
+                        doneCallback();
+
+                    }, exceptTypes);
+                },
+                () =>
                 {
                     Dictionary<long, ProjectItem> dependencies = new Dictionary<long, ProjectItem>();
-                    ProjectItem[] loadedProjectItems = loadProjectItemsCompleted.Data;
+
                     for (int i = 0; i < loadedProjectItems.Length; ++i)
                     {
                         ProjectItem projectItem = loadedProjectItems[i];
@@ -1555,8 +1566,9 @@ namespace Battlehub.RTSaveLoad
                             callback();
                         }
                     }
-                }, exceptTypes);
-            } 
+
+                });
+            }
         }
 
         private void RegisterDynamicResource(long mappedInstanceId, UnityObject dynamicResource, Dictionary<long, UnityObject> decomposition)

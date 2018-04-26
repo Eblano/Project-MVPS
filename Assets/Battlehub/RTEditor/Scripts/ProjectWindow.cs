@@ -5,6 +5,7 @@ using System.Linq;
 using Battlehub.UIControls;
 using Battlehub.RTSaveLoad;
 using Battlehub.Utils;
+using TMPro;
 
 
 namespace Battlehub.RTEditor
@@ -14,7 +15,7 @@ namespace Battlehub.RTEditor
         private IProjectManager m_projectManager;
 
         [SerializeField]
-        private Text m_loadingProgressText;
+        private TextMeshProUGUI m_loadingProgressText;
 
         [SerializeField]
         private ProjectTreeWindow m_projectTree;
