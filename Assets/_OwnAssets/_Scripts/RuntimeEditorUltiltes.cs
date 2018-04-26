@@ -9,6 +9,10 @@ using UnityEngine.SceneManagement;
 using ICSharpCode.SharpZipLib.Zip;
 using System;
 using Battlehub.UIControls;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using TMPro;
 
 /// <summary>
 /// Helper Script to extend functions for the Runtime Editor
@@ -22,6 +26,10 @@ namespace SealTeam4
         private IProjectManager m_projectManager;
         private string assetsFolderPath;
 
+        [SerializeField] private TextMeshProUGUI assetsFolderHashText;
+        [SerializeField] private float folderHashRefershRate;
+        private float folderHashRefershCD;
+
         // If functions of the script can be triggered via keypresses
         [SerializeField] private bool acceptKeyInput = false;
 
@@ -30,7 +38,6 @@ namespace SealTeam4
         [SerializeField] private KeyCode resetRuntimeAssetsAndRestartKey = KeyCode.Keypad4;
         [SerializeField] private KeyCode exportAssetsKey = KeyCode.Keypad5;
         [SerializeField] private KeyCode importAssetsKey = KeyCode.Keypad6;
-        [SerializeField] private KeyCode testPopupKey = KeyCode.Keypad7;
 
         [Header("List Excecuted by Order")]
         [SerializeField] private KeyCode switchRTSceneToUnityScene = KeyCode.Keypad3;
@@ -48,6 +55,8 @@ namespace SealTeam4
 
         private void Update()
         {
+            UpdateAssetsFolderHash();
+
             if (!acceptKeyInput)
                 return;
 
@@ -68,11 +77,51 @@ namespace SealTeam4
 
             if (Input.GetKeyDown(importAssetsKey))
                 ImportAssets();
-
-            if (Input.GetKeyDown(testPopupKey))
-                TestPopup();
         }
-        
+
+        // Updates Displayed Hash for Runtime Assets Folder
+        private void UpdateAssetsFolderHash()
+        {
+            if (folderHashRefershCD <= 0)
+            {
+                assetsFolderHashText.text = "Project Hash: " + CreateShortMd5ForFolder(assetsFolderPath);
+                folderHashRefershCD = folderHashRefershRate;
+            }
+
+            folderHashRefershCD -= Time.deltaTime;
+        }
+
+        public string CreateShortMd5ForFolder(string path)
+        {
+            // assuming you want to include nested folders
+            var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)
+                                 .OrderBy(p => p).ToList();
+
+            MD5 md5 = MD5.Create();
+
+            for (int i = 0; i < files.Count; i++)
+            {
+                string file = files[i];
+
+                // hash path
+                string relativePath = file.Substring(path.Length + 1);
+                byte[] pathBytes = Encoding.UTF8.GetBytes(relativePath.ToLower());
+                md5.TransformBlock(pathBytes, 0, pathBytes.Length, pathBytes, 0);
+
+                // hash contents
+                byte[] contentBytes = File.ReadAllBytes(file);
+                if (i == files.Count - 1)
+                    md5.TransformFinalBlock(contentBytes, 0, contentBytes.Length);
+                else
+                    md5.TransformBlock(contentBytes, 0, contentBytes.Length, contentBytes, 0);
+            }
+
+            string longMd5 = BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
+            string shortMd5 = String.Format("{0:X}", longMd5.GetHashCode());
+
+            return shortMd5;
+        }
+
         // Exporting Runtime Assets out as a zip
         public void ExportAssets()
         {
@@ -87,7 +136,9 @@ namespace SealTeam4
             new ExtensionFilter("RTA File", "rta")
                 };
 
-            string savePath = StandaloneFileBrowser.SaveFilePanel("Export Assets", "", "AssetsExport", extensions);
+            string projectHash = CreateShortMd5ForFolder(assetsFolderPath);
+
+            string savePath = StandaloneFileBrowser.SaveFilePanel("Export Assets", "", "ProjectExport_" + projectHash, extensions);
 
             if (savePath == "")
             {
@@ -307,10 +358,6 @@ namespace SealTeam4
                 for (int i = 0; i < addedItems.Length; ++i)
                     Debug.Log(addedItems[i].ToString() + " added");
             });
-        }
-        
-        private void TestPopup()
-        {
         }
 
         // Load PNG from file
