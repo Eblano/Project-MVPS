@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4445305749431306}
   - component: {fileID: 23860952693796040}
   - component: {fileID: 33226093136687898}
-  - component: {fileID: 114542548975405962}
+  - component: {fileID: 114289533002412248}
   m_Layer: 0
   m_Name: RTNetworkObjectTest
   m_TagString: Untagged
@@ -83,7 +83,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1231743159797532}
   m_Mesh: {fileID: 0}
---- !u!114 &114542548975405962
+--- !u!114 &114289533002412248
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -91,9 +91,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1231743159797532}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d669e1d612c6d374fb8441412e41dc59, type: 3}
+  m_Script: {fileID: 11500000, guid: cc1767499c0693e4299c276fa40ca16b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  netObjPrefab: {fileID: 0}
   copyMeshFilter: 1
-  copyMeshRendererMaterials: 1
+  copyMaterial: 1
+  objToSpawn: {fileID: 1393358017517052, guid: 8dc4b2db7f9ba64468ee51db70b2fc8e, type: 2}
