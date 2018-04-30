@@ -72,11 +72,9 @@ GameObject:
   - component: {fileID: 4393325975879274}
   - component: {fileID: 114811473834304830}
   - component: {fileID: 114230409289105384}
-  - component: {fileID: 114666877043885738}
-  - component: {fileID: 114904675574367452}
-  - component: {fileID: 114828573635324464}
+  - component: {fileID: 114314005296807230}
   m_Layer: 0
-  m_Name: ReadyPlayer1
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -276,7 +274,7 @@ MonoBehaviour:
   rControl: {fileID: 4160578602853692}
   leftHandObj: {fileID: 0}
   rightHandObj: {fileID: 0}
---- !u!114 &114666877043885738
+--- !u!114 &114314005296807230
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -284,7 +282,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1622648763357396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cda03525222078499b3df6a930de470, type: 3}
+  m_Script: {fileID: 11500000, guid: b572d19753a99564eb4911e50bffa96e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114811473834304830
@@ -319,27 +317,3 @@ MonoBehaviour:
     i15: 237
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &114828573635324464
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1622648763357396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83863c251d9d98b428a4080ce32ef08f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114904675574367452
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1622648763357396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb348f8150c3db443ae63b55bb6d5331, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disable:
-  - {fileID: 114666877043885738}

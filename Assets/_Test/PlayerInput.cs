@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 using VRTK;
 
-public class CombinedControllerInputs : MonoBehaviour
+public class PlayerInput : MonoBehaviour
 {
     private VRTK_ControllerEvents lHandEvents;
     private VRTK_ControllerEvents rHandEvents;
@@ -13,8 +10,13 @@ public class CombinedControllerInputs : MonoBehaviour
     private VRTK_ControllerReference rHandRef;
     private ServerSync ss;
 
+    private Transform headset, lHandCont, rHandCont;
+    private Vector3AndQuaternion head, lHand, rHand;
+
     private void Start()
     {
+        gameObject.name = "Player " + GetComponent<NetworkIdentity>().netId;
+
         ss = GetComponent<ServerSync>();
 
         if (!ss.isLocalPlayer)
@@ -22,6 +24,13 @@ public class CombinedControllerInputs : MonoBehaviour
             Destroy(this);
             return;
         }
+
+        head = new Vector3AndQuaternion();
+        lHand = new Vector3AndQuaternion();
+        rHand = new Vector3AndQuaternion();
+        headset = VRTK_DeviceFinder.DeviceTransform(VRTK_DeviceFinder.Devices.Headset);
+        lHandCont = VRTK_DeviceFinder.DeviceTransform(VRTK_DeviceFinder.Devices.LeftController);
+        rHandCont = VRTK_DeviceFinder.DeviceTransform(VRTK_DeviceFinder.Devices.RightController);
 
         lHandEvents = VRTK_DeviceFinder.DeviceTransform(VRTK_DeviceFinder.Devices.LeftController).GetComponent<VRTK_ControllerEvents>();
         rHandEvents = VRTK_DeviceFinder.DeviceTransform(VRTK_DeviceFinder.Devices.RightController).GetComponent<VRTK_ControllerEvents>();
@@ -49,6 +58,14 @@ public class CombinedControllerInputs : MonoBehaviour
 
         lHandEvents.TriggerClicked -= LHandEvents_TriggerClicked;
         rHandEvents.TriggerClicked -= RHandEvents_TriggerClicked;
+    }
+
+    private void Update()
+    {
+        head.SetPosAndRot(headset);
+        lHand.SetPosAndRot(lHandCont);
+        rHand.SetPosAndRot(rHandCont);
+        ss.CmdSyncVRTransform(head, lHand, rHand);
     }
 
     private void RHandEvents_TriggerClicked(object sender, ControllerInteractionEventArgs e)
