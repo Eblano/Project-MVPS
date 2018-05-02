@@ -13,13 +13,15 @@ public class PlayerInput : MonoBehaviour
     private Transform headset, lHandCont, rHandCont;
     private Vector3AndQuaternion head, lHand, rHand;
 
+    [SerializeField] private bool serverCanPlay;
+
     private void Start()
     {
         gameObject.name = "Player " + GetComponent<NetworkIdentity>().netId;
 
         ss = GetComponent<ServerSync>();
 
-        if (!ss.isLocalPlayer)
+        if (!ss.isLocalPlayer || (!serverCanPlay && ss.isServer))
         {
             Destroy(this);
             return;
@@ -46,18 +48,6 @@ public class PlayerInput : MonoBehaviour
 
         lHandEvents.TriggerClicked += LHandEvents_TriggerClicked;
         rHandEvents.TriggerClicked += RHandEvents_TriggerClicked;
-    }
-
-    private void OnDisable()
-    {
-        lHandEvents.GripClicked -= LHandEvents_GripClicked;
-        rHandEvents.GripClicked -= RHandEvents_GripClicked;
-
-        lHandEvents.GripUnclicked -= LHandEvents_GripUnclicked;
-        rHandEvents.GripUnclicked -= RHandEvents_GripUnclicked;
-
-        lHandEvents.TriggerClicked -= LHandEvents_TriggerClicked;
-        rHandEvents.TriggerClicked -= RHandEvents_TriggerClicked;
     }
 
     private void Update()
@@ -90,11 +80,11 @@ public class PlayerInput : MonoBehaviour
 
     private void RHandEvents_GripClicked(object sender, ControllerInteractionEventArgs e)
     {
-        ss.CmdCallGrab(VRTK_DeviceFinder.Devices.RightController, 1.0f);
+        ss.CmdCallGrab(VRTK_DeviceFinder.Devices.RightController, 0.5f);
     }
 
     private void LHandEvents_GripClicked(object sender, ControllerInteractionEventArgs e)
     {
-        ss.CmdCallGrab(VRTK_DeviceFinder.Devices.LeftController, 1.0f);
+        ss.CmdCallGrab(VRTK_DeviceFinder.Devices.LeftController, 0.5f);
     }
 }

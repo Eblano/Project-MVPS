@@ -42,6 +42,12 @@ public class ServerSync : NetworkBehaviour
         RpcCallTriggerUnclick(control);
     }
 
+    [Command]
+    private void CmdTransferObject(VRTK_DeviceFinder.Devices control, GameObject obj)
+    {
+        RpcTransferObject(control, obj);
+    }
+
     [ClientRpc]
     public void RpcSyncVRTransform(Vector3AndQuaternion head, Vector3AndQuaternion lHand, Vector3AndQuaternion rHand)
     {
@@ -85,6 +91,11 @@ public class ServerSync : NetworkBehaviour
         if (currGrabbedObj == null)
         {
             return;
+        }
+
+        if (AttemptingSameObjectGrab(control, currGrabbedObj))
+        {
+            CmdTransferObject(control, currGrabbedObj);
         }
 
         // Store grabbed object on the correct hand
@@ -149,15 +160,15 @@ public class ServerSync : NetworkBehaviour
                 break;
         }
 
-        // Return if there is no grabbed object
-        //if (currGrabbedObj.GetComponent<NetworkUsableObject>() == null)
-        //{
-        //    return;
-        //}
+        // Return if object grabbed is not usable
+        if (currGrabbedObj.GetComponent<NetworkUsableObject>() == null)
+        {
+            return;
+        }
 
-        //NetworkUsableObject nuObj = currGrabbedObj.GetComponent<NetworkUsableObject>();
-        //nuObj.owner = this.gameObject;
-        //nuObj.use = true;
+        NetworkUsableObject nuObj = currGrabbedObj.GetComponent<NetworkUsableObject>();
+        nuObj.owner = this.gameObject;
+        nuObj.use = true;
     }
 
     [ClientRpc]
@@ -181,16 +192,58 @@ public class ServerSync : NetworkBehaviour
                 break;
         }
 
-        // Return if there is no grabbed object
-        //if (currGrabbedObj.GetComponent<NetworkUsableObject>() == null)
-        //{
-        //    return;
-        //}
-        
-        //currGrabbedObj.GetComponent<NetworkUsableObject>().use = true;
+        // Return if object grabbed is not usable
+        if (currGrabbedObj.GetComponent<NetworkUsableObject>() == null)
+        {
+            return;
+        }
+
+        //currGrabbedObj.GetComponent<NetworkUsableObject>().use = false;
     }
 
     // METHOD TO UPDATE CLIENT SIDE FIRST
+
+    [ClientRpc]
+    private void RpcTransferObject(VRTK_DeviceFinder.Devices control, GameObject obj)
+    {
+        Transform snapTarget = null;
+
+        switch (control)
+        {
+            case VRTK_DeviceFinder.Devices.LeftController:
+                snapTarget = lControl;
+                leftHandObj = obj;
+                rightHandObj = null;
+                break;
+            case VRTK_DeviceFinder.Devices.RightController:
+                snapTarget = rControl;
+                rightHandObj = obj;
+                leftHandObj = null;
+                break;
+        }
+
+        SnapObjectToController(obj, snapTarget);
+    }
+
+    private bool AttemptingSameObjectGrab(VRTK_DeviceFinder.Devices control, GameObject attemptObj)
+    {
+        switch (control)
+        {
+            case VRTK_DeviceFinder.Devices.LeftController:
+                if (rightHandObj == attemptObj)
+                {
+                    return true;
+                }
+                break;
+            case VRTK_DeviceFinder.Devices.RightController:
+                if (leftHandObj == attemptObj)
+                {
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
 
     /// <summary>
     /// Returns true is control passed is grabbing something
@@ -206,19 +259,13 @@ public class ServerSync : NetworkBehaviour
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+                break;
             case VRTK_DeviceFinder.Devices.RightController:
                 if (rightHandObj != null)
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+                break;
         }
         return false;
     }
@@ -231,7 +278,7 @@ public class ServerSync : NetworkBehaviour
     private GameObject GetNearestGameObjectWithinGrabRadius(float grabRadius, Vector3 centerPos)
     {
         // Get all grabbable objects within grab radius
-        Collider[] grabbablesWithinRadius = Physics.OverlapSphere(centerPos, grabRadius, ~LayerMask.NameToLayer("GrabLayer"));
+        Collider[] grabbablesWithinRadius = Physics.OverlapSphere(centerPos, grabRadius, ~LayerMask.NameToLayer("GrabLayer"), QueryTriggerInteraction.Collide);
         // If there is no grabbable within the radius, stop running this method
         if (grabbablesWithinRadius.Length == 0)
         {
