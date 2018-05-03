@@ -6,6 +6,28 @@ namespace SealTeam4
 {
     public class InteractableObject : MonoBehaviour
     {
+        [SerializeField] private Transform grabPosition;
+        [SerializeField] private Transform parentTransform;
+        protected GameObject owner;
 
+        public void SetOwner(GameObject ownerToSet)
+        {
+            owner = ownerToSet;
+        }
+
+        public Transform GetParent()
+        {
+            return parentTransform;
+        }
+
+        public GameObject GetOwner()
+        {
+            return owner;
+        }
+
+        public Transform GetGrabPosition()
+        {
+            return grabPosition;
+        }
     }
 }

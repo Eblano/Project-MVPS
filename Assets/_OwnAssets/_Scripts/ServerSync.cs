@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using SealTeam4;
 using UnityEngine;
 using UnityEngine.Networking;
 using VRTK;
@@ -93,9 +94,17 @@ public class ServerSync : NetworkBehaviour
             return;
         }
 
-        if (AttemptingSameObjectGrab(control, currGrabbedObj))
+        if (IsSameObjectGrab(control, currGrabbedObj))
         {
             CmdTransferObject(control, currGrabbedObj);
+            return;
+        }
+
+        if (IsSecondHandGrab(control, currGrabbedObj))
+        {
+            ITwoHandedObject twoHandedObject;
+            twoHandedObject = currGrabbedObj.transform.parent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
+            twoHandedObject.SecondHandActive();
         }
 
         // Store grabbed object on the correct hand
@@ -109,7 +118,9 @@ public class ServerSync : NetworkBehaviour
                 break;
         }
 
-        SnapObjectToController(currGrabbedObj, snapTarget);
+        InteractableObject interactableObject = currGrabbedObj.GetComponent<InteractableObject>();
+        interactableObject.SetOwner(gameObject);
+        SnapObjectToController(currGrabbedObj, snapTarget, interactableObject.GetGrabPosition());
     }
 
     [ClientRpc]
@@ -135,7 +146,21 @@ public class ServerSync : NetworkBehaviour
                 break;
         }
 
-        currGrabbedObj.transform.SetParent(null);
+        Transform grabbedObjParent;
+        grabbedObjParent = currGrabbedObj.GetComponent<InteractableObject>().GetParent();
+
+        currGrabbedObj.GetComponent<InteractableObject>().SetOwner(null);
+        if (grabbedObjParent)
+        {
+            ITwoHandedObject twoHandedObject;
+            twoHandedObject = grabbedObjParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
+            twoHandedObject.SecondHandInactive();
+            currGrabbedObj.transform.SetParent(grabbedObjParent);
+        }
+        else
+        {
+            currGrabbedObj.transform.SetParent(null);
+        }
         ApplyControllerPhysics(currGrabbedObj.GetComponent<Rigidbody>(), velo, anguVelo);
     }
 
@@ -161,14 +186,13 @@ public class ServerSync : NetworkBehaviour
         }
 
         // Return if object grabbed is not usable
-        if (currGrabbedObj.GetComponent<NetworkUsableObject>() == null)
+        if (currGrabbedObj.GetComponent<UsableObject>() == null)
         {
             return;
         }
 
-        NetworkUsableObject nuObj = currGrabbedObj.GetComponent<NetworkUsableObject>();
-        nuObj.owner = this.gameObject;
-        nuObj.use = true;
+        UsableObject usableObject = currGrabbedObj.GetComponent<UsableObject>();
+        usableObject.Use();
     }
 
     [ClientRpc]
@@ -193,7 +217,7 @@ public class ServerSync : NetworkBehaviour
         }
 
         // Return if object grabbed is not usable
-        if (currGrabbedObj.GetComponent<NetworkUsableObject>() == null)
+        if (currGrabbedObj.GetComponent<UsableObject>() == null)
         {
             return;
         }
@@ -222,10 +246,10 @@ public class ServerSync : NetworkBehaviour
                 break;
         }
 
-        SnapObjectToController(obj, snapTarget);
+        SnapObjectToController(obj, snapTarget, obj.GetComponent<InteractableObject>().GetGrabPosition());
     }
 
-    private bool AttemptingSameObjectGrab(VRTK_DeviceFinder.Devices control, GameObject attemptObj)
+    private bool IsSameObjectGrab(VRTK_DeviceFinder.Devices control, GameObject attemptObj)
     {
         switch (control)
         {
@@ -241,6 +265,29 @@ public class ServerSync : NetworkBehaviour
                     return true;
                 }
                 break;
+        }
+        return false;
+    }
+
+    private bool IsSecondHandGrab(VRTK_DeviceFinder.Devices control, GameObject attemptObj)
+    {
+        if(attemptObj.transform.parent != null)
+        {
+            switch (control)
+            {
+                case VRTK_DeviceFinder.Devices.LeftController:
+                    if (rightHandObj == attemptObj.transform.parent.gameObject)
+                    {
+                        return true;
+                    }
+                    break;
+                case VRTK_DeviceFinder.Devices.RightController:
+                    if (leftHandObj == attemptObj.transform.parent.gameObject)
+                    {
+                        return true;
+                    }
+                    break;
+            }
         }
         return false;
     }
@@ -293,13 +340,18 @@ public class ServerSync : NetworkBehaviour
     /// </summary>
     /// <param name="objToSnap"></param>
     /// <param name="controllerTransform"></param>
-    private void SnapObjectToController(GameObject objToSnap, Transform controllerTransform)
+    private void SnapObjectToController(GameObject objToSnap, Transform controllerTransform, Transform grabTransform)
     {
         // Set controller as object's parent
         objToSnap.transform.SetParent(controllerTransform);
         // Zero out the local transformation
-        objToSnap.transform.localPosition = Vector3.zero;
+        objToSnap.transform.localPosition = -grabTransform.localPosition; // multiply 1/parent scale
+        //objToSnap.transform.localPosition = grabTransform.localPosition;
         objToSnap.transform.localRotation = Quaternion.identity;
+        if (!objToSnap.GetComponent<Rigidbody>())
+        {
+            return;
+        }
         // Disable object's physics
         objToSnap.GetComponent<Rigidbody>().isKinematic = true;
     }
@@ -310,6 +362,11 @@ public class ServerSync : NetworkBehaviour
     /// <param name="rb"></param>
     private void ApplyControllerPhysics(Rigidbody rb, Vector3 velo, Vector3 anguVelo)
     {
+        if (!rb)
+        {
+            return;
+        }
+
         // Disable object's physics
         rb.isKinematic = false;
         // Transfer all controller velocities to object
