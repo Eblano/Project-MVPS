@@ -14,6 +14,7 @@ public class PlayerInput : MonoBehaviour
     private Vector3AndQuaternion head, lHand, rHand;
 
     [SerializeField] private bool serverCanPlay;
+    [SerializeField] private float grabRadius;
 
     private void Start()
     {
@@ -83,12 +84,12 @@ public class PlayerInput : MonoBehaviour
 
     private void RHandEvents_GripClicked(object sender, ControllerInteractionEventArgs e)
     {
-        ss.CmdCallGrab(VRTK_DeviceFinder.Devices.RightController, 0.5f);
+        ss.CmdCallGrab(VRTK_DeviceFinder.Devices.RightController, grabRadius);
     }
 
     private void LHandEvents_GripClicked(object sender, ControllerInteractionEventArgs e)
     {
-        ss.CmdCallGrab(VRTK_DeviceFinder.Devices.LeftController, 0.5f);
+        ss.CmdCallGrab(VRTK_DeviceFinder.Devices.LeftController, grabRadius);
     }
 
     private void RHandEvents_TouchpadPressed(object sender, ControllerInteractionEventArgs e)

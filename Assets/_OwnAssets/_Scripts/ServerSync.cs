@@ -171,7 +171,14 @@ public class ServerSync : NetworkBehaviour
         if (currGrabbedObj.GetComponent<SnappableObject>())
         {
             // Check for nearby snappable spots
-            currGrabbedObj.GetComponent<SnappableObject>().CmdCheckSnappable();
+            if (currGrabbedObj.GetComponent<SnappableObject>().IsNearSnappables())
+            {
+                currGrabbedObj.GetComponent<SnappableObject>().CmdCheckSnappable();
+            }
+            else
+            {
+                ApplyControllerPhysics(currGrabbedObj.GetComponent<Rigidbody>(), velo, anguVelo);
+            }
         }
         else
         {
@@ -273,7 +280,7 @@ public class ServerSync : NetworkBehaviour
         {
             usableObject.UseUp();
         }
-        else if(touchpadAxis.y < 0)
+        else if (touchpadAxis.y < 0)
         {
             usableObject.UseDown();
         }
@@ -325,7 +332,7 @@ public class ServerSync : NetworkBehaviour
 
     private bool IsSecondaryGrab(VRTK_DeviceFinder.Devices control, GameObject attemptObj)
     {
-        if(attemptObj.transform.parent != null)
+        if (attemptObj.transform.parent != null)
         {
             switch (control)
             {

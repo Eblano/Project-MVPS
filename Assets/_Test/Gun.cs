@@ -146,6 +146,10 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
                     gun.GetMagazine().LoadIntoChamber();
                 }
             }
+            else
+            {
+                gun.SetChamberState(false);
+            }
         }
         else
         {
