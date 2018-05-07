@@ -3,16 +3,30 @@
     public class UsableObject : InteractableObject
     {
         private bool use = false;
-        private IUsableObject obj;
+        private bool upButton = false;
+        private bool downButton = false;
+        private IUsableObject usableObj;
+        private IButtonActivatable buttonActObj;
 
         private void Start()
         {
-            obj = GetComponent(typeof(IUsableObject)) as IUsableObject;
+            usableObj = GetComponent(typeof(IUsableObject)) as IUsableObject;
+            buttonActObj = GetComponent(typeof(IButtonActivatable)) as IButtonActivatable;
         }
 
         public void Use()
         {
             use = true;
+        }
+
+        public void UseUp()
+        {
+            upButton = true;
+        }
+
+        public void UseDown()
+        {
+            downButton = true;
         }
 
         private void Update()
@@ -26,7 +40,27 @@
             if (use)
             {
                 use = false;
-                obj.UseObject();
+                usableObj.UseObject();
+            }
+
+            if (buttonActObj != null)
+            {
+                CheckButtonPressed();
+            }
+        }
+
+        private void CheckButtonPressed()
+        {
+            if (upButton)
+            {
+                upButton = false;
+                buttonActObj.UpButtonPressed();
+            }
+
+            if (downButton)
+            {
+                downButton = false;
+                buttonActObj.DownButtonPressed();
             }
         }
     }

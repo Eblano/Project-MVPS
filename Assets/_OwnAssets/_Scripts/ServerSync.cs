@@ -44,6 +44,12 @@ public class ServerSync : NetworkBehaviour
     }
 
     [Command]
+    public void CmdCallTouchpadButton(VRTK_DeviceFinder.Devices control, Vector2 touchpadAxis)
+    {
+        RpcCallTouchpadButton(control, touchpadAxis);
+    }
+
+    [Command]
     private void CmdTransferObject(VRTK_DeviceFinder.Devices control, GameObject obj)
     {
         RpcTransferObject(control, obj);
@@ -100,7 +106,7 @@ public class ServerSync : NetworkBehaviour
             return;
         }
 
-        if (IsSecondHandGrab(control, currGrabbedObj))
+        if (IsSecondaryGrab(control, currGrabbedObj))
         {
             ITwoHandedObject twoHandedObject;
             twoHandedObject = currGrabbedObj.transform.parent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
@@ -148,7 +154,6 @@ public class ServerSync : NetworkBehaviour
 
         Transform grabbedObjParent;
         grabbedObjParent = currGrabbedObj.GetComponent<InteractableObject>().GetParent();
-
         currGrabbedObj.GetComponent<InteractableObject>().SetOwner(null);
         if (grabbedObjParent)
         {
@@ -161,7 +166,17 @@ public class ServerSync : NetworkBehaviour
         {
             currGrabbedObj.transform.SetParent(null);
         }
-        ApplyControllerPhysics(currGrabbedObj.GetComponent<Rigidbody>(), velo, anguVelo);
+
+        // Check if object is snappable
+        if (currGrabbedObj.GetComponent<SnappableObject>())
+        {
+            // Check for nearby snappable spots
+            currGrabbedObj.GetComponent<SnappableObject>().CmdCheckSnappable();
+        }
+        else
+        {
+            ApplyControllerPhysics(currGrabbedObj.GetComponent<Rigidbody>(), velo, anguVelo);
+        }
     }
 
     [ClientRpc]
@@ -225,6 +240,45 @@ public class ServerSync : NetworkBehaviour
         //currGrabbedObj.GetComponent<NetworkUsableObject>().use = false;
     }
 
+    [ClientRpc]
+    public void RpcCallTouchpadButton(VRTK_DeviceFinder.Devices control, Vector2 touchpadAxis)
+    {
+        // If the controller is not grabbing something
+        if (!ControllerIsGrabbingSomething(control))
+        {
+            return;
+        }
+
+        GameObject currGrabbedObj = null;
+
+        switch (control)
+        {
+            case VRTK_DeviceFinder.Devices.LeftController:
+                currGrabbedObj = leftHandObj;
+                break;
+            case VRTK_DeviceFinder.Devices.RightController:
+                currGrabbedObj = rightHandObj;
+                break;
+        }
+
+        // Return if object grabbed is not usable
+        if (currGrabbedObj.GetComponent<UsableObject>() == null)
+        {
+            return;
+        }
+
+        UsableObject usableObject = currGrabbedObj.GetComponent<UsableObject>();
+
+        if (touchpadAxis.y > 0)
+        {
+            usableObject.UseUp();
+        }
+        else if(touchpadAxis.y < 0)
+        {
+            usableObject.UseDown();
+        }
+    }
+
     // METHOD TO UPDATE CLIENT SIDE FIRST
 
     [ClientRpc]
@@ -269,7 +323,7 @@ public class ServerSync : NetworkBehaviour
         return false;
     }
 
-    private bool IsSecondHandGrab(VRTK_DeviceFinder.Devices control, GameObject attemptObj)
+    private bool IsSecondaryGrab(VRTK_DeviceFinder.Devices control, GameObject attemptObj)
     {
         if(attemptObj.transform.parent != null)
         {
@@ -325,7 +379,7 @@ public class ServerSync : NetworkBehaviour
     private GameObject GetNearestGameObjectWithinGrabRadius(float grabRadius, Vector3 centerPos)
     {
         // Get all grabbable objects within grab radius
-        Collider[] grabbablesWithinRadius = Physics.OverlapSphere(centerPos, grabRadius, ~LayerMask.NameToLayer("GrabLayer"), QueryTriggerInteraction.Collide);
+        Collider[] grabbablesWithinRadius = Physics.OverlapSphere(centerPos, grabRadius, 1 << LayerMask.NameToLayer("GrabLayer"), QueryTriggerInteraction.Collide);
         // If there is no grabbable within the radius, stop running this method
         if (grabbablesWithinRadius.Length == 0)
         {

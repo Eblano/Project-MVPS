@@ -48,6 +48,9 @@ public class PlayerInput : MonoBehaviour
 
         lHandEvents.TriggerClicked += LHandEvents_TriggerClicked;
         rHandEvents.TriggerClicked += RHandEvents_TriggerClicked;
+
+        lHandEvents.TouchpadPressed += LHandEvents_TouchpadPressed;
+        rHandEvents.TouchpadPressed += RHandEvents_TouchpadPressed;
     }
 
     private void Update()
@@ -86,5 +89,15 @@ public class PlayerInput : MonoBehaviour
     private void LHandEvents_GripClicked(object sender, ControllerInteractionEventArgs e)
     {
         ss.CmdCallGrab(VRTK_DeviceFinder.Devices.LeftController, 0.5f);
+    }
+
+    private void RHandEvents_TouchpadPressed(object sender, ControllerInteractionEventArgs e)
+    {
+        ss.CmdCallTouchpadButton(VRTK_DeviceFinder.Devices.RightController, rHandEvents.GetTouchpadAxis());
+    }
+
+    private void LHandEvents_TouchpadPressed(object sender, ControllerInteractionEventArgs e)
+    {
+        ss.CmdCallTouchpadButton(VRTK_DeviceFinder.Devices.LeftController, lHandEvents.GetTouchpadAxis());
     }
 }
