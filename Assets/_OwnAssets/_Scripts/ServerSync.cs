@@ -100,6 +100,7 @@ public class ServerSync : NetworkBehaviour
             return;
         }
 
+        // If grabbing the same object
         if (IsSameObjectGrab(control, currGrabbedObj))
         {
             CmdTransferObject(control, currGrabbedObj);
