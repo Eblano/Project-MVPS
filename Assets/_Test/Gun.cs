@@ -19,7 +19,6 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     private void Start()
     {
         interactableObject = GetComponent<InteractableObject>();
-        //gun = GetComponent<GunProfile>();
 
         if (secondHandTransform)
         {
@@ -40,6 +39,10 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         }
     }
 
+    #region HelperMethods
+    /// <summary>
+    /// Checks for the object grabbed state.
+    /// </summary>
     private void CheckGrabState()
     {
         if (interactableObject.GetOwner() != null)
@@ -66,62 +69,108 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         }
     }
 
+    /// <summary>
+    /// Uses raycast to check for a hit.
+    /// </summary>
+    private void FireBullet()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Shootable")))
+        {
+            Instantiate(spawnPref, hit.point, firingPoint.rotation);
+        }
+    }
+    #endregion HelperMethods
+
+    #region InterfaceMethods
+    /// <summary>
+    /// Called if use button is pressed.
+    /// </summary>
     public void UseObject()
     {
         CmdFireGun();
     }
 
+    /// <summary>
+    /// Called if up button is pressed.
+    /// </summary>
     public void UpButtonPressed()
     {
         CmdLoadChamber();
     }
 
+    /// <summary>
+    /// Called if down button is pressed.
+    /// </summary>
     public void DownButtonPressed()
     {
         CmdUnloadMagazine();
     }
 
+    /// <summary>
+    /// Called if secondary hand becomes active.
+    /// </summary>
     public void SecondHandActive()
     {
         isTwoHandedGrab = true;
     }
 
+    /// <summary>
+    /// Called if secondary hand becomes inactive.
+    /// </summary>
     public void SecondHandInactive()
     {
         isTwoHandedGrab = false;
         CmdResetGunRotation();
     }
+    #endregion InterfaceMethods
 
+    #region ServerMethods
+    /// <summary>
+    /// Tries to fire the gun.
+    /// </summary>
     [Command]
     private void CmdFireGun()
     {
         RpcFireGun();
     }
 
+    /// <summary>
+    /// Calculates gun angle base on second hand position.
+    /// </summary>
     [Command]
     private void CmdCalculateGunRotation()
     {
         RpcCalculateGunRotation();
     }
 
+    /// <summary>
+    /// Reset the gun's rotation to identity.
+    /// </summary>
     [Command]
     private void CmdResetGunRotation()
     {
         RpcResetGunRotation();
     }
 
+    /// <summary>
+    /// Unload the magazine.
+    /// </summary>
     [Command]
     private void CmdUnloadMagazine()
     {
         RpcUnloadMagazine();
     }
 
+    /// <summary>
+    /// Load the chamber into the gun.
+    /// </summary>
     [Command]
     private void CmdLoadChamber()
     {
         RpcLoadChamber();
     }
-
+    
     [ClientRpc]
     private void RpcFireGun()
     {
@@ -204,15 +253,11 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         }
     }
 
-    private void FireBullet()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Shootable")))
-        {
-            Instantiate(spawnPref, hit.point, firingPoint.rotation);
-        }
-    }
+    #endregion ServerMethods
 
+    /// <summary>
+    /// Stores the information of a gun. Contains methods for chamber, spread and maagzine.
+    /// </summary>
     [System.Serializable]
     public class GunProfile
     {

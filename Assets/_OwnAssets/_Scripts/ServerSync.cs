@@ -13,42 +13,79 @@ public class ServerSync : NetworkBehaviour
     private Vector3 headPos, lHandPos, rHandPos;
     private Quaternion headRot, lHandRot, rHandRot;
 
+
+    #region ServerMethods
+    /// <summary>
+    /// Updates the player's postition and rotation.
+    /// </summary>
+    /// <param name="head"></param>
+    /// <param name="lHand"></param>
+    /// <param name="rHand"></param>
     [Command]
     public void CmdSyncVRTransform(Vector3AndQuaternion head, Vector3AndQuaternion lHand, Vector3AndQuaternion rHand)
     {
         RpcSyncVRTransform(head, lHand, rHand);
     }
 
+    /// <summary>
+    /// Handles objects when player grabs.
+    /// </summary>
+    /// <param name="control"></param>
+    /// <param name="grabRadius"></param>
     [Command]
     public void CmdCallGrab(VRTK_DeviceFinder.Devices control, float grabRadius)
     {
         RpcCallGrab(control, grabRadius);
     }
 
+    /// <summary>
+    /// Handles objects when player ungrabs.
+    /// </summary>
+    /// <param name="control"></param>
+    /// <param name="velo"></param>
+    /// <param name="anguVelo"></param>
     [Command]
     public void CmdCallUngrab(VRTK_DeviceFinder.Devices control, Vector3 velo, Vector3 anguVelo)
     {
         RpcCallUngrab(control, velo, anguVelo);
     }
 
+    /// <summary>
+    /// Handles object when trigger button is clicked.
+    /// </summary>
+    /// <param name="control"></param>
     [Command]
     public void CmdTriggerClick(VRTK_DeviceFinder.Devices control)
     {
         RpcCallTriggerClick(control);
     }
 
+    /// <summary>
+    /// Handles object when trigger button is unclicked.
+    /// </summary>
+    /// <param name="control"></param>
     [Command]
     public void CmdTriggerUnlick(VRTK_DeviceFinder.Devices control)
     {
         RpcCallTriggerUnclick(control);
     }
 
+    /// <summary>
+    /// Handles object when touchpad button is pressed
+    /// </summary>
+    /// <param name="control"></param>
+    /// <param name="touchpadAxis"></param>
     [Command]
     public void CmdCallTouchpadButton(VRTK_DeviceFinder.Devices control, Vector2 touchpadAxis)
     {
         RpcCallTouchpadButton(control, touchpadAxis);
     }
 
+    /// <summary>
+    /// Swap the ownership of this hand's grabbed object to the the other hand.
+    /// </summary>
+    /// <param name="control"></param>
+    /// <param name="obj"></param>
     [Command]
     private void CmdTransferObject(VRTK_DeviceFinder.Devices control, GameObject obj)
     {
@@ -288,7 +325,6 @@ public class ServerSync : NetworkBehaviour
     }
 
     // METHOD TO UPDATE CLIENT SIDE FIRST
-
     [ClientRpc]
     private void RpcTransferObject(VRTK_DeviceFinder.Devices control, GameObject obj)
     {
@@ -310,7 +346,15 @@ public class ServerSync : NetworkBehaviour
 
         SnapObjectToController(obj, snapTarget, obj.GetComponent<InteractableObject>().GetGrabPosition());
     }
+    #endregion ServerMethods
 
+    #region HelperMethods
+    /// <summary>
+    /// Returns true when attempting to grab same object as the other hand.
+    /// </summary>
+    /// <param name="control"></param>
+    /// <param name="attemptObj"></param>
+    /// <returns></returns>
     private bool IsSameObjectGrab(VRTK_DeviceFinder.Devices control, GameObject attemptObj)
     {
         switch (control)
@@ -331,6 +375,12 @@ public class ServerSync : NetworkBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Returns true when attempting to grab an interactable object that is the child of the other hand's object.
+    /// </summary>
+    /// <param name="control"></param>
+    /// <param name="attemptObj"></param>
+    /// <returns></returns>
     private bool IsSecondaryGrab(VRTK_DeviceFinder.Devices control, GameObject attemptObj)
     {
         if (attemptObj.transform.parent != null)
@@ -355,7 +405,7 @@ public class ServerSync : NetworkBehaviour
     }
 
     /// <summary>
-    /// Returns true is control passed is grabbing something
+    /// Returns true when hand is already grabbing something.
     /// </summary>
     /// <param name="control"></param>
     /// <returns></returns>
@@ -380,7 +430,7 @@ public class ServerSync : NetworkBehaviour
     }
 
     /// <summary>
-    /// Return the nerest grabbable game object
+    /// Returns the nearest grabbable game object within specified radius.
     /// </summary>
     /// <param name="grabRadius"></param>
     /// <returns></returns>
@@ -398,7 +448,7 @@ public class ServerSync : NetworkBehaviour
     }
 
     /// <summary>
-    /// Applies current rotation and position of controller to object and set controller as parent
+    /// Applies current rotation and position of controller to object and set controller as parent.
     /// </summary>
     /// <param name="objToSnap"></param>
     /// <param name="controllerTransform"></param>
@@ -419,7 +469,7 @@ public class ServerSync : NetworkBehaviour
     }
 
     /// <summary>
-    /// Applies controller physics to given rigidbody
+    /// Applies controller physics to given rigidbody.
     /// </summary>
     /// <param name="rb"></param>
     private void ApplyControllerPhysics(Rigidbody rb, Vector3 velo, Vector3 anguVelo)
@@ -435,6 +485,7 @@ public class ServerSync : NetworkBehaviour
         rb.angularVelocity = anguVelo;
         rb.velocity = velo;
     }
+    #endregion HelperMethods
 }
 
 public class Vector3AndQuaternion
@@ -448,4 +499,3 @@ public class Vector3AndQuaternion
         rot = t.rotation;
     }
 }
-

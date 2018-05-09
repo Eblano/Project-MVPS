@@ -15,12 +15,19 @@ namespace SealTeam4
             rb = GetComponent<Rigidbody>();
         }
 
+        #region ServerMethods
+        /// <summary>
+        /// Checks for snappable objects within radius.
+        /// </summary>
         [Command]
         public void CmdCheckSnappable()
         {
             RpcCheckSnappable();
         }
 
+        /// <summary>
+        /// Handles when the object is unsnapped.
+        /// </summary>
         [Command]
         public void CmdUnsnap()
         {
@@ -52,40 +59,48 @@ namespace SealTeam4
         {
             Unsnap();
         }
+        #endregion ServerMethods
 
-        public bool IsNearSnappables()
-        {
-            // Get all snappable positions within snappable radius
-            Collider[] snappabbablesWithinRadius = Physics.OverlapSphere(transform.position, snapRange, 1 << LayerMask.NameToLayer("SnapLayer"), QueryTriggerInteraction.Collide);
-            Debug.Log(LayerMask.LayerToName(LayerMask.NameToLayer("SnapLayer")));
-            // If there is no snappabbable within the radius, stop running this method
-            if (snappabbablesWithinRadius.Length == 0)
-            {
-                return false;
-            }
-            // If snap position is already taken up
-            if (snappabbablesWithinRadius[0].transform.childCount > 0)
-            {
-                return false;
-            }
+        //public bool IsNearSnappables()
+        //{
+        //    // Get all snappable positions within snappable radius
+        //    Collider[] snappabbablesWithinRadius = Physics.OverlapSphere(transform.position, snapRange, 1 << LayerMask.NameToLayer("SnapLayer"), QueryTriggerInteraction.Collide);
+        //    Debug.Log(LayerMask.LayerToName(LayerMask.NameToLayer("SnapLayer")));
+        //    // If there is no snappabbable within the radius, stop running this method
+        //    if (snappabbablesWithinRadius.Length == 0)
+        //    {
+        //        return false;
+        //    }
+        //    // If snap position is already taken up
+        //    if (snappabbablesWithinRadius[0].transform.childCount > 0)
+        //    {
+        //        return false;
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
 
+        #region HelperMethods
+        /// <summary>
+        /// Unset the snappable object and enable physics.
+        /// </summary>
         public virtual void Unsnap()
         {
-            //snappedTo = null;
             transform.SetParent(null);
             rb.isKinematic = false;
         }
 
+        /// <summary>
+        /// Set the snappable object, disable physics and reset local transform.
+        /// </summary>
+        /// <param name="snapTransform"></param>
         public virtual void SnapObject(Transform snapTransform)
         {
-            //snappedTo = snapTransform;
             transform.SetParent(snapTransform);
             rb.isKinematic = true;
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
         }
+        #endregion HelperMethods
     }
 }
