@@ -9,21 +9,17 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     public GunProfile gun;
     [SerializeField] private GameObject spawnPref;
     [SerializeField] private Transform firingPoint;
-    [SerializeField] private Transform secondHandTransform;
-    private Collider secondHandGrabCollider;
+    [SerializeField] private List<Transform> secondaryGrabTransforms;
+    public Transform secondaryHoldingTransform;
     private InteractableObject interactableObject;
     private bool isTwoHandedGrab = false;
     private bool isBeingGrabbed = false;
     private bool grabStateChanged = false;
+    private Vector3 initRot;
 
     private void Start()
     {
         interactableObject = GetComponent<InteractableObject>();
-
-        if (secondHandTransform)
-        {
-            secondHandGrabCollider = secondHandTransform.GetComponent<Collider>();
-        }
     }
 
     private void Update()
@@ -33,7 +29,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             CmdCalculateGunRotation();
         }
 
-        if (secondHandTransform)
+        if (secondaryGrabTransforms.Count > 0)
         {
             CheckGrabState();
         }
@@ -58,14 +54,23 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         {
             if (isBeingGrabbed)
             {
-                secondHandGrabCollider.enabled = true;
+                SetColliderState(true);
             }
             else
             {
-                secondHandGrabCollider.enabled = false;
+                SetColliderState(false);
             }
 
             grabStateChanged = isBeingGrabbed;
+        }
+    }
+
+    private void SetColliderState(bool state)
+    {
+        foreach (Transform t in secondaryGrabTransforms)
+        {
+            t.GetComponent<Collider>().enabled = state;
+            Debug.Log(t.gameObject.name);
         }
     }
 
@@ -96,7 +101,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// </summary>
     public void UpButtonPressed()
     {
-        CmdLoadChamber();
+        //CmdLoadChamber();
     }
 
     /// <summary>
@@ -113,6 +118,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     public void SecondHandActive()
     {
         isTwoHandedGrab = true;
+        initRot = transform.localEulerAngles;
     }
 
     /// <summary>
@@ -166,11 +172,11 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// Load the chamber into the gun.
     /// </summary>
     [Command]
-    private void CmdLoadChamber()
+    public void CmdLoadChamber()
     {
         RpcLoadChamber();
     }
-    
+
     [ClientRpc]
     private void RpcFireGun()
     {
@@ -181,7 +187,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             FireBullet();
 
             // If there is a magazine attached
-            if(gun.GetMagazine() != null)
+            if (gun.GetMagazine() != null)
             {
                 // If there is no more bullets left in the magazine
                 if (gun.GetMagazine().GetBulletsInMag() == 0)
@@ -209,13 +215,13 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     [ClientRpc]
     private void RpcCalculateGunRotation()
     {
-        transform.rotation = Quaternion.FromToRotation(Vector3.forward, secondHandTransform.position - transform.position);
+        transform.rotation = Quaternion.FromToRotation(Vector3.forward, secondaryHoldingTransform.position - transform.position);
     }
 
     [ClientRpc]
     private void RpcResetGunRotation()
     {
-        transform.rotation = Quaternion.identity;
+        transform.localRotation = Quaternion.Euler(initRot);
     }
 
     [ClientRpc]

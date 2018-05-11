@@ -12,8 +12,7 @@ public class ServerSync : NetworkBehaviour
     private Vector3AndQuaternion head, lHand, rHand;
     private Vector3 headPos, lHandPos, rHandPos;
     private Quaternion headRot, lHandRot, rHandRot;
-
-
+    
     #region ServerMethods
     /// <summary>
     /// Updates the player's postition and rotation.
@@ -146,9 +145,19 @@ public class ServerSync : NetworkBehaviour
 
         if (IsSecondaryGrab(control, currGrabbedObj))
         {
+            Transform objectParent = currGrabbedObj.transform.parent;
             ITwoHandedObject twoHandedObject;
-            twoHandedObject = currGrabbedObj.transform.parent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
-            twoHandedObject.SecondHandActive();
+            twoHandedObject = objectParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
+            if (objectParent.GetComponent<Gun>() && currGrabbedObj.CompareTag("SecondGrabPoint"))
+            {
+                twoHandedObject.SecondHandActive();
+            }
+            
+            if (currGrabbedObj.GetComponent<SlideHandler>())
+            {
+                SlideHandler slide = currGrabbedObj.GetComponent<SlideHandler>();
+                slide.OnGrabbed();
+            }
         }
 
         // Store grabbed object on the correct hand
@@ -199,6 +208,13 @@ public class ServerSync : NetworkBehaviour
             twoHandedObject = grabbedObjParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
             twoHandedObject.SecondHandInactive();
             currGrabbedObj.transform.SetParent(grabbedObjParent);
+
+            if (currGrabbedObj.GetComponent<SlideHandler>())
+            {
+                SlideHandler slide = currGrabbedObj.GetComponent<SlideHandler>();
+                slide.OnUngrabbed();
+                slide.ResetLocalPos();
+            }
         }
         else
         {

@@ -12,6 +12,7 @@ public class GunDebugger : MonoBehaviour
     {
         if (gunToDebug == null || gunToDebug.gun == null || gunToDebug.gun.GetMagazine() == null)
         {
+            gunStats.text = "No Mag";
             return;
         }
         Gun.GunProfile profile = gunToDebug.gun;

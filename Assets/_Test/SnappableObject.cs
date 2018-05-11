@@ -61,25 +61,6 @@ namespace SealTeam4
         }
         #endregion ServerMethods
 
-        //public bool IsNearSnappables()
-        //{
-        //    // Get all snappable positions within snappable radius
-        //    Collider[] snappabbablesWithinRadius = Physics.OverlapSphere(transform.position, snapRange, 1 << LayerMask.NameToLayer("SnapLayer"), QueryTriggerInteraction.Collide);
-        //    Debug.Log(LayerMask.LayerToName(LayerMask.NameToLayer("SnapLayer")));
-        //    // If there is no snappabbable within the radius, stop running this method
-        //    if (snappabbablesWithinRadius.Length == 0)
-        //    {
-        //        return false;
-        //    }
-        //    // If snap position is already taken up
-        //    if (snappabbablesWithinRadius[0].transform.childCount > 0)
-        //    {
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
-
         #region HelperMethods
         /// <summary>
         /// Unset the snappable object and enable physics.
@@ -88,6 +69,29 @@ namespace SealTeam4
         {
             transform.SetParent(null);
             rb.isKinematic = false;
+        }
+        
+        /// <summary>
+        /// Check for snappables within radius.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsNearSnappables()
+        {
+            // Get all snappable positions within snappable radius
+            Collider[] snappabbablesWithinRadius = Physics.OverlapSphere(transform.position, snapRange, 1 << LayerMask.NameToLayer("SnapLayer"), QueryTriggerInteraction.Collide);
+            Debug.Log(LayerMask.LayerToName(LayerMask.NameToLayer("SnapLayer")));
+            // If there is no snappabbable within the radius, stop running this method
+            if (snappabbablesWithinRadius.Length == 0)
+            {
+                return false;
+            }
+            // If snap position is already taken up
+            if (snappabbablesWithinRadius[0].transform.childCount > 0)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
