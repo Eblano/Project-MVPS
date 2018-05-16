@@ -12,7 +12,15 @@ public class ServerSync : NetworkBehaviour
     private Vector3AndQuaternion head, lHand, rHand;
     private Vector3 headPos, lHandPos, rHandPos;
     private Quaternion headRot, lHandRot, rHandRot;
-    
+
+    public override void OnStartServer()
+    {
+        if (isServer)
+        {
+            GameManager.instance.isServerObj = true;
+        }
+    }
+
     #region ServerMethods
     /// <summary>
     /// Updates the player's postition and rotation.

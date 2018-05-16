@@ -12,6 +12,7 @@ namespace SealTeam4
         // If NPC is allowed to function
         public bool active = false;
 
+        [System.Serializable]
         public class General
         {
             public enum AIMode
@@ -49,8 +50,10 @@ namespace SealTeam4
         }
         public General general = new General();
 
+        [System.Serializable]
         public class Civilian
         {
+            [System.Serializable]
             public class UnderAttack
             {
                 public enum AI_Civilian_UnderAttack

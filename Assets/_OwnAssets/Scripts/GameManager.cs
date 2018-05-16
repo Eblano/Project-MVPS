@@ -3,6 +3,7 @@ using UnityEngine;
 using SealTeam4;
 using Battlehub.RTSaveLoad;
 using UnityEngine.AI;
+using UnityEngine.Networking;
 
 namespace SealTeam4
 {
@@ -33,10 +34,15 @@ namespace SealTeam4
 
         public bool areaUnderAttack;
 
+        [SerializeField] private bool startGame;
+        public bool isServerObj = false;
+
         [SerializeField] private List<NpcSpawnData> npcSpawnList = new List<NpcSpawnData>();
         private List<GameObject> spawnedCivilianNPCs = new List<GameObject>();
         private List<GameObject> spawnedVIPNPC = new List<GameObject>();
         private List<GameObject> spawnedHostileNPCs = new List<GameObject>();
+
+        
 
         private void Start()
         {
@@ -58,12 +64,13 @@ namespace SealTeam4
 
         private void Update()
         {
+            Debug.Log(Network.isServer +" "+ Network.peerType +" "+ isServerObj);
             // If Runtime Editor is still running
             if (Dependencies.ProjectManager != null)
             {
                 UpdateRegisteredMarkers();
             }
-            else if (!gameStartInitCodeExecuted)
+            else if (startGame && NetworkServer.active && isServerObj && !gameStartInitCodeExecuted)
             {
                 InitCodeAfterGameStart();
                 gameStartInitCodeExecuted = true;
@@ -108,7 +115,7 @@ namespace SealTeam4
 
                 GameObject spawnedNPC = targetSpawnMarker.SpawnNPC(npcToSpawn, npcSchedule, aiStats);
 
-                if(aiStats.isTerrorist)
+                if (aiStats.isTerrorist)
                 {
                     spawnedHostileNPCs.Add(spawnedNPC);
                     continue;
@@ -203,10 +210,10 @@ namespace SealTeam4
 
         public bool LineOfSightAgainstHostileNPC(Transform npcT)
         {
-            foreach(GameObject hostileNPC in spawnedHostileNPCs)
+            foreach (GameObject hostileNPC in spawnedHostileNPCs)
             {
                 RaycastHit hitinfo;
-                if(Physics.Raycast(npcT.position, hostileNPC.transform.position - npcT.position, out hitinfo))
+                if (Physics.Raycast(npcT.position, hostileNPC.transform.position - npcT.position, out hitinfo))
                 {
                     if (hitinfo.transform.tag == "NPC")
                     {
@@ -298,7 +305,7 @@ namespace SealTeam4
         {
             this.npcSpawnList = npcSpawnList;
         }
-    
+
         /// <summary>
         /// Returns total registered markers
         /// </summary>

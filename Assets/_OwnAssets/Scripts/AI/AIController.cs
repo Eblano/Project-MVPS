@@ -158,8 +158,7 @@ namespace SealTeam4
 
         public void MoveToWaypoint_ProcTerm()
         {
-            aiState.general.currWaypointTarget = null;
-            nmAgent.SetDestination(transform.position);
+            StopNMAgentMovement();
             aiAnimController.Anim_Move(Vector3.zero, false, 1);
             aiState.general.currSubschedule++;
         }
@@ -335,7 +334,6 @@ namespace SealTeam4
 
         public void ActivateNPC()
         {
-            gameObject.AddComponent<AIState>();
             aiState = GetComponent<AIState>();
             aiState.active = true;
         }
