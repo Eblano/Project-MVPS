@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SealTeam4;
 
 public class DisableComponent : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class DisableComponent : MonoBehaviour
 
     private void Start()
     {
+        if (GameManager.instance.isServerObj)
+        {
+            return;
+        }
+
         toBeDeleted = new List<Behaviour>();
         foreach (Behaviour b in componentsToDelete)
         {
