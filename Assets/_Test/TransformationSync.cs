@@ -5,18 +5,6 @@ using UnityEngine.Networking;
 
 public class TransformationSync : NetworkBehaviour
 {
-    private Vector3 prevPos;
-    private Vector3 lerpPos;
-
-    private Quaternion prevRot;
-    private Quaternion lerpRot;
-
-    private void Start()
-    {
-        prevPos = transform.position;
-        prevRot = transform.rotation;
-    }
-
     private void Update()
     {
         if (isServer)
@@ -28,16 +16,8 @@ public class TransformationSync : NetworkBehaviour
     [ClientRpc]
     private void RpcSyncTransform(Vector3 position, Vector3 eulerAngle)
     {
-        // Smooth the transform
-        lerpPos = Vector3.Lerp(prevPos, position, 0.1f);
-        lerpRot = Quaternion.Lerp(prevRot, Quaternion.Euler(eulerAngle), 0.1f);
-
-        // Set the updated transform
-        transform.position = lerpPos;
-        transform.rotation = lerpRot;
-
-        // Update previous transform
-        prevPos = transform.position;
-        prevRot = transform.rotation;
+        // Smooth the transform //SHUD BE FIXED
+        transform.position = Vector3.Lerp(transform.position, position, 0.1f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(eulerAngle), 0.1f);
     }
 }
