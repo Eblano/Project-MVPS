@@ -9,7 +9,8 @@ public class DisableComponent : MonoBehaviour
 
     private void Start()
     {
-        foreach(Behaviour b in componentsToDelete)
+        toBeDeleted = new List<Behaviour>();
+        foreach (Behaviour b in componentsToDelete)
         {
             toBeDeleted.Add(b);
         }
