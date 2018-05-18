@@ -4459,6 +4459,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1957184998696938
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4849569600035364}
+  - component: {fileID: 114866902088710356}
+  m_Layer: 0
+  m_Name: EmptyNetworkObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!1 &1963700593592654
 GameObject:
   m_ObjectHideFlags: 1
@@ -4743,18 +4759,31 @@ Transform:
   m_Father: {fileID: 4085275022008926}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4849569600035364
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1957184998696938}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224679251546454522}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4913788865830648
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1736579078406930}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 224556394566815664}
-  m_RootOrder: 0
+  m_Father: {fileID: 224679251546454522}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &20000012658351320
 Camera:
@@ -7803,6 +7832,8 @@ MonoBehaviour:
   totalRegMarkers: 0
   refreshRate: 3
   areaUnderAttack: 0
+  startGame: 1
+  isServerObj: 0
   npcSpawnList:
   - nPC_TYPE: 1
     spawnLocation: SpawnMarker0
@@ -7810,54 +7841,14 @@ MonoBehaviour:
       isTerrorist: 0
       isVIP: 0
       chanceEnterHostileMode: 0
-      minAngleToFaceTarget: 5
-      extraStoppingDistForConvo: 1
-      collisionAvoidanceRayLen: 0.7
-      collisionAvoidanceMultiplyer: 1
+      minAngleToFaceTarget: 0
+      extraStoppingDistForConvo: 0
+      collisionAvoidanceRayLen: 0
+      collisionAvoidanceMultiplyer: 0
       enableCollisionAvoidance: 0
     nPC_Schedules:
     - scheduleType: 1
-      argument: TargetMarker1
-    - scheduleType: 4
-      argument: 5
-    - scheduleType: 3
-      argument: Area1
-    - scheduleType: 1
-      argument: TargetMarker2
-  - nPC_TYPE: 1
-    spawnLocation: SpawnMarker1
-    aiStats:
-      isTerrorist: 0
-      isVIP: 0
-      chanceEnterHostileMode: 0
-      minAngleToFaceTarget: 5
-      extraStoppingDistForConvo: 1
-      collisionAvoidanceRayLen: 0.7
-      collisionAvoidanceMultiplyer: 1
-      enableCollisionAvoidance: 0
-    nPC_Schedules:
-    - scheduleType: 1
-      argument: TargetMarker2
-    - scheduleType: 1
-      argument: TargetMarker1
-    - scheduleType: 1
-      argument: TargetMarker3
-    - scheduleType: 1
-      argument: TargetMarker1
-  - nPC_TYPE: 1
-    spawnLocation: SpawnMarker1
-    aiStats:
-      isTerrorist: 1
-      isVIP: 0
-      chanceEnterHostileMode: 0
-      minAngleToFaceTarget: 5
-      extraStoppingDistForConvo: 1
-      collisionAvoidanceRayLen: 0.7
-      collisionAvoidanceMultiplyer: 1
-      enableCollisionAvoidance: 0
-    nPC_Schedules:
-    - scheduleType: 1
-      argument: TargetMarker3
+      argument: TargetMarker0
 --- !u!114 &114126642433115364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9895,6 +9886,7 @@ MonoBehaviour:
   m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 1601331633119506, guid: ce14c7e8560313f4da7e3ad3611cf0a7, type: 2}
+  - {fileID: 1619947240894692, guid: 27e01f91f829995488cffdd83cf8ca5c, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -10671,7 +10663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af662ec3bf203e248844594c5e2e1120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceptKeyInput: 0
+  acceptKeyInput: 1
   OpenAssetsFolderKey: 257
   AddFilesToRTEKey: 258
   resetRuntimeAssetsAndRestartKey: 260
@@ -10683,8 +10675,10 @@ MonoBehaviour:
   gameObjectsToMoveToRoot:
   - {fileID: 1076366809278236}
   - {fileID: 1736579078406930}
+  - {fileID: 1957184998696938}
   gameObjectsToSetActive:
   - {fileID: 1736579078406930}
+  - {fileID: 1957184998696938}
   gameObjectsToDestroyByName:
   - RuntimeEditor
   - Job
@@ -11114,6 +11108,38 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Toggle
+--- !u!114 &114866902088710356
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1957184998696938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 236
+    i1: 157
+    i2: 61
+    i3: 115
+    i4: 85
+    i5: 157
+    i6: 77
+    i7: 68
+    i8: 218
+    i9: 228
+    i10: 238
+    i11: 207
+    i12: 206
+    i13: 154
+    i14: 237
+    i15: 193
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114878762723561538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13599,8 +13625,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4913788865830648}
+  m_Children: []
   m_Father: {fileID: 22429464}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13749,7 +13774,9 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4849569600035364}
+  - {fileID: 4913788865830648}
   m_Father: {fileID: 22429464}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

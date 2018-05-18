@@ -23,6 +23,7 @@ namespace SealTeam4
         public GameObject SpawnNPC(GameObject npc, List<Schedule> npcSchedule, AIStats aiStats)
         {
             GameObject npcGO = Instantiate(npc, transform.position, transform.rotation);
+            NetworkServer.Spawn(npcGO);
             AIController npcGOAIController = npcGO.GetComponent<AIController>();
             npcGOAIController.SetAIStats(aiStats);
             npcGOAIController.SetSchedule(npcSchedule);
