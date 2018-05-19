@@ -80,7 +80,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     private void FireBullet()
     {
         RaycastHit hit;
-        if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Shootable")))
+        if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("NPC")))
         {
             Instantiate(spawnPref, hit.point, firingPoint.rotation);
         }
