@@ -8,7 +8,7 @@ namespace SealTeam4
     /// <summary>
     /// Base class for markers
     /// </summary>
-    public class BaseMarker : MonoBehaviour
+    public class RemoveVisualMarkersAndMeshCollider : MonoBehaviour, IMarkerBehaviours
     {
         /// <summary>
         /// Register marker to current active GameManager
@@ -33,19 +33,6 @@ namespace SealTeam4
         /// Removes Visual indication of the marker
         /// Called by GameManager
         /// </summary>
-        public void RemoveVisualMarkersAndMeshCollider()
-        {
-            Destroy(GetComponent<LineRenderer>());
-
-            if (GetComponent<MeshCollider>())
-            {
-                Destroy(GetComponent<MeshCollider>());
-            }
-
-            if (GetComponent<BoxColliderGizmo>())
-            {
-                Destroy(GetComponent<BoxColliderGizmo>());
-            }
-        }
+        public virtual void CleanUpForSimulationStart() { }
     }
 }

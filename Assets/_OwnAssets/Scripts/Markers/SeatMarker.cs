@@ -8,7 +8,7 @@ namespace SealTeam4
     /// <summary>
     /// Marker for identifying a seat
     /// </summary>
-    public class SeatMarker : BaseMarker
+    public class SeatMarker : RemoveVisualMarkersAndMeshCollider
     {
         private AreaMarker ownedByArea;
         [SerializeField] private bool seatAvailable = true;
