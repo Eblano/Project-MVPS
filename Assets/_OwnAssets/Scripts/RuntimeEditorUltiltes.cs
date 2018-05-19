@@ -196,6 +196,7 @@ namespace SealTeam4
                 if (gameObjectsToSpawn[i] != null)
                 {
                     GameObject go = Instantiate(gameObjectsToSpawn[i], Vector3.zero, Quaternion.identity);
+                    go.transform.SetParent(null);
                 }
             }
 

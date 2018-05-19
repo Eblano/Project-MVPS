@@ -275,7 +275,7 @@ GameObject:
   - component: {fileID: 114134973361642180}
   - component: {fileID: 114095424428205528}
   - component: {fileID: 114408637166052980}
-  - component: {fileID: 114806671165024600}
+  - component: {fileID: 114083000232868278}
   m_Layer: 0
   m_Name: RuntimeEditor
   m_TagString: Untagged
@@ -2470,7 +2470,7 @@ GameObject:
   - component: {fileID: 114000011534016414}
   - component: {fileID: 114000012072899884}
   - component: {fileID: 114000012759490978}
-  - component: {fileID: 114442011660532316}
+  - component: {fileID: 114068537337335836}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -7490,6 +7490,28 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114068537337335836
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010609089684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Guid: cdfb1a12-1d10-4141-a785-08c65454666a
+  Mapping:
+  - Name: EventSystem
+    Object: {fileID: 114000012759490978}
+    Id: 6464
+  - Name: EventSystem
+    Object: {fileID: 1000010609089684}
+    Id: 6465
+  - Name: EventSystem
+    Object: {fileID: 4000013164774054}
+    Id: 6466
 --- !u!114 &114069407985241786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7599,6 +7621,28 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114083000232868278
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Guid: cdfb1a12-1d10-4141-a785-08c65454666a
+  Mapping:
+  - Name: RuntimeEditor
+    Object: {fileID: 114408637166052980}
+    Id: 7066
+  - Name: RuntimeEditor
+    Object: {fileID: 146550}
+    Id: 7067
+  - Name: RuntimeEditor
+    Object: {fileID: 468744}
+    Id: 7068
 --- !u!114 &114084031110150484
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8445,7 +8489,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TypeHint: -1
-  Objects: []
+  Objects:
+  - {fileID: 1749393533838288, guid: be0371fe3814dfd4ea58029461d2687b, type: 2}
+  - {fileID: 1999975955722112, guid: cd72c1f315c91314797892aac49c1a6d, type: 2}
+  - {fileID: 1129469133869122, guid: 3dbb05581f6ec574f8361e902010ed4a, type: 2}
+  - {fileID: 1588208000799336, guid: 630fa8241b21ad04c8e153005d659123, type: 2}
+  - {fileID: 1174363402166614, guid: 0c9c5aec8bf83af409069fcaa2d64102, type: 2}
+  - {fileID: 1939173596362764, guid: 58be5b907b037604f8108d02cf377b2e, type: 2}
+  - {fileID: 1785922561992188, guid: 480b54607b255bd4cb2f540de569967e, type: 2}
 --- !u!114 &114270054742516770
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8685,14 +8736,6 @@ MonoBehaviour:
   - {fileID: 189732, guid: 0d6aad2a33ba29b4fbaa5705c4d6a402, type: 2}
   - {fileID: 191962, guid: 8e0b62fe3fa73484fadd6a0c850e9256, type: 2}
   - {fileID: 0}
-  - {fileID: 1278476226063400, guid: 3dbb05581f6ec574f8361e902010ed4a, type: 2}
-  - {fileID: 0}
-  - {fileID: 1742664836692358, guid: 58be5b907b037604f8108d02cf377b2e, type: 2}
-  - {fileID: 0}
-  - {fileID: 1329946037871822, guid: 480b54607b255bd4cb2f540de569967e, type: 2}
-  - {fileID: 1769609554703076, guid: 630fa8241b21ad04c8e153005d659123, type: 2}
-  - {fileID: 1237158784303264, guid: 0c9c5aec8bf83af409069fcaa2d64102, type: 2}
-  - {fileID: 1682354500317794, guid: 775e5b8770b5e5540a16e667d6ca4db9, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -8700,7 +8743,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 1716111519142950, guid: cd72c1f315c91314797892aac49c1a6d, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
 --- !u!114 &114335433164122590
 MonoBehaviour:
@@ -9332,28 +9377,6 @@ MonoBehaviour:
   - {fileID: 114207960733086880}
   Speed: 1
   IsInProgress: 1
---- !u!114 &114442011660532316
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010609089684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid: cdfb1a12-1d10-4141-a785-08c65454666a
-  Mapping:
-  - Name: EventSystem
-    Object: {fileID: 114000012759490978}
-    Id: 6464
-  - Name: EventSystem
-    Object: {fileID: 1000010609089684}
-    Id: 6465
-  - Name: EventSystem
-    Object: {fileID: 4000013164774054}
-    Id: 6466
 --- !u!114 &114442188526599136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10707,6 +10730,7 @@ MonoBehaviour:
   switchRTSceneToUnityScene: 259
   gameObjectsToSpawn:
   - {fileID: 1463146262372550, guid: 04b1443085df3504da7c87953a7784ab, type: 2}
+  - {fileID: 1353271438003168, guid: f3df822ba48107e42bba7825ab119716, type: 2}
   gameObjectsToMoveToRoot:
   - {fileID: 1076366809278236}
   - {fileID: 1736579078406930}
@@ -10717,6 +10741,7 @@ MonoBehaviour:
   gameObjectsToDestroyByName:
   - RuntimeEditor
   - Job
+  - Main Camera
   gameObjectsToDestroy: []
 --- !u!114 &114765489909550270
 MonoBehaviour:
@@ -10867,28 +10892,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114806671165024600
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid: cdfb1a12-1d10-4141-a785-08c65454666a
-  Mapping:
-  - Name: RuntimeEditor
-    Object: {fileID: 114408637166052980}
-    Id: 7066
-  - Name: RuntimeEditor
-    Object: {fileID: 146550}
-    Id: 7067
-  - Name: RuntimeEditor
-    Object: {fileID: 468744}
-    Id: 7068
 --- !u!114 &114811798958484888
 MonoBehaviour:
   m_ObjectHideFlags: 1

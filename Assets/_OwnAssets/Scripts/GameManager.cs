@@ -18,7 +18,7 @@ namespace SealTeam4
 
         private bool gameStartInitCodeExecuted = false;
 
-        public enum MARKER_TYPE { AREA, TARGET, NPC_SPAWN, SEAT };
+        public enum MARKER_TYPE { AREA, TARGET, NPC_SPAWN, SEAT, PLAYER_SPAWN_MARKER };
 
         // List of markers GameManager keeps track of
         private List<Marker> markers;
@@ -64,7 +64,6 @@ namespace SealTeam4
 
         private void Update()
         {
-            Debug.Log(Network.isServer +" "+ Network.peerType +" "+ isServerObj);
             // If Runtime Editor is still running
             if (Dependencies.ProjectManager != null)
             {
@@ -93,6 +92,11 @@ namespace SealTeam4
                     case MARKER_TYPE.NPC_SPAWN:
                         marker.markerGO.GetComponent<SpawnMarker>().RemoveVisualMarkersAndMeshCollider();
                         break;
+
+                    case MARKER_TYPE.PLAYER_SPAWN_MARKER:
+                        marker.markerGO.GetComponent<PlayerSpawnMarker>().SpawnNetworkPlayerMarker();
+                        break;
+
                 }
             }
             FindObjectOfType<NavMeshSurface>().BuildNavMesh();
