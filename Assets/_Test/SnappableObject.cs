@@ -39,18 +39,18 @@ namespace SealTeam4
         {
             // Get all snappable positions within snappable radius
             Collider[] snappabbablesWithinRadius = Physics.OverlapSphere(transform.position, snapRange, 1 << LayerMask.NameToLayer("SnapLayer"), QueryTriggerInteraction.Collide);
-            Debug.Log(LayerMask.LayerToName(LayerMask.NameToLayer("SnapLayer")));
             // If there is no snappabbable within the radius, stop running this method
             if (snappabbablesWithinRadius.Length == 0)
             {
                 return;
             }
+
             // If snap position is already taken up
             if (snappabbablesWithinRadius[0].transform.childCount > 0)
             {
                 return;
             }
-
+            
             SnapObject(snappabbablesWithinRadius[0].transform);
         }
 
@@ -79,12 +79,12 @@ namespace SealTeam4
         {
             // Get all snappable positions within snappable radius
             Collider[] snappabbablesWithinRadius = Physics.OverlapSphere(transform.position, snapRange, 1 << LayerMask.NameToLayer("SnapLayer"), QueryTriggerInteraction.Collide);
-            Debug.Log(LayerMask.LayerToName(LayerMask.NameToLayer("SnapLayer")));
             // If there is no snappabbable within the radius, stop running this method
             if (snappabbablesWithinRadius.Length == 0)
             {
                 return false;
             }
+
             // If snap position is already taken up
             if (snappabbablesWithinRadius[0].transform.childCount > 0)
             {
