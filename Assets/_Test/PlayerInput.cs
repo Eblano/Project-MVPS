@@ -149,7 +149,7 @@ namespace SealTeam4
                     {
                         Debug.Log("ZH DIED");
                         //GameManager.instance.CmdAddCalibrationPoint(gameObject.name, lHandCont.position);
-                        playerInteractionSync.CmdAddCalibrationPoint(gameObject.name, lHandCont.position);
+                        NetworkPlayerPosManager.instance.CmdAddCalibrationPointToGameManager(gameObject.name, lHandCont.position);
                     }
                     break;
                 case VRTK_DeviceFinder.Devices.RightController:
@@ -158,7 +158,7 @@ namespace SealTeam4
                     {
                         Debug.Log("ZH MUM DIED");
                         //GameManager.instance.CmdAddCalibrationPoint(gameObject.name, rHandCont.position);
-                        playerInteractionSync.CmdAddCalibrationPoint(gameObject.name, rHandCont.position);
+                        NetworkPlayerPosManager.instance.CmdAddCalibrationPointToGameManager(gameObject.name, rHandCont.position);
                     }
                     break;
             }

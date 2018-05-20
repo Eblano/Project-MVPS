@@ -47,12 +47,6 @@ namespace SealTeam4
 
         public string localPlayerName;
 
-        //public class PlayerVectorCalibData
-        //{
-        //    public string playerName = string.Empty;
-        //    public Vector3 point1 = Vector3.zero;
-        //    public Vector3 point2 = Vector3.zero;
-        //}
         public List<PlayerVectorCalibData> playerVectorCalibDataList = new List<PlayerVectorCalibData>();
 
         private void Start()
@@ -70,7 +64,7 @@ namespace SealTeam4
 
         private void OnDisable()
         {
-            if (markers.Count > 0)
+            if (markers != null && markers.Count > 0)
                 markers.Clear();
         }
 
@@ -100,97 +94,14 @@ namespace SealTeam4
 
         private void GameRunning_Update()
         {
-
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                NetworkPlayerPosManager.instance.RpcCalibratePlayerVector();
+            }
         }
-
-        //[Command]
-        //// Add calibration point of 
-        //public void CmdAddCalibrationPoint(string playerName, Vector3 pointData)
-        //{
-        //    if(calibrationMode && NetworkServer.active)
-        //    {
-        //        // If player not in data list
-        //        if(!playerVectorCalibDataList.Exists(x => x.playerName == playerName))
-        //        {
-        //            // Add new entry of player
-        //            playerVectorCalibDataList.Add(new PlayerVectorCalibData());
-        //            // Add the name and first point to the data
-        //            playerVectorCalibDataList.Find(x => x.playerName == playerName).playerName = playerName;
-        //            playerVectorCalibDataList.Find(x => x.playerName == playerName).point1 = pointData;
-        //        }
-        //        // If player exist but missing second point data
-        //        else if(playerVectorCalibDataList.Find(x => x.playerName == playerName).point2 == Vector3.zero)
-        //        {
-        //            // Add the second point to the data
-        //            playerVectorCalibDataList.Find(x => x.playerName == playerName).point2 = pointData;
-        //        }
-        //        // If both points exists
-        //        else
-        //        {
-        //            PlayerVectorCalibData playerVCalibData = playerVectorCalibDataList.Find(x => x.playerName == playerName);
-        //            playerVCalibData.point1 = pointData;
-        //            playerVCalibData.point2 = Vector3.zero;
-        //        }
-
-        //        // Check if there is enough data points to calibrate a player
-        //        foreach(PlayerVectorCalibData data in playerVectorCalibDataList)
-        //        {
-        //            PlayerVectorCalibData referenceData = new PlayerVectorCalibData();
-        //            PlayerVectorCalibData calibData = new PlayerVectorCalibData();
-
-        //            // If there is 2 data points from the data
-        //            if (data.point1 != Vector3.zero && data.point2 != Vector3.zero)
-        //            {
-        //                if(referenceData.playerName == string.Empty)
-        //                {
-        //                    // Set param for reference data
-        //                    referenceData.playerName = data.playerName;
-        //                    referenceData.point1 = data.point1;
-        //                    referenceData.point2 = data.point2;
-        //                }
-        //                else
-        //                {
-        //                    // Set param for calib data
-        //                    calibData.playerName = data.playerName;
-        //                    calibData.point1 = data.point1;
-        //                    calibData.point2 = data.point2;
-
-        //                    // Calibrate vector of a player based on 4 points
-        //                    RpcCalibratePlayerVector(playerName, referenceData, calibData);
-
-        //                    // Wipe the calibration data that has been used for calculation from the list
-        //                    playerVectorCalibDataList.Remove(playerVectorCalibDataList.Find(x => x.playerName == referenceData.playerName));
-        //                    playerVectorCalibDataList.Remove(playerVectorCalibDataList.Find(x => x.playerName == calibData.playerName));
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-        //[ClientRpc]
-        //// Calibrate vector of a player based on 4 points
-        //private void RpcCalibratePlayerVector(string playerName, PlayerVectorCalibData referenceData, PlayerVectorCalibData calibData)
-        //{
-        //    Vector3 translationVector = calibData.point1 + referenceData.point1;
-        //    Quaternion rotationVector = 
-        //        Quaternion.FromToRotation(
-        //            calibData.point2 - calibData.point1, 
-        //            referenceData.point2 - referenceData.point1
-        //            );
-
-        //    // If local player is the player that needs to be calibrated
-        //    if(playerName == localPlayerName)
-        //    {
-        //        // Apply the above 2 vector to the corresponding players
-        //        Transform localPlayerControllerT = GameObject.Find("LocalPlayerController").transform;
-        //        localPlayerControllerT.Translate(translationVector);
-        //        localPlayerControllerT.Rotate(rotationVector.eulerAngles);
-        //    }
-        //}
 
         private void InitCodeAfterGameStart()
         {
-            Debug.Log("InitCode");
             foreach (Marker marker in markers)
             {
                 if (
