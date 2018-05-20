@@ -96,7 +96,7 @@ namespace SealTeam4
         {
             if(Input.GetKeyDown(KeyCode.Space))
             {
-                NetworkPlayerPosManager.instance.RpcCalibratePlayerVector();
+                NetworkPlayerPosManager.localInstance.RpcCalibratePlayerVector();
             }
         }
 

@@ -7,18 +7,13 @@ namespace SealTeam4
 {
     public class NetworkPlayerPosManager : NetworkBehaviour
     {
-        public static NetworkPlayerPosManager instance;
+        public static NetworkPlayerPosManager localInstance;
 
         private void Start()
         {
-            if (instance == null && isLocalPlayer)
+            if (localInstance == null && isLocalPlayer)
             {
-                instance = this;
-            }
-            else
-            {
-                Debug.Log("NetworkPlayerPosManager already exists, deleting duplicate");
-                Destroy(this);
+                localInstance = this;
             }
         }
 
