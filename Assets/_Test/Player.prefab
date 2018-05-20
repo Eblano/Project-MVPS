@@ -767,7 +767,7 @@ GameObject:
   - component: {fileID: 4607779025919560}
   - component: {fileID: 135634950807841872}
   - component: {fileID: 114947612736802344}
-  m_Layer: 14
+  m_Layer: 15
   m_Name: HolsterPos
   m_TagString: CanBeHolstered
   m_Icon: {fileID: 0}
@@ -1736,7 +1736,6 @@ GameObject:
   - component: {fileID: 114782911748299746}
   - component: {fileID: 135626731516516292}
   - component: {fileID: 114886152561596570}
-  - component: {fileID: 114835817492198030}
   - component: {fileID: 114408753717140846}
   - component: {fileID: 54734309603563062}
   m_Layer: 13
@@ -1838,7 +1837,7 @@ GameObject:
   - component: {fileID: 4744474937479170}
   - component: {fileID: 135862267268791232}
   - component: {fileID: 114096115487105930}
-  m_Layer: 14
+  m_Layer: 15
   m_Name: HolsterPos
   m_TagString: CanBeHolstered
   m_Icon: {fileID: 0}
@@ -4460,21 +4459,7 @@ MonoBehaviour:
     i14: 14
     i15: 237
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
---- !u!114 &114835817492198030
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1924703519164908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7460d72f66938f64386b92d308c0f780, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grabPosition: {fileID: 4004220596480772}
-  parentTransform: {fileID: 0}
-  snapRange: 0.1
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114872165697439200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4513,7 +4498,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1924703519164908}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84c150b67e0775e4d930a620341f98cb, type: 3}
   m_Name: 
