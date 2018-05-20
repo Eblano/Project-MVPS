@@ -11,7 +11,7 @@ namespace SealTeam4
 
         private void Start()
         {
-            if (localInstance == null && isLocalPlayer)
+            if (localInstance == null && !isLocalPlayer) // ZH I CHANGED islocalplayer to !islocalplayer!!!
             {
                 localInstance = this;
             }
@@ -53,7 +53,6 @@ namespace SealTeam4
         // Calibrate vector of a player based on 4 points
         public void RpcCalibratePlayerVector(List<PlayerVectorCalibData> playerVectorCalibDataList)
         {
-            Debug.Log("Calibrate");
             PlayerVectorCalibData referenceData = new PlayerVectorCalibData();
             PlayerVectorCalibData calibData = new PlayerVectorCalibData();
 
