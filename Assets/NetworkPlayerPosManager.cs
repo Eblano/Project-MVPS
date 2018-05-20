@@ -51,13 +51,13 @@ namespace SealTeam4
 
         [ClientRpc]
         // Calibrate vector of a player based on 4 points
-        public void RpcCalibratePlayerVector()
+        public void RpcCalibratePlayerVector(List<PlayerVectorCalibData> playerVectorCalibDataList)
         {
             Debug.Log("Calibrate");
             PlayerVectorCalibData referenceData = new PlayerVectorCalibData();
             PlayerVectorCalibData calibData = new PlayerVectorCalibData();
 
-            foreach (PlayerVectorCalibData data in GameManager.instance.playerVectorCalibDataList)
+            foreach (PlayerVectorCalibData data in playerVectorCalibDataList)
             {
                 if(data.point2 != null)
                 {
