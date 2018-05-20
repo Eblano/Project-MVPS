@@ -10,7 +10,7 @@ namespace SealTeam4
     /// <summary>
     /// Base class for Area Markers
     /// </summary>
-    public class BaseAreaMarker : RemoveVisualMarkersAndMeshCollider
+    public class BaseAreaMarker : BaseMarker
     {
         private BoxCollider boxCollider;
 

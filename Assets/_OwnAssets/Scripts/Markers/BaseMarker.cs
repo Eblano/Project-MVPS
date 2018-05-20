@@ -8,7 +8,7 @@ namespace SealTeam4
     /// <summary>
     /// Base class for markers
     /// </summary>
-    public class RemoveVisualMarkersAndMeshCollider : MonoBehaviour, IMarkerBehaviours
+    public class BaseMarker : MonoBehaviour, IMarkerBehaviours
     {
         /// <summary>
         /// Register marker to current active GameManager
