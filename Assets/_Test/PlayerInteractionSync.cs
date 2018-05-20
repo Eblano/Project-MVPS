@@ -14,10 +14,6 @@ public class PlayerInteractionSync : NetworkBehaviour
     private Vector3 headPos, lHandPos, rHandPos;
     private Quaternion headRot, lHandRot, rHandRot;
 
-    // For calibration
-    PlayerVectorCalibData playerVectorCalibData_Ref = new PlayerVectorCalibData();
-    PlayerVectorCalibData playerVectorCalibData_Calib = new PlayerVectorCalibData();
-
     private GameManager gameManager;
 
     public override void OnStartServer()
@@ -59,39 +55,22 @@ public class PlayerInteractionSync : NetworkBehaviour
             }
 
             // Check if there is enough data points to calibrate a player
-            foreach (PlayerVectorCalibData data in gameManager.playerVectorCalibDataList)
+            foreach (PlayerVectorCalibData data1 in gameManager.playerVectorCalibDataList)
             {
-                // If there is 2 data points from the data
-                if (data.point1 != Vector3.zero && data.point2 != Vector3.zero)
+                if (data1.point2 != null)
                 {
-                    if(playerVectorCalibData_Ref == null)
+                    string data1PlayerName = data1.playerName;
+                    foreach (PlayerVectorCalibData data2 in gameManager.playerVectorCalibDataList)
                     {
-                        playerVectorCalibData_Ref = new PlayerVectorCalibData
+                        if (data2.point2 != null && data2.playerName != data1PlayerName)
                         {
-                            playerName = data.playerName,
-                            point1 = data.point1,
-                            point2 = data.point2
-                        };
-                        return;
-                    }
-                    else
-                    {
-                        playerVectorCalibData_Calib = new PlayerVectorCalibData
-                        {
-                            playerName = data.playerName,
-                            point1 = data.point1,
-                            point2 = data.point2
-                        };
+                            // Calibrate vector of a player based on 4 points
+                            RpcCalibratePlayerVector(data2.playerName, data1, data2);
 
-                        // Calibrate vector of a player based on 4 points
-                        RpcCalibratePlayerVector(playerName, playerVectorCalibData_Ref, playerVectorCalibData_Calib);
-
-                        // Wipe the calibration data that has been used for calculation from the list
-                        gameManager.playerVectorCalibDataList.Remove(gameManager.playerVectorCalibDataList.Find(x => x.playerName == playerVectorCalibData_Ref.playerName));
-                        gameManager.playerVectorCalibDataList.Remove(gameManager.playerVectorCalibDataList.Find(x => x.playerName == playerVectorCalibData_Calib.playerName));
-
-                        playerVectorCalibData_Ref = null;
-                        playerVectorCalibData_Calib = null;
+                            // Wipe the calibration data that has been used for calculation from the list
+                            gameManager.playerVectorCalibDataList.Remove(data1);
+                            gameManager.playerVectorCalibDataList.Remove(data2);
+                        }
                     }
                 }
             }
