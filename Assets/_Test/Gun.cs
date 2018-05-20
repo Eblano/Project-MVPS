@@ -70,7 +70,6 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         foreach (Transform t in secondaryGrabTransforms)
         {
             t.GetComponent<Collider>().enabled = state;
-            Debug.Log(t.gameObject.name);
         }
     }
 

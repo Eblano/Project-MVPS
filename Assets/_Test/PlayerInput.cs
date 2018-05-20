@@ -15,6 +15,10 @@ public class PlayerInput : MonoBehaviour
 
     [SerializeField] private bool serverCanPlay;
     [SerializeField] private float grabRadius;
+    [SerializeField] private float holdTouchPadTimer;
+
+    private float leftTimer;
+    private float rightTimer;
 
     private void Start()
     {
@@ -52,6 +56,9 @@ public class PlayerInput : MonoBehaviour
 
         lHandEvents.TouchpadPressed += LHandEvents_TouchpadPressed;
         rHandEvents.TouchpadPressed += RHandEvents_TouchpadPressed;
+
+        lHandEvents.TouchpadReleased += LHandEvents_TouchpadReleased;
+        rHandEvents.TouchpadReleased += RHandEvents_TouchpadReleased;
     }
 
     private void Update()
@@ -95,10 +102,56 @@ public class PlayerInput : MonoBehaviour
     private void RHandEvents_TouchpadPressed(object sender, ControllerInteractionEventArgs e)
     {
         ss.CmdCallTouchpadButton(VRTK_DeviceFinder.Devices.RightController, rHandEvents.GetTouchpadAxis());
+        TouchPadDown(VRTK_DeviceFinder.Devices.RightController);
     }
 
     private void LHandEvents_TouchpadPressed(object sender, ControllerInteractionEventArgs e)
     {
         ss.CmdCallTouchpadButton(VRTK_DeviceFinder.Devices.LeftController, lHandEvents.GetTouchpadAxis());
+        TouchPadDown(VRTK_DeviceFinder.Devices.LeftController);
+    }
+
+    private void RHandEvents_TouchpadReleased(object sender, ControllerInteractionEventArgs e)
+    {
+        TouchPadUp(VRTK_DeviceFinder.Devices.RightController);
+    }
+
+    private void LHandEvents_TouchpadReleased(object sender, ControllerInteractionEventArgs e)
+    {
+        TouchPadUp(VRTK_DeviceFinder.Devices.LeftController);
+    }
+
+    private void TouchPadDown(VRTK_DeviceFinder.Devices control)
+    {
+        switch (control)
+        {
+            case VRTK_DeviceFinder.Devices.LeftController:
+                leftTimer = Time.time + holdTouchPadTimer;
+                break;
+            case VRTK_DeviceFinder.Devices.RightController:
+                rightTimer = Time.time + holdTouchPadTimer;
+                break;
+        }
+    }
+
+    private void TouchPadUp(VRTK_DeviceFinder.Devices control)
+    {
+        switch (control)
+        {
+            case VRTK_DeviceFinder.Devices.LeftController:
+                // Checks if user held down button for long enough
+                if (Time.time > leftTimer)
+                {
+                    Debug.Log("ZH DIED");
+                }
+                break;
+            case VRTK_DeviceFinder.Devices.RightController:
+                // Checks if user held down button for long enough
+                if (Time.time > rightTimer)
+                {
+                    Debug.Log("ZH MUM DIED");
+                }
+                break;
+        }
     }
 }
