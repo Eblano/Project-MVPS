@@ -11,7 +11,7 @@ namespace SealTeam4
 
         private void Start()
         {
-            if (localInstance == null && !isLocalPlayer) // ZH I CHANGED islocalplayer to !islocalplayer!!!
+            if (localInstance == null && isLocalPlayer)
             {
                 localInstance = this;
             }
@@ -51,12 +51,12 @@ namespace SealTeam4
 
         [ClientRpc]
         // Calibrate vector of a player based on 4 points
-        public void RpcCalibratePlayerVector(List<PlayerVectorCalibData> playerVectorCalibDataList)
+        public void RpcCalibratePlayerVector()
         {
             PlayerVectorCalibData referenceData = new PlayerVectorCalibData();
             PlayerVectorCalibData calibData = new PlayerVectorCalibData();
 
-            foreach (PlayerVectorCalibData data in playerVectorCalibDataList)
+            foreach (PlayerVectorCalibData data in GameManager.instance.playerVectorCalibDataList)
             {
                 if(data.point2 != null)
                 {
