@@ -51,7 +51,7 @@ namespace SealTeam4
 
         [ClientRpc]
         // Calibrate vector of a player based on 4 points
-        public void RpcCalibratePlayerVector(string localPlayerName)
+        public void RpcCalibratePlayerVector()
         {
             Debug.Log("Calibrate");
             PlayerVectorCalibData referenceData = new PlayerVectorCalibData();
@@ -79,9 +79,9 @@ namespace SealTeam4
             if (referenceData.playerName != string.Empty && calibData.playerName != string.Empty)
             {
                 Debug.Log("Calibration Target Player Name: " + calibData.playerName);
-                Debug.Log("Current Player Name: " + localPlayerName);
+                Debug.Log("Current Player Name: " + GameManager.instance.localPlayerName);
                 // If local player is the player that needs to be calibrated
-                if (calibData.playerName == localPlayerName)
+                if (calibData.playerName == GameManager.instance.localPlayerName)
                 {
                     Vector3 translationVector = calibData.point1 + referenceData.point1;
                     Quaternion rotationVector =
