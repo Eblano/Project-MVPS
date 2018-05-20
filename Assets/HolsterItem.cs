@@ -20,6 +20,7 @@ public class HolsterItem : MonoBehaviour
             holsterItemGO.transform.localPosition = Vector3.zero;
             holsterItemGO.transform.localRotation = Quaternion.identity;
             NetworkServer.Spawn(holsterItemGO);
+            holsterItem.GetComponent<SyncParent>().RpcSetParent(gameObject);
         }
     }
 
@@ -28,7 +29,8 @@ public class HolsterItem : MonoBehaviour
         if(other.transform.parent == null && other.gameObject.CompareTag("CanBeHolstered"))
         {
             other.transform.SetParent(transform);
-            other.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            other.GetComponent<Rigidbody>().isKinematic = true;
+            other.GetComponent<SyncParent>().RpcSetParent(gameObject);
             other.transform.localPosition = Vector3.zero;
             other.transform.localRotation = Quaternion.identity;
         }
