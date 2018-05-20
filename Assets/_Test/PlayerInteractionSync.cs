@@ -16,6 +16,8 @@ public class PlayerInteractionSync : NetworkBehaviour
 
     private GameManager gameManager;
 
+    [SerializeField] private List<HolsterItem> holsterItems;
+
     public override void OnStartServer()
     {
         if (isServer)
@@ -24,6 +26,11 @@ public class PlayerInteractionSync : NetworkBehaviour
         }
 
         gameManager = GameManager.instance;
+
+        foreach(HolsterItem item in holsterItems)
+        {
+            item.SpawnItem();
+        }
     }
 
     [Command]
@@ -54,23 +61,32 @@ public class PlayerInteractionSync : NetworkBehaviour
                 playerVCalibData.point2 = Vector3.zero;
             }
 
-            //// Check if there is enough data points to calibrate a player
-            //foreach (PlayerVectorCalibData data1 in gameManager.playerVectorCalibDataList)
-            //{
-            //    if (data1.point2 != null)
-            //    {
-            //        string data1PlayerName = data1.playerName;
-            //        foreach (PlayerVectorCalibData data2 in gameManager.playerVectorCalibDataList)
-            //        {
-            //            if (data2.point2 != null && data2.playerName != data1PlayerName)
-            //            {
-            //                // Calibrate vector of a player based on 4 points
-            //                RpcCalibratePlayerVector(data2.playerName, data1, data2);
+            PlayerVectorCalibData playerVectorCalibData_ref = new PlayerVectorCalibData();
+            PlayerVectorCalibData playerVectorCalibData_calib = new PlayerVectorCalibData();
 
-            //                // Wipe the calibration data that has been used for calculation from the list
-            //                gameManager.playerVectorCalibDataList.Remove(data1);
-            //                gameManager.playerVectorCalibDataList.Remove(data2);
-            //            }
+            // Check if there is enough data points to calibrate a player
+            //foreach (PlayerVectorCalibData data in gameManager.playerVectorCalibDataList)
+            //{
+            //    if (data.point2 != null)
+            //    {
+            //        if(playerVectorCalibData_ref.playerName != string.Empty)
+            //        {
+            //            playerVectorCalibData_ref.playerName = data.playerName;
+            //            playerVectorCalibData_ref.point1 = data.point1;
+            //            playerVectorCalibData_ref.point2 = data.point2;
+            //        }
+            //        else
+            //        {
+            //            playerVectorCalibData_calib.playerName = data.playerName;
+            //            playerVectorCalibData_calib.point1 = data.point1;
+            //            playerVectorCalibData_calib.point2 = data.point2;
+
+            //            //Calibrate vector of a player based on 4 points
+            //            RpcCalibratePlayerVector(playerVectorCalibData_calib.playerName, playerVectorCalibData_ref, data2);
+
+            //            // Wipe the calibration data that has been used for calculation from the list
+            //            gameManager.playerVectorCalibDataList.Remove(data1);
+            //            gameManager.playerVectorCalibDataList.Remove(data2);
             //        }
             //    }
             //}
