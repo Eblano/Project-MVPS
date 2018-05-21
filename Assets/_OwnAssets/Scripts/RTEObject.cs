@@ -16,10 +16,10 @@ namespace SealTeam4
     public class RTEObject : MonoBehaviour
     {
         // Decides what component to copy
-        [SerializeIgnore] [SerializeField] private bool copyMeshFilter = true;
-        [SerializeIgnore] [SerializeField] private bool copyMaterial = true;
-        [SerializeIgnore] [SerializeField] private bool copyBoxColToNavMeshCollider = true;
-        [SerializeIgnore] [SerializeField] private bool copyBoxCol = true;
+        [SerializeIgnore] [SerializeField] private bool copyMeshFilter;
+        [SerializeIgnore] [SerializeField] private bool copyMaterial;
+        [SerializeIgnore] [SerializeField] private bool copyBoxColToNavMeshCollider;
+        [SerializeIgnore] [SerializeField] private bool copyBoxCol;
 
         // Delete extra mesh collider after spawned in RTE
         [SerializeIgnore] [SerializeField] private bool deleteMeshColliderAfterRTESpawn = true;

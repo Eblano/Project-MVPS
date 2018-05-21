@@ -1626,7 +1626,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 1655494960822824, guid: 2c31ac72d7e634040800464594bce2c1, type: 2}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 1175809869694476, guid: cd72c1f315c91314797892aac49c1a6d, type: 2}
   - {fileID: 1829217730653846, guid: 0c9c5aec8bf83af409069fcaa2d64102, type: 2}
@@ -1643,6 +1643,9 @@ MonoBehaviour:
   - {fileID: 1665674402076470, guid: 480b54607b255bd4cb2f540de569967e, type: 2}
   - {fileID: 0}
   - {fileID: 1060821322948300, guid: be0371fe3814dfd4ea58029461d2687b, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1264298591080400, guid: 373c6a389e6445a489ae469e85aea59a, type: 2}
 --- !u!1 &265980648
 GameObject:
   m_ObjectHideFlags: 0
@@ -6867,8 +6870,7 @@ Transform:
 --- !u!114 &948859493
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114007446227149162, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 948859491}
   m_Enabled: 1
@@ -7461,7 +7463,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type0NPC: {fileID: 1601331633119506, guid: ce14c7e8560313f4da7e3ad3611cf0a7, type: 2}
   type1NPC: {fileID: 0}
-  totalRegMarkers: 0
+  totalRegMarkers: 7
   refreshRate: 3
   areaUnderAttack: 0
   startGame: 1
@@ -7483,14 +7485,28 @@ MonoBehaviour:
       argument: TargetMarker0
     - scheduleType: 1
       argument: TargetMarker1
+    - scheduleType: 0
+      argument: TargetMarker2
+    - scheduleType: 0
+      argument: TargetMarker3
+  - nPC_TYPE: 1
+    spawnLocation: SpawnMarker1
+    aiStats:
+      isTerrorist: 0
+      isVIP: 0
+      chanceEnterHostileMode: 0
+      minAngleToFaceTarget: 0
+      extraStoppingDistForConvo: 0
+      collisionAvoidanceRayLen: 0
+      collisionAvoidanceMultiplyer: 0
+      enableCollisionAvoidance: 0
+    nPC_Schedules:
     - scheduleType: 1
-      argument: TargetMarker0
+      argument: TargetMarker3
     - scheduleType: 1
-      argument: TargetMarker1
-    - scheduleType: 1
-      argument: TargetMarker0
-    - scheduleType: 1
-      argument: TargetMarker1
+      argument: TargetMarker2
+    - scheduleType: 4
+      argument: 10
     - scheduleType: 1
       argument: TargetMarker0
   calibrationMode: 1
@@ -9753,10 +9769,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4751441050626568, guid: b099a03d77b27074289ea995e234faed, type: 2}
       propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1167266133698924, guid: b099a03d77b27074289ea995e234faed, type: 2}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -12246,8 +12258,7 @@ GameObject:
 --- !u!114 &1741109792
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114429630570985916, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1741109791}
   m_Enabled: 1

@@ -94,9 +94,13 @@ namespace SealTeam4
 
         private void GameRunning_Update()
         {
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetKeyDown(KeyCode.C))
             {
                 NetworkPlayerPosManager.localInstance.RpcCalibratePlayerVector();
+            }
+            if(Input.GetKeyDown(KeyCode.P))
+            {
+                areaUnderAttack = true;
             }
         }
 
