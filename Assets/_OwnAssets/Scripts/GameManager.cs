@@ -75,9 +75,13 @@ namespace SealTeam4
             {
                 RTERunning_Update();
             }
-            else if (!gameStartInitCodeExecuted && startGame && isServerObj)
+            else if (!gameStartInitCodeExecuted && startGame)
             {
-                InitCodeAfterGameStart();
+                if(isServerObj)
+                {
+                    InitCodeAfterGameStart();
+                }
+                TeleportLocalPlayerControllerToPlayerSpawnPos();
                 gameStartInitCodeExecuted = true;
             }
 
@@ -119,7 +123,6 @@ namespace SealTeam4
             }
             FindObjectOfType<NavMeshSurface>().BuildNavMesh();
             SpawnAndSetupNPC();
-            TeleportLocalPlayerControllerToPlayerSpawnPos();
         }
 
         private void TeleportLocalPlayerControllerToPlayerSpawnPos()
