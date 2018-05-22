@@ -24,6 +24,7 @@ namespace SealTeam4
             Transform aiTransform,
             AIState aiState,
             AIStats aiStats,
+            AIAnimationController aiAnimController,
             List<Schedule> schedules
             )
         {
@@ -31,6 +32,7 @@ namespace SealTeam4
             this.aiTransform = aiTransform;
             this.aiState = aiState;
             this.aiStats = aiStats;
+            this.aiAnimController = aiAnimController;
             this.schedules = schedules;
         }
     }

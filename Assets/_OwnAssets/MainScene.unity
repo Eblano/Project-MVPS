@@ -7461,6 +7461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d6cf6ba395695c4688b424fca686934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teleportPlayerToSpawn: 0
   type0NPC: {fileID: 1601331633119506, guid: ce14c7e8560313f4da7e3ad3611cf0a7, type: 2}
   type1NPC: {fileID: 0}
   totalRegMarkers: 7
@@ -7468,6 +7469,7 @@ MonoBehaviour:
   areaUnderAttack: 0
   startGame: 1
   isServerObj: 0
+  serverSetUpGame: 0
   npcSpawnList:
   - nPC_TYPE: 1
     spawnLocation: SpawnMarker0
@@ -7475,8 +7477,8 @@ MonoBehaviour:
       isTerrorist: 0
       isVIP: 0
       chanceEnterHostileMode: 0
-      minAngleToFaceTarget: 0
-      extraStoppingDistForConvo: 0
+      minAngleToFaceTarget: 5
+      extraStoppingDistForConvo: 1
       collisionAvoidanceRayLen: 0
       collisionAvoidanceMultiplyer: 0
       enableCollisionAvoidance: 0
@@ -7485,7 +7487,7 @@ MonoBehaviour:
       argument: TargetMarker2
     - scheduleType: 1
       argument: TargetMarker3
-    - scheduleType: 4
+    - scheduleType: 0
       argument: 20
   - nPC_TYPE: 1
     spawnLocation: SpawnMarker1
@@ -7493,16 +7495,30 @@ MonoBehaviour:
       isTerrorist: 0
       isVIP: 0
       chanceEnterHostileMode: 0
-      minAngleToFaceTarget: 0
-      extraStoppingDistForConvo: 0
+      minAngleToFaceTarget: 5
+      extraStoppingDistForConvo: 1
       collisionAvoidanceRayLen: 0
       collisionAvoidanceMultiplyer: 0
       enableCollisionAvoidance: 0
     nPC_Schedules:
     - scheduleType: 1
       argument: TargetMarker1
-    - scheduleType: 1
-      argument: TargetMarker0
+    - scheduleType: 4
+      argument: 10
+    - scheduleType: 3
+      argument: Area1
+  - nPC_TYPE: 1
+    spawnLocation: SpawnMarker0
+    aiStats:
+      isTerrorist: 1
+      isVIP: 0
+      chanceEnterHostileMode: 0
+      minAngleToFaceTarget: 5
+      extraStoppingDistForConvo: 1
+      collisionAvoidanceRayLen: 0
+      collisionAvoidanceMultiplyer: 0
+      enableCollisionAvoidance: 0
+    nPC_Schedules: []
   calibrationMode: 1
   localPlayerName: 
   playerVectorCalibDataList: []

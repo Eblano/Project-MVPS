@@ -3,7 +3,7 @@ using UnityEngine;
 using SealTeam4;
 using Battlehub.RTSaveLoad;
 using UnityEngine.AI;
-//using UnityEngine.Networking;
+using UnityEngine.Networking;
 
 namespace SealTeam4
 {
@@ -16,7 +16,7 @@ namespace SealTeam4
         // Instance of the Game Manager
         public static GameManager instance;
 
-        private bool gameStartInitCodeExecuted = false;
+        [SerializeField] private bool teleportPlayerToSpawn = false;
 
         public enum MARKER_TYPE { AREA, TARGET, NPC_SPAWN, SEAT, PLAYER_SPAWN_MARKER };
 
@@ -36,6 +36,7 @@ namespace SealTeam4
 
         [SerializeField] private bool startGame;
         public bool isServerObj = false;
+        [SerializeField] private bool serverSetUpGame = false;
 
         [SerializeField] private List<NpcSpawnData> npcSpawnList = new List<NpcSpawnData>();
         private List<GameObject> spawnedCivilianNPCs = new List<GameObject>();
@@ -75,19 +76,38 @@ namespace SealTeam4
             {
                 RTERunning_Update();
             }
-            else if (!gameStartInitCodeExecuted && startGame)
+
+            else if (!teleportPlayerToSpawn && startGame && NetworkServer.active)
             {
-                if(isServerObj)
-                {
-                    InitCodeAfterGameStart();
-                }
                 TeleportLocalPlayerControllerToPlayerSpawnPos();
-                gameStartInitCodeExecuted = true;
+                teleportPlayerToSpawn = true;
             }
 
-            if (gameStartInitCodeExecuted && startGame && isServerObj)
+            if (teleportPlayerToSpawn && startGame && isServerObj)
             {
+                if(!serverSetUpGame)
+                {
+                    FindObjectOfType<NavMeshSurface>().BuildNavMesh();
+                    SetupMarkers();
+                    SpawnAndSetupNPC();
+                    serverSetUpGame = true;
+                }
                 GameRunning_Update();
+            }
+        }
+
+        private void SetupMarkers()
+        {
+            foreach (Marker marker in markers)
+            {
+                if (
+                    marker.markerType == MARKER_TYPE.NPC_SPAWN ||
+                    marker.markerType == MARKER_TYPE.TARGET ||
+                    marker.markerType == MARKER_TYPE.PLAYER_SPAWN_MARKER
+                    )
+                {
+                    marker.markerGO.GetComponent<IMarkerBehaviours>().CleanUpForSimulationStart();
+                }
             }
         }
 
@@ -106,23 +126,6 @@ namespace SealTeam4
             {
                 areaUnderAttack = true;
             }
-        }
-
-        private void InitCodeAfterGameStart()
-        {
-            foreach (Marker marker in markers)
-            {
-                if (
-                    marker.markerType == MARKER_TYPE.NPC_SPAWN ||
-                    marker.markerType == MARKER_TYPE.TARGET ||
-                    marker.markerType == MARKER_TYPE.PLAYER_SPAWN_MARKER
-                    )
-                {
-                    marker.markerGO.GetComponent<IMarkerBehaviours>().CleanUpForSimulationStart();
-                }
-            }
-            FindObjectOfType<NavMeshSurface>().BuildNavMesh();
-            SpawnAndSetupNPC();
         }
 
         private void TeleportLocalPlayerControllerToPlayerSpawnPos()

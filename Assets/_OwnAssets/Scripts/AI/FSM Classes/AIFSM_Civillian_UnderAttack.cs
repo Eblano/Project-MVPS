@@ -59,7 +59,7 @@ namespace SealTeam4
             if (!GameManager.instance.LineOfSightAgainstHostileNPC(aiTransform))
             {
                 aiState.civilian.underAttack.Civilian_UnderAttack = AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.BRACE_ON_SPOT;
-                aiAnimController.Anim_Move(Vector3.zero, false, 1);
+                aiAnimController.Anim_Move(Vector3.zero, false, 3);
                 aiController.StopNMAgentMovement();
                 aiState.civilian.underAttack.timeLeftBeforeFindingNewRandPosition = 2;
                 return;

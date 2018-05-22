@@ -34,9 +34,9 @@ namespace SealTeam4
             animEventReciever = GetComponent<AIAnimEventReciever>();
             
             // Initializing FSM classes
-            aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, schedules);
-            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, schedules);
-            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, schedules);
+            aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, schedules);
+            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, schedules);
+            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, schedules);
         }
 
         private void Update()
@@ -133,6 +133,7 @@ namespace SealTeam4
         
         public void MoveToPosition(Vector3 targetPos , float extraStoppingDistance)
         {
+            nmAgent.SetDestination(targetPos);
             if (nmAgent.remainingDistance > nmAgent.stoppingDistance + extraStoppingDistance)
             {
                 if(aiStats.enableCollisionAvoidance)
@@ -140,7 +141,6 @@ namespace SealTeam4
                     targetPos = GetCollisionAvoidanceVector(targetPos);
                 }
 
-                nmAgent.SetDestination(targetPos);
                 aiAnimController.Anim_Move(nmAgent.desiredVelocity, false, 1);
             }
             else

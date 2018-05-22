@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4766493512422816}
   - component: {fileID: 108575812488046782}
+  - component: {fileID: 114891979067247326}
   m_Layer: 0
   m_Name: RTE_Spotlight
   m_TagString: Untagged
@@ -76,3 +77,15 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114891979067247326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1985790936161054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec9cef1aa648e7e4089041e05f1126c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_gizmo: {fileID: 0}
