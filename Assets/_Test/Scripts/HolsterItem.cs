@@ -9,8 +9,6 @@ public class HolsterItem : MonoBehaviour
     [SerializeField] private GameObject holsterItem;
     private GameObject holsterItemGO;
 
-    private bool doneOnce = false;
-
     public void SpawnItem()
     {
         if (holsterItem)

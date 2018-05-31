@@ -16,7 +16,7 @@ public class TransformationSync : NetworkBehaviour
     [ClientRpc]
     private void RpcSyncTransform(Vector3 position, Vector3 eulerAngle)
     {
-        // Smooth the transform //SHUD BE FIXED
+        // Smooth the transform
         transform.position = Vector3.Lerp(transform.position, position, 0.1f);
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(eulerAngle), 0.1f);
     }
