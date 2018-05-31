@@ -3,7 +3,6 @@ using UnityEngine;
 using SealTeam4;
 using Battlehub.RTSaveLoad;
 using UnityEngine.AI;
-using UnityEngine.Networking;
 
 namespace SealTeam4
 {
@@ -14,91 +13,113 @@ namespace SealTeam4
     public class GameManager : MonoBehaviour
     {
         // Instance of the Game Manager
-        public static GameManager instance;
+        public static GameManager localInstance;
 
-        [SerializeField] private bool teleportPlayerToSpawn = false;
+        private GameManagerAssistant ref_GMAssistance;
+
+        // State of GameManager
+        private enum GameManagerMode { LEVELSETUP, HOST, CLIENT }
+        private GameManagerMode currGameManagerMode = GameManagerMode.LEVELSETUP;
+
+        private enum GameManagerHostMode { WAITFORSTART, RUN }
+        private GameManagerHostMode currGameManagerHostMode = GameManagerHostMode.WAITFORSTART;
+
+        [SerializeField] private GameObject localPlayerController;
+        [SerializeField] private GameObject gameManagerAssistant;
 
         public enum MARKER_TYPE { AREA, TARGET, NPC_SPAWN, SEAT, PLAYER_SPAWN_MARKER };
 
-        // List of markers GameManager keeps track of
-        private List<Marker> markers;
-
-        // NPC Prefab
+        [Header("NPC Prefabs")]
         [SerializeField] private GameObject type0NPC;
         [SerializeField] private GameObject type1NPC;
 
-        // (Work in progress)
+        // List of markers GameManager keeps track of
+        private List<Marker> registeredMarkers = new List<Marker>();
+        [Header("Registered Markers Counter")]
         [SerializeField] private int totalRegMarkers;
         [SerializeField] private float refreshRate = 3.0f;
         private float currRefreshRate;
 
+        [Header("Game Condition")]
         public bool areaUnderAttack;
 
-        [SerializeField] private bool startGame;
-        public bool isServerObj = false;
-        [SerializeField] private bool serverSetUpGame = false;
+        //[SerializeField] private bool startGame;
+        public bool isHost = false;
+        //[SerializeField] private bool serverSetUpGame = false;
 
+        // NPC List
         [SerializeField] private List<NpcSpawnData> npcSpawnList = new List<NpcSpawnData>();
         private List<GameObject> spawnedCivilianNPCs = new List<GameObject>();
         private List<GameObject> spawnedVIPNPC = new List<GameObject>();
         private List<GameObject> spawnedHostileNPCs = new List<GameObject>();
 
-        // For calibration of in game position from physical position
-        public bool calibrationMode = false;
+        //// For calibration of in game position from physical position
+        //public bool calibrationMode = false;
 
         public string localPlayerName;
 
-        public List<PlayerVectorCalibData> playerVectorCalibDataList = new List<PlayerVectorCalibData>();
+        //public List<PlayerVectorCalibData> playerVectorCalibDataList = new List<PlayerVectorCalibData>();
 
         private void Start()
         {
-            if (instance == null)
-                instance = this;
-            else
-            {
-                Debug.LogWarning("Duplicate GameManager Detected");
-                Destroy(gameObject);
-            }
+            if (localInstance == null)
+                localInstance = this;
 
-            markers = new List<Marker>();
+            SpawnAndSetupGMAssistant();
         }
 
         private void OnDisable()
         {
-            if (markers != null && markers.Count > 0)
-                markers.Clear();
+            if (registeredMarkers.Count > 0) registeredMarkers.Clear();
         }
 
         private void Update()
         {
-            // If Runtime Editor is still running
-            if (Dependencies.ProjectManager != null)
+            switch (currGameManagerMode)
             {
-                RTERunning_Update();
+                case GameManagerMode.LEVELSETUP:
+                    LevelSetup_Update();
+                    break;
+                case GameManagerMode.HOST:
+                    Host_Update();
+                    break;
+                case GameManagerMode.CLIENT:
+                    break;
             }
+        }
 
-            else if (!teleportPlayerToSpawn && startGame && NetworkServer.active)
+        private void Host_Update()
+        {
+            switch (currGameManagerHostMode)
             {
-                TeleportLocalPlayerControllerToPlayerSpawnPos();
-                teleportPlayerToSpawn = true;
+                case GameManagerHostMode.WAITFORSTART:
+                    break;
+                case GameManagerHostMode.RUN:
+                    Host_Run_Update();
+                    break;
             }
+        }
 
-            if (teleportPlayerToSpawn && startGame && isServerObj)
-            {
-                if(!serverSetUpGame)
-                {
-                    FindObjectOfType<NavMeshSurface>().BuildNavMesh();
-                    SetupMarkers();
-                    SpawnAndSetupNPC();
-                    serverSetUpGame = true;
-                }
-                GameRunning_Update();
-            }
+        private void LevelSetup_Update()
+        {
+            UpdateRegisteredMarkers();
+        }
+
+        public void RunGame()
+        {
+            SpawnAndSetupNPC();
+            currGameManagerHostMode = GameManagerHostMode.RUN;
+        }
+
+        private void SpawnAndSetupGMAssistant()
+        {
+            ref_GMAssistance = Instantiate(gameManagerAssistant, transform.position, transform.rotation).GetComponent<GameManagerAssistant>();
+            ref_GMAssistance.SetGameManagerInstance(localInstance); 
         }
 
         private void SetupMarkers()
         {
-            foreach (Marker marker in markers)
+            foreach (Marker marker in registeredMarkers)
             {
                 if (
                     marker.markerType == MARKER_TYPE.NPC_SPAWN ||
@@ -111,30 +132,27 @@ namespace SealTeam4
             }
         }
 
-        private void RTERunning_Update()
+        private void Host_Run_Update()
         {
-            UpdateRegisteredMarkers();
-        }
-
-        private void GameRunning_Update()
-        {
-            if(Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.C))
             {
-                NetworkPlayerPosManager.localInstance.RpcCalibratePlayerVector();
+                //NetworkPlayerPosManager.localInstance.RpcCalibratePlayerVector();
             }
-            if(Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.P))
             {
                 areaUnderAttack = true;
             }
         }
 
-        private void TeleportLocalPlayerControllerToPlayerSpawnPos()
+        private void SpawnAndMoveLocalPlayerController()
         {
             Vector3 localPlayerSpawnPos =
-                markers.Find(x => x.markerType == MARKER_TYPE.PLAYER_SPAWN_MARKER).markerGO.transform.position;
+                registeredMarkers.Find(x => x.markerType == MARKER_TYPE.PLAYER_SPAWN_MARKER).markerGO.transform.position;
 
-            GameObject localPlayerController = GameObject.Find("LocalPlayerController(Clone)");
-            localPlayerController.transform.position = localPlayerSpawnPos;
+            Quaternion localPlayerSpawnRot =
+                registeredMarkers.Find(x => x.markerType == MARKER_TYPE.PLAYER_SPAWN_MARKER).markerGO.transform.rotation;
+
+            Instantiate(localPlayerController, localPlayerSpawnPos, localPlayerSpawnRot);
         }
 
         public void SetLocalPlayerName(string name)
@@ -151,22 +169,30 @@ namespace SealTeam4
                 List<Schedule> npcSchedule = npcSpawnData.nPC_Schedules;
                 AIStats aiStats = npcSpawnData.aiStats;
                 SpawnMarker targetSpawnMarker = targetSpawn.GetComponent<SpawnMarker>();
+                
+                GameObject npc = Instantiate(npcToSpawn, targetSpawnMarker.pointPosition, targetSpawnMarker.pointRotation);
 
-                GameObject spawnedNPC = targetSpawnMarker.SpawnNPC(npcToSpawn, npcSchedule, aiStats);
+                // Tell GameManager Assitant to do the below code
+                ref_GMAssistance.NetworkSpawnObject(npc);
+
+                AIController npcGOAIController = npc.GetComponent<AIController>();
+                npcGOAIController.SetAIStats(aiStats);
+                npcGOAIController.SetSchedule(npcSchedule);
+                npcGOAIController.ActivateNPC();
 
                 if (aiStats.isTerrorist)
                 {
-                    spawnedHostileNPCs.Add(spawnedNPC);
+                    spawnedHostileNPCs.Add(npc);
                     continue;
                 }
                 if (aiStats.isVIP)
                 {
-                    spawnedVIPNPC.Add(spawnedNPC);
+                    spawnedVIPNPC.Add(npc);
                     continue;
                 }
                 else
                 {
-                    spawnedCivilianNPCs.Add(spawnedNPC);
+                    spawnedCivilianNPCs.Add(npc);
                     continue;
                 }
             }
@@ -178,11 +204,11 @@ namespace SealTeam4
             {
                 totalRegMarkers = 0;
 
-                foreach (Marker marker in markers)
+                foreach (Marker marker in registeredMarkers)
                 {
                     if (!marker.markerGO)
                     {
-                        markers.Remove(marker);
+                        registeredMarkers.Remove(marker);
                     }
                     else
                     {
@@ -198,6 +224,24 @@ namespace SealTeam4
             }
         }
 
+        public void SwitchToHostMode()
+        {
+            currGameManagerMode = GameManagerMode.HOST;
+            FindObjectOfType<NavMeshSurface>().BuildNavMesh();
+            SetupMarkers();
+            isHost = true;
+            // Instantiate admin cam
+            // Instantiate admin interface
+        }
+
+        public void SwitchToClientMode()
+        {
+            currGameManagerMode = GameManagerMode.CLIENT;
+            // Instantiate local player controller
+            SpawnAndMoveLocalPlayerController();
+            // Instantiate player model
+        }
+
         /// <summary>
         /// Adds markers to the Registered Markers list
         /// </summary>
@@ -205,7 +249,7 @@ namespace SealTeam4
         /// <param name="markerType"></param>
         public void RegisterMarker(GameObject gameObject, MARKER_TYPE markerType)
         {
-            markers.Add(new Marker(gameObject, markerType));
+            registeredMarkers.Add(new Marker(gameObject, markerType));
         }
 
         /// <summary>
@@ -214,7 +258,7 @@ namespace SealTeam4
         /// <param name="gameObject"></param>
         public void UnregisterMarker(GameObject gameObject)
         {
-            markers.Remove(markers.Find(x => x.markerGO == gameObject));
+            registeredMarkers.Remove(registeredMarkers.Find(x => x.markerGO == gameObject));
         }
 
         /// <summary>
@@ -272,7 +316,7 @@ namespace SealTeam4
         /// <returns></returns>
         public Transform GetTargetMarkerTransform(string targetName)
         {
-            return markers
+            return registeredMarkers
                 .FindAll(x => x.markerType == MARKER_TYPE.TARGET)
                 .Find(x => x.markerName == targetName)
                 .markerGO.transform;
@@ -303,7 +347,7 @@ namespace SealTeam4
         /// <returns></returns>
         private GameObject GetSpawnMarkerByName(string name)
         {
-            return markers
+            return registeredMarkers
                 .FindAll(x => x.markerType == MARKER_TYPE.NPC_SPAWN)
                 .Find(x => x.markerName == name)
                 .markerGO;
@@ -316,7 +360,7 @@ namespace SealTeam4
         /// <returns></returns>
         public AreaMarker GetAreaMarkerByName(string areaName)
         {
-            return markers
+            return registeredMarkers
                 .FindAll(x => x.markerType == MARKER_TYPE.AREA)
                 .Find(x => x.markerName == areaName)
                 .markerGO.GetComponent<AreaMarker>();
@@ -330,16 +374,7 @@ namespace SealTeam4
         /// <returns></returns>
         public bool CheckIfObjectIsRegisteredArea(GameObject go)
         {
-            return markers.Exists(x => x.markerGO == go);
-        }
-
-        /// <summary>
-        /// Set GameManager's Schedule, for GameManagerConsole
-        /// </summary>
-        /// <param name="npcSpawnList"></param>
-        public void SetGameManagerConfig(List<NpcSpawnData> npcSpawnList)
-        {
-            this.npcSpawnList = npcSpawnList;
+            return registeredMarkers.Exists(x => x.markerGO == go);
         }
 
         /// <summary>
@@ -350,25 +385,19 @@ namespace SealTeam4
         {
             return totalRegMarkers;
         }
-
-        private void OnDestroy()
-        {
-            instance = null;
-        }
     }
-}
 
-[System.Serializable]
-public class PlayerVectorCalibData
-{
-    public string playerName = string.Empty;
-    public Vector3 point1 = Vector3.zero;
-    public Vector3 point2 = Vector3.zero;
+    //[System.Serializable]
+    //public class PlayerVectorCalibData
+    //{
+    //    public string playerName = string.Empty;
+    //    public Vector3 point1 = Vector3.zero;
+    //    public Vector3 point2 = Vector3.zero;
 
-    public PlayerVectorCalibData() { }
+    //    public PlayerVectorCalibData() { }
 
-    public PlayerVectorCalibData(string playerName)
-    {
-        this.playerName = playerName;
-    }
+    //    public PlayerVectorCalibData(string playerName)
+    //    {
+    //        this.playerName = playerName;
+    //    }
 }

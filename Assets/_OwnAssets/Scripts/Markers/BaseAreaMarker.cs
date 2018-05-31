@@ -60,7 +60,7 @@ namespace SealTeam4
 
         private void OnDisable()
         {
-            GameManager.instance.UnregisterMarker(gameObject);
+            GameManager.localInstance.UnregisterMarker(gameObject);
         }
     }
 }

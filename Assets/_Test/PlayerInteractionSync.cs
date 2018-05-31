@@ -22,10 +22,10 @@ public class PlayerInteractionSync : NetworkBehaviour
     {
         if (isServer)
         {
-            GameManager.instance.isServerObj = true;
+            GameManager.localInstance.isHost = true;
         }
 
-        gameManager = GameManager.instance;
+        gameManager = GameManager.localInstance;
 
         foreach(HolsterItem item in holsterItems)
         {

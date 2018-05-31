@@ -42,7 +42,7 @@ namespace SealTeam4
         private void Update()
         {
             // if area under attack
-            if(GameManager.instance.areaUnderAttack)
+            if(GameManager.localInstance.areaUnderAttack)
             {
                 if(aiStats.isVIP)
                 {
@@ -166,7 +166,7 @@ namespace SealTeam4
         public void TalkToOtherNPC_Setup()
         {
             // Get gameobject of nearest NPC
-            GameObject otherNPC = GameManager.instance.GetNearestCivilianNPC(transform, gameObject);
+            GameObject otherNPC = GameManager.localInstance.GetNearestCivilianNPC(transform, gameObject);
             if(otherNPC) // If found NPC
             {
                 if(otherNPC.GetComponent<AIController>().ConvoProcess_ReqForConvo(gameObject))
@@ -243,7 +243,7 @@ namespace SealTeam4
         public void SitDownInArea_Setup()
         {
             // Get Area
-            AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(schedules[aiState.general.currSchedule].argument);
+            AreaMarker areaMarker = GameManager.localInstance.GetAreaMarkerByName(schedules[aiState.general.currSchedule].argument);
             // Empty seat from selected Area
             aiState.general.currSeatTarget = areaMarker.GetRandomEmptySeat();
 
@@ -319,7 +319,7 @@ namespace SealTeam4
         public Transform GetTargetMarkerPosition()
         {
             string targetName = schedules[aiState.general.currSchedule].argument;
-            return GameManager.instance.GetTargetMarkerTransform(targetName);
+            return GameManager.localInstance.GetTargetMarkerTransform(targetName);
         }
         
         public void SetSchedule(List<Schedule> schedules)

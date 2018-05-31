@@ -35,7 +35,7 @@ namespace SealTeam4
                 return;
             }
 
-            GameManager.instance.SetLocalPlayerName(playerName);
+            GameManager.localInstance.SetLocalPlayerName(playerName);
             
             head = new Vector3AndQuaternion();
             lHand = new Vector3AndQuaternion();
@@ -143,24 +143,24 @@ namespace SealTeam4
         {
             switch (control)
             {
-                case VRTK_DeviceFinder.Devices.LeftController:
-                    // Checks if user held down button for long enough
-                    if (Time.time > leftTimer)
-                    {
-                        Debug.Log("ZH DIED");
-                        //GameManager.instance.CmdAddCalibrationPoint(gameObject.name, lHandCont.position);
-                        NetworkPlayerPosManager.localInstance.CmdAddCalibrationPointToGameManager(gameObject.name, lHandCont.position);
-                    }
-                    break;
-                case VRTK_DeviceFinder.Devices.RightController:
-                    // Checks if user held down button for long enough
-                    if (Time.time > rightTimer)
-                    {
-                        Debug.Log("ZH MUM DIED");
-                        //GameManager.instance.CmdAddCalibrationPoint(gameObject.name, rHandCont.position);
-                        NetworkPlayerPosManager.localInstance.CmdAddCalibrationPointToGameManager(gameObject.name, rHandCont.position);
-                    }
-                    break;
+                //case VRTK_DeviceFinder.Devices.LeftController:
+                //    // Checks if user held down button for long enough
+                //    if (Time.time > leftTimer)
+                //    {
+                //        Debug.Log("ZH DIED");
+                //        //GameManager.instance.CmdAddCalibrationPoint(gameObject.name, lHandCont.position);
+                //        NetworkPlayerPosManager.localInstance.CmdAddCalibrationPointToGameManager(gameObject.name, lHandCont.position);
+                //    }
+                //    break;
+                //case VRTK_DeviceFinder.Devices.RightController:
+                //    // Checks if user held down button for long enough
+                //    if (Time.time > rightTimer)
+                //    {
+                //        Debug.Log("ZH MUM DIED");
+                //        //GameManager.instance.CmdAddCalibrationPoint(gameObject.name, rHandCont.position);
+                //        NetworkPlayerPosManager.localInstance.CmdAddCalibrationPointToGameManager(gameObject.name, rHandCont.position);
+                //    }
+                //    break;
             }
         }
     }

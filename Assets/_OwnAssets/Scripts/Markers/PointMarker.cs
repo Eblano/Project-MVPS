@@ -15,6 +15,9 @@ namespace SealTeam4
         private MeshFilter meshFilter;
         private MeshRenderer meshRenderer;
 
+        public Vector3 pointPosition;
+        public Quaternion pointRotation;
+
         protected void Start()
         {
             gameObject.AddComponent<MeshFilter>();

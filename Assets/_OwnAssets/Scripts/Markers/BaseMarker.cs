@@ -16,9 +16,9 @@ namespace SealTeam4
         /// <param name="markerType"></param>
         protected void RegisterMarkerOnGameManager(GameManager.MARKER_TYPE markerType)
         {
-            if (GameManager.instance)
+            if (GameManager.localInstance)
             {
-                GameManager.instance.RegisterMarker(
+                GameManager.localInstance.RegisterMarker(
                 this.gameObject,
                 markerType
                 );
