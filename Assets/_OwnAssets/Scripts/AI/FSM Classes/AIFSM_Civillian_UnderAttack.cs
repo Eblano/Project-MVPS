@@ -39,7 +39,7 @@ namespace SealTeam4
 
         private void BraceOnSpot()
         {
-            if (GameManager.localInstance.LineOfSightAgainstHostileNPC(aiTransform))
+            if (GameManager.instance.LineOfSightAgainstHostileNPC(aiTransform))
             {
                 aiState.civilian.underAttack.Civilian_UnderAttack = AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.RUN_RANDOMLY;
                 aiAnimController.Anim_UnBrace();
@@ -56,7 +56,7 @@ namespace SealTeam4
 
         private void RunRandomly()
         {
-            if (!GameManager.localInstance.LineOfSightAgainstHostileNPC(aiTransform))
+            if (!GameManager.instance.LineOfSightAgainstHostileNPC(aiTransform))
             {
                 aiState.civilian.underAttack.Civilian_UnderAttack = AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.BRACE_ON_SPOT;
                 aiAnimController.Anim_Move(Vector3.zero, false, 3);

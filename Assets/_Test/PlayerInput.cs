@@ -35,7 +35,7 @@ namespace SealTeam4
                 return;
             }
 
-            GameManager.localInstance.SetLocalPlayerName(playerName);
+            GameManager.instance.SetLocalPlayerName(playerName);
             
             head = new Vector3AndQuaternion();
             lHand = new Vector3AndQuaternion();

@@ -1639,13 +1639,16 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 1313437907923196, guid: 3dbb05581f6ec574f8361e902010ed4a, type: 2}
-  - {fileID: 1665674402076470, guid: 480b54607b255bd4cb2f540de569967e, type: 2}
-  - {fileID: 0}
-  - {fileID: 1060821322948300, guid: be0371fe3814dfd4ea58029461d2687b, type: 2}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 1264298591080400, guid: 373c6a389e6445a489ae469e85aea59a, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1461778701487502, guid: be0371fe3814dfd4ea58029461d2687b, type: 2}
+  - {fileID: 1928832476658010, guid: 480b54607b255bd4cb2f540de569967e, type: 2}
+  - {fileID: 1581419238701632, guid: 3dbb05581f6ec574f8361e902010ed4a, type: 2}
 --- !u!1 &265980648
 GameObject:
   m_ObjectHideFlags: 0
@@ -7461,15 +7464,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d6cf6ba395695c4688b424fca686934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportPlayerToSpawn: 0
-  type0NPC: {fileID: 1601331633119506, guid: ce14c7e8560313f4da7e3ad3611cf0a7, type: 2}
-  type1NPC: {fileID: 0}
+  currGameManagerMode: 0
+  currGameManagerHostMode: 0
+  navMeshSurfaceSetter_Prefab: {fileID: 1463146262372550, guid: 04b1443085df3504da7c87953a7784ab,
+    type: 2}
+  localPlayerController_Prefab: {fileID: 1353271438003168, guid: f3df822ba48107e42bba7825ab119716,
+    type: 2}
+  gameManagerAssistant_Prefab: {fileID: 1426368075374504, guid: 615d6da6368d44e4e86bc7310788c08d,
+    type: 2}
+  playerModel_Prefab: {fileID: 1310987374780024, guid: ea0eaf881536a9e45b686d673d560eed,
+    type: 2}
+  gameMasterCamera_Prefab: {fileID: 0}
+  gameMasterUI_Prefab: {fileID: 0}
+  type0NPC_Prefab: {fileID: 1601331633119506, guid: ce14c7e8560313f4da7e3ad3611cf0a7,
+    type: 2}
+  type1NPC_Prefab: {fileID: 0}
   totalRegMarkers: 7
   refreshRate: 3
   areaUnderAttack: 0
-  startGame: 1
-  isServerObj: 0
-  serverSetUpGame: 0
+  isHost: 0
   npcSpawnList:
   - nPC_TYPE: 1
     spawnLocation: SpawnMarker0
@@ -7519,9 +7532,7 @@ MonoBehaviour:
       collisionAvoidanceMultiplyer: 0
       enableCollisionAvoidance: 0
     nPC_Schedules: []
-  calibrationMode: 1
   localPlayerName: 
-  playerVectorCalibDataList: []
 --- !u!1 &1004448544
 GameObject:
   m_ObjectHideFlags: 0
@@ -9085,9 +9096,7 @@ MonoBehaviour:
   exportAssetsKey: 261
   importAssetsKey: 262
   switchRTSceneToUnityScene: 259
-  gameObjectsToSpawn:
-  - {fileID: 1463146262372550, guid: 04b1443085df3504da7c87953a7784ab, type: 2}
-  - {fileID: 1353271438003168, guid: f3df822ba48107e42bba7825ab119716, type: 2}
+  gameObjectsToSpawn: []
   gameObjectsToMoveToRoot:
   - {fileID: 998850688}
   - {fileID: 1392611649}

@@ -10,7 +10,7 @@ public class DisableComponent : MonoBehaviour
 
     private void Start()
     {
-        if (GameManager.localInstance.isHost)
+        if (GameManager.instance.isHost)
         {
             return;
         }

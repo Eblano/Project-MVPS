@@ -7,11 +7,12 @@ namespace SealTeam4
 {
     public class GameManagerAssistant : NetworkBehaviour
     {
-        private GameManager localInstace;
+        public static GameManagerAssistant instance;
 
-        public void SetGameManagerInstance(GameManager instance)
+        private void Start()
         {
-            localInstace = instance;
+            if (instance == null)
+                instance = this;
         }
 
         public void NetworkSpawnObject(GameObject gameObject)
