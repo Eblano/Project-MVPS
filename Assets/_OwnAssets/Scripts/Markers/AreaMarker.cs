@@ -19,8 +19,9 @@ namespace SealTeam4
             base.Start();
         }
 
-        private void Update()
+        private new void Update()
         {
+            base.Update();
             UpdateRegisteredSeatNumber();
         }
 

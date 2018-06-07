@@ -15,10 +15,24 @@ namespace SealTeam4
         [SerializeField] private Mesh mesh;
         [SerializeField] private Material meshMat;
 
+        [SerializeField] private bool initializedMeshCollider = false;
+
         protected void Start()
         {
             RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.AREA);
             InitializeMeshAndMaterial();
+        }
+
+        protected void Update()
+        {
+            if (!initializedMeshCollider && GetComponent<MeshCollider>())
+            {
+                initializedMeshCollider = true;
+
+                MeshCollider collider = GetComponent<MeshCollider>();
+                collider.convex = true;
+                collider.isTrigger = true;
+            }
         }
 
         private void InitializeMeshAndMaterial()
@@ -29,8 +43,8 @@ namespace SealTeam4
 
         public override void CleanUpForSimulationStart()
         {
-            Destroy(gameObject.GetComponent<MeshFilter>());
-            Destroy(gameObject.GetComponent<MeshRenderer>());
+            Destroy(GetComponent<MeshFilter>());
+            Destroy(GetComponent<MeshRenderer>());
         }
     }
 }
