@@ -8,7 +8,7 @@ namespace SealTeam4
     {
         public enum NPC_TYPE { NULL, TYPE0, TYPE1 };
         public NPC_TYPE nPC_TYPE = NPC_TYPE.NULL;
-        public string spawnLocation;
+        public string spawnMarkerName;
 
         public AIStats aiStats;
         public List<Schedule> nPC_Schedules = new List<Schedule>();

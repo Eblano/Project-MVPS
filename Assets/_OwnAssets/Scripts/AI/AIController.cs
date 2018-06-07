@@ -44,13 +44,15 @@ namespace SealTeam4
             // if area under attack
             if(GameManager.instance.areaUnderAttack)
             {
-                if(aiStats.isVIP)
+                switch (aiStats.aiType)
                 {
-                    aiState.general.aIMode = AIState.General.AIMode.VIP_UNDER_ATTACK;
-                }
-                else if(!aiStats.isTerrorist)
-                {
-                    aiState.general.aIMode = AIState.General.AIMode.CIVILIAN_UNDER_ATTACK;
+                    case AIStats.AiType.VIP:
+                        aiState.general.aIMode = AIState.General.AIMode.VIP_UNDER_ATTACK;
+                        break;
+                        
+                    case AIStats.AiType.CIVILLIAN:
+                        aiState.general.aIMode = AIState.General.AIMode.CIVILIAN_UNDER_ATTACK;
+                        break;
                 }
             }
 

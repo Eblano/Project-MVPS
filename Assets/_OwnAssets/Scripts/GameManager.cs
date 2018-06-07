@@ -48,10 +48,8 @@ namespace SealTeam4
 
         [Header("Game Condition")]
         public bool areaUnderAttack;
-
-        //[SerializeField] private bool startGame;
+        
         public bool isHost = false;
-        //[SerializeField] private bool serverSetUpGame = false;
 
         // NPC List
         [SerializeField] private List<NpcSpawnData> npcSpawnList = new List<NpcSpawnData>();
@@ -165,7 +163,7 @@ namespace SealTeam4
             Instantiate(playerModel_Prefab, localPlayerSpawnPos, localPlayerSpawnRot);
         }
 
-        public void GM_Host_SwitchToRunGame()
+        public void GM_Host_SwitchToRun()
         {
             SpawnAndSetupNPC();
             currGameManagerHostMode = GameManagerHostMode.RUN;
@@ -198,11 +196,12 @@ namespace SealTeam4
         {
             foreach (NpcSpawnData npcSpawnData in npcSpawnList)
             {
-                GameObject targetSpawn = GetSpawnMarkerByName(npcSpawnData.spawnLocation);
-                GameObject npcToSpawn = GetNPCGameObjectByENUM(npcSpawnData.nPC_TYPE);
-                List<Schedule> npcSchedule = npcSpawnData.nPC_Schedules;
-                AIStats aiStats = npcSpawnData.aiStats;
-                SpawnMarker targetSpawnMarker = targetSpawn.GetComponent<SpawnMarker>();
+                // Get spawn marker
+                GameObject SpawnMarker = GetSpawnMarkerByName(npcSpawnData.spawnMarkerName);
+                // Get NPC type to spawn
+                GameObject npcToSpawn = GetNPCPrefabByNPCType(npcSpawnData.nPC_TYPE);
+
+                SpawnMarker targetSpawnMarker = SpawnMarker.GetComponent<SpawnMarker>();
                 
                 // Spawn NPC
                 GameObject npc = Instantiate(npcToSpawn, targetSpawnMarker.pointPosition, targetSpawnMarker.pointRotation);
@@ -210,26 +209,29 @@ namespace SealTeam4
                 // Spawn NPC on all clients
                 GameManagerAssistant.instance.NetworkSpawnObject(npc);
 
-                // Setting AI configurations
+                // Setting NPC configurations
                 AIController npcGOAIController = npc.GetComponent<AIController>();
-                npcGOAIController.SetAIStats(aiStats);
-                npcGOAIController.SetSchedule(npcSchedule);
+                npcGOAIController.SetAIStats(npcSpawnData.aiStats);
+                npcGOAIController.SetSchedule(npcSpawnData.nPC_Schedules);
+
+                // Activate NPC
                 npcGOAIController.ActivateNPC();
 
-                if (aiStats.isTerrorist)
+                // Adding NPC reference to list according to ai type
+                AIStats aiStats = npcSpawnData.aiStats;
+                switch(aiStats.aiType)
                 {
-                    spawnedHostileNPCs.Add(npc);
-                    continue;
-                }
-                if (aiStats.isVIP)
-                {
-                    spawnedVIPNPC.Add(npc);
-                    continue;
-                }
-                else
-                {
-                    spawnedCivilianNPCs.Add(npc);
-                    continue;
+                    case AIStats.AiType.CIVILLIAN:
+                        spawnedCivilianNPCs.Add(npc);
+                        break;
+
+                    case AIStats.AiType.TERRORIST:
+                        spawnedHostileNPCs.Add(npc);
+                        break;
+
+                    case AIStats.AiType.VIP:
+                        spawnedVIPNPC.Add(npc);
+                        break;
                 }
             }
         }
@@ -345,7 +347,7 @@ namespace SealTeam4
         /// </summary>
         /// <param name="npcType"></param>
         /// <returns></returns>
-        public GameObject GetNPCGameObjectByENUM(NpcSpawnData.NPC_TYPE npcType)
+        public GameObject GetNPCPrefabByNPCType(NpcSpawnData.NPC_TYPE npcType)
         {
             switch (npcType)
             {
