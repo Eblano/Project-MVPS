@@ -150,17 +150,16 @@ namespace SealTeam4
             currGameManagerMode = GameManagerMode.CLIENT;
 
             // Find spawn marker
-            GameObject spawnMarker = registeredMarkers.Find(x => x.markerType == MARKER_TYPE.PLAYER_SPAWN_MARKER).markerGO;
-
-            // Get transform values
-            Vector3 localPlayerSpawnPos = spawnMarker.transform.position;
-            Quaternion localPlayerSpawnRot = spawnMarker.transform.rotation;
+            PlayerSpawnMarker playerSpawnMarker =
+                registeredMarkers.Find(x => x.markerType == MARKER_TYPE.PLAYER_SPAWN_MARKER)
+                .markerGO
+                .GetComponent<PlayerSpawnMarker>();
 
             // Spawn local player controller at spawn position
-            Instantiate(localPlayerController_Prefab, localPlayerSpawnPos, localPlayerSpawnRot);
+            Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
 
             // Spawn player model at spawn position
-            Instantiate(playerModel_Prefab, localPlayerSpawnPos, localPlayerSpawnRot);
+            Instantiate(playerModel_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
         }
 
         public void GM_Host_SwitchToRun()

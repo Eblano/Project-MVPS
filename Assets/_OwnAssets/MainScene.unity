@@ -7485,10 +7485,9 @@ MonoBehaviour:
   isHost: 0
   npcSpawnList:
   - nPC_TYPE: 1
-    spawnLocation: SpawnMarker0
+    spawnMarkerName: 
     aiStats:
-      isTerrorist: 0
-      isVIP: 0
+      aiType: 2
       chanceEnterHostileMode: 0
       minAngleToFaceTarget: 5
       extraStoppingDistForConvo: 1
@@ -7503,10 +7502,9 @@ MonoBehaviour:
     - scheduleType: 0
       argument: 20
   - nPC_TYPE: 1
-    spawnLocation: SpawnMarker1
+    spawnMarkerName: 
     aiStats:
-      isTerrorist: 0
-      isVIP: 0
+      aiType: 2
       chanceEnterHostileMode: 0
       minAngleToFaceTarget: 5
       extraStoppingDistForConvo: 1
@@ -7521,10 +7519,9 @@ MonoBehaviour:
     - scheduleType: 3
       argument: Area1
   - nPC_TYPE: 1
-    spawnLocation: SpawnMarker0
+    spawnMarkerName: 
     aiStats:
-      isTerrorist: 1
-      isVIP: 0
+      aiType: 2
       chanceEnterHostileMode: 0
       minAngleToFaceTarget: 5
       extraStoppingDistForConvo: 1

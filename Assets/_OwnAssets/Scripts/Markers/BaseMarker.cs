@@ -34,5 +34,10 @@ namespace SealTeam4
         /// Called by GameManager
         /// </summary>
         public virtual void CleanUpForSimulationStart() { }
+
+        private void OnDisable()
+        {
+            GameManager.instance.UnregisterMarker(gameObject);
+        }
     }
 }
