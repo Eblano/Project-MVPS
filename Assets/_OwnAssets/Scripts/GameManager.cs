@@ -20,8 +20,12 @@ namespace SealTeam4
         [SerializeField] private GameManagerMode currGameManagerMode = GameManagerMode.LEVELSETUP;
 
         // GameManager Host Modes
-        private enum GameManagerHostMode { WAITFORSTART, RUN }
-        [SerializeField] private GameManagerHostMode currGameManagerHostMode = GameManagerHostMode.WAITFORSTART;
+        private enum GameManagerHostMode { IDLE, RUN }
+        [SerializeField] private GameManagerHostMode currGameManagerHostMode = GameManagerHostMode.IDLE;
+
+        // GameManager Client Modes
+        private enum GameManagerClientMode { IDLE, RUN }
+        [SerializeField] private GameManagerClientMode currGameManagerClientMode = GameManagerClientMode.IDLE;
 
         [Header("Essentials")]
         [SerializeField] private GameObject navMeshSurfaceSetter_Prefab;
@@ -92,6 +96,7 @@ namespace SealTeam4
                     Host_Update();
                     break;
                 case GameManagerMode.CLIENT:
+                    Client_Update();
                     break;
             }
         }
@@ -102,6 +107,11 @@ namespace SealTeam4
             {
                 Host_Run_Update();
             }
+        }
+        
+        private void Client_Update()
+        {
+
         }
 
         private void LevelSetup_Update()
@@ -184,57 +194,11 @@ namespace SealTeam4
             }
         }
         #endregion
-
-        public void SetLocalPlayerName(string name)
-        {
-            localPlayerName = name;
-        }
-
-        // TODO: Rework this part
-        private void SpawnAndSetupNPC()
-        {
-            foreach (NpcSpawnData npcSpawnData in npcSpawnList)
-            {
-                // Get spawn marker
-                GameObject SpawnMarker = GetSpawnMarkerByName(npcSpawnData.spawnMarkerName);
-                // Get NPC type to spawn
-                GameObject npcToSpawn = GetNPCPrefabByNPCType(npcSpawnData.nPC_TYPE);
-
-                SpawnMarker targetSpawnMarker = SpawnMarker.GetComponent<SpawnMarker>();
-                
-                // Spawn NPC
-                GameObject npc = Instantiate(npcToSpawn, targetSpawnMarker.pointPosition, targetSpawnMarker.pointRotation);
-                
-                // Spawn NPC on all clients
-                GameManagerAssistant.instance.NetworkSpawnObject(npc);
-
-                // Setting NPC configurations
-                AIController npcGOAIController = npc.GetComponent<AIController>();
-                npcGOAIController.SetAIStats(npcSpawnData.aiStats);
-                npcGOAIController.SetSchedule(npcSpawnData.nPC_Schedules);
-
-                // Activate NPC
-                npcGOAIController.ActivateNPC();
-
-                // Adding NPC reference to list according to ai type
-                AIStats aiStats = npcSpawnData.aiStats;
-                switch(aiStats.aiType)
-                {
-                    case AIStats.AiType.CIVILLIAN:
-                        spawnedCivilianNPCs.Add(npc);
-                        break;
-
-                    case AIStats.AiType.TERRORIST:
-                        spawnedHostileNPCs.Add(npc);
-                        break;
-
-                    case AIStats.AiType.VIP:
-                        spawnedVIPNPC.Add(npc);
-                        break;
-                }
-            }
-        }
-
+        
+        // ************
+        // RuntimeEditor Methods
+        // ************
+        #region RuntimeEditor Methods
         private void UpdateRegisteredMarkers()
         {
             if (currRefreshRate <= 0)
@@ -278,6 +242,56 @@ namespace SealTeam4
         public void UnregisterMarker(GameObject gameObject)
         {
             registeredMarkers.Remove(registeredMarkers.Find(x => x.markerGO == gameObject));
+        }
+        #endregion
+
+        public void SetLocalPlayerName(string name)
+        {
+            localPlayerName = name;
+        }
+
+        private void SpawnAndSetupNPC()
+        {
+            foreach (NpcSpawnData npcSpawnData in npcSpawnList)
+            {
+                // Get spawn marker
+                GameObject SpawnMarker = GetSpawnMarkerByName(npcSpawnData.spawnMarkerName);
+                // Get NPC type to spawn
+                GameObject npcToSpawn = GetNPCPrefabByNPCType(npcSpawnData.nPC_TYPE);
+
+                SpawnMarker targetSpawnMarker = SpawnMarker.GetComponent<SpawnMarker>();
+                
+                // Spawn NPC
+                GameObject npc = Instantiate(npcToSpawn, targetSpawnMarker.pointPosition, targetSpawnMarker.pointRotation);
+                
+                // Spawn NPC on all clients
+                GameManagerAssistant.instance.NetworkSpawnObject(npc);
+
+                // Setting NPC configurations
+                AIController npcGOAIController = npc.GetComponent<AIController>();
+                npcGOAIController.SetAIStats(npcSpawnData.aiStats);
+                npcGOAIController.SetSchedule(npcSpawnData.nPC_Schedules);
+
+                // Activate NPC
+                npcGOAIController.ActivateNPC();
+
+                // Adding NPC reference to list according to ai type
+                AIStats aiStats = npcSpawnData.aiStats;
+                switch(aiStats.aiType)
+                {
+                    case AIStats.AiType.CIVILLIAN:
+                        spawnedCivilianNPCs.Add(npc);
+                        break;
+
+                    case AIStats.AiType.TERRORIST:
+                        spawnedHostileNPCs.Add(npc);
+                        break;
+
+                    case AIStats.AiType.VIP:
+                        spawnedVIPNPC.Add(npc);
+                        break;
+                }
+            }
         }
 
         /// <summary>
