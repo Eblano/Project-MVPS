@@ -215,6 +215,7 @@ namespace Battlehub.RTEditor
 
         private void Start()
         {
+            IsOn = true;
             BoxSelection.Filtering += OnBoxSelectionFiltering;
             ExposeToEditor.Enabled += OnObjectEnabled;
             ExposeToEditor.Disabled += OnObjectDisabled;

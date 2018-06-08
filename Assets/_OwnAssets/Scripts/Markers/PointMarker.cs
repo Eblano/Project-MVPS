@@ -13,20 +13,19 @@ namespace SealTeam4
         private MeshRenderer meshRenderer;
         private LineRenderer lineRenderer;
 
+        [SerializeField] private Material markerMat;
+
         [Header("Marker Indicator Parameters")]
         [SerializeField] private Mesh markerMesh;
-        [SerializeField] private Material markerMeshMat;
         [SerializeField] private float markerScale = 2;
 
         [Header("Line Renderer Parameters")]
-        [SerializeField] private Material lineRendererMat;
         [SerializeField] private float lineRendererWidth = 0.03f;
 
         [Header("Target Indicator Parameters")]
         private GameObject target;
         [SerializeField] private GameObject emptyGameObject_Prefab;
         [SerializeField] private Mesh targetMesh;
-        [SerializeField] private Material targetMeshMat;
         [SerializeField] private Vector3 targetMeshScale = new Vector3(0.05f, 0.005f, 0.05f);
         private float directionLineLength = 0.1f;
 
@@ -46,9 +45,9 @@ namespace SealTeam4
             lineRenderer = gameObject.GetComponent<LineRenderer>();
 
             meshFilter.mesh = markerMesh;
-            meshRenderer.material = markerMeshMat;
+            meshRenderer.material = markerMat;
             lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.material = lineRendererMat;
+            lineRenderer.material = markerMat;
             lineRenderer.widthMultiplier = lineRendererWidth;
             lineRenderer.positionCount = 3;
 
@@ -57,7 +56,7 @@ namespace SealTeam4
             target.AddComponent<MeshRenderer>();
 
             target.GetComponent<MeshFilter>().mesh = targetMesh;
-            target.GetComponent<MeshRenderer>().material = targetMeshMat;
+            target.GetComponent<MeshRenderer>().material = markerMat;
             target.transform.localScale = targetMeshScale;
         }
 

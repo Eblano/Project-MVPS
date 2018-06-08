@@ -11,6 +11,6 @@ namespace SealTeam4
         public string spawnMarkerName;
 
         public AIStats aiStats;
-        public List<Schedule> nPC_Schedules = new List<Schedule>();
+        public List<NPCSchedule> npcSchedules = new List<NPCSchedule>();
     }
 }

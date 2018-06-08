@@ -34,6 +34,7 @@ namespace SealTeam4
         [SerializeField] private KeyCode switchRTSceneToUnityScene = KeyCode.Keypad3;
         [SerializeField] private List<GameObject> gameObjectsToSpawn;
         [SerializeField] private List<GameObject> gameObjectsToMoveToRoot;
+        [SerializeField] private List<string> gameObjectsToMoveToRootByName;
         [SerializeField] private List<GameObject> gameObjectsToSetActive;
         [SerializeField] private List<string> gameObjectsToDestroyByName;
         [SerializeField] private List<GameObject> gameObjectsToDestroy;
@@ -207,6 +208,14 @@ namespace SealTeam4
                     gameObjectsToMoveToRoot[i].gameObject.transform.SetParent(null);
             }
 
+            // Move selected GameObjects to root hierarchy
+            for (int i = 0; i < gameObjectsToMoveToRootByName.Count; i++)
+            {
+                GameObject objectToMove = GameObject.Find(gameObjectsToDestroyByName[i]);
+                if (objectToMove != null)
+                    objectToMove.gameObject.transform.SetParent(null);
+            }
+
             // Set selected Gameobjects to active
             for (int i = 0; i < gameObjectsToSetActive.Count; i++)
             {
@@ -219,7 +228,9 @@ namespace SealTeam4
             {
                 GameObject objectToDestroy = GameObject.Find(gameObjectsToDestroyByName[i]);
                 if (objectToDestroy != null)
+                {
                     Destroy(objectToDestroy);
+                }
             }
 
             // Destroy selected GameObjects in hierarchy

@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1791566198653718}
+  m_IsPrefabParent: 1
+--- !u!1 &1791566198653718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 224546851051341294}
+  - component: {fileID: 114979635740517586}
+  m_Layer: 5
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &114979635740517586
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1791566198653718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d6cf6ba395695c4688b424fca686934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currGameManagerMode: 0
+  currGameManagerHostMode: 0
+  currGameManagerClientMode: 0
+  navMeshSurfaceSetter_Prefab: {fileID: 1463146262372550, guid: 04b1443085df3504da7c87953a7784ab,
+    type: 2}
+  localPlayerController_Prefab: {fileID: 1353271438003168, guid: f3df822ba48107e42bba7825ab119716,
+    type: 2}
+  gameManagerAssistant_Prefab: {fileID: 1426368075374504, guid: 615d6da6368d44e4e86bc7310788c08d,
+    type: 2}
+  playerModel_Prefab: {fileID: 1310987374780024, guid: ea0eaf881536a9e45b686d673d560eed,
+    type: 2}
+  gameMasterCamera_Prefab: {fileID: 0}
+  gameMasterUI_Prefab: {fileID: 0}
+  type0NPC_Prefab: {fileID: 1601331633119506, guid: ce14c7e8560313f4da7e3ad3611cf0a7,
+    type: 2}
+  type1NPC_Prefab: {fileID: 0}
+  totalRegMarkers: 7
+  refreshRate: 3
+  areaUnderAttack: 0
+  isHost: 0
+  npcSpawnList:
+  - nPC_TYPE: 1
+    spawnMarkerName: 
+    aiStats:
+      aiType: 2
+      chanceEnterHostileMode: 0
+      minAngleToFaceTarget: 5
+      extraStoppingDistForConvo: 1
+      collisionAvoidanceRayLen: 0
+      collisionAvoidanceMultiplyer: 0
+      enableCollisionAvoidance: 0
+    nPC_Schedules:
+    - scheduleType: 1
+      argument: TargetMarker2
+    - scheduleType: 1
+      argument: TargetMarker3
+    - scheduleType: 0
+      argument: 20
+  - nPC_TYPE: 1
+    spawnMarkerName: 
+    aiStats:
+      aiType: 2
+      chanceEnterHostileMode: 0
+      minAngleToFaceTarget: 5
+      extraStoppingDistForConvo: 1
+      collisionAvoidanceRayLen: 0
+      collisionAvoidanceMultiplyer: 0
+      enableCollisionAvoidance: 0
+    nPC_Schedules:
+    - scheduleType: 1
+      argument: TargetMarker1
+    - scheduleType: 4
+      argument: 10
+    - scheduleType: 3
+      argument: Area1
+  - nPC_TYPE: 1
+    spawnMarkerName: 
+    aiStats:
+      aiType: 2
+      chanceEnterHostileMode: 0
+      minAngleToFaceTarget: 5
+      extraStoppingDistForConvo: 1
+      collisionAvoidanceRayLen: 0
+      collisionAvoidanceMultiplyer: 0
+      enableCollisionAvoidance: 0
+    nPC_Schedules: []
+  localPlayerName: 
+--- !u!224 &224546851051341294
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1791566198653718}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}

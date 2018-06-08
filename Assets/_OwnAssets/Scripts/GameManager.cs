@@ -3,6 +3,7 @@ using UnityEngine;
 using SealTeam4;
 using Battlehub.RTSaveLoad;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 namespace SealTeam4
 {
@@ -245,6 +246,21 @@ namespace SealTeam4
         }
         #endregion
 
+        // ************
+        // General Methods
+        // ************
+        #region General Methods
+        public void RestartScene()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        public void LoadScene(string sceneName)
+        {
+            SceneManager.LoadScene(sceneName);
+        }
+        #endregion
+
         public void SetLocalPlayerName(string name)
         {
             localPlayerName = name;
@@ -270,7 +286,7 @@ namespace SealTeam4
                 // Setting NPC configurations
                 AIController npcGOAIController = npc.GetComponent<AIController>();
                 npcGOAIController.SetAIStats(npcSpawnData.aiStats);
-                npcGOAIController.SetSchedule(npcSpawnData.nPC_Schedules);
+                npcGOAIController.SetSchedule(npcSpawnData.npcSchedules);
 
                 // Activate NPC
                 npcGOAIController.ActivateNPC();

@@ -5,7 +5,7 @@ using UnityEngine;
 
 [ProtoContract]
 [System.Serializable]
-public class Schedule
+public class NPCSchedule
 {
     public enum SCHEDULE_TYPE
     {
