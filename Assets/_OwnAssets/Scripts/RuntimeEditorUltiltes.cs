@@ -31,13 +31,8 @@ namespace SealTeam4
         [SerializeField] private KeyCode importAssetsKey = KeyCode.Keypad6;
 
         [Header("List Excecuted by Order")]
-        [SerializeField] private KeyCode switchRTSceneToUnityScene = KeyCode.Keypad3;
-        [SerializeField] private List<GameObject> gameObjectsToSpawn;
-        [SerializeField] private List<GameObject> gameObjectsToMoveToRoot;
-        [SerializeField] private List<string> gameObjectsToMoveToRootByName;
-        [SerializeField] private List<GameObject> gameObjectsToSetActive;
+        [SerializeField] private KeyCode removeGameObjectsKey = KeyCode.Keypad3;
         [SerializeField] private List<string> gameObjectsToDestroyByName;
-        [SerializeField] private List<GameObject> gameObjectsToDestroy;
 
         private void Start()
         {
@@ -56,7 +51,7 @@ namespace SealTeam4
             if (InputController.GetKeyDown(AddFilesToRTEKey))
                 AddFilesToRTE();
 
-            if (Input.GetKeyDown(switchRTSceneToUnityScene))
+            if (Input.GetKeyDown(removeGameObjectsKey))
                 SwitchRTSceneToUnityScenePopup();
 
             if (Input.GetKeyDown(resetRuntimeAssetsAndRestartKey))
@@ -191,38 +186,6 @@ namespace SealTeam4
         /// </summary>
         private void SwitchRTSceneToUnityScene()
         {
-            // Spawn selected prefabs
-            for (int i = 0; i < gameObjectsToSpawn.Count; i++)
-            {
-                if (gameObjectsToSpawn[i] != null)
-                {
-                    GameObject go = Instantiate(gameObjectsToSpawn[i], Vector3.zero, Quaternion.identity);
-                    go.transform.SetParent(null);
-                }
-            }
-
-            // Move selected GameObjects to root hierarchy
-            for (int i = 0; i < gameObjectsToMoveToRoot.Count; i++)
-            {
-                if (gameObjectsToMoveToRoot[i] != null)
-                    gameObjectsToMoveToRoot[i].gameObject.transform.SetParent(null);
-            }
-
-            // Move selected GameObjects to root hierarchy
-            for (int i = 0; i < gameObjectsToMoveToRootByName.Count; i++)
-            {
-                GameObject objectToMove = GameObject.Find(gameObjectsToDestroyByName[i]);
-                if (objectToMove != null)
-                    objectToMove.gameObject.transform.SetParent(null);
-            }
-
-            // Set selected Gameobjects to active
-            for (int i = 0; i < gameObjectsToSetActive.Count; i++)
-            {
-                if (gameObjectsToSetActive[i] != null)
-                    gameObjectsToSetActive[i].SetActive(true);
-            }
-
             // Destroy selected GameObjects by name in hierarchy
             for (int i = 0; i < gameObjectsToDestroyByName.Count; i++)
             {
@@ -232,16 +195,6 @@ namespace SealTeam4
                     Destroy(objectToDestroy);
                 }
             }
-
-            // Destroy selected GameObjects in hierarchy
-            for (int i = 0; i < gameObjectsToDestroy.Count; i++)
-            {
-                if (gameObjectsToDestroy[i] != null)
-                    Destroy(gameObjectsToDestroy[i]);
-            }
-
-            // Delete this gameobject
-            Destroy(this.gameObject);
         }
 
         /// <summary>

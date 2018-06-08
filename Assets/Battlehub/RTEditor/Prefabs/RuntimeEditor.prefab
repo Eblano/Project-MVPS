@@ -1973,7 +1973,6 @@ RectTransform:
   - {fileID: 224934597680297716}
   - {fileID: 224073037780032546}
   - {fileID: 224132219951726570}
-  - {fileID: 224172600087729564}
   - {fileID: 224679251546454522}
   m_Father: {fileID: 22471980}
   m_RootOrder: 0
@@ -4041,22 +4040,6 @@ GameObject:
   - component: {fileID: 114732869126781674}
   m_Layer: 5
   m_Name: Checkmark
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1645426365561766
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 224172600087729564}
-  - component: {fileID: 114137320030812712}
-  m_Layer: 5
-  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8062,72 +8045,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_projectTemplate: {fileID: 114257519739094116}
   m_dynamicResourcesRoot: {fileID: 4413956657015400}
---- !u!114 &114137320030812712
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1645426365561766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d6cf6ba395695c4688b424fca686934, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currGameManagerMode: 0
-  currGameManagerHostMode: 0
-  currGameManagerClientMode: 0
-  navMeshSurfaceSetter_Prefab: {fileID: 1463146262372550, guid: 04b1443085df3504da7c87953a7784ab,
-    type: 2}
-  localPlayerController_Prefab: {fileID: 1353271438003168, guid: f3df822ba48107e42bba7825ab119716,
-    type: 2}
-  gameManagerAssistant_Prefab: {fileID: 1426368075374504, guid: 615d6da6368d44e4e86bc7310788c08d,
-    type: 2}
-  playerModel_Prefab: {fileID: 1310987374780024, guid: ea0eaf881536a9e45b686d673d560eed,
-    type: 2}
-  gameMasterCamera_Prefab: {fileID: 0}
-  gameMasterUI_Prefab: {fileID: 0}
-  type0NPC_Prefab: {fileID: 1601331633119506, guid: ce14c7e8560313f4da7e3ad3611cf0a7,
-    type: 2}
-  type1NPC_Prefab: {fileID: 0}
-  totalRegMarkers: 7
-  refreshRate: 3
-  areaUnderAttack: 0
-  isHost: 0
-  npcSpawnList:
-  - nPC_TYPE: 1
-    spawnMarkerName: 
-    aiStats:
-      aiType: 2
-      chanceEnterHostileMode: 0
-      minAngleToFaceTarget: 5
-      extraStoppingDistForConvo: 1
-      collisionAvoidanceRayLen: 0
-      collisionAvoidanceMultiplyer: 0
-      enableCollisionAvoidance: 0
-    npcSchedules: []
-  - nPC_TYPE: 1
-    spawnMarkerName: 
-    aiStats:
-      aiType: 2
-      chanceEnterHostileMode: 0
-      minAngleToFaceTarget: 5
-      extraStoppingDistForConvo: 1
-      collisionAvoidanceRayLen: 0
-      collisionAvoidanceMultiplyer: 0
-      enableCollisionAvoidance: 0
-    npcSchedules: []
-  - nPC_TYPE: 1
-    spawnMarkerName: 
-    aiStats:
-      aiType: 2
-      chanceEnterHostileMode: 0
-      minAngleToFaceTarget: 5
-      extraStoppingDistForConvo: 1
-      collisionAvoidanceRayLen: 0
-      collisionAvoidanceMultiplyer: 0
-      enableCollisionAvoidance: 0
-    npcSchedules: []
-  localPlayerName: 
 --- !u!114 &114137712966940692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10991,8 +10908,7 @@ MonoBehaviour:
   switchRTSceneToUnityScene: 259
   gameObjectsToSpawn: []
   gameObjectsToMoveToRoot: []
-  gameObjectsToMoveToRootByName:
-  - GameManager
+  gameObjectsToMoveToRootByName: []
   gameObjectsToSetActive: []
   gameObjectsToDestroyByName:
   - Main Camera
@@ -13522,24 +13438,6 @@ RectTransform:
   m_AnchoredPosition: {x: 9, y: -0.5}
   m_SizeDelta: {x: -28, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!224 &224172600087729564
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1645426365561766}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 22429464}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224180117684760348
 RectTransform:
   m_ObjectHideFlags: 1
@@ -14309,7 +14207,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 22429464}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
