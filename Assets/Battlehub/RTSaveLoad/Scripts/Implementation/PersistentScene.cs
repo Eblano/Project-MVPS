@@ -166,8 +166,21 @@ namespace Battlehub.RTSaveLoad
                 Debug.LogError("Create Runtime Resource Map");
                 return null;
             }
-        
-            GameObject[] gameObjects = SceneManager.GetActiveScene().GetRootGameObjects().OrderBy(g => g.transform.GetSiblingIndex()).ToArray();
+
+            string[] objectNamesToIgnoreWhenSaving = SealTeam4.RuntimeEditorUltiltes.instance.objectNamesToIgnoreWhenSaving;
+
+            GameObject[] gameObjects =
+                SceneManager.GetActiveScene()
+                .GetRootGameObjects()
+                .Where(x => !objectNamesToIgnoreWhenSaving.Contains(x.name))
+                .OrderBy(g => g.transform.GetSiblingIndex())
+                .ToArray();
+
+            foreach(GameObject gameObject in gameObjects)
+            {
+                Debug.Log(gameObject.name);
+            }
+
             PersistentScene persistentScene = new PersistentScene();
             PersistentData.CreatePersistentDescriptorsAndData(gameObjects, out persistentScene.Descriptors, out persistentScene.Data /*, out persistentScene.ActiveSelf*/);
             

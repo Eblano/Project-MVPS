@@ -82,7 +82,13 @@ namespace Battlehub.RTSaveLoad
             ExtraSceneData saveLoad = extraData.AddComponent<ExtraSceneData>();
             saveLoad.Selection = RuntimeSelection.objects;
 
-            PersistentScene persistentScene = PersistentScene.CreatePersistentScene();
+            PersistentScene persistentScene = PersistentScene.CreatePersistentScene(
+                typeof(SealTeam4.GameManager),
+                typeof(SealTeam4.GameManagerAssistant),
+                typeof(SealTeam4.RuntimeEditorUltiltes),
+                typeof(UnityEngine.Networking.NetworkIdentity)
+                );
+
             if (scene.Internal_Data == null)
             {
                 scene.Internal_Data = new ProjectItemData();
@@ -146,6 +152,7 @@ namespace Battlehub.RTSaveLoad
         protected void CompleteSceneLoading(ProjectItem scene, ProjectManagerCallback callback, bool isEnabled, PersistentScene persistentScene)
         {
             PersistentScene.InstantiateGameObjects(persistentScene);
+            SealTeam4.RuntimeEditorUltiltes.instance.SpawnEssentialGamePrefabs();
 
             m_project.UnloadData(scene);
 
@@ -179,21 +186,21 @@ namespace Battlehub.RTSaveLoad
                 }
             }
 
-            GameObject dirLight = new GameObject();
-            dirLight.transform.rotation = Quaternion.Euler(50, -30, 0);
-            dirLight.transform.position = new Vector3(0, 10, 0);
-            Light lightComponent = dirLight.AddComponent<Light>();
-            lightComponent.type = LightType.Directional;
+            //GameObject dirLight = new GameObject();
+            //dirLight.transform.rotation = Quaternion.Euler(50, -30, 0);
+            //dirLight.transform.position = new Vector3(0, 10, 0);
+            //Light lightComponent = dirLight.AddComponent<Light>();
+            //lightComponent.type = LightType.Directional;
 
-            dirLight.name = "Directional Light";
-            dirLight.AddComponent<ExposeToEditor>();
+            //dirLight.name = "Directional Light";
+            //dirLight.AddComponent<ExposeToEditor>();
 
-            GameObject camera = new GameObject();
-            camera.name = "Main Camera";
-            camera.transform.position = new Vector3(0, 0, -10);
-            camera.AddComponent<Camera>();
-            camera.tag = "MainCamera";
-            camera.AddComponent<ExposeToEditor>();
+            //GameObject camera = new GameObject();
+            //camera.name = "Main Camera";
+            //camera.transform.position = new Vector3(0, 0, -10);
+            //camera.AddComponent<Camera>();
+            //camera.tag = "MainCamera";
+            //camera.AddComponent<ExposeToEditor>();
 
             m_activeScene = ProjectItem.CreateScene("New Scene");
 
