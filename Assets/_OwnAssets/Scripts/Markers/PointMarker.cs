@@ -24,11 +24,11 @@ namespace SealTeam4
 
         [Header("Target Indicator Parameters")]
         private GameObject target;
-        [SerializeField] private GameObject emptyGameObject_Prefab;
         [SerializeField] private Mesh targetMesh;
         [SerializeField] private Vector3 targetMeshScale = new Vector3(0.05f, 0.005f, 0.05f);
         private float directionLineLength = 0.1f;
 
+        [Header("Read Only")]
         public Vector3 pointPosition;
         public Quaternion pointRotation;
 
@@ -36,13 +36,9 @@ namespace SealTeam4
 
         protected void Start()
         {
-            gameObject.AddComponent<MeshFilter>();
-            gameObject.AddComponent<MeshRenderer>();
-            gameObject.AddComponent<LineRenderer>();
-
-            meshFilter = gameObject.GetComponent<MeshFilter>();
-            meshRenderer = gameObject.GetComponent<MeshRenderer>();
-            lineRenderer = gameObject.GetComponent<LineRenderer>();
+            meshFilter = gameObject.AddComponent<MeshFilter>();
+            meshRenderer = gameObject.AddComponent<MeshRenderer>();
+            lineRenderer = gameObject.AddComponent<LineRenderer>();
 
             meshFilter.mesh = markerMesh;
             meshRenderer.material = markerMat;
@@ -51,7 +47,10 @@ namespace SealTeam4
             lineRenderer.widthMultiplier = lineRendererWidth;
             lineRenderer.positionCount = 3;
 
-            target = Instantiate(emptyGameObject_Prefab, transform.position, transform.rotation);
+            target = new GameObject();
+            target.transform.position = transform.position + transform.up * targetMeshScale.y;
+            target.transform.rotation = transform.rotation;
+            target.transform.SetParent(transform);
             target.AddComponent<MeshFilter>();
             target.AddComponent<MeshRenderer>();
 

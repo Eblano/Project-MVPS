@@ -11,8 +11,6 @@ namespace SealTeam4
     /// </summary>
     public class RTEObstacle : MonoBehaviour
     {
-        [SerializeField] private GameObject emptyGameObject_Prefab;
-
         [Header("Colliders to use as navmesh obstacle")]
         [SerializeField] private List<BoxCollider> boxCollidersToCopy;
 
@@ -34,7 +32,9 @@ namespace SealTeam4
         {
             foreach(BoxCollider collider in boxCollidersToCopy)
             {
-                GameObject go = Instantiate(emptyGameObject_Prefab, transform.position, transform.rotation);
+                GameObject go = new GameObject();
+                go.transform.position = transform.position;
+                go.transform.rotation = transform.rotation;
                 go.transform.SetParent(gameObject.transform);
                 go.transform.localScale = new Vector3(1, 1, 1);
                 NavMeshObstacle obstacle = go.AddComponent<NavMeshObstacle>();

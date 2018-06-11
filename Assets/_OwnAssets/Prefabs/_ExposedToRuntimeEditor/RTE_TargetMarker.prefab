@@ -9,17 +9,17 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1928832476658010}
+  m_RootGameObject: {fileID: 1415356491694382}
   m_IsPrefabParent: 1
---- !u!1 &1928832476658010
+--- !u!1 &1415356491694382
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4603956879873256}
-  - component: {fileID: 114369173612602014}
+  - component: {fileID: 4287599544358672}
+  - component: {fileID: 114601924734731592}
   m_Layer: 0
   m_Name: RTE_TargetMarker
   m_TagString: Untagged
@@ -27,25 +27,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4603956879873256
+--- !u!4 &4287599544358672
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1928832476658010}
+  m_GameObject: {fileID: 1415356491694382}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114369173612602014
+--- !u!114 &114601924734731592
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1928832476658010}
+  m_GameObject: {fileID: 1415356491694382}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b5e3381931ca6c46a228004d50e756a, type: 3}
@@ -53,10 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   markerMat: {fileID: 2100000, guid: bcaf37cf5bcb5b74e84f84d2c08c6fa8, type: 2}
   markerMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
-  markerScale: 2
+  markerScale: 0.5
   lineRendererWidth: 0.01
-  emptyGameObject_Prefab: {fileID: 1703724979279660, guid: 5b72346d51472614d93338d39e4b8a32,
-    type: 2}
   targetMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
   targetMeshScale: {x: 0.1, y: 0.01, z: 0.1}
   pointPosition: {x: 0, y: 0, z: 0}

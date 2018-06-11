@@ -29,7 +29,7 @@ namespace SealTeam4
         [SerializeField] private GameManagerClientMode currGameManagerClientMode = GameManagerClientMode.IDLE;
 
         [Header("Essentials")]
-        [SerializeField] private GameObject navMeshSurfaceSetter_Prefab;
+        [SerializeField] private GameObject navMeshSurfaceInitator_Prefab;
         [SerializeField] private GameObject localPlayerController_Prefab;
         [SerializeField] private GameObject gameManagerAssistant_Prefab;
         [SerializeField] private GameObject playerModel_Prefab;
@@ -56,6 +56,8 @@ namespace SealTeam4
         
         public bool isHost = false;
 
+        [Space(10)]
+
         // NPC List
         [SerializeField] private List<NpcSpawnData> npcSpawnList = new List<NpcSpawnData>();
         private List<GameObject> spawnedCivilianNPCs = new List<GameObject>();
@@ -64,6 +66,8 @@ namespace SealTeam4
 
         //// For calibration of in game position from physical position
         //public bool calibrationMode = false;
+
+        [Space(10)]
 
         public string localPlayerName;
 
@@ -142,7 +146,7 @@ namespace SealTeam4
             currGameManagerMode = GameManagerMode.HOST;
 
             // Spawn and Build NavMesh
-            Instantiate(navMeshSurfaceSetter_Prefab, Vector3.zero, Quaternion.identity)
+            Instantiate(navMeshSurfaceInitator_Prefab, Vector3.zero, Quaternion.identity)
                 .GetComponent<NavMeshSurface>()
                 .BuildNavMesh();
 
@@ -310,11 +314,6 @@ namespace SealTeam4
             }
         }
 
-        /// <summary>
-        /// Returns the closest NPC Object from the transform parameter
-        /// </summary>
-        /// <param name="transform"></param>
-        /// <returns></returns>
         public GameObject GetNearestCivilianNPC(Transform transform, GameObject ownGameObject)
         {
             GameObject closestNPC = null;
@@ -357,12 +356,7 @@ namespace SealTeam4
             }
             return false;
         }
-
-        /// <summary>
-        /// Find and Returns Transform of a TargetMarker by name
-        /// </summary>
-        /// <param name="targetName"></param>
-        /// <returns></returns>
+        
         public Transform GetTargetMarkerTransform(string targetName)
         {
             return registeredMarkers
@@ -370,12 +364,7 @@ namespace SealTeam4
                 .Find(x => x.markerName == targetName)
                 .markerGO.transform;
         }
-
-        /// <summary>
-        /// Find and Return GameObject of NPC by NPC_TYPE
-        /// </summary>
-        /// <param name="npcType"></param>
-        /// <returns></returns>
+        
         public GameObject GetNPCPrefabByNPCType(NpcSpawnData.NPC_TYPE npcType)
         {
             switch (npcType)
@@ -388,12 +377,7 @@ namespace SealTeam4
             }
             return null;
         }
-
-        /// <summary>
-        /// Find and return GameObject of spawnmarker by name
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        
         private GameObject GetSpawnMarkerByName(string name)
         {
             return registeredMarkers
@@ -401,12 +385,7 @@ namespace SealTeam4
                 .Find(x => x.markerName == name)
                 .markerGO;
         }
-
-        /// <summary>
-        /// Returns Area Marker by Area Name
-        /// </summary>
-        /// <param name="areaName"></param>
-        /// <returns></returns>
+        
         public AreaMarker GetAreaMarkerByName(string areaName)
         {
             return registeredMarkers
@@ -414,22 +393,12 @@ namespace SealTeam4
                 .Find(x => x.markerName == areaName)
                 .markerGO.GetComponent<AreaMarker>();
         }
-
-        /// <summary>
-        /// Returns true/false depending if gameobject in 
-        /// param is a registered area
-        /// </summary>
-        /// <param name="go"></param>
-        /// <returns></returns>
+        
         public bool CheckIfObjectIsRegisteredArea(GameObject go)
         {
             return registeredMarkers.Exists(x => x.markerGO == go);
         }
-
-        /// <summary>
-        /// Returns total registered markers
-        /// </summary>
-        /// <returns></returns>
+        
         public int GetTotalRegMarkers()
         {
             return totalRegMarkers;
