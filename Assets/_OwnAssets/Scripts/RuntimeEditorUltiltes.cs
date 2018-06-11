@@ -35,6 +35,9 @@ namespace SealTeam4
         [SerializeField] private KeyCode removeGameObjectsKey = KeyCode.Keypad3;
         [SerializeField] private List<string> gameObjectsToDestroyByName;
 
+        [Header("Essential Game Prefabs")]
+        [SerializeField] private List<GameObject> essentialGamePrefabs;
+
         public string[] objectNamesToIgnoreWhenSaving;
 
         private void Start()
@@ -328,6 +331,15 @@ namespace SealTeam4
                 tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
             }
             return tex;
+        }
+
+        public void SpawnEssentialGamePrefabs()
+        {
+            Debug.Log("HO");
+            foreach(GameObject gameObject in essentialGamePrefabs)
+            {
+                Instantiate(gameObject, transform.position, transform.rotation);
+            }
         }
     }
 }

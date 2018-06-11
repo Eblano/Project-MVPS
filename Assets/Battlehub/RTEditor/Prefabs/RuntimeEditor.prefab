@@ -9649,9 +9649,12 @@ MonoBehaviour:
   importAssetsKey: 262
   removeGameObjectsKey: 259
   gameObjectsToDestroyByName:
-  - Main Camera
-  - Job
   - RuntimeEditor
+  - Job
+  - MainCamera
+  essentialGamePrefabs:
+  - {fileID: 1489077985155436, guid: af6b4b6ce3a27e4458d36ac4393d2307, type: 2}
+  - {fileID: 1609820705596822, guid: 0610c0a3afde60f45a1f9f4e9c16909b, type: 2}
   objectNamesToIgnoreWhenSaving:
   - GameManager
   - GameManagerAssistant(Clone)
