@@ -8903,13 +8903,13 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 1985790936161054, guid: 9522fe7cc9e6b7c429b125ce941d76c1, type: 2}
-  - {fileID: 1793601037837892, guid: 58be5b907b037604f8108d02cf377b2e, type: 2}
-  - {fileID: 1089806772777776, guid: 130a056cb072e2e43be92a133fcf3121, type: 2}
-  - {fileID: 1121777054038356, guid: 3dbb05581f6ec574f8361e902010ed4a, type: 2}
-  - {fileID: 1618278466046454, guid: be0371fe3814dfd4ea58029461d2687b, type: 2}
-  - {fileID: 1751511395487844, guid: 480b54607b255bd4cb2f540de569967e, type: 2}
-  - {fileID: 1011429522388046, guid: 630fa8241b21ad04c8e153005d659123, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &114335433164122590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9652,6 +9652,10 @@ MonoBehaviour:
   - Main Camera
   - Job
   - RuntimeEditor
+  objectNamesToIgnoreWhenSaving:
+  - GameManager
+  - GameManagerAssistant(Clone)
+  - Network_RTManager
 --- !u!114 &114476825108111574
 MonoBehaviour:
   m_ObjectHideFlags: 1

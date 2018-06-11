@@ -18,6 +18,7 @@ namespace SealTeam4
     [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
     public class RuntimeEditorUltiltes : MonoBehaviour
     {
+        public static RuntimeEditorUltiltes instance;
         private IProjectManager m_projectManager;
         private string assetsFolderPath;
 
@@ -34,8 +35,20 @@ namespace SealTeam4
         [SerializeField] private KeyCode removeGameObjectsKey = KeyCode.Keypad3;
         [SerializeField] private List<string> gameObjectsToDestroyByName;
 
+        public string[] objectNamesToIgnoreWhenSaving;
+
         private void Start()
         {
+            if(!instance)
+            {
+                instance = this;
+            }
+            else
+            {
+                Debug.Log("There is already runtime editor utilities in this scene");
+                Destroy(this);
+            }
+
             m_projectManager = Dependencies.ProjectManager;
             assetsFolderPath = Application.persistentDataPath + "/Assets";
         }

@@ -82,7 +82,13 @@ namespace Battlehub.RTSaveLoad
             ExtraSceneData saveLoad = extraData.AddComponent<ExtraSceneData>();
             saveLoad.Selection = RuntimeSelection.objects;
 
-            PersistentScene persistentScene = PersistentScene.CreatePersistentScene();
+            PersistentScene persistentScene = PersistentScene.CreatePersistentScene(
+                typeof(SealTeam4.GameManager),
+                typeof(SealTeam4.GameManagerAssistant),
+                typeof(SealTeam4.RuntimeEditorUltiltes),
+                typeof(UnityEngine.Networking.NetworkIdentity)
+                );
+
             if (scene.Internal_Data == null)
             {
                 scene.Internal_Data = new ProjectItemData();
