@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Battlehub.RTSaveLoad;
+using ProtoBuf;
 
 namespace SealTeam4
 {
     /// <summary>
     /// Script to add navmesh obstacle on object after exiting runtime editor
     /// </summary>
+    [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
     public class RTEObstacle : MonoBehaviour
     {
         [Header("Colliders to use as navmesh obstacle")]
