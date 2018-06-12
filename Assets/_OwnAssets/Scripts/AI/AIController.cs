@@ -25,7 +25,7 @@ namespace SealTeam4
         AIFSM_Civillian_UnderAttack aiFSM_Civillian_UnderAttack = new AIFSM_Civillian_UnderAttack();
 
         // Schedules this NPC has
-        private List<Schedule> schedules;
+        private List<NPCSchedule> npcSchedules;
 
         private void Start()
         {
@@ -34,9 +34,9 @@ namespace SealTeam4
             animEventReciever = GetComponent<AIAnimEventReciever>();
             
             // Initializing FSM classes
-            aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, schedules);
-            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, schedules);
-            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, schedules);
+            aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
+            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
+            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
         }
 
         private void Update()
@@ -44,13 +44,15 @@ namespace SealTeam4
             // if area under attack
             if(GameManager.instance.areaUnderAttack)
             {
-                if(aiStats.isVIP)
+                switch (aiStats.aiType)
                 {
-                    aiState.general.aIMode = AIState.General.AIMode.VIP_UNDER_ATTACK;
-                }
-                else if(!aiStats.isTerrorist)
-                {
-                    aiState.general.aIMode = AIState.General.AIMode.CIVILIAN_UNDER_ATTACK;
+                    case AIStats.AiType.VIP:
+                        aiState.general.aIMode = AIState.General.AIMode.VIP_UNDER_ATTACK;
+                        break;
+                        
+                    case AIStats.AiType.CIVILLIAN:
+                        aiState.general.aIMode = AIState.General.AIMode.CIVILIAN_UNDER_ATTACK;
+                        break;
                 }
             }
 
@@ -81,7 +83,7 @@ namespace SealTeam4
                 otherNPCAIController.ConvoProcess_StartConvo();
                 aiState.general.inConversation = true;
             }
-            if (aiState.general.timeInConvo > float.Parse(schedules[aiState.general.currSchedule].argument))
+            if (aiState.general.timeInConvo > float.Parse(npcSchedules[aiState.general.currSchedule].argument))
             {
                 otherNPCAIController.ConvoProcess_EndConvo();
                 aiState.general.inConversation = false;
@@ -197,7 +199,7 @@ namespace SealTeam4
 
         public void Idle_Setup()
         {
-            aiState.general.currTimerValue = float.Parse(schedules[aiState.general.currSchedule].argument);
+            aiState.general.currTimerValue = float.Parse(npcSchedules[aiState.general.currSchedule].argument);
             aiState.general.currSubschedule++;
         }
 
@@ -243,7 +245,7 @@ namespace SealTeam4
         public void SitDownInArea_Setup()
         {
             // Get Area
-            AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(schedules[aiState.general.currSchedule].argument);
+            AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument);
             // Empty seat from selected Area
             aiState.general.currSeatTarget = areaMarker.GetRandomEmptySeat();
 
@@ -318,13 +320,13 @@ namespace SealTeam4
         
         public Transform GetTargetMarkerPosition()
         {
-            string targetName = schedules[aiState.general.currSchedule].argument;
+            string targetName = npcSchedules[aiState.general.currSchedule].argument;
             return GameManager.instance.GetTargetMarkerTransform(targetName);
         }
         
-        public void SetSchedule(List<Schedule> schedules)
+        public void SetSchedule(List<NPCSchedule> npcSchedules)
         {
-            this.schedules = schedules;
+            this.npcSchedules = npcSchedules;
         }
 
         public void SetAIStats(AIStats aiStats)

@@ -5,8 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public class AIStats
 {
-    public bool isTerrorist;
-    public bool isVIP;
+    //public bool isTerrorist;
+    //public bool isVIP;
+    public enum AiType { TERRORIST, VIP, CIVILLIAN };
+    public AiType aiType = AiType.CIVILLIAN;
+
     [Range(0, 100)] public float chanceEnterHostileMode = 0.0f;
 
     // Min angle to move to 

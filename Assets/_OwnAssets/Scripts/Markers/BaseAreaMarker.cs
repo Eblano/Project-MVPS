@@ -12,55 +12,39 @@ namespace SealTeam4
     /// </summary>
     public class BaseAreaMarker : BaseMarker
     {
-        private BoxCollider boxCollider;
+        [SerializeField] private Mesh mesh;
+        [SerializeField] private Material meshMat;
 
-        // Toogle visibility of Box Collider Editor
-        [SerializeField] [HideInInspector] private bool editCollider = false;
-        private bool editCollider_LastState = false;
+        [SerializeField] private bool initializedMeshCollider = false;
 
-        // This Box Collider Gizmo
-        private BoxColliderGizmo boxColliderGizmo;
-        // Box Collider Editor Color
-        [SerializeField] private Color color = Color.magenta;
-        
         protected void Start()
         {
             RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.AREA);
-
-            // Create Box Colliders
-            CreateBoxCollider();
-
-            // Create Box Collider Gizmo
-            CreateBoxColliderGizmo();
+            InitializeMeshAndMaterial();
         }
 
-        /// <summary>
-        /// Create Box Collider Gizmo
-        /// </summary>
-        private void CreateBoxColliderGizmo()
+        protected void Update()
         {
-            gameObject.AddComponent<BoxColliderGizmo>();
-            boxColliderGizmo = GetComponent<BoxColliderGizmo>();
-            boxColliderGizmo.LineColor = color;
-            boxColliderGizmo.HandlesColor = color;
-            boxColliderGizmo.Target = null;
+            if (!initializedMeshCollider && GetComponent<MeshCollider>())
+            {
+                initializedMeshCollider = true;
+
+                MeshCollider collider = GetComponent<MeshCollider>();
+                collider.convex = true;
+                collider.isTrigger = true;
+            }
         }
 
-        /// <summary>
-        /// Create Box Collider
-        /// </summary>
-        private void CreateBoxCollider()
+        private void InitializeMeshAndMaterial()
         {
-            if (!GetComponent<BoxCollider>())
-                gameObject.AddComponent<BoxCollider>();
-
-            boxCollider = GetComponent<BoxCollider>();
-            boxCollider.isTrigger = true;
+            gameObject.AddComponent<MeshFilter>().mesh = mesh;
+            gameObject.AddComponent<MeshRenderer>().material = meshMat;
         }
 
-        private void OnDisable()
+        public override void CleanUpForSimulationStart()
         {
-            GameManager.instance.UnregisterMarker(gameObject);
+            Destroy(GetComponent<MeshFilter>());
+            Destroy(GetComponent<MeshRenderer>());
         }
     }
 }

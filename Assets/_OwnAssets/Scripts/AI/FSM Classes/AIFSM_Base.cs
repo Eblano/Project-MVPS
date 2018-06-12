@@ -13,7 +13,7 @@ namespace SealTeam4
         // Stores various stats of this AI
         protected AIStats aiStats;
         // Schedules this NPC has
-        protected List<Schedule> schedules;
+        protected List<NPCSchedule> npcSchedules;
         // Parent AI Script
         protected AIController aiController;
         // Animation Controller for the AI
@@ -25,7 +25,7 @@ namespace SealTeam4
             AIState aiState,
             AIStats aiStats,
             AIAnimationController aiAnimController,
-            List<Schedule> schedules
+            List<NPCSchedule> npcSchedules
             )
         {
             this.aiController = aiController;
@@ -33,7 +33,7 @@ namespace SealTeam4
             this.aiState = aiState;
             this.aiStats = aiStats;
             this.aiAnimController = aiAnimController;
-            this.schedules = schedules;
+            this.npcSchedules = npcSchedules;
         }
     }
 }

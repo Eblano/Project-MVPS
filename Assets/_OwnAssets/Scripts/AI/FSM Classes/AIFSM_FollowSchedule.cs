@@ -9,28 +9,28 @@ namespace SealTeam4
         public void FSM_Update()
         {
             // if all schedule is finished or NPC not active
-            if (aiState.general.currSchedule >= schedules.Count)
+            if (aiState.general.currSchedule >= npcSchedules.Count)
                 return;
 
-            switch (schedules[aiState.general.currSchedule].scheduleType)
+            switch (npcSchedules[aiState.general.currSchedule].scheduleType)
             {
-                case Schedule.SCHEDULE_TYPE.MOVE_TO_POS:
+                case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS:
                     ScheduleProcess_MoveToPosition();
                     break;
 
-                case Schedule.SCHEDULE_TYPE.MOVE_TO_POS_WITH_ROT:
+                case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS_WITH_ROT:
                     ScheduleProcess_MoveToPosition_And_Rotation();
                     break;
 
-                case Schedule.SCHEDULE_TYPE.IDLE:
+                case NPCSchedule.SCHEDULE_TYPE.IDLE:
                     ScheduleProcess_Idle();
                     break;
 
-                case Schedule.SCHEDULE_TYPE.SIT_IN_AREA:
+                case NPCSchedule.SCHEDULE_TYPE.SIT_IN_AREA:
                     ScheduleProcess_SitDownInArea();
                     break;
 
-                case Schedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC:
+                case NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC:
                     ScheduleProcess_TalkToOtherNPCs();
                     break;
             }

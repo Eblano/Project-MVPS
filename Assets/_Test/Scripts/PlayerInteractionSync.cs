@@ -22,7 +22,7 @@ public class PlayerInteractionSync : NetworkBehaviour
     {
         if (isServer)
         {
-            GameManager.instance.isServerObj = true;
+            GameManager.instance.isHost = true;
         }
 
         gameManager = GameManager.instance;
