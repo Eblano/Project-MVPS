@@ -29,6 +29,11 @@ namespace SealTeam4
 
             playerInteractionSync = GetComponent<PlayerInteractionSync>();
 
+            if((!serverCanPlay && playerInteractionSync.isServer))
+            {
+                NetworkServer.Destroy(this.gameObject);
+            }
+
             if (!playerInteractionSync.isLocalPlayer || (!serverCanPlay && playerInteractionSync.isServer))
             {
                 Destroy(this);

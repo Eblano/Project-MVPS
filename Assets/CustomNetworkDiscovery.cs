@@ -7,11 +7,22 @@ using UnityEngine.UI;
 
 public class CustomNetworkDiscovery : NetworkDiscovery
 {
+    public static CustomNetworkDiscovery instance;
     private float timeTilDisconnect = 1.0f;
     private Dictionary<LanConnectionInfo, float> lanAddresses = new Dictionary<LanConnectionInfo, float>();
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.Log("NO U");
+            Destroy(this);
+        }
+
         base.Initialize();
         base.StartAsClient();
         StartCoroutine(DeleteExpiredEntries());

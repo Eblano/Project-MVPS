@@ -4,62 +4,64 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class CustomNetworkManager : NetworkManager
+namespace SealTeam4
 {
-    [SerializeField] private GameObject networkUIPanel;
-    [SerializeField] private GameObject connectedPlayerUI;
-    private Text txtConnectedPlayer;
-    private int numOfPlayers = -1;
+    public class CustomNetworkManager : NetworkManager
+    {
+        private int numOfPlayers = -1;
 
-    private void Start()
-    {
-        txtConnectedPlayer = connectedPlayerUI.GetComponent<Text>();
-    }
+        public override void OnStartClient(NetworkClient client)
+        {
+            base.OnStartClient(client);
+            Debug.Log("OnClientDisconnect");
+            UIManager.instance.SetUIPanelState(false);
+        }
 
-    public override void OnStartClient(NetworkClient client)
-    {
-        base.OnStartClient(client);
-        Debug.Log("OnClientDisconnect");
-        networkUIPanel.SetActive(false);
-    }
+        public override void OnStopClient()
+        {
+            base.OnStopClient();
+            Debug.Log("OnStopClient");
+            UIManager.instance.SetUIPanelState(true);
+        }
+        public override void OnStartServer()
+        {
+            base.OnStartServer();
+            Debug.Log("OnStartServer");
+            numOfPlayers = -1;
+            UIManager.instance.SetConnectPlayerTxtState(true);
+            UIManager.instance.SetUIPanelState(false);
+            GameManager.instance.GM_SwitchToHostMode();
+        }
 
-    public override void OnStopClient()
-    {
-        base.OnStopClient();
-        Debug.Log("OnStopClient");
-        networkUIPanel.SetActive(true);
-    }
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-        Debug.Log("OnStartServer");
-        numOfPlayers = -1;
-        connectedPlayerUI.SetActive(true);
-        networkUIPanel.SetActive(false);
-    }
+        public override void OnClientConnect(NetworkConnection conn)
+        {
+            base.OnClientConnect(conn);
+            GameManager.instance.GM_SwitchToClientMode();
+        }
 
-    public override void OnStopServer()
-    {
-        base.OnStopServer();
-        Debug.Log("OnStopServer");
-        numOfPlayers = -1;
-        connectedPlayerUI.SetActive(false);
-        networkUIPanel.SetActive(true);
-    }
+        public override void OnStopServer()
+        {
+            base.OnStopServer();
+            Debug.Log("OnStopServer");
+            numOfPlayers = -1;
+            UIManager.instance.SetConnectPlayerTxtState(false);
+            UIManager.instance.SetUIPanelState(true);
+        }
 
-    public override void OnServerConnect(NetworkConnection conn)
-    {
-        base.OnServerConnect(conn);
-        numOfPlayers++;
-        txtConnectedPlayer.text = "Players Connected: " + numOfPlayers;
-        Debug.Log("OnServerConnect");
-    }
+        public override void OnServerConnect(NetworkConnection conn)
+        {
+            base.OnServerConnect(conn);
+            numOfPlayers++;
+            UIManager.instance.SetConnectPlayerTxt("Players Connected: " + numOfPlayers);
+            Debug.Log("OnServerConnect");
+        }
 
-    public override void OnServerDisconnect(NetworkConnection conn)
-    {
-        base.OnServerDisconnect(conn);
-        numOfPlayers--;
-        txtConnectedPlayer.text = "Players Connected: " + numOfPlayers;
-        Debug.Log("OnServerDisconnect");
+        public override void OnServerDisconnect(NetworkConnection conn)
+        {
+            base.OnServerDisconnect(conn);
+            numOfPlayers--;
+            UIManager.instance.SetConnectPlayerTxt("Players Connected: " + numOfPlayers);
+            Debug.Log("OnServerDisconnect");
+        }
     }
 }

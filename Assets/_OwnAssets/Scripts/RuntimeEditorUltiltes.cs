@@ -34,6 +34,7 @@ namespace SealTeam4
         [Header("List Excecuted by Order")]
         [SerializeField] private KeyCode removeGameObjectsKey = KeyCode.Keypad3;
         [SerializeField] private List<string> gameObjectsToDestroyByName;
+        [SerializeField] private List<GameObject> gameObjectsToSpawn;
 
         [Header("Essential Game Prefabs")]
         [SerializeField] private List<GameObject> essentialGamePrefabs;
@@ -210,6 +211,13 @@ namespace SealTeam4
                 {
                     Destroy(objectToDestroy);
                 }
+            }
+
+            // Spawn selected GameObjects
+            for (int i = 0; i < gameObjectsToSpawn.Count; i++)
+            {
+                GameObject go = Instantiate(gameObjectsToSpawn[i], Vector3.zero, Quaternion.identity);
+                go.transform.SetParent(null);
             }
         }
 

@@ -2,25 +2,52 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using SealTeam4;
 
 public class UIManager : MonoBehaviour
 {
-    //[SerializeField] private GameObject mainPanel;
-    //[SerializeField] private GameObject joinPanel;
-    //[SerializeField] private GameObject hostPanel;
+    public static UIManager instance;
+    [SerializeField] private GameObject uiPanel;
+    [SerializeField] private GameObject connectedPlayerUI;
+    private Text txtConnectedPlayer;
 
-    //public void SetMainPanelState(bool state)
-    //{
-    //    mainPanel.SetActive(state);
-    //}
+    private void Start()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.Log("NO U");
+            Destroy(this);
+        }
 
-    //public void SetJoinPanelState(bool state)
-    //{
-    //    joinPanel.SetActive(state);
-    //}
+        txtConnectedPlayer = connectedPlayerUI.GetComponent<Text>();
+    }
 
-    //public void SetHostPanelState(bool state)
-    //{
-    //    hostPanel.SetActive(state);
-    //}
+    public void SetUIPanelState(bool state)
+    {
+        uiPanel.SetActive(state);
+    }
+
+    public void SetConnectPlayerTxtState(bool state)
+    {
+        connectedPlayerUI.SetActive(state);
+    }
+
+    public void SetConnectPlayerTxt(string txt)
+    {
+        txtConnectedPlayer.text = txt;
+    }
+
+    public void BtnStartToBroadcast()
+    {
+        CustomNetworkDiscovery.instance.StartToBroadcast();
+    }
+
+    public void BtnScanForBroadcasts()
+    {
+        CustomNetworkDiscovery.instance.ScanForGames();
+    }
 }
