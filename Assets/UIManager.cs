@@ -5,34 +5,22 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private GameObject hostBtn;
-    [SerializeField] private GameObject unhostBtn;
-    [SerializeField] private GameObject joinBtn;
-    [SerializeField] private GameObject unjoinBtn;
-    [SerializeField] private GameObject inputField;
+    //[SerializeField] private GameObject mainPanel;
+    //[SerializeField] private GameObject joinPanel;
+    //[SerializeField] private GameObject hostPanel;
 
-    public void EnableHostBtn(bool state)
-    {
-        hostBtn.SetActive(state);
-    }
+    //public void SetMainPanelState(bool state)
+    //{
+    //    mainPanel.SetActive(state);
+    //}
 
-    public void EnableUnhostBtn(bool state)
-    {
-        unhostBtn.SetActive(state);
-    }
+    //public void SetJoinPanelState(bool state)
+    //{
+    //    joinPanel.SetActive(state);
+    //}
 
-    public void EnableJoinBtn(bool state)
-    {
-        joinBtn.SetActive(state);
-    }
-
-    public void EnableUnjoinBtn(bool state)
-    {
-        unjoinBtn.SetActive(state);
-    }
-
-    public void EnableInputField(bool state)
-    {
-        inputField.SetActive(state);
-    }
+    //public void SetHostPanelState(bool state)
+    //{
+    //    hostPanel.SetActive(state);
+    //}
 }

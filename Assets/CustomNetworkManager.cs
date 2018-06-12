@@ -6,40 +6,60 @@ using UnityEngine.UI;
 
 public class CustomNetworkManager : NetworkManager
 {
-    [SerializeField] private UIManager uiManager;
+    [SerializeField] private GameObject networkUIPanel;
+    [SerializeField] private GameObject connectedPlayerUI;
+    private Text txtConnectedPlayer;
+    private int numOfPlayers = -1;
 
-    public void StartHosting()
+    private void Start()
     {
-        base.StartHost();
-        uiManager.EnableHostBtn(false);
-        uiManager.EnableUnhostBtn(true);
-        uiManager.EnableInputField(false);
-        uiManager.EnableJoinBtn(false);
+        txtConnectedPlayer = connectedPlayerUI.GetComponent<Text>();
     }
 
-    public void StopHosting()
+    public override void OnStartClient(NetworkClient client)
     {
-        base.StopHost();
-        uiManager.EnableHostBtn(true);
-        uiManager.EnableUnhostBtn(false);
-        uiManager.EnableInputField(true);
-        uiManager.EnableJoinBtn(true);
+        base.OnStartClient(client);
+        Debug.Log("OnClientDisconnect");
+        networkUIPanel.SetActive(false);
     }
 
-    public void Join(Text InputAddress)
+    public override void OnStopClient()
     {
-        NetworkManager.singleton.networkAddress = InputAddress.text;
-        base.StartClient();
-        uiManager.EnableInputField(false);
-        uiManager.EnableJoinBtn(false);
-        uiManager.EnableUnjoinBtn(true);
+        base.OnStopClient();
+        Debug.Log("OnStopClient");
+        networkUIPanel.SetActive(true);
+    }
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        Debug.Log("OnStartServer");
+        numOfPlayers = -1;
+        connectedPlayerUI.SetActive(true);
+        networkUIPanel.SetActive(false);
     }
 
-    public void StopJoin()
+    public override void OnStopServer()
     {
-        base.StopClient();
-        uiManager.EnableInputField(true);
-        uiManager.EnableJoinBtn(true);
-        uiManager.EnableUnjoinBtn(false);
+        base.OnStopServer();
+        Debug.Log("OnStopServer");
+        numOfPlayers = -1;
+        connectedPlayerUI.SetActive(false);
+        networkUIPanel.SetActive(true);
+    }
+
+    public override void OnServerConnect(NetworkConnection conn)
+    {
+        base.OnServerConnect(conn);
+        numOfPlayers++;
+        txtConnectedPlayer.text = "Players Connected: " + numOfPlayers;
+        Debug.Log("OnServerConnect");
+    }
+
+    public override void OnServerDisconnect(NetworkConnection conn)
+    {
+        base.OnServerDisconnect(conn);
+        numOfPlayers--;
+        txtConnectedPlayer.text = "Players Connected: " + numOfPlayers;
+        Debug.Log("OnServerDisconnect");
     }
 }
