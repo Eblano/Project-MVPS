@@ -335,11 +335,15 @@ namespace SealTeam4
 
         public void SpawnEssentialGamePrefabs()
         {
-            Debug.Log("HO");
             foreach(GameObject gameObject in essentialGamePrefabs)
             {
                 Instantiate(gameObject, transform.position, transform.rotation);
             }
+        }
+
+        public void UpdateSceneHash()
+        {
+
         }
     }
 }

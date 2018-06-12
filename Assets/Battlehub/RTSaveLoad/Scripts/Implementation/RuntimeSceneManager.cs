@@ -130,7 +130,6 @@ namespace Battlehub.RTSaveLoad
                 PersistentScene persistentScene = m_serializer.Deserialize<PersistentScene>(scene.Internal_Data.RawData);
                 CompleteSceneLoading(scene, callback, isEnabled, persistentScene);
             });
-
         }
 
         protected void RaiseSceneLoading(ProjectItem scene)
@@ -170,6 +169,8 @@ namespace Battlehub.RTSaveLoad
             }
 
             RaiseSceneLoaded(scene);
+            
+            Debug.Log(scene.Parent + "/" + scene.NameExt);
         }
 
         public virtual void CreateScene()
