@@ -167,7 +167,7 @@ namespace Battlehub.RTSaveLoad
                 return null;
             }
 
-            string[] objectNamesToIgnoreWhenSaving = SealTeam4.RuntimeEditorUltiltes.instance.objectNamesToIgnoreWhenSaving;
+            string[] objectNamesToIgnoreWhenSaving = SealTeam4.RuntimeEditorUltiltes.instance.objectToIgnoreWhenSavingScene;
 
             GameObject[] gameObjects =
                 SceneManager.GetActiveScene()
@@ -176,18 +176,10 @@ namespace Battlehub.RTSaveLoad
                 .OrderBy(g => g.transform.GetSiblingIndex())
                 .ToArray();
 
-            foreach(GameObject gameObject in gameObjects)
-            {
-                Debug.Log(gameObject.name);
-            }
-
             PersistentScene persistentScene = new PersistentScene();
             PersistentData.CreatePersistentDescriptorsAndData(gameObjects, out persistentScene.Descriptors, out persistentScene.Data /*, out persistentScene.ActiveSelf*/);
             
             return persistentScene;
         }
-
-
-       
     }
 }

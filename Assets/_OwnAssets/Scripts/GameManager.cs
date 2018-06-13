@@ -77,10 +77,6 @@ namespace SealTeam4
         {
             if (instance == null)
                 instance = this;
-
-            //DontDestroyOnLoad(gameObject);
-
-            Instantiate(gameManagerAssistant_Prefab, transform.position, transform.rotation);
         }
 
         private void OnDisable()

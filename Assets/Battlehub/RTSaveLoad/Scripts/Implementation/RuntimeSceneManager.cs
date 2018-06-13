@@ -169,8 +169,6 @@ namespace Battlehub.RTSaveLoad
             }
 
             RaiseSceneLoaded(scene);
-            
-            Debug.Log(scene.Parent + "/" + scene.NameExt);
         }
 
         public virtual void CreateScene()

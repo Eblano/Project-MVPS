@@ -3227,7 +3227,7 @@ GameObject:
   - component: {fileID: 114900718305692790}
   - component: {fileID: 114014261073562240}
   m_Layer: 5
-  m_Name: HashText
+  m_Name: SceneHashText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4462,7 +4462,7 @@ GameObject:
   - component: {fileID: 114234387781875448}
   - component: {fileID: 114008081114040502}
   m_Layer: 5
-  m_Name: TextMeshPro Text
+  m_Name: Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8551,7 +8551,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Scene Hash:'
+  m_text: 'Level Config: '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
@@ -8615,12 +8615,12 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -0.20935059, z: 0, w: 0}
+  m_margin: {x: 0, y: -0.20935059, z: -110.63928, w: 0}
   m_textInfo:
     textComponent: {fileID: 114234387781875448}
-    characterCount: 11
+    characterCount: 14
     spriteCount: 0
-    spaceCount: 1
+    spaceCount: 2
     wordCount: 2
     linkCount: 0
     lineCount: 1
@@ -9837,19 +9837,24 @@ MonoBehaviour:
   resetRuntimeAssetsAndRestartKey: 260
   exportAssetsKey: 261
   importAssetsKey: 262
+  calcSceneHash: 263
   removeGameObjectsKey: 259
   gameObjectsToDestroyByName:
   - RuntimeEditor
   - Job
   gameObjectsToSpawn:
   - {fileID: 1312872082511372, guid: 18725e12702d5e74a80b6dd16007f821, type: 2}
+  - {fileID: 1047539409085786, guid: 31a4a70b1ef6c6b4194dab0fe53c17ca, type: 2}
   essentialGamePrefabs:
   - {fileID: 1489077985155436, guid: af6b4b6ce3a27e4458d36ac4393d2307, type: 2}
-  - {fileID: 1047539409085786, guid: 31a4a70b1ef6c6b4194dab0fe53c17ca, type: 2}
-  objectNamesToIgnoreWhenSaving:
+  - {fileID: 1426368075374504, guid: 615d6da6368d44e4e86bc7310788c08d, type: 2}
+  objectToIgnoreWhenSavingScene:
   - GameManager(Clone)
   - GameManagerAssistant(Clone)
-  - CustomNetworkManager(Clone)
+  saveSceneButton: {fileID: 114000012335640594}
+  sceneHashText: {fileID: 114900718305692790}
+  sceneHash_refreshRate: 3
+  startSceneButton: {fileID: 114808826266439632}
 --- !u!114 &114476825108111574
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14404,7 +14409,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 480.5, y: -18.2}
-  m_SizeDelta: {x: 120, y: 20}
+  m_SizeDelta: {x: 178.62, y: 20}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!224 &224626976052671616
 RectTransform:

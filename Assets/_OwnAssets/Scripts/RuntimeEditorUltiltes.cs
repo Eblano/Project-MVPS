@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 using ICSharpCode.SharpZipLib.Zip;
 using System;
 using Battlehub.UIControls;
+using TMPro;
+using UnityEngine.UI;
 
 namespace SealTeam4
 {
@@ -30,6 +32,7 @@ namespace SealTeam4
         [SerializeField] private KeyCode resetRuntimeAssetsAndRestartKey = KeyCode.Keypad4;
         [SerializeField] private KeyCode exportAssetsKey = KeyCode.Keypad5;
         [SerializeField] private KeyCode importAssetsKey = KeyCode.Keypad6;
+        [SerializeField] private KeyCode calcSceneHash = KeyCode.Keypad7;
 
         [Header("List Excecuted by Order")]
         [SerializeField] private KeyCode removeGameObjectsKey = KeyCode.Keypad3;
@@ -39,7 +42,20 @@ namespace SealTeam4
         [Header("Essential Game Prefabs")]
         [SerializeField] private List<GameObject> essentialGamePrefabs;
 
-        public string[] objectNamesToIgnoreWhenSaving;
+        [Space(5)]
+
+        public string[] objectToIgnoreWhenSavingScene;
+
+        [Space(5)]
+
+        [Header("Scene Hash Properties")]
+        [SerializeField] private Button saveSceneButton;
+        [SerializeField] private TextMeshProUGUI sceneHashText;
+        [SerializeField] private float sceneHash_refreshRate = 3f;
+        private float sceneHash_timeLeftToRefresh;
+
+        [Space(5)]
+        [SerializeField] private Button startSceneButton;
 
         private void Start()
         {
@@ -52,33 +68,50 @@ namespace SealTeam4
                 Debug.Log("There is already runtime editor utilities in this scene");
                 Destroy(this);
             }
-
+            
             m_projectManager = Dependencies.ProjectManager;
             assetsFolderPath = Application.persistentDataPath + "/Assets";
         }
 
         private void Update()
         {
-            if (!acceptKeyInput)
-                return;
+            if(sceneHash_timeLeftToRefresh <= 0)
+            {
+                sceneHash_timeLeftToRefresh = sceneHash_refreshRate;
+                bool success = CalcSceneHash();
+                if (success)
+                    startSceneButton.interactable = true;
+                else
+                    startSceneButton.interactable = false;
+            }
+            else
+            {
+                sceneHash_timeLeftToRefresh -= Time.deltaTime;
+            }
 
-            if (InputController.GetKeyDown(OpenAssetsFolderKey))
-                OpenRuntimeAssetsFolder();
+            if (acceptKeyInput)
+            {
+                if (InputController.GetKeyDown(OpenAssetsFolderKey))
+                    OpenRuntimeAssetsFolder();
 
-            if (InputController.GetKeyDown(AddFilesToRTEKey))
-                AddFilesToRTE();
+                if (InputController.GetKeyDown(AddFilesToRTEKey))
+                    AddFilesToRTE();
 
-            if (Input.GetKeyDown(removeGameObjectsKey))
-                SwitchRTSceneToUnityScenePopup();
+                if (Input.GetKeyDown(removeGameObjectsKey))
+                    SwitchRTSceneToUnityScenePopup();
 
-            if (Input.GetKeyDown(resetRuntimeAssetsAndRestartKey))
-                ResetRuntimeAssetsAndRestartPopup();
+                if (Input.GetKeyDown(resetRuntimeAssetsAndRestartKey))
+                    ResetRuntimeAssetsAndRestartPopup();
 
-            if (Input.GetKeyDown(exportAssetsKey))
-                ExportAssets();
+                if (Input.GetKeyDown(exportAssetsKey))
+                    ExportAssets();
 
-            if (Input.GetKeyDown(importAssetsKey))
-                ImportAssets();
+                if (Input.GetKeyDown(importAssetsKey))
+                    ImportAssets();
+
+                if (Input.GetKeyDown(calcSceneHash))
+                    CalcSceneHash();
+            }
         }
 
         /// <summary>
@@ -349,9 +382,31 @@ namespace SealTeam4
             }
         }
 
-        public void UpdateSceneHash()
+        public bool CalcSceneHash()
         {
+            ProjectItem currRuntimeScene = m_projectManager.ActiveScene;
 
+            if(m_projectManager.ActiveScene != null && m_projectManager.ActiveScene.Name != "New Scene" && !saveSceneButton.interactable)
+            {
+                string filePathToScene = Application.persistentDataPath + "/" + currRuntimeScene.Parent + "/" + currRuntimeScene.NameExt;
+                
+                string hashText = "";
+                using (var md5 = System.Security.Cryptography.MD5.Create())
+                {
+                    using (var stream = File.OpenRead(filePathToScene))
+                    {
+                        var hash = md5.ComputeHash(stream);
+                        hashText = String.Format("{0:X}", BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant().GetHashCode());
+                    }
+                }
+                sceneHashText.text = hashText;
+                return true;
+            }
+            else
+            {
+                sceneHashText.text = "-";
+                return false;
+            }
         }
     }
 }
