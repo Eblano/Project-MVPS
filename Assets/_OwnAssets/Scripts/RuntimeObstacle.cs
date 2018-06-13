@@ -11,19 +11,16 @@ namespace SealTeam4
     /// Script to add navmesh obstacle on object after exiting runtime editor
     /// </summary>
     [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
-    public class RTEObstacle : MonoBehaviour
+    public class RuntimeObstacle : MonoBehaviour
     {
         [Header("Colliders to use as navmesh obstacle")]
         [SerializeField] private List<BoxCollider> boxCollidersToCopy;
 
         [SerializeField] private bool forceAddNavMeshObstacles = false;
 
-        [Header("Scripts to attach")]
-        [SerializeField] private List<ScriptableObject> scriptsToAttach;
-
         private void Update()
         {
-            if(Dependencies.ProjectManager == null || forceAddNavMeshObstacles)
+            if (Dependencies.ProjectManager == null)
             {
                 AddNavMeshObstacles();
                 Destroy(this);
@@ -32,7 +29,7 @@ namespace SealTeam4
 
         private void AddNavMeshObstacles()
         {
-            foreach(BoxCollider collider in boxCollidersToCopy)
+            foreach (BoxCollider collider in boxCollidersToCopy)
             {
                 GameObject go = new GameObject();
                 go.transform.position = transform.position;
