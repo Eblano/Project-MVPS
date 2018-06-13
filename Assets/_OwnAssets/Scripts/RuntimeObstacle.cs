@@ -10,11 +10,10 @@ namespace SealTeam4
     /// <summary>
     /// Script to add navmesh obstacle on object after exiting runtime editor
     /// </summary>
-    [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
     public class RuntimeObstacle : MonoBehaviour
     {
         [Header("Colliders to use as navmesh obstacle")]
-        [SerializeField] private List<BoxCollider> boxCollidersToCopy;
+        [SerializeField] private BoxCollider[] boxCollidersToCopy;
 
         [SerializeField] private bool forceAddNavMeshObstacles = false;
 
