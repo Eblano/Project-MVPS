@@ -23,6 +23,7 @@ namespace SealTeam4
             Debug.Log("OnStopClient");
             UIManager.instance.SetUIPanelState(true);
         }
+
         public override void OnStartServer()
         {
             base.OnStartServer();
@@ -35,8 +36,11 @@ namespace SealTeam4
 
         public override void OnClientConnect(NetworkConnection conn)
         {
-            base.OnClientConnect(conn);
-            GameManager.instance.GM_SwitchToClientMode();
+            if(!GameManager.instance.isHost)
+            {
+                base.OnClientConnect(conn);
+                GameManager.instance.GM_SwitchToClientMode();
+            }
         }
 
         public override void OnStopServer()
