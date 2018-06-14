@@ -11,7 +11,7 @@ namespace SealTeam4
 
         private void Start()
         {
-            if (instance == null || isLocalPlayer)
+            if (isLocalPlayer)
                 instance = this;
 
             if (NetworkServer.active)
