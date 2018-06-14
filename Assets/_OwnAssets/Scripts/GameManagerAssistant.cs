@@ -13,16 +13,13 @@ namespace SealTeam4
         {
             if (instance == null)
                 instance = this;
+
+            NetworkServer.Spawn(this.gameObject);
         }
 
         public void NetworkSpawnObject(GameObject GO)
         {
             NetworkServer.Spawn(GO);
-        }
-
-        public void NetworkSpawnGMAssistant()
-        {
-            NetworkServer.Spawn(this.gameObject);
         }
     }
 }
