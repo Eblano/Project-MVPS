@@ -8,13 +8,20 @@ namespace SealTeam4
     public class GameManagerAssistant : NetworkBehaviour
     {
         public static GameManagerAssistant instance;
+        private bool spawnOverNetwork = false;
 
         private void Start()
         {
             if (instance == null)
                 instance = this;
+        }
 
-            NetworkServer.Spawn(this.gameObject);
+        private void Update()
+        {
+            if(!spawnOverNetwork && NetworkServer.active)
+            {
+                NetworkServer.Spawn(this.gameObject);
+            }
         }
 
         public void NetworkSpawnObject(GameObject GO)
