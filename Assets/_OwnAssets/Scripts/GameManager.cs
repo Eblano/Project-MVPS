@@ -70,6 +70,16 @@ namespace SealTeam4
 
         public string localPlayerName;
 
+        [Space(10)]
+
+        public bool networkTest = false;
+
+        public void ToggleNetworkTestBool()
+        {
+            networkTest = !networkTest;
+            GameManagerAssistant.instance.CmdUpdateNetworkTestBool(networkTest);
+        }
+
         //public List<PlayerVectorCalibData> playerVectorCalibDataList = new List<PlayerVectorCalibData>();
 
         private void Start()
@@ -100,6 +110,11 @@ namespace SealTeam4
                 case GameManagerMode.CLIENT:
                     Client_Update();
                     break;
+            }
+
+            if(Input.GetKeyDown(KeyCode.Z))
+            {
+                ToggleNetworkTestBool();
             }
         }
 

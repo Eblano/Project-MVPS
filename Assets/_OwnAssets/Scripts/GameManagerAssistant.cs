@@ -14,12 +14,25 @@ namespace SealTeam4
             if (instance == null)
                 instance = this;
 
-            NetworkSpawnObject(this.gameObject);
+            if(isServer)
+                NetworkSpawnObject(this.gameObject);
         }
 
         public void NetworkSpawnObject(GameObject GO)
         {
             NetworkServer.Spawn(GO);
+        }
+
+        [Command]
+        public void CmdUpdateNetworkTestBool(bool newValue)
+        {
+            RpcUpdateNetworkTestBool(newValue);
+        }
+
+        [ClientRpc]
+        public void RpcUpdateNetworkTestBool(bool newValue)
+        {
+            GameManager.instance.networkTest = newValue;
         }
     }
 }
