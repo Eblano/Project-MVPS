@@ -13,6 +13,8 @@ namespace SealTeam4
         {
             if (instance == null)
                 instance = this;
+
+            NetworkSpawnObject(this.gameObject);
         }
 
         public void NetworkSpawnObject(GameObject GO)
