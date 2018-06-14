@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4455132867978186}
   - component: {fileID: 114937303008238198}
-  - component: {fileID: 114247129052394796}
   - component: {fileID: 114767845761546020}
-  m_Layer: 5
+  - component: {fileID: 114008561597840258}
+  m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114247129052394796
+--- !u!114 &114008561597840258
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -62,8 +62,8 @@ MonoBehaviour:
     Object: {fileID: 1044430686693050}
     Id: 20947
   - Name: GameManager
-    Object: {fileID: 0}
-    Id: 20948
+    Object: {fileID: 4455132867978186}
+    Id: 20965
 --- !u!114 &114767845761546020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95,7 +95,7 @@ MonoBehaviour:
     type: 2}
   localPlayerController_Prefab: {fileID: 1353271438003168, guid: f3df822ba48107e42bba7825ab119716,
     type: 2}
-  gameManagerAssistant_Prefab: {fileID: 1426368075374504, guid: 615d6da6368d44e4e86bc7310788c08d,
+  gameManagerAssistant_Prefab: {fileID: 1519025146396042, guid: 615d6da6368d44e4e86bc7310788c08d,
     type: 2}
   gameMasterCamera_Prefab: {fileID: 1175345499955892, guid: 27ace2c748868fa479268bdaad3a4fb2,
     type: 2}
