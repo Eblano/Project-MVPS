@@ -155,6 +155,9 @@ namespace SealTeam4
 
             // Instantiate admin interface
             Instantiate(gameMasterUI_Prefab, Vector3.zero, Quaternion.identity);
+
+            // Instantiate GameManagerAssistant through the network
+            GameManagerAssistant.instance.NetworkSpawnObject(GameManagerAssistant.instance.gameObject);
         }
 
         public void GM_SwitchToClientMode()

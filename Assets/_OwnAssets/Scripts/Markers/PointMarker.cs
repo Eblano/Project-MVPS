@@ -10,9 +10,9 @@ namespace SealTeam4
     /// </summary>
     public class PointMarker : BaseMarker
     {
-        private MeshFilter meshFilter;
-        private MeshRenderer meshRenderer;
-        private LineRenderer lineRenderer;
+        [SerializeField] private MeshFilter meshFilter;
+        [SerializeField] private MeshRenderer meshRenderer;
+        [SerializeField] private LineRenderer lineRenderer;
 
         [SerializeField] private Material markerMat;
 
@@ -37,9 +37,20 @@ namespace SealTeam4
 
         protected void Start()
         {
-            meshFilter = gameObject.AddComponent<MeshFilter>();
-            meshRenderer = gameObject.AddComponent<MeshRenderer>();
-            lineRenderer = gameObject.AddComponent<LineRenderer>();
+            if (!GetComponent<MeshFilter>())
+                meshFilter = gameObject.AddComponent<MeshFilter>();
+            else
+                meshFilter = GetComponent<MeshFilter>();
+
+            if (!GetComponent<MeshRenderer>())
+                meshRenderer = gameObject.AddComponent<MeshRenderer>();
+            else
+                meshRenderer = GetComponent<MeshRenderer>();
+
+            if (!GetComponent<LineRenderer>())
+                lineRenderer = gameObject.AddComponent<LineRenderer>();
+            else
+                lineRenderer = GetComponent<LineRenderer>();
 
             meshFilter.mesh = markerMesh;
             transform.localScale = new Vector3(markerScale, markerScale, markerScale);
