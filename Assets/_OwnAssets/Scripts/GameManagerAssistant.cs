@@ -8,7 +8,7 @@ namespace SealTeam4
     public class GameManagerAssistant : NetworkBehaviour
     {
         public static GameManagerAssistant instance;
-        private bool spawnOverNetwork = false;
+        [SerializeField] private bool spawnOverNetwork = false;
 
         private void Start()
         {
@@ -21,6 +21,7 @@ namespace SealTeam4
             if(!spawnOverNetwork && NetworkServer.active)
             {
                 NetworkServer.Spawn(this.gameObject);
+                spawnOverNetwork = true;
             }
         }
 
