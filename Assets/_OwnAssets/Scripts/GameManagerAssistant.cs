@@ -14,7 +14,7 @@ namespace SealTeam4
             if (instance == null)
                 instance = this;
 
-            if(isServer)
+            if(NetworkServer.active)
                 NetworkSpawnObject(this.gameObject);
         }
 
