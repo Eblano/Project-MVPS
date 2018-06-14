@@ -67,5 +67,10 @@ namespace SealTeam4
             UIManager.instance.SetConnectPlayerTxt("Players Connected: " + numOfPlayers);
             Debug.Log("OnServerDisconnect");
         }
+
+        public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+        {
+            base.OnServerAddPlayer(conn, playerControllerId);
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace SealTeam4
         private Vector3AndQuaternion head, lHand, rHand;
 
         [SerializeField] private bool serverCanPlay;
+        [SerializeField] private GameObject gameManagerAssistant_Prefab;
         [SerializeField] private float grabRadius;
         [SerializeField] private float holdTouchPadTimer;
 
@@ -31,6 +32,7 @@ namespace SealTeam4
 
             if((!serverCanPlay && playerInteractionSync.isServer && playerInteractionSync.isLocalPlayer))
             {
+                Instantiate(gameManagerAssistant_Prefab, Vector3.zero, Quaternion.identity);
                 NetworkServer.Destroy(this.gameObject);
             }
 
