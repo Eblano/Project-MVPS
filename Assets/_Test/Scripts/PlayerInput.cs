@@ -29,14 +29,10 @@ namespace SealTeam4
 
             playerInteractionSync = GetComponent<PlayerInteractionSync>();
 
-            Debug.Log("I TRIED TO SPAWN");
-
             if((!serverCanPlay && playerInteractionSync.isServer && playerInteractionSync.isLocalPlayer))
             {
                 NetworkServer.Destroy(this.gameObject);
             }
-
-            Debug.Log("Is local player? " + playerInteractionSync.isLocalPlayer);
 
             if (!playerInteractionSync.isLocalPlayer)
             {

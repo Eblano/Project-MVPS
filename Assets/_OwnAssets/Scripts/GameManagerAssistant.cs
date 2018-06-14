@@ -18,7 +18,12 @@ namespace SealTeam4
 
         private void Update()
         {
-            if(!spawnOverNetwork && NetworkServer.active)
+            if (NetworkServer.active)
+                Debug.Log("Network Server Active");
+
+            Debug.Log("Network Server Inactive");
+
+            if (!spawnOverNetwork && NetworkServer.active)
             {
                 NetworkServer.Spawn(this.gameObject);
                 spawnOverNetwork = true;

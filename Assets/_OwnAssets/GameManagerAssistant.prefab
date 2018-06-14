@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4963016934408842}
   - component: {fileID: 114378226949892146}
   - component: {fileID: 114217496214574244}
-  - component: {fileID: 114808923324923396}
-  - component: {fileID: 114076802651251628}
+  - component: {fileID: 114266885004261740}
+  - component: {fileID: 114906206790943056}
   m_Layer: 0
   m_Name: GameManagerAssistant
   m_TagString: Untagged
@@ -43,19 +43,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114076802651251628
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1519025146396042}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_guid: c7701bfc-4d89-46b4-959a-e62c1298fc68
-  m_isRuntime: 0
 --- !u!114 &114217496214574244
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -67,6 +54,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f1d419fa3a78646b629f5a72480221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnOverNetwork: 0
+--- !u!114 &114266885004261740
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1519025146396042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_guid: 56cd4ea0-81e9-476d-88e5-0882a4e050d1
+  m_isRuntime: 0
 --- !u!114 &114378226949892146
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -99,7 +100,7 @@ MonoBehaviour:
     i15: 141
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114808923324923396
+--- !u!114 &114906206790943056
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -113,11 +114,11 @@ MonoBehaviour:
   Guid: cdfb1a12-1d10-4141-a785-08c65454666a
   Mapping:
   - Name: GameManagerAssistant
-    Object: {fileID: 114076802651251628}
-    Id: 20943
+    Object: {fileID: 114266885004261740}
+    Id: 20971
   - Name: GameManagerAssistant
     Object: {fileID: 1519025146396042}
-    Id: 20944
+    Id: 20972
   - Name: GameManagerAssistant
     Object: {fileID: 4963016934408842}
-    Id: 20945
+    Id: 20973
