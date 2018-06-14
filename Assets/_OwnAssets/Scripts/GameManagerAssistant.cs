@@ -20,7 +20,7 @@ namespace SealTeam4
             NetworkServer.Spawn(GO);
         }
 
-        public void NetworkSpawnThis()
+        public void NetworkSpawnGMAssistant()
         {
             NetworkServer.Spawn(this.gameObject);
         }
