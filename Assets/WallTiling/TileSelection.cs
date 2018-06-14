@@ -1,49 +1,45 @@
-﻿using System.Collections;
+﻿
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SealTeam4 { 
-    public class WallTilingSelection : MonoBehaviour {
-        public enum Tilesets {_1x1, _1x2, _2x2, _3x3, _1x3};
-        public Tilesets size = Tilesets._1x1;
-        public Tilesets prevSize;
+namespace SealTeam4
+{
+    public class TileSelection : MonoBehaviour
+    {
+        [SerializeField] private int x_Axis = 1;
+        [SerializeField] private int y_Axis = 1;
+        [SerializeField] private GameObject _1x1_Prefab;
 
-        public GameObject _1x1_Prefab;
-        public GameObject _1x2_Prefab;
-        public GameObject _2x2_Prefab;
-        public GameObject _3x3_Prefab;
-        public GameObject _1x3_Prefab;
+        private int prevX_Axis;
+        private int prevY_Axis;
 
         private GameObject currObject;
         private void Start()
         {
+            prevX_Axis = x_Axis;
+            prevY_Axis = y_Axis;
             currObject = Instantiate(_1x1_Prefab, new Vector3(0, 0, 0), Quaternion.identity);
             currObject.transform.SetParent(transform);
             currObject.transform.position = transform.position;
-            prevSize = size;
         }
 
         private void Update()
         {
-            if (size != prevSize)
+            //if a change is detected
+            if (x_Axis != prevX_Axis || y_Axis != prevY_Axis)
             {
-                switch (size)
-                {
-                    case Tilesets._1x1:
-                        Destroy(currObject);
-                        break;
-                    case Tilesets._1x2:
-                        break;
-                    case Tilesets._2x2:
-                        break;
-                    case Tilesets._3x3:
-                        break;
-                    case Tilesets._1x3:
-                        break;
-                    default:
-                        break;
-                }
+                //set new axis values for the tile
+                SetTile(x_Axis, y_Axis);
             }
+        }
+
+        private void SetTile(int x, int y)
+        {
+            Debug.Log("x:" + x + ", y:" + y);
+            gameObject.transform.localScale = new Vector3(x, y, 0);
         }
     }
 }
+
