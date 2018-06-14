@@ -32,7 +32,6 @@ namespace SealTeam4
         [SerializeField] private GameObject navMeshSurfaceInitator_Prefab;
         [SerializeField] private GameObject localPlayerController_Prefab;
         [SerializeField] private GameObject gameManagerAssistant_Prefab;
-        [SerializeField] private GameObject playerModel_Prefab;
 
         [Header("Admin Components")]
         [SerializeField] private GameObject gameMasterCamera_Prefab;
@@ -71,6 +70,16 @@ namespace SealTeam4
 
         public string localPlayerName;
 
+        [Space(10)]
+
+        public bool networkTest = false;
+
+        public void ToggleNetworkTestBool()
+        {
+            networkTest = !networkTest;
+            GameManagerAssistant.instance.CmdUpdateNetworkTestBool(networkTest);
+        }
+
         //public List<PlayerVectorCalibData> playerVectorCalibDataList = new List<PlayerVectorCalibData>();
 
         private void Start()
@@ -101,6 +110,11 @@ namespace SealTeam4
                 case GameManagerMode.CLIENT:
                     Client_Update();
                     break;
+            }
+
+            if(Input.GetKeyDown(KeyCode.Z))
+            {
+                ToggleNetworkTestBool();
             }
         }
 
@@ -170,9 +184,6 @@ namespace SealTeam4
 
             // Spawn local player controller at spawn position
             Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
-
-            // Spawn player model at spawn position
-            Instantiate(playerModel_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
         }
 
         public void GM_Host_SwitchToRun()

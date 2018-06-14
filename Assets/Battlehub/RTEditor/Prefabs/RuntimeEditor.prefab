@@ -275,6 +275,8 @@ GameObject:
   - component: {fileID: 114000014091824460}
   - component: {fileID: 114134973361642180}
   - component: {fileID: 114095424428205528}
+  - component: {fileID: 114631451925699224}
+  - component: {fileID: 114196523117519802}
   m_Layer: 0
   m_Name: RuntimeEditor
   m_TagString: Untagged
@@ -8225,6 +8227,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &114196523117519802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_guid: 87db20d0-7d90-46d5-931c-ee99c95a39f6
+  m_isRuntime: 0
 --- !u!114 &114196763641723462
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9016,6 +9031,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1369553469061294, guid: 480b54607b255bd4cb2f540de569967e, type: 2}
+  - {fileID: 0}
+  - {fileID: 1946427205793658, guid: 630fa8241b21ad04c8e153005d659123, type: 2}
+  - {fileID: 1400349560827710, guid: 3dbb05581f6ec574f8361e902010ed4a, type: 2}
+  - {fileID: 1785509808929546, guid: be0371fe3814dfd4ea58029461d2687b, type: 2}
+  - {fileID: 1508045051640170, guid: 9522fe7cc9e6b7c429b125ce941d76c1, type: 2}
+  - {fileID: 1633649008256028, guid: 58be5b907b037604f8108d02cf377b2e, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1100400134454798, guid: ae61b55888989b64880d7419828f5835, type: 2}
 --- !u!114 &114335433164122590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9748,12 +9775,8 @@ MonoBehaviour:
   gameObjectsToSpawn:
   - {fileID: 1312872082511372, guid: 18725e12702d5e74a80b6dd16007f821, type: 2}
   - {fileID: 1047539409085786, guid: 31a4a70b1ef6c6b4194dab0fe53c17ca, type: 2}
-  essentialGamePrefabs:
-  - {fileID: 1489077985155436, guid: af6b4b6ce3a27e4458d36ac4393d2307, type: 2}
-  - {fileID: 1426368075374504, guid: 615d6da6368d44e4e86bc7310788c08d, type: 2}
-  objectToIgnoreWhenSavingScene:
-  - GameManager(Clone)
-  - GameManagerAssistant(Clone)
+  essentialGamePrefabs: []
+  objectToIgnoreWhenSavingScene: []
   saveSceneButton: {fileID: 114000012335640594}
   sceneHashText: {fileID: 114900718305692790}
   sceneHash_refreshRate: 3
@@ -10365,6 +10388,28 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
+--- !u!114 &114631451925699224
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Guid: cdfb1a12-1d10-4141-a785-08c65454666a
+  Mapping:
+  - Name: RuntimeEditor
+    Object: {fileID: 114196523117519802}
+    Id: 20934
+  - Name: RuntimeEditor
+    Object: {fileID: 146550}
+    Id: 20935
+  - Name: RuntimeEditor
+    Object: {fileID: 468744}
+    Id: 20936
 --- !u!114 &114632296638627002
 MonoBehaviour:
   m_ObjectHideFlags: 1

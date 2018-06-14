@@ -36,9 +36,9 @@ namespace SealTeam4
 
         public override void OnClientConnect(NetworkConnection conn)
         {
-            if(!GameManager.instance.isHost)
+            base.OnClientConnect(conn);
+            if (!GameManager.instance.isHost)
             {
-                base.OnClientConnect(conn);
                 GameManager.instance.GM_SwitchToClientMode();
             }
         }
@@ -66,6 +66,11 @@ namespace SealTeam4
             numOfPlayers--;
             UIManager.instance.SetConnectPlayerTxt("Players Connected: " + numOfPlayers);
             Debug.Log("OnServerDisconnect");
+        }
+
+        public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+        {
+            base.OnServerAddPlayer(conn, playerControllerId);
         }
     }
 }
