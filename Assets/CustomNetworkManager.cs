@@ -36,9 +36,9 @@ namespace SealTeam4
 
         public override void OnClientConnect(NetworkConnection conn)
         {
-            if(!GameManager.instance.isHost)
+            base.OnClientConnect(conn);
+            if (!GameManager.instance.isHost)
             {
-                base.OnClientConnect(conn);
                 GameManager.instance.GM_SwitchToClientMode();
             }
         }

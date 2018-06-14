@@ -32,7 +32,6 @@ namespace SealTeam4
         [SerializeField] private GameObject navMeshSurfaceInitator_Prefab;
         [SerializeField] private GameObject localPlayerController_Prefab;
         [SerializeField] private GameObject gameManagerAssistant_Prefab;
-        [SerializeField] private GameObject playerModel_Prefab;
 
         [Header("Admin Components")]
         [SerializeField] private GameObject gameMasterCamera_Prefab;
@@ -170,9 +169,6 @@ namespace SealTeam4
 
             // Spawn local player controller at spawn position
             Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
-
-            // Spawn player model at spawn position
-            Instantiate(playerModel_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
         }
 
         public void GM_Host_SwitchToRun()
