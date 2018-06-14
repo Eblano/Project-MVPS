@@ -10,6 +10,8 @@ namespace SealTeam4
         public static GameManagerAssistant instance;
         [SerializeField] private bool spawnOverNetwork = false;
 
+        [SerializeField] private GameObject gameManagerAssistant_Prefab;
+
         private void Start()
         {
             if (instance == null)
@@ -18,14 +20,9 @@ namespace SealTeam4
 
         private void Update()
         {
-            if (NetworkServer.active)
-                Debug.Log("Network Server Active");
-
-            Debug.Log("Network Server Inactive");
-
-            if (!spawnOverNetwork && NetworkServer.active)
+            if(!spawnOverNetwork && NetworkManager.singleton.isNetworkActive)
             {
-                NetworkServer.Spawn(this.gameObject);
+                NetworkServer.Spawn(gameManagerAssistant_Prefab);
                 spawnOverNetwork = true;
             }
         }
