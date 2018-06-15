@@ -58,7 +58,7 @@ namespace SealTeam4
         [Space(10)]
 
         // NPC List
-        [SerializeField] private List<NpcSpawnData> npcSpawnList = new List<NpcSpawnData>();
+        [SerializeField] private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
         private List<GameObject> spawnedCivilianNPCs = new List<GameObject>();
         private List<GameObject> spawnedVIPNPC = new List<GameObject>();
         private List<GameObject> spawnedHostileNPCs = new List<GameObject>();
@@ -281,7 +281,7 @@ namespace SealTeam4
 
         private void SpawnAndSetupNPC()
         {
-            foreach (NpcSpawnData npcSpawnData in npcSpawnList)
+            foreach (NpcSpawnData npcSpawnData in npcSpawnDataList)
             {
                 // Get spawn marker
                 GameObject SpawnMarker = GetSpawnMarkerByName(npcSpawnData.spawnMarkerName);
