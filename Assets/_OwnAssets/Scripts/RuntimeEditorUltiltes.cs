@@ -39,13 +39,6 @@ namespace SealTeam4
         [SerializeField] private List<string> gameObjectsToDestroyByName;
         [SerializeField] private List<GameObject> gameObjectsToSpawn;
 
-        [Header("Essential Game Prefabs")]
-        [SerializeField] private List<GameObject> essentialGamePrefabs;
-
-        [Space(5)]
-
-        public string[] objectToIgnoreWhenSavingScene;
-
         [Space(5)]
 
         [Header("Scene Hash Properties")]
@@ -56,6 +49,10 @@ namespace SealTeam4
 
         [Space(5)]
         [SerializeField] private Button startSceneButton;
+
+        [SerializeField] private GameObject mask;
+        [SerializeField] private TextMeshProUGUI maskSceneNameTxt;
+        [SerializeField] private TextMeshProUGUI maskSceneHashTxt;
 
         private void Start()
         {
@@ -78,11 +75,18 @@ namespace SealTeam4
             if(sceneHash_timeLeftToRefresh <= 0)
             {
                 sceneHash_timeLeftToRefresh = sceneHash_refreshRate;
-                bool success = CalcSceneHash();
-                if (success)
+                string hash = GetActiveSceneHash();
+
+                if (hash != null)
+                {
+                    sceneHashText.text = hash;
                     startSceneButton.interactable = true;
+                }
                 else
+                {
+                    sceneHashText.text = " - ";
                     startSceneButton.interactable = false;
+                }
             }
             else
             {
@@ -110,7 +114,7 @@ namespace SealTeam4
                     ImportAssets();
 
                 if (Input.GetKeyDown(calcSceneHash))
-                    CalcSceneHash();
+                    GetActiveSceneHash();
             }
         }
 
@@ -374,15 +378,25 @@ namespace SealTeam4
             return tex;
         }
 
-        public void SpawnEssentialGamePrefabs()
+        public void MaskEditorUIAndUpdateSceneInfo()
         {
-            foreach(GameObject gameObject in essentialGamePrefabs)
+            mask.SetActive(true);
+
+            string hash = GetActiveSceneHash();
+
+            if(hash != null)
             {
-                Instantiate(gameObject, transform.position, transform.rotation);
+                maskSceneHashTxt.text = hash;
             }
+            else
+            {
+                maskSceneHashTxt.text = " - ";
+            }
+
+            maskSceneNameTxt.text = m_projectManager.ActiveScene.Name;
         }
 
-        public bool CalcSceneHash()
+        public string GetActiveSceneHash()
         {
             ProjectItem currRuntimeScene = m_projectManager.ActiveScene;
 
@@ -399,13 +413,11 @@ namespace SealTeam4
                         hashText = String.Format("{0:X}", BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant().GetHashCode());
                     }
                 }
-                sceneHashText.text = hashText;
-                return true;
+                return hashText;
             }
             else
             {
-                sceneHashText.text = "-";
-                return false;
+                return null;
             }
         }
     }

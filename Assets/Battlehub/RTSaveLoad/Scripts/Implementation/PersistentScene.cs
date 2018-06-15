@@ -167,12 +167,9 @@ namespace Battlehub.RTSaveLoad
                 return null;
             }
 
-            string[] objectNamesToIgnoreWhenSaving = SealTeam4.RuntimeEditorUltiltes.instance.objectToIgnoreWhenSavingScene;
-
             GameObject[] gameObjects =
                 SceneManager.GetActiveScene()
                 .GetRootGameObjects()
-                .Where(x => !objectNamesToIgnoreWhenSaving.Contains(x.name))
                 .OrderBy(g => g.transform.GetSiblingIndex())
                 .ToArray();
 

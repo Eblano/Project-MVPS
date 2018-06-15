@@ -151,7 +151,6 @@ namespace Battlehub.RTSaveLoad
         protected void CompleteSceneLoading(ProjectItem scene, ProjectManagerCallback callback, bool isEnabled, PersistentScene persistentScene)
         {
             PersistentScene.InstantiateGameObjects(persistentScene);
-            SealTeam4.RuntimeEditorUltiltes.instance.SpawnEssentialGamePrefabs();
 
             m_project.UnloadData(scene);
 
@@ -169,6 +168,7 @@ namespace Battlehub.RTSaveLoad
             }
 
             RaiseSceneLoaded(scene);
+            SealTeam4.RuntimeEditorUltiltes.instance.MaskEditorUIAndUpdateSceneInfo();
         }
 
         public virtual void CreateScene()
