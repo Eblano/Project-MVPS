@@ -4,7 +4,8 @@ using System.Collections;
 namespace SealTeam4
 {
     [ExecuteInEditMode]
-    public class TextureTilingController : MonoBehaviour{
+    public class TextureTilingController : MonoBehaviour
+    {
 
         Renderer m_ObjectRenderer;
 
@@ -17,7 +18,8 @@ namespace SealTeam4
         float prevTextureToMeshZ = -1f;
 
         // Use this for initialization
-        void Start(){
+        void Start()
+        {
             this.prevScale = gameObject.transform.lossyScale;
             this.prevTextureToMeshZ = this.textureToMeshZ;
             m_ObjectRenderer = GetComponent<Renderer>();
@@ -26,7 +28,8 @@ namespace SealTeam4
         }
 
         // Update is called once per frame
-        void Update() {
+        void Update()
+        {
             // If something has changed
             if (gameObject.transform.lossyScale != prevScale || !Mathf.Approximately(this.textureToMeshZ, prevTextureToMeshZ))
                 this.UpdateTiling();
@@ -37,7 +40,8 @@ namespace SealTeam4
         }
 
         [ContextMenu("UpdateTiling")]
-        void UpdateTiling() {
+        void UpdateTiling()
+        {
             // A Unity plane is 10 units x 10 units
             float planeSizeX = 10f;
             float planeSizeZ = 10f;
