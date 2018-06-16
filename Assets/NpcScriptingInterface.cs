@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SealTeam4
 {
+    //[ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
     public class NpcScriptingInterface : MonoBehaviour
     {
         public static NpcScriptingInterface instance;
@@ -31,11 +32,6 @@ namespace SealTeam4
             npcScriptingUIroot.SetActive(false);
         }
 
-        private void OnEnable()
-        {
-            Instantiate(npcSpawnInfoStorage_Prefab, Vector3.zero, Quaternion.identity);
-        }
-
         public void DeleteAllInfoPanels()
         {
             foreach (Transform child in rightPanel.GetComponentsInChildren<Transform>())
@@ -49,10 +45,11 @@ namespace SealTeam4
 
         public void ShowNPCScriptingUI()
         {
-            Instantiate(npcSpawnInfoStorage_Prefab, Vector3.zero, Quaternion.identity);
-            npcScriptingUIroot.SetActive(true);
-
-            PopulateDataOnUI(NpcSpawnInfoStorage.instance.GetAllNPCSpawnData());
+            if(NpcSpawnInfoStorage.instance != null)
+            {
+                npcScriptingUIroot.SetActive(true);
+                PopulateDataOnUI(NpcSpawnInfoStorage.instance.GetAllNPCSpawnData());
+            }
         }
 
         public void HideNPCScriptingUI()

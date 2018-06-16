@@ -185,21 +185,7 @@ namespace Battlehub.RTSaveLoad
                 }
             }
 
-            //GameObject dirLight = new GameObject();
-            //dirLight.transform.rotation = Quaternion.Euler(50, -30, 0);
-            //dirLight.transform.position = new Vector3(0, 10, 0);
-            //Light lightComponent = dirLight.AddComponent<Light>();
-            //lightComponent.type = LightType.Directional;
-
-            //dirLight.name = "Directional Light";
-            //dirLight.AddComponent<ExposeToEditor>();
-
-            //GameObject camera = new GameObject();
-            //camera.name = "Main Camera";
-            //camera.transform.position = new Vector3(0, 0, -10);
-            //camera.AddComponent<Camera>();
-            //camera.tag = "MainCamera";
-            //camera.AddComponent<ExposeToEditor>();
+            
 
             m_activeScene = ProjectItem.CreateScene("New Scene");
 

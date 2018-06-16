@@ -6,21 +6,14 @@ namespace SealTeam4
 {
 	public class NpcSpawnInfoStorage : MonoBehaviour 
 	{
-        [SerializeField] private string baseNPCName = "NPC";
+        private string baseNPCName = "NPC";
 
-		public static NpcSpawnInfoStorage instance;
+		[Battlehub.SerializeIgnore] public static NpcSpawnInfoStorage instance;
 
         private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
 
-        private void OnDestroy()
-        {
-            instance = null;
-        }
-
-        private void OnDisable()
-        {
-            instance = null;
-        }
+        [SerializeField] private bool editNPCScripts = false;
+        [SerializeField] private bool haveInstance = false;
 
         private void OnEnable()
         {
@@ -28,9 +21,33 @@ namespace SealTeam4
                 instance = this;
             else
             {
-                Destroy(instance.gameObject);
-                instance = this;
-                Debug.Log("Duplicated NpcSpawnInfoStorage, deteling original...");
+                Debug.Log("Duplicate NpcSpawnInfoStorage detected, destroying duplicate..");
+                Destroy(gameObject);
+            }
+        }
+
+        private void OnDisable()
+        {
+            instance = null;
+        }
+
+        private void OnDestroy()
+        {
+            if(instance == this)
+                instance = null;
+        }
+
+        private void Update()
+        {
+            if (instance == this)
+                haveInstance = true;
+            else
+                haveInstance = false;
+
+            if (editNPCScripts)
+            {
+                editNPCScripts = false;
+                NpcScriptingInterface.instance.ShowNPCScriptingUI();
             }
         }
 
