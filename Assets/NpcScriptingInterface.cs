@@ -6,16 +6,45 @@ namespace SealTeam4
 {
     public class NpcScriptingInterface : MonoBehaviour
     {
-        [SerializeField] private GameObject npcSpawnInfoStorage_Prefab;
-        [SerializeField] private GameObject npcScriptingUIroot;
+        public static NpcScriptingInterface instance;
 
-        [Header("UI Components")]
-        [SerializeField] private GameObject npcList;
+        [SerializeField] private GameObject npcSpawnInfoStorage_Prefab;
+
+        [Header("Existing UI Components")]
+        [SerializeField] private GameObject npcScriptingUIroot;
+        public GameObject npcList;
+        public GameObject rightPanel;
+
+        [Header("Spawning UI Components")]
         [SerializeField] private GameObject npcList_NPCButton_Prefab;
+
+        private void Start()
+        {
+            if (instance == null)
+                instance = this;
+            else
+            {
+                Debug.Log("Duplicate NpcScriptingInterface detected, deleting..");
+                Destroy(gameObject);
+            }
+
+            npcScriptingUIroot.SetActive(false);
+        }
 
         private void OnEnable()
         {
             Instantiate(npcSpawnInfoStorage_Prefab, Vector3.zero, Quaternion.identity);
+        }
+
+        public void DeleteAllInfoPanels()
+        {
+            foreach (Transform child in rightPanel.GetComponentsInChildren<Transform>())
+            {
+                if (child.gameObject != rightPanel)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
         }
 
         public void ShowNPCScriptingUI()
@@ -39,6 +68,14 @@ namespace SealTeam4
                 npcSpawnButton.transform.SetParent(npcList.transform);
                 npcSpawnButton.GetComponent<NPCList_NPCButton>().SetText(npcSpawnData.name);
             }
+        }
+
+        public void AddNPCEntry()
+        {
+            GameObject npcSpawnButton = Instantiate(npcList_NPCButton_Prefab, Vector3.zero, Quaternion.identity);
+            npcSpawnButton.transform.SetParent(npcList.transform);
+            string npcName = NpcSpawnInfoStorage.instance.AddNewNPCSpawnData();
+            npcSpawnButton.GetComponent<NPCList_NPCButton>().SetText(npcName);
         }
     }
 }

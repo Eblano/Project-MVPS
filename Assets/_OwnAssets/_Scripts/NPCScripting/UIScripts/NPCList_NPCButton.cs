@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class NPCList_NPCButton : MonoBehaviour
+namespace SealTeam4
 {
-    [SerializeField] private TextMeshProUGUI labelText;
-    [SerializeField] private GameObject rightPanel;
-    [SerializeField] private GameObject infoPanel_Prefab;
-    private GameObject infoPanel;
-
-    private void Start()
+    public class NPCList_NPCButton : MonoBehaviour
     {
-        infoPanel = Instantiate(infoPanel_Prefab, Vector3.zero, Quaternion.identity);
-        infoPanel.transform.SetParent(rightPanel.transform);
-        infoPanel.SetActive(false);
-    }
+        [SerializeField] private TextMeshProUGUI labelText;
+        [SerializeField] private GameObject infoPanel_Prefab;
+        private GameObject infoPanel;
 
-    public void SetText(string text)
-    {
-        labelText.text = text;
+        public void SetText(string text)
+        {
+            labelText.text = text;
+        }
+
+        public void ShowInfoPanel()
+        {
+            NpcScriptingInterface.instance.DeleteAllInfoPanels();
+
+            infoPanel = Instantiate(infoPanel_Prefab, Vector3.zero, Quaternion.identity);
+            infoPanel.transform.SetParent(NpcScriptingInterface.instance.rightPanel.transform);
+        }
     }
 }

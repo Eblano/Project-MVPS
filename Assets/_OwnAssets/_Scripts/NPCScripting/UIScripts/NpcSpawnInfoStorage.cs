@@ -6,9 +6,11 @@ namespace SealTeam4
 {
 	public class NpcSpawnInfoStorage : MonoBehaviour 
 	{
+        [SerializeField] private string baseNPCName = "NPC";
+
 		public static NpcSpawnInfoStorage instance;
 
-        private List<NpcSpawnData> npcSpawnDataList;
+        private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
 
         private void OnDestroy()
         {
@@ -27,13 +29,41 @@ namespace SealTeam4
             else
             {
                 Destroy(instance.gameObject);
-                Debug.Log("Duplicated NpcSpawnInfoStorage, deteling..");
+                instance = this;
+                Debug.Log("Duplicated NpcSpawnInfoStorage, deteling original...");
             }
         }
 
         public List<NpcSpawnData> GetAllNPCSpawnData()
         {
             return npcSpawnDataList;
+        }
+
+        public string AddNewNPCSpawnData()
+        {
+            NpcSpawnData newData = new NpcSpawnData
+            {
+                name = GetUniqueNPCName()
+            };
+            npcSpawnDataList.Add(newData);
+
+            return newData.name;
+        }
+
+        public string GetUniqueNPCName()
+        {
+            int increment = 0;
+            
+            if(npcSpawnDataList.Count >= 1)
+            {
+                do
+                {
+                    increment++;
+                }
+                while (npcSpawnDataList.Exists(x => x.name == baseNPCName + increment));
+            }
+
+            return baseNPCName + increment;
         }
     }
 }
