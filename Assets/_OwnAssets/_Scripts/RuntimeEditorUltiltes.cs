@@ -48,8 +48,8 @@ namespace SealTeam4
         private float sceneHash_timeLeftToRefresh;
 
         [Space(5)]
-        [SerializeField] private Button startSceneButton;
 
+        [SerializeField] private Button startSceneButton;
         [SerializeField] private GameObject mask;
         [SerializeField] private TextMeshProUGUI maskSceneNameTxt;
         [SerializeField] private TextMeshProUGUI maskSceneHashTxt;
