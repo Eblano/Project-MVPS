@@ -9,12 +9,12 @@ namespace SealTeam4
 	{
 		[SerializeField] private TMP_Dropdown spawnMarkerDropdown;
 
-		public void Setup(List<Marker> npcSpawnMarkers)
+		public void Setup(string selectedSpawnMarker, List<Marker> npcSpawnMarkers)
 		{
-            Setup_SpawnMarkerDropdown(npcSpawnMarkers);
+            Setup_SpawnMarkerDropdown(selectedSpawnMarker, npcSpawnMarkers);
         }
 
-        private void Setup_SpawnMarkerDropdown(List<Marker> npcSpawnMarkers)
+        private void Setup_SpawnMarkerDropdown(string selectedSpawnMarker, List<Marker> npcSpawnMarkers)
         {
             List<TMP_Dropdown.OptionData> npcSpawnMarkersDropdownOptions = new List<TMP_Dropdown.OptionData>();
             foreach (Marker npcSpawnMarker in npcSpawnMarkers)
@@ -28,11 +28,18 @@ namespace SealTeam4
             }
             if (npcSpawnMarkersDropdownOptions.Count > 0)
                 spawnMarkerDropdown.AddOptions(npcSpawnMarkersDropdownOptions);
+
+            if(selectedSpawnMarker != "")
+            {
+                spawnMarkerDropdown.options.FindIndex((i) => { return i.text.Equals(selectedSpawnMarker); });
+            }
         }
 
 		public void OnValueChanged_SpawnMarkerDropdown()
 		{
-            NpcScripting.instance.UpdateNpcSpawnData_SpawnMarker(this, spawnMarkerDropdown.itemText.text);
+            NpcScripting
+                .instance
+                .UpdateNpcSpawnData_SpawnMarker(this, spawnMarkerDropdown.options[spawnMarkerDropdown.value].text);
         }
 	}
 }

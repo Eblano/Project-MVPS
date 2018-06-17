@@ -6,11 +6,11 @@ namespace SealTeam4
 {
 	public class NpcScriptStorage : MonoBehaviour 
 	{
-        private string baseNPCName = "NPC";
+        private readonly string baseNPCName = "NPC";
 
 		[Battlehub.SerializeIgnore] public static NpcScriptStorage instance;
-
-        private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
+        
+        [SerializeField] private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
 
         [SerializeField] private bool editNPCScripts = false;
 

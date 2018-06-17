@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace SealTeam4
 {
+    [ProtoContract]
     [System.Serializable]
     public class NpcSpawnData
     {

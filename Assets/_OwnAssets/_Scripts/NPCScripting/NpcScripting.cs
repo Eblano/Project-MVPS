@@ -16,8 +16,7 @@ namespace SealTeam4
         [Header("Spawning UI Components")]
         [SerializeField] private GameObject npcList_NPCButton_Prefab;
         [SerializeField] private GameObject infoPanel_Prefab;
-
-        private bool populateDataOnUIDone = false;
+        
         private GameObject currActiveInfoPanel;
 
         public List<Marker> npcSpawnMarkers;
@@ -53,16 +52,19 @@ namespace SealTeam4
             if (NpcScriptStorage.instance != null)
             {
                 npcScriptingUIroot.SetActive(true);
-                if (!populateDataOnUIDone)
-                {
-                    PopulateDataOnUI(NpcScriptStorage.instance.GetAllNPCSpawnData());
-                    populateDataOnUIDone = true;
-                }
+                PopulateDataOnUI(NpcScriptStorage.instance.GetAllNPCSpawnData());
             }
         }
 
         public void HideNPCScriptingUI()
         {
+            foreach(NpcScriptingUIData npcScriptingUIData in npcScriptingUIDataList)
+            {
+                Destroy(npcScriptingUIData.npcListButton.gameObject);
+                Destroy(npcScriptingUIData.infoPanel.gameObject);
+            }
+
+            npcScriptingUIDataList.Clear();
             npcScriptingUIroot.SetActive(false);
         }
 
@@ -99,7 +101,7 @@ namespace SealTeam4
 
             // Setup various UI components
             npsScriptingUIData.npcListButton.Setup(newNpcSpawnData.name);
-            npsScriptingUIData.infoPanel.Setup(npcSpawnMarkers);
+            npsScriptingUIData.infoPanel.Setup(newNpcSpawnData.spawnMarkerName, npcSpawnMarkers);
 
             // Add UIData to List
             npcScriptingUIDataList.Add(npsScriptingUIData);
