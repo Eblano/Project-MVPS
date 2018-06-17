@@ -13,7 +13,6 @@ namespace SealTeam4
         private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
 
         [SerializeField] private bool editNPCScripts = false;
-        [SerializeField] private bool haveInstance = false;
 
         private void OnEnable()
         {
@@ -40,11 +39,6 @@ namespace SealTeam4
 
         private void Update()
         {
-            if (instance == this)
-                haveInstance = true;
-            else
-                haveInstance = false;
-
             if (editNPCScripts)
             {
                 editNPCScripts = false;
@@ -57,7 +51,7 @@ namespace SealTeam4
             return npcSpawnDataList;
         }
 
-        public string AddNewNPCSpawnData()
+        public NpcSpawnData AddNewNPCSpawnData()
         {
             NpcSpawnData newData = new NpcSpawnData
             {
@@ -65,7 +59,12 @@ namespace SealTeam4
             };
             npcSpawnDataList.Add(newData);
 
-            return newData.name;
+            return newData;
+        }
+
+        public void UpdateNpcSpawnData(NpcSpawnData targetNpcSpawnData, NpcSpawnData newNpcSpawnData)
+        {
+            npcSpawnDataList[npcSpawnDataList.IndexOf(targetNpcSpawnData)] = newNpcSpawnData;
         }
 
         public string GetUniqueNPCName()

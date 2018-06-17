@@ -39,9 +39,9 @@ GameObject:
   - component: {fileID: 222177619512013248}
   - component: {fileID: 114446077086692802}
   - component: {fileID: 114104167724020000}
-  - component: {fileID: 114495415405175276}
+  - component: {fileID: 114260411038749708}
   m_Layer: 5
-  m_Name: NPCList_NPCButton
+  m_Name: NPCListButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114495415405175276}
+      - m_Target: {fileID: 114260411038749708}
         m_MethodName: ShowInfoPanel
         m_Mode: 1
         m_Arguments:
@@ -99,6 +99,18 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114260411038749708
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1349045235619882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6c80646cd0f9294a8a24f527b7a4184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  labelText: {fileID: 114492823934628132}
 --- !u!114 &114446077086692802
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -238,18 +250,6 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &114495415405175276
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1349045235619882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61e4a91f8d65c944ea00d1dabf289be2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  labelText: {fileID: 114492823934628132}
 --- !u!222 &222177619512013248
 CanvasRenderer:
   m_ObjectHideFlags: 1

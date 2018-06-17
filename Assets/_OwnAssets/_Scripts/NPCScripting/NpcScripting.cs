@@ -10,21 +10,24 @@ namespace SealTeam4
         
         [Header("Existing UI Components")]
         [SerializeField] private GameObject npcScriptingUIroot;
-        public GameObject npcList;
-        public GameObject rightPanel;
+        [SerializeField] private GameObject npcList;
+        [SerializeField] private GameObject rightPanel;
 
         [Header("Spawning UI Components")]
         [SerializeField] private GameObject npcList_NPCButton_Prefab;
-        public GameObject infoPanel_Prefab;
+        [SerializeField] private GameObject infoPanel_Prefab;
+
+        private bool populateDataOnUIDone = false;
+        private GameObject currActiveInfoPanel;
 
         public List<Marker> npcSpawnMarkers;
 
-		public class NpcScriptingUIData
+        private class NpcScriptingUIData
 		{
 			public NPCListButton npcListButton;
 			public InfoPanel infoPanel;
 
-			public NpcSpawnData npcSpawnData;
+            public NpcSpawnData npcSpawnData;
 		}
 		private List<NpcScriptingUIData> npcScriptingUIDataList = new List<NpcScriptingUIData>();
 
@@ -41,25 +44,20 @@ namespace SealTeam4
             npcScriptingUIroot.SetActive(false);
         }
 
-        public void DeleteAllInfoPanels()
-        {
-            foreach (Transform child in rightPanel.GetComponentsInChildren<Transform>())
-            {
-                if (child.gameObject != rightPanel)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
-        }
-
         public void ShowNPCScriptingUI()
         {
             npcSpawnMarkers = GameManager.instance.GetAllNPCSpawnMarker();
 
-            if(NpcScriptStorage.instance != null)
+            npcScriptingUIroot.SetActive(true);
+
+            if (NpcScriptStorage.instance != null)
             {
                 npcScriptingUIroot.SetActive(true);
-                PopulateDataOnUI(NpcScriptStorage.instance.GetAllNPCSpawnData());
+                if (!populateDataOnUIDone)
+                {
+                    PopulateDataOnUI(NpcScriptStorage.instance.GetAllNPCSpawnData());
+                    populateDataOnUIDone = true;
+                }
             }
         }
 
@@ -68,33 +66,67 @@ namespace SealTeam4
             npcScriptingUIroot.SetActive(false);
         }
 
-        public void PopulateDataOnUI(List<NpcSpawnData> npcSpawnDataList)
+        private void PopulateDataOnUI(List<NpcSpawnData> npcSpawnDataList)
         {
             foreach(NpcSpawnData npcSpawnData in npcSpawnDataList)
             {
-				GameObject npcListButton = Instantiate(npcList_NPCButton_Prefab, Vector3.zero, Quaternion.identity);
-                
-				NpcScriptingUIData npsScriptingUIData = new NpcScriptingUIData();
-                
-				npsScriptingUIData.npcListButton = npcListButton.GetComponent<NPCListButton>();
-                npsScriptingUIData.npcListButton.SetButtonText(npcSpawnData.name);
-				npsScriptingUIData.npcListButton.transform.SetParent(npcList.transform);
-
-				GameObject infoPanel = Instantiate(NpcScripting.instance.infoPanel_Prefab, Vector3.zero, Quaternion.identity);
-				npsScriptingUIData.infoPanel = infoPanel.GetComponent<InfoPanel>();
-				npsScriptingUIData.infoPanel.transform.SetParent(NpcScripting.instance.rightPanel.transform);
-
-                npcScriptingUIDataList.Add(npsScriptingUIData);
+                AddNewNPCUIData(npcSpawnData);
             }
         }
 
         public void AddNPCEntry()
         {
-            GameObject npcSpawnButton = Instantiate(npcList_NPCButton_Prefab, Vector3.zero, Quaternion.identity);
-            npcSpawnButton.transform.SetParent(npcList.transform);
-            string npcName = NpcScriptStorage.instance.AddNewNPCSpawnData();
+            AddNewNPCUIData(NpcScriptStorage.instance.AddNewNPCSpawnData());
+        }
 
-			NPCListButton button = GetComponent<NPCListButton>();
+        private void AddNewNPCUIData(NpcSpawnData newNpcSpawnData)
+        {
+            // Spawn npcListButton and InfoPanel
+            GameObject npcListButton = Instantiate(npcList_NPCButton_Prefab, Vector3.zero, Quaternion.identity);
+            GameObject infoPanel = Instantiate(infoPanel_Prefab, Vector3.zero, Quaternion.identity);
+            // Set parent 
+            npcListButton.transform.SetParent(npcList.transform);
+            infoPanel.transform.SetParent(rightPanel.transform);
+            infoPanel.SetActive(false);
+
+            // Create new UIData
+            NpcScriptingUIData npsScriptingUIData = new NpcScriptingUIData
+            {
+                npcListButton = npcListButton.GetComponent<NPCListButton>(),
+                infoPanel = infoPanel.GetComponent<InfoPanel>(),
+                npcSpawnData = newNpcSpawnData
+            };
+
+            // Setup various UI components
+            npsScriptingUIData.npcListButton.Setup(newNpcSpawnData.name);
+            npsScriptingUIData.infoPanel.Setup(npcSpawnMarkers);
+
+            // Add UIData to List
+            npcScriptingUIDataList.Add(npsScriptingUIData);
+        }
+
+        public void ShowInfoPanel(NPCListButton sourceButton)
+        {
+            if(currActiveInfoPanel)
+                currActiveInfoPanel.SetActive(false);
+
+            currActiveInfoPanel =
+                npcScriptingUIDataList
+                .Find(x => x.npcListButton == sourceButton)
+                .infoPanel.gameObject;
+
+            currActiveInfoPanel.SetActive(true);
+        }
+
+        public void UpdateNpcSpawnData_SpawnMarker(InfoPanel sourceInfoPanel, string newSpawnMarkerValue)
+        {
+            NpcSpawnData targetNpcSpawnData =
+                npcScriptingUIDataList.Find(x => x.infoPanel == sourceInfoPanel).npcSpawnData;
+
+            NpcSpawnData newNpcSpawnData = targetNpcSpawnData;
+            newNpcSpawnData.spawnMarkerName = newSpawnMarkerValue;
+
+            NpcScriptStorage.instance.UpdateNpcSpawnData(targetNpcSpawnData, newNpcSpawnData);
         }
     }
 }
