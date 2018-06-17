@@ -412,6 +412,12 @@ namespace SealTeam4
         {
             return totalRegMarkers;
         }
+
+        public List<Marker> GetAllNPCSpawnMarker()
+        {
+            return registeredMarkers
+                .FindAll(x => x.markerType == MARKER_TYPE.NPC_SPAWN);
+        }
     }
 
     //[System.Serializable]

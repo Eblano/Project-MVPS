@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 namespace SealTeam4
 {
     public class NPCList_NPCButton : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI labelText;
-        [SerializeField] private GameObject infoPanel_Prefab;
         private GameObject infoPanel;
 
         public void SetText(string text)
@@ -20,8 +20,17 @@ namespace SealTeam4
         {
             NpcScriptingInterface.instance.DeleteAllInfoPanels();
 
-            infoPanel = Instantiate(infoPanel_Prefab, Vector3.zero, Quaternion.identity);
+            infoPanel = Instantiate(NpcScriptingInterface.instance.infoPanel_Prefab, Vector3.zero, Quaternion.identity);
             infoPanel.transform.SetParent(NpcScriptingInterface.instance.rightPanel.transform);
+
+            PopulateInfoPanel(infoPanel.GetComponent<InfoPanel>());
+        }
+
+        private void PopulateInfoPanel(InfoPanel infoPanel)
+        {
+            infoPanel.PopulateInfo(
+                NpcScriptingInterface.instance.npcSpawnMarkers
+                );
         }
     }
 }
