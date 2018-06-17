@@ -1,14 +1,14 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace SealTeam4
 {
-	public class NpcSpawnInfoStorage : MonoBehaviour 
+	public class NpcScriptStorage : MonoBehaviour 
 	{
         private string baseNPCName = "NPC";
 
-		[Battlehub.SerializeIgnore] public static NpcSpawnInfoStorage instance;
+		[Battlehub.SerializeIgnore] public static NpcScriptStorage instance;
 
         private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
 

@@ -8,8 +8,9 @@ namespace SealTeam4
 	public class InfoPanel : MonoBehaviour 
 	{
 		[SerializeField] private TMP_Dropdown spawnMarkerDropdown;
+		private string npcName;
 
-		public void PopulateInfo(List<Marker> npcSpawnMarkers)
+		public void PopulateInfo(string npcName, List<Marker> npcSpawnMarkers)
 		{
 			List<TMP_Dropdown.OptionData> npcSpawnMarkersDropdownOptions = new List<TMP_Dropdown.OptionData>();
 			foreach(Marker npcSpawnMarker in npcSpawnMarkers)
@@ -21,6 +22,11 @@ namespace SealTeam4
 			}
 			if(npcSpawnMarkersDropdownOptions.Count > 0)
 				spawnMarkerDropdown.AddOptions(npcSpawnMarkersDropdownOptions);
+		}
+
+		public void OnValueChanged_SpawnMarkerDropdown()
+		{
+			
 		}
 	}
 }

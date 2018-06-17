@@ -4,10 +4,9 @@ using UnityEngine;
 
 namespace SealTeam4
 {
-    //[ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
-    public class NpcScriptingInterface : MonoBehaviour
+    public class NpcScripting : MonoBehaviour
     {
-        public static NpcScriptingInterface instance;
+        public static NpcScripting instance;
         
         [Header("Existing UI Components")]
         [SerializeField] private GameObject npcScriptingUIroot;
@@ -19,6 +18,15 @@ namespace SealTeam4
         public GameObject infoPanel_Prefab;
 
         public List<Marker> npcSpawnMarkers;
+
+		public class NpcScriptingUIData
+		{
+			public NPCListButton npcListButton;
+			public InfoPanel infoPanel;
+
+			public NpcSpawnData npcSpawnData;
+		}
+		private List<NpcScriptingUIData> npcScriptingUIDataList = new List<NpcScriptingUIData>();
 
         private void Start()
         {
@@ -46,13 +54,13 @@ namespace SealTeam4
 
         public void ShowNPCScriptingUI()
         {
-            if(NpcSpawnInfoStorage.instance != null)
+            npcSpawnMarkers = GameManager.instance.GetAllNPCSpawnMarker();
+
+            if(NpcScriptStorage.instance != null)
             {
                 npcScriptingUIroot.SetActive(true);
-                PopulateDataOnUI(NpcSpawnInfoStorage.instance.GetAllNPCSpawnData());
+                PopulateDataOnUI(NpcScriptStorage.instance.GetAllNPCSpawnData());
             }
-
-            npcSpawnMarkers = GameManager.instance.GetAllNPCSpawnMarker();
         }
 
         public void HideNPCScriptingUI()
@@ -64,9 +72,19 @@ namespace SealTeam4
         {
             foreach(NpcSpawnData npcSpawnData in npcSpawnDataList)
             {
-                GameObject npcSpawnButton = Instantiate(npcList_NPCButton_Prefab, Vector3.zero, Quaternion.identity);
-                npcSpawnButton.transform.SetParent(npcList.transform);
-                npcSpawnButton.GetComponent<NPCList_NPCButton>().SetText(npcSpawnData.name);
+				GameObject npcListButton = Instantiate(npcList_NPCButton_Prefab, Vector3.zero, Quaternion.identity);
+                
+				NpcScriptingUIData npsScriptingUIData = new NpcScriptingUIData();
+                
+				npsScriptingUIData.npcListButton = npcListButton.GetComponent<NPCListButton>();
+                npsScriptingUIData.npcListButton.SetButtonText(npcSpawnData.name);
+				npsScriptingUIData.npcListButton.transform.SetParent(npcList.transform);
+
+				GameObject infoPanel = Instantiate(NpcScripting.instance.infoPanel_Prefab, Vector3.zero, Quaternion.identity);
+				npsScriptingUIData.infoPanel = infoPanel.GetComponent<InfoPanel>();
+				npsScriptingUIData.infoPanel.transform.SetParent(NpcScripting.instance.rightPanel.transform);
+
+                npcScriptingUIDataList.Add(npsScriptingUIData);
             }
         }
 
@@ -74,8 +92,9 @@ namespace SealTeam4
         {
             GameObject npcSpawnButton = Instantiate(npcList_NPCButton_Prefab, Vector3.zero, Quaternion.identity);
             npcSpawnButton.transform.SetParent(npcList.transform);
-            string npcName = NpcSpawnInfoStorage.instance.AddNewNPCSpawnData();
-            npcSpawnButton.GetComponent<NPCList_NPCButton>().SetText(npcName);
+            string npcName = NpcScriptStorage.instance.AddNewNPCSpawnData();
+
+			NPCListButton button = GetComponent<NPCListButton>();
         }
     }
 }
