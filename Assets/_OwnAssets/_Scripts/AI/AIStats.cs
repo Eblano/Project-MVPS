@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
 [System.Serializable]
 public class AIStats
 {
-    //public bool isTerrorist;
-    //public bool isVIP;
     public enum AiType { TERRORIST, VIP, CIVILLIAN };
     public AiType aiType = AiType.CIVILLIAN;
 

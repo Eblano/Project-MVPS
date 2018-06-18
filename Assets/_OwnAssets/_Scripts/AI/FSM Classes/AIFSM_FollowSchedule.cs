@@ -34,6 +34,7 @@ namespace SealTeam4
                     ScheduleProcess_TalkToOtherNPCs();
                     break;
             }
+
         }
         #region Schedule Processes Methods
         /// <summary>

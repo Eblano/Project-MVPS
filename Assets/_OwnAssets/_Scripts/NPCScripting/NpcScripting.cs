@@ -21,14 +21,21 @@ namespace SealTeam4
 
         public List<Marker> npcSpawnMarkers;
 
-        private class NpcScriptingUIData
-		{
-			public NPCListButton npcListButton;
-			public InfoPanel infoPanel;
+        //private class NpcScriptingUIData
+        //{
+        //	public NPCListButton npcListButton;
+        //	public InfoPanel infoPanel;
 
-            public NpcSpawnData npcSpawnData;
-		}
-		private List<NpcScriptingUIData> npcScriptingUIDataList = new List<NpcScriptingUIData>();
+        //  public NpcSpawnData npcSpawnData;
+        //}
+        private class NpcScriptingUIData
+        {
+            public NPCListButton npcListButton;
+            public InfoPanel infoPanel;
+
+            public NPCSpawnData_RTEStorage npcSpawnData;
+        }
+        private List<NpcScriptingUIData> npcScriptingUIDataList = new List<NpcScriptingUIData>();
 
         private void Start()
         {
@@ -68,20 +75,28 @@ namespace SealTeam4
             npcScriptingUIroot.SetActive(false);
         }
 
-        private void PopulateDataOnUI(List<NpcSpawnData> npcSpawnDataList)
+        private void PopulateDataOnUI(List<NPCSpawnData_RTEStorage> npcSpawnDataList)
         {
-            foreach(NpcSpawnData npcSpawnData in npcSpawnDataList)
+            foreach (NPCSpawnData_RTEStorage npcSpawnData in npcSpawnDataList)
             {
                 AddNewNPCUIData(npcSpawnData);
             }
         }
+
+        //private void PopulateDataOnUI(List<NpcSpawnData> npcSpawnDataList)
+        //{
+        //    foreach(NpcSpawnData npcSpawnData in npcSpawnDataList)
+        //    {
+        //        AddNewNPCUIData(npcSpawnData);
+        //    }
+        //}
 
         public void AddNPCEntry()
         {
             AddNewNPCUIData(NpcScriptStorage.instance.AddNewNPCSpawnData());
         }
 
-        private void AddNewNPCUIData(NpcSpawnData newNpcSpawnData)
+        private void AddNewNPCUIData(NPCSpawnData_RTEStorage newNpcSpawnData)
         {
             // Spawn npcListButton and InfoPanel
             GameObject npcListButton = Instantiate(npcList_NPCButton_Prefab, Vector3.zero, Quaternion.identity);
@@ -107,6 +122,32 @@ namespace SealTeam4
             npcScriptingUIDataList.Add(npsScriptingUIData);
         }
 
+        //private void AddNewNPCUIData(NpcSpawnData newNpcSpawnData)
+        //{
+        //    // Spawn npcListButton and InfoPanel
+        //    GameObject npcListButton = Instantiate(npcList_NPCButton_Prefab, Vector3.zero, Quaternion.identity);
+        //    GameObject infoPanel = Instantiate(infoPanel_Prefab, Vector3.zero, Quaternion.identity);
+        //    // Set parent 
+        //    npcListButton.transform.SetParent(npcList.transform);
+        //    infoPanel.transform.SetParent(rightPanel.transform);
+        //    infoPanel.SetActive(false);
+
+        //    // Create new UIData
+        //    NpcScriptingUIData npsScriptingUIData = new NpcScriptingUIData
+        //    {
+        //        npcListButton = npcListButton.GetComponent<NPCListButton>(),
+        //        infoPanel = infoPanel.GetComponent<InfoPanel>(),
+        //        npcSpawnData = newNpcSpawnData
+        //    };
+
+        //    // Setup various UI components
+        //    npsScriptingUIData.npcListButton.Setup(newNpcSpawnData.name);
+        //    npsScriptingUIData.infoPanel.Setup(newNpcSpawnData.spawnMarkerName, npcSpawnMarkers);
+
+        //    // Add UIData to List
+        //    npcScriptingUIDataList.Add(npsScriptingUIData);
+        //}
+
         public void ShowInfoPanel(NPCListButton sourceButton)
         {
             if(currActiveInfoPanel)
@@ -122,10 +163,10 @@ namespace SealTeam4
 
         public void UpdateNpcSpawnData_SpawnMarker(InfoPanel sourceInfoPanel, string newSpawnMarkerValue)
         {
-            NpcSpawnData targetNpcSpawnData =
+            NPCSpawnData_RTEStorage targetNpcSpawnData =
                 npcScriptingUIDataList.Find(x => x.infoPanel == sourceInfoPanel).npcSpawnData;
 
-            NpcSpawnData newNpcSpawnData = targetNpcSpawnData;
+            NPCSpawnData_RTEStorage newNpcSpawnData = targetNpcSpawnData;
             newNpcSpawnData.spawnMarkerName = newSpawnMarkerValue;
 
             NpcScriptStorage.instance.UpdateNpcSpawnData(targetNpcSpawnData, newNpcSpawnData);
