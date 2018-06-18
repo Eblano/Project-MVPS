@@ -1,6 +1,4 @@
-﻿
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +8,6 @@ namespace SealTeam4
     {
         [SerializeField] private int x_Axis = 1;
         [SerializeField] private int z_Axis = 1;
-        [SerializeField] private GameObject _1x1_Prefab;
 
         private int prevX_Axis;
         private int prevZ_Axis;
@@ -20,9 +17,6 @@ namespace SealTeam4
         {
             prevX_Axis = x_Axis;
             prevZ_Axis = z_Axis;
-            currObject = Instantiate(_1x1_Prefab, new Vector3(0, 0, 0), Quaternion.identity);
-            currObject.transform.SetParent(transform);
-            currObject.transform.position = transform.position;
         }
 
         private void Update()
@@ -39,8 +33,8 @@ namespace SealTeam4
 
         private void SetTile(int x, int z)
         {
-            Debug.Log("x:" + x + ", y:" + z);
-            gameObject.transform.localScale = new Vector3(x, 0, z);
+            Debug.Log("x:" + x + ", z:" + z);
+            gameObject.transform.localScale = new Vector3(x, 0.005f, z);
         }
     }
 }
