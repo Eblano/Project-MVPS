@@ -11,12 +11,14 @@ namespace SealTeam4
         [Header("Existing UI Components")]
         [SerializeField] private GameObject npcScriptingUIroot;
         [SerializeField] private GameObject npcList;
-        [SerializeField] private GameObject rightPanel;
+        [SerializeField] private GameObject propertiesPanel;
+        [SerializeField] private GameObject schedulesPanel;
 
         [Header("Spawning UI Components")]
         [SerializeField] private GameObject npcList_NPCButton_Prefab;
         [SerializeField] private GameObject infoPanel_Prefab;
-        
+        [SerializeField] private GameObject npcScheduleSlot_Prefab;
+
         private GameObject currActiveInfoPanel;
 
         private List<Marker> npcSpawnMarkers;
@@ -96,7 +98,7 @@ namespace SealTeam4
             GameObject infoPanel = Instantiate(infoPanel_Prefab, Vector3.zero, Quaternion.identity);
             // Set parent 
             npcListButton.transform.SetParent(npcList.transform);
-            infoPanel.transform.SetParent(rightPanel.transform);
+            infoPanel.transform.SetParent(propertiesPanel.transform);
             infoPanel.SetActive(false);
 
             // Create new UIData

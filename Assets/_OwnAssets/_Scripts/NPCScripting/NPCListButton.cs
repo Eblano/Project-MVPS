@@ -12,7 +12,7 @@ namespace SealTeam4
 
         public void Setup(string npcName)
         {
-            labelText.text = npcName;
+            labelText.text = npcName; 
         }
 
         public void ShowInfoPanel()

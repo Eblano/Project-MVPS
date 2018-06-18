@@ -37,8 +37,6 @@ namespace SealTeam4
 
         public void OnValueChanged_SpawnMarkerDropdown()
         {
-            Debug.Log("OnValueChanged_SpawnMarkerDropdown()");
-
             if (spawnMarkerDropdownSetup)
             {
                 NpcScripting.instance
