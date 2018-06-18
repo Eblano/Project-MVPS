@@ -15,7 +15,7 @@ namespace SealTeam4
         private Transform headset, lHandCont, rHandCont;
         private Vector3AndQuaternion head, lHand, rHand;
 
-        [SerializeField] private bool serverCanPlay;
+        //[SerializeField] private bool serverCanPlay;
         [SerializeField] private float grabRadius;
         [SerializeField] private float holdTouchPadTimer;
 
@@ -29,10 +29,10 @@ namespace SealTeam4
 
             playerInteractionSync = GetComponent<PlayerInteractionSync>();
 
-            if((!serverCanPlay && playerInteractionSync.isServer && playerInteractionSync.isLocalPlayer))
-            {
-                NetworkServer.Destroy(this.gameObject);
-            }
+            //if((!serverCanPlay && playerInteractionSync.isServer && playerInteractionSync.isLocalPlayer))
+            //{
+            //    NetworkServer.Destroy(this.gameObject);
+            //}
 
             if (!playerInteractionSync.isLocalPlayer)
             {

@@ -19,15 +19,8 @@ namespace SealTeam4
         
         private GameObject currActiveInfoPanel;
 
-        public List<Marker> npcSpawnMarkers;
+        private List<Marker> npcSpawnMarkers;
 
-        //private class NpcScriptingUIData
-        //{
-        //	public NPCListButton npcListButton;
-        //	public InfoPanel infoPanel;
-
-        //  public NpcSpawnData npcSpawnData;
-        //}
         private class NpcScriptingUIData
         {
             public NPCListButton npcListButton;

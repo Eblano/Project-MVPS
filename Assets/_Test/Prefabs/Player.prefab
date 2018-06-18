@@ -613,6 +613,7 @@ GameObject:
   - component: {fileID: 114796458724178668}
   - component: {fileID: 114056979905594804}
   - component: {fileID: 114606637673433114}
+  - component: {fileID: 114938867403203222}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3725,7 +3726,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b572d19753a99564eb4911e50bffa96e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverCanPlay: 0
   grabRadius: 0.1
   holdTouchPadTimer: 1.5
 --- !u!114 &114631796332764460
@@ -3790,6 +3790,17 @@ MonoBehaviour:
     i15: 237
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114938867403203222
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1310987374780024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9f1d419fa3a78646b629f5a72480221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135356268069401030
 SphereCollider:
   m_ObjectHideFlags: 1
