@@ -74,12 +74,6 @@ namespace SealTeam4
 
         public bool networkTest = false;
 
-        public void ToggleNetworkTestBool()
-        {
-            networkTest = !networkTest;
-            GameManagerAssistant.instance.CmdUpdateNetworkTestBool(networkTest);
-        }
-
         //public List<PlayerVectorCalibData> playerVectorCalibDataList = new List<PlayerVectorCalibData>();
 
         private void Start()
@@ -114,8 +108,14 @@ namespace SealTeam4
 
             if(Input.GetKeyDown(KeyCode.Z))
             {
-                ToggleNetworkTestBool();
+                GameManagerAssistant.instance.CmdSetBool(networkTest);
             }
+        }
+
+        public void UpdateNetworkTestBool(bool value)
+        {
+            networkTest = value;
+            Debug.Log(networkTest);
         }
 
         private void Host_Update()
@@ -176,14 +176,17 @@ namespace SealTeam4
         {
             currGameManagerMode = GameManagerMode.CLIENT;
 
-            // Find spawn marker
-            PlayerSpawnMarker playerSpawnMarker =
-                registeredMarkers.Find(x => x.markerType == MARKER_TYPE.PLAYER_SPAWN_MARKER)
-                .markerGO
-                .GetComponent<PlayerSpawnMarker>();
+            if(registeredMarkers.Count > 0)
+            {
+                // Find spawn marker
+                PlayerSpawnMarker playerSpawnMarker =
+                    registeredMarkers.Find(x => x.markerType == MARKER_TYPE.PLAYER_SPAWN_MARKER)
+                    .markerGO
+                    .GetComponent<PlayerSpawnMarker>();
 
-            // Spawn local player controller at spawn position
-            Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
+                // Spawn local player controller at spawn position
+                Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
+            }
         }
 
         public void GM_Host_SwitchToRun()
@@ -294,7 +297,7 @@ namespace SealTeam4
                 GameObject npc = Instantiate(npcToSpawn, targetSpawnMarker.pointPosition, targetSpawnMarker.pointRotation);
                 
                 // Spawn NPC on all clients
-                GameManagerAssistant.instance.NetworkSpawnObject(npc);
+                GameManagerAssistant.instance.CmdNetworkSpawnObject(npc);
 
                 // Setting NPC configurations
                 AIController npcGOAIController = npc.GetComponent<AIController>();

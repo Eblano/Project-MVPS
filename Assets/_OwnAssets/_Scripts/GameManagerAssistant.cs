@@ -9,27 +9,30 @@ namespace SealTeam4
     {
         public static GameManagerAssistant instance;
 
-        private void Start()
+        private void Update()
         {
             if (isLocalPlayer)
                 instance = this;
-        }
-
-        public void NetworkSpawnObject(GameObject GO)
-        {
-            NetworkServer.Spawn(GO);
+            else
+                return;
         }
 
         [Command]
-        public void CmdUpdateNetworkTestBool(bool newValue)
+        public void CmdSetBool(bool state)
         {
-            RpcUpdateNetworkTestBool(newValue);
+            RpcSetBool(state);
         }
 
         [ClientRpc]
-        public void RpcUpdateNetworkTestBool(bool newValue)
+        public void RpcSetBool(bool state)
         {
-            GameManager.instance.networkTest = newValue;
+            GameManager.instance.UpdateNetworkTestBool(state);
+        }
+
+        [Command]
+        public void CmdNetworkSpawnObject(GameObject GO)
+        {
+            NetworkServer.Spawn(GO);
         }
     }
 }
