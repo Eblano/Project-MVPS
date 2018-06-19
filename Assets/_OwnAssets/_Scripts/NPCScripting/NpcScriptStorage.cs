@@ -12,8 +12,6 @@ namespace SealTeam4
 
         private readonly string baseNPCName = "NPC";
         
-        //[SerializeField] private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
-
         [SerializeField] private List<NPCSpawnData_RTEStorage> npcSpawnDataList_RTEStorage;
         [SerializeField] private List<NPCSchedule_RTEStorage> npcScheduleList_RTEStorage;
 
@@ -49,26 +47,10 @@ namespace SealTeam4
             }
         }
 
-        //public List<NpcSpawnData> GetAllNPCSpawnData()
-        //{
-        //    return npcSpawnDataList;
-        //}
-
         public List<NPCSpawnData_RTEStorage> GetAllNPCSpawnData()
         {
             return npcSpawnDataList_RTEStorage;
         }
-
-        //public NpcSpawnData AddNewNPCSpawnData()
-        //{
-        //    NpcSpawnData newData = new NpcSpawnData
-        //    {
-        //        name = GetUniqueNPCName()
-        //    };
-        //    npcSpawnDataList.Add(newData);
-
-        //    return newData;
-        //}
 
         public NPCSpawnData_RTEStorage AddNewNPCSpawnData()
         {
@@ -86,11 +68,6 @@ namespace SealTeam4
             npcSpawnDataList_RTEStorage[npcSpawnDataList_RTEStorage.IndexOf(targetNpcSpawnData)] = newNpcSpawnData;
         }
 
-        //public void UpdateNpcSpawnData(NpcSpawnData targetNpcSpawnData, NpcSpawnData newNpcSpawnData)
-        //{
-        //    npcSpawnDataList[npcSpawnDataList.IndexOf(targetNpcSpawnData)] = newNpcSpawnData;
-        //}
-
         public string GetUniqueNPCName()
         {
             int increment = 0;
@@ -106,22 +83,6 @@ namespace SealTeam4
 
             return baseNPCName + increment;
         }
-
-        //public string GetUniqueNPCName()
-        //{
-        //    int increment = 0;
-            
-        //    if(npcSpawnDataList.Count >= 1)
-        //    {
-        //        do
-        //        {
-        //            increment++;
-        //        }
-        //        while (npcSpawnDataList.Exists(x => x.name == baseNPCName + increment));
-        //    }
-
-        //    return baseNPCName + increment;
-        //}
     }
 }
 
@@ -130,8 +91,7 @@ namespace SealTeam4
 public class NPCSpawnData_RTEStorage
 {
     public string name;
-    //public enum NPC_TYPE { NULL, TYPE0, TYPE1 };
-    //public NPC_TYPE nPC_TYPE = NPC_TYPE.NULL;
+    public string[] defNPCTypes = { "NULL", "TYPE0", "TYPE1", "SIT_IN_AREA" };
     public string NPCType;
     public string spawnMarkerName;
 
@@ -143,14 +103,7 @@ public class NPCSpawnData_RTEStorage
 public class NPCSchedule_RTEStorage
 {
     public string name;
-
-    //public enum SCHEDULE_TYPE
-    //{
-    //    IDLE, MOVE_TO_POS, MOVE_TO_POS_WITH_ROT, SIT_IN_AREA, TALK_TO_OTHER_NPC
-    //}
-
-    //public SCHEDULE_TYPE scheduleType;
-
+    public string[] defScheduleTypes = { "IDLE", "MOVE_TO_POS", "MOVE_TO_POS_WITH_ROT", "SIT_IN_AREA", "TALK_TO_OTHER_NPC" };
     public string scheduleType;
     public string argument;
 }

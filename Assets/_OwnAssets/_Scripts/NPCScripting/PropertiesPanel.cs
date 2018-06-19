@@ -5,9 +5,10 @@ using TMPro;
 
 namespace SealTeam4
 {
-	public class InfoPanel : MonoBehaviour 
+	public class PropertiesPanel : MonoBehaviour 
 	{
 		[SerializeField] private TMP_Dropdown spawnMarkerDropdown;
+        [SerializeField] private GameObject schedulesPanel;
 
         private bool spawnMarkerDropdownSetup = false;
 
