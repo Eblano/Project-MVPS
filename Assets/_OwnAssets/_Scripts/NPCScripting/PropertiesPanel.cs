@@ -12,7 +12,9 @@ namespace SealTeam4
 
         private GameObject npcScheduleSlot_Prefab;
         public List<NPCScheduleSlot> npcScheduleSlotList = new List<NPCScheduleSlot>();
-        public string npcName;
+
+        private NPCSpawnData_RTEStorage ref_npcSpawnData;
+        private List<NPCSchedule_RTEStorage> ref_schedules;
 
         private bool spawnMarkerDropdownSetup = false;
 
@@ -21,35 +23,36 @@ namespace SealTeam4
             List<Marker> npcSpawnMarkers,
             List<Marker> targetMarkers,
             List<Marker> areaMarkers,
-            NPCSpawnData_RTEStorage npcSpawnData,
-            List<NPCSchedule_RTEStorage> schedules,
+            ref NPCSpawnData_RTEStorage ref_npcSpawnData,
+            ref List<NPCSchedule_RTEStorage> ref_schedules,
             GameObject npcScheduleSlot_Prefab
             )
         {
             this.npcScheduleSlot_Prefab = npcScheduleSlot_Prefab;
-            npcName = npcSpawnData.npcName;
 
-            Setup_SpawnMarkerDropdown(npcSpawnData.spawnMarkerName, npcSpawnMarkers);
-            Setup_ScheduleSlots(schedules, targetMarkers, areaMarkers);
+            this.ref_npcSpawnData = ref_npcSpawnData;
+            this.ref_schedules = ref_schedules;
+
+            Setup_SpawnMarkerDropdown(ref_npcSpawnData.spawnMarkerName, npcSpawnMarkers);
+            Setup_ScheduleSlots(targetMarkers, areaMarkers);
 
             gameObject.SetActive(false);
         }
 
         private void Setup_ScheduleSlots
             (
-            List<NPCSchedule_RTEStorage> schedules,
             List<Marker> targetMarkers,
             List<Marker> areaMarkers
             )
         {
-            foreach(NPCSchedule_RTEStorage schedule in schedules)
+            foreach (NPCSchedule_RTEStorage schedule in ref_schedules)
             {
                 NPCScheduleSlot npcScheduleSlot =
                     Instantiate(npcScheduleSlot_Prefab, Vector3.zero, Quaternion.identity)
                     .GetComponent<NPCScheduleSlot>();
 
                 npcScheduleSlot.transform.SetParent(schedulesPanel.transform);
-                npcScheduleSlot.Setup(schedule, targetMarkers, areaMarkers);
+                npcScheduleSlot.Setup(this, schedule, targetMarkers, areaMarkers);
 
                 npcScheduleSlotList.Add(npcScheduleSlot);
             }
@@ -67,7 +70,7 @@ namespace SealTeam4
                 .GetComponent<NPCScheduleSlot>();
 
             npcScheduleSlot.transform.SetParent(schedulesPanel.transform);
-            npcScheduleSlot.Setup(schedule, targetMarkers, areaMarkers);
+            npcScheduleSlot.Setup(this, schedule, targetMarkers, areaMarkers);
 
             npcScheduleSlotList.Add(npcScheduleSlot);
         }
@@ -97,11 +100,22 @@ namespace SealTeam4
         {
             if (spawnMarkerDropdownSetup)
             {
-                NpcScripting.instance
-                    .UpdateNpcSpawnData_SpawnMarker(this, spawnMarkerDropdown.options[spawnMarkerDropdown.value].text);
+                string newSpawnMarkerName = spawnMarkerDropdown.options[spawnMarkerDropdown.value].text;
+                ref_npcSpawnData.spawnMarkerName = newSpawnMarkerName;
             }
             else
                 spawnMarkerDropdownSetup = true;
+        }
+
+        public void UpdateScheduleType(NPCSchedule_RTEStorage sourceNPCSchedule_RTEStorage, string newScheduleType)
+        {
+            Debug.Log(ref_schedules[0].GetHashCode() + " " + sourceNPCSchedule_RTEStorage.GetHashCode());
+            ref_schedules.Find(x => x == sourceNPCSchedule_RTEStorage).scheduleType = newScheduleType;
+        }
+
+        public string GetNPCName()
+        {
+            return ref_npcSpawnData.npcName;
         }
 	}
 }

@@ -21,15 +21,20 @@ namespace SealTeam4
         [SerializeField] private TMP_InputField idleInputField;
         [SerializeField] private TMP_Dropdown sitInAreaDropdown;
 
+        private PropertiesPanel sourcePropertiesPanel;
+        private NPCSchedule_RTEStorage localNPCSchedule_RTEStorage;
         private bool scheduleTypeDropdownSetup = false;
 
         public void Setup
             (
+            PropertiesPanel sourcePropertiesPanel,
             NPCSchedule_RTEStorage schedule,
             List<Marker> targetMarkers,
             List<Marker> areaMarkers
             )
         {
+            this.sourcePropertiesPanel = sourcePropertiesPanel;
+            localNPCSchedule_RTEStorage = schedule;
             Setup_ScheduleTypeDropdown(schedule.scheduleType, schedule.defScheduleTypes);
 
             Setup_MoveToPosDropdown(targetMarkers);
@@ -136,17 +141,17 @@ namespace SealTeam4
 
         public void OnValueChanged_ScheduleTypeDropdown()
         {
-            string scheduleType = scheduleTypeDropdown.options[scheduleTypeDropdown.value].text;
+            string newScheduleType = scheduleTypeDropdown.options[scheduleTypeDropdown.value].text;
 
             if (scheduleTypeDropdownSetup)
             {
-                NpcScripting.instance
-                    .UpdateNpcSpawnData_NPCSchedule(this, scheduleType);
+                sourcePropertiesPanel.UpdateScheduleType(localNPCSchedule_RTEStorage, newScheduleType);
             }
             else
                 scheduleTypeDropdownSetup = true;
 
-            switch(scheduleType)
+            // Update Display Panel
+            switch(newScheduleType)
             {
                 case "IDLE":
                     moveToPosPanel.gameObject.SetActive(false);
