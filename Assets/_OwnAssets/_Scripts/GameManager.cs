@@ -416,10 +416,33 @@ namespace SealTeam4
             return totalRegMarkers;
         }
 
-        public List<Marker> GetAllNPCSpawnMarker()
+        public List<Marker> GetAllSpecificMarker(MARKER_TYPE markerType)
         {
-            return registeredMarkers
-                .FindAll(x => x.markerType == MARKER_TYPE.NPC_SPAWN);
+            List<Marker> markers = new List<Marker>();
+
+            switch (markerType)
+            {
+                case MARKER_TYPE.AREA:
+                    markers = registeredMarkers
+                        .FindAll(x => x.markerType == MARKER_TYPE.AREA);
+                    break;
+                case MARKER_TYPE.TARGET:
+                    markers = registeredMarkers
+                        .FindAll(x => x.markerType == MARKER_TYPE.TARGET);
+                    break;
+                case MARKER_TYPE.NPC_SPAWN:
+                    markers = registeredMarkers
+                        .FindAll(x => x.markerType == MARKER_TYPE.NPC_SPAWN);
+                    break;
+                case MARKER_TYPE.SEAT:
+                    markers = null;
+                    break;
+                case MARKER_TYPE.PLAYER_SPAWN_MARKER:
+                    markers = null;
+                    break;
+            }
+
+            return markers;
         }
     }
 

@@ -52,20 +52,41 @@ namespace SealTeam4
             return npcSpawnDataList_RTEStorage;
         }
 
+        public List<NPCSchedule_RTEStorage> GetAllNPCScheduleData()
+        {
+            return npcScheduleList_RTEStorage;
+        }
+
         public NPCSpawnData_RTEStorage AddNewNPCSpawnData()
         {
             NPCSpawnData_RTEStorage newData = new NPCSpawnData_RTEStorage
             {
-                name = GetUniqueNPCName()
+                npcName = GetUniqueNPCName()
             };
             npcSpawnDataList_RTEStorage.Add(newData);
 
             return newData;
         }
 
+        public NPCSchedule_RTEStorage AddNewNPCScheduleData(string npcName)
+        {
+            NPCSchedule_RTEStorage newData = new NPCSchedule_RTEStorage
+            {
+                name = npcName
+            };
+
+            npcScheduleList_RTEStorage.Add(newData);
+            return newData;
+        }
+
         public void UpdateNpcSpawnData(NPCSpawnData_RTEStorage targetNpcSpawnData, NPCSpawnData_RTEStorage newNpcSpawnData)
         {
             npcSpawnDataList_RTEStorage[npcSpawnDataList_RTEStorage.IndexOf(targetNpcSpawnData)] = newNpcSpawnData;
+        }
+
+        public void UpdateNpcScheduleData(NPCSchedule_RTEStorage targetNpcScheduleData, NPCSchedule_RTEStorage newNpcScheduleData)
+        {
+            npcScheduleList_RTEStorage[npcScheduleList_RTEStorage.IndexOf(targetNpcScheduleData)] = newNpcScheduleData;
         }
 
         public string GetUniqueNPCName()
@@ -78,7 +99,7 @@ namespace SealTeam4
                 {
                     increment++;
                 }
-                while (npcSpawnDataList_RTEStorage.Exists(x => x.name == baseNPCName + increment));
+                while (npcSpawnDataList_RTEStorage.Exists(x => x.npcName == baseNPCName + increment));
             }
 
             return baseNPCName + increment;
@@ -90,9 +111,9 @@ namespace SealTeam4
 [System.Serializable]
 public class NPCSpawnData_RTEStorage
 {
-    public string name;
-    public string[] defNPCTypes = { "NULL", "TYPE0", "TYPE1", "SIT_IN_AREA" };
-    public string NPCType;
+    public string npcName;
+    public string[] defNPCTypes = { "TYPE0", "TYPE1", "SIT_IN_AREA" };
+    public string NPCType = "TYPE0";
     public string spawnMarkerName;
 
     public AIStats aiStats;
@@ -104,6 +125,6 @@ public class NPCSchedule_RTEStorage
 {
     public string name;
     public string[] defScheduleTypes = { "IDLE", "MOVE_TO_POS", "MOVE_TO_POS_WITH_ROT", "SIT_IN_AREA", "TALK_TO_OTHER_NPC" };
-    public string scheduleType;
+    public string scheduleType = "IDLE";
     public string argument;
 }

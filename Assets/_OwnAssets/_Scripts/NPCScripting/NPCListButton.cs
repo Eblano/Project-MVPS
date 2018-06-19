@@ -15,9 +15,9 @@ namespace SealTeam4
             labelText.text = npcName; 
         }
 
-        public void ShowInfoPanel()
+        public void ShowPropertiesPanel()
         {
-            NpcScripting.instance.ShowInfoPanel(this);
+            NpcScripting.instance.ShowPropertiesPanel(this);
         }
     }
 }
