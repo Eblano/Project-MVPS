@@ -72,21 +72,11 @@ namespace SealTeam4
         {
             NPCSchedule_RTEStorage newData = new NPCSchedule_RTEStorage
             {
-                name = npcName
+                npcName = npcName
             };
 
             npcScheduleList_RTEStorage.Add(newData);
             return newData;
-        }
-
-        public void UpdateNpcSpawnData(NPCSpawnData_RTEStorage targetNpcSpawnData, NPCSpawnData_RTEStorage newNpcSpawnData)
-        {
-            npcSpawnDataList_RTEStorage[npcSpawnDataList_RTEStorage.IndexOf(targetNpcSpawnData)] = newNpcSpawnData;
-        }
-
-        public void UpdateNpcScheduleData(NPCSchedule_RTEStorage targetNpcScheduleData, NPCSchedule_RTEStorage newNpcScheduleData)
-        {
-            npcScheduleList_RTEStorage[npcScheduleList_RTEStorage.IndexOf(targetNpcScheduleData)] = newNpcScheduleData;
         }
 
         public string GetUniqueNPCName()
@@ -123,7 +113,7 @@ public class NPCSpawnData_RTEStorage
 [System.Serializable]
 public class NPCSchedule_RTEStorage
 {
-    public string name;
+    public string npcName;
     public string[] defScheduleTypes = { "IDLE", "MOVE_TO_POS", "MOVE_TO_POS_WITH_ROT", "SIT_IN_AREA", "TALK_TO_OTHER_NPC" };
     public string scheduleType = "IDLE";
     public string argument;

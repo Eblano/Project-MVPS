@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 114376832607489468}
   - component: {fileID: 114053174550374894}
   m_Layer: 5
-  m_Name: WaypointDropdown
+  m_Name: SitInAreaDropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 114184879812960982}
   - component: {fileID: 114304959216446956}
   m_Layer: 5
-  m_Name: WaypointDropdown
+  m_Name: TargetMarkerDropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1157,8 +1157,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnValueChanged_SpawnMarkerDropdown
+      - m_Target: {fileID: 114760980741152676}
+        m_MethodName: OnValueChanged_SitInAreaDropdown
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1721,8 +1721,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnValueChanged_SpawnMarkerDropdown
+      - m_Target: {fileID: 114760980741152676}
+        m_MethodName: OnValueChanged_ScheduleTypeDropdown
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1961,8 +1961,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnValueChanged_SpawnMarkerDropdown
+      - m_Target: {fileID: 114760980741152676}
+        m_MethodName: OnValueChanged_TargetMarkerDropdown
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2130,7 +2130,18 @@ MonoBehaviour:
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114760980741152676}
+        m_MethodName: OnValueChanged_IdleInputField
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: TMPro.TMP_InputField+OnChangeEvent, TextMeshPro-2017.3-1.0.56-Runtime,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}

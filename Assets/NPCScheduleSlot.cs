@@ -21,47 +21,39 @@ namespace SealTeam4
         [SerializeField] private TMP_InputField idleInputField;
         [SerializeField] private TMP_Dropdown sitInAreaDropdown;
 
-        private PropertiesPanel sourcePropertiesPanel;
-        private NPCSchedule_RTEStorage localNPCSchedule_RTEStorage;
-        private bool scheduleTypeDropdownSetup = false;
+        // Schedule this Schedule Slot is managing
+        private NPCSchedule_RTEStorage ref_schedule;
 
         public void Setup
             (
-            PropertiesPanel sourcePropertiesPanel,
-            NPCSchedule_RTEStorage schedule,
+            NPCSchedule_RTEStorage ref_schedule,
             List<Marker> targetMarkers,
             List<Marker> areaMarkers
             )
         {
-            this.sourcePropertiesPanel = sourcePropertiesPanel;
-            localNPCSchedule_RTEStorage = schedule;
-            Setup_ScheduleTypeDropdown(schedule.scheduleType, schedule.defScheduleTypes);
+            this.ref_schedule = ref_schedule;
 
+            Setup_ScheduleTypeDropdown(ref_schedule.scheduleType, ref_schedule.defScheduleTypes);
             Setup_MoveToPosDropdown(targetMarkers);
             Setup_SitInAreaDropdown(areaMarkers);
 
+            moveToPosPanel.gameObject.SetActive(false);
+            idlePanel.gameObject.SetActive(false);
+            sitInAreaPanel.gameObject.SetActive(false);
+
             //{ "IDLE", "MOVE_TO_POS", "MOVE_TO_POS_WITH_ROT", "SIT_IN_AREA", "TALK_TO_OTHER_NPC" };
-            switch (schedule.scheduleType)
+            switch (ref_schedule.scheduleType)
             {
                 case "IDLE":
-                    idleInputField.text = schedule.argument;
-
-                    moveToPosPanel.gameObject.SetActive(false);
+                    idleInputField.text = ref_schedule.argument;
                     idlePanel.gameObject.SetActive(true);
-                    sitInAreaPanel.gameObject.SetActive(false);
                     break;
                 case "MOVE_TO_POS":
-                    SetValue_MoveToPosDropdown(schedule.argument);
-
+                    SetValue_MoveToPosDropdown(ref_schedule.argument);
                     moveToPosPanel.gameObject.SetActive(true);
-                    idlePanel.gameObject.SetActive(false);
-                    sitInAreaPanel.gameObject.SetActive(false);
                     break;
                 case "SIT_IN_AREA":
-                    SetValue_SitInAreaDropdown(schedule.argument);
-
-                    moveToPosPanel.gameObject.SetActive(false);
-                    idlePanel.gameObject.SetActive(false);
+                    SetValue_SitInAreaDropdown(ref_schedule.argument);
                     sitInAreaPanel.gameObject.SetActive(true);
                     break;
             }
@@ -87,12 +79,6 @@ namespace SealTeam4
             }
         }
 
-        private void SetValue_SitInAreaDropdown(string selectedArea)
-        {
-            int dropdownValue = sitInAreaDropdown.options.FindIndex((i) => { return i.text.Equals(selectedArea); });
-            sitInAreaDropdown.value = dropdownValue;
-        }
-
         private void Setup_MoveToPosDropdown(List<Marker> markers)
         {
             if(markers.Count > 0)
@@ -111,12 +97,6 @@ namespace SealTeam4
                 if (moveToPosDropdownOptions.Count > 0)
                     moveToPosDropdown.AddOptions(moveToPosDropdownOptions);
             }
-        }
-
-        private void SetValue_MoveToPosDropdown(string selectedWaypoint)
-        {
-            int dropdownValue = moveToPosDropdown.options.FindIndex((i) => { return i.text.Equals(selectedWaypoint); });
-            moveToPosDropdown.value = dropdownValue;
         }
 
         private void Setup_ScheduleTypeDropdown(string selectedSchedule, string[] options)
@@ -139,19 +119,24 @@ namespace SealTeam4
             scheduleTypeDropdown.value = dropdownValue;
         }
 
+        private void SetValue_MoveToPosDropdown(string selectedWaypoint)
+        {
+            int dropdownValue = moveToPosDropdown.options.FindIndex((i) => { return i.text.Equals(selectedWaypoint); });
+            moveToPosDropdown.value = dropdownValue;
+        }
+
+        private void SetValue_SitInAreaDropdown(string selectedArea)
+        {
+            int dropdownValue = sitInAreaDropdown.options.FindIndex((i) => { return i.text.Equals(selectedArea); });
+            sitInAreaDropdown.value = dropdownValue;
+        }
+
         public void OnValueChanged_ScheduleTypeDropdown()
         {
             string newScheduleType = scheduleTypeDropdown.options[scheduleTypeDropdown.value].text;
 
-            if (scheduleTypeDropdownSetup)
-            {
-                sourcePropertiesPanel.UpdateScheduleType(localNPCSchedule_RTEStorage, newScheduleType);
-            }
-            else
-                scheduleTypeDropdownSetup = true;
-
-            // Update Display Panel
-            switch(newScheduleType)
+            // Update Panel Visibility based on schedule type
+            switch (newScheduleType)
             {
                 case "IDLE":
                     moveToPosPanel.gameObject.SetActive(false);
@@ -174,9 +159,41 @@ namespace SealTeam4
                     break;
             }
 
+            // Update schedule data
+            ref_schedule.scheduleType = newScheduleType;
+
+            // Reset all input from all panels
             idleInputField.text = "";
             sitInAreaDropdown.value = 0;
             moveToPosDropdown.value = 0;
+        }
+
+        public void OnValueChanged_IdleInputField()
+        {
+            string inputFieldText = idleInputField.text;
+            ref_schedule.argument = inputFieldText;
+        }
+
+        public void OnValueChanged_TargetMarkerDropdown()
+        {
+            int dropdownValue = moveToPosDropdown.value;
+
+            if (dropdownValue != 0)
+            {
+                string targetMarkerName = moveToPosDropdown.options[dropdownValue].text;
+                ref_schedule.argument = targetMarkerName;
+            }
+        }
+
+        public void OnValueChanged_SitInAreaDropdown()
+        {
+            int dropdownValue = sitInAreaDropdown.value;
+
+            if (dropdownValue != 0)
+            {
+                string newAreaMarkerName = sitInAreaDropdown.options[dropdownValue].text;
+                ref_schedule.argument = newAreaMarkerName;
+            }
         }
     }
 }

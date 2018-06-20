@@ -21,16 +21,17 @@ namespace SealTeam4
 
         private GameObject currActivePropertiesPanel;
 
-        private List<Marker> allNPCSpawnMarkers;
-        private List<Marker> allTargetMarkers;
-        private List<Marker> allAreaMarkers;
+        private List<Marker> npcSpawnMarkers;
+        private List<Marker> targetMarkers;
+        private List<Marker> areaMarkers;
 
-        private class NpcScriptingUIData
+        private class NPCScriptingUIData
         {
-            public NPCListButton npcListButton;
+            public NPCListButton button;
             public PropertiesPanel propertiesPanel;
         }
-        private List<NpcScriptingUIData> npcScriptingUIDataList = new List<NpcScriptingUIData>();
+        // Storing Instantiated UI components
+        private List<NPCScriptingUIData> npcScriptingUIDataList = new List<NPCScriptingUIData>();
 
         private void Start()
         {
@@ -47,35 +48,35 @@ namespace SealTeam4
 
         public void ShowNPCScriptingUI()
         {
-            allNPCSpawnMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.NPC_SPAWN);
-            allTargetMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.TARGET);
-            allAreaMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.AREA);
+            // Get all markers on scene
+            npcSpawnMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.NPC_SPAWN);
+            targetMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.TARGET);
+            areaMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.AREA);
 
             npcScriptingUIroot.SetActive(true);
-
-            if (NpcScriptStorage.instance != null)
-            {
-                npcScriptingUIroot.SetActive(true);
-
-                List<NPCSpawnData_RTEStorage> npcSpawnDataList = NpcScriptStorage.instance.GetAllNPCSpawnData();
-                List<NPCSchedule_RTEStorage> npcScheduleList = NpcScriptStorage.instance.GetAllNPCScheduleData();
-                PopulateDataOnUI(npcSpawnDataList, npcScheduleList);
-            }
+            
+            PopulateData
+                (
+                NpcScriptStorage.instance.GetAllNPCSpawnData(),
+                NpcScriptStorage.instance.GetAllNPCScheduleData()
+                );
         }
 
         public void HideNPCScriptingUI()
         {
-            foreach(NpcScriptingUIData npcScriptingUIData in npcScriptingUIDataList)
+            // Destroy all UI components on UI
+            foreach(NPCScriptingUIData data in npcScriptingUIDataList)
             {
-                Destroy(npcScriptingUIData.npcListButton.gameObject);
-                Destroy(npcScriptingUIData.propertiesPanel.gameObject);
+                Destroy(data.button.gameObject);
+                Destroy(data.propertiesPanel.gameObject);
             }
 
+            currActivePropertiesPanel = null;
             npcScriptingUIDataList.Clear();
             npcScriptingUIroot.SetActive(false);
         }
 
-        private void PopulateDataOnUI(List<NPCSpawnData_RTEStorage> allNPCSpawnDataList, List<NPCSchedule_RTEStorage> allNPCScheduleList)
+        private void PopulateData(List<NPCSpawnData_RTEStorage> allNPCSpawnDataList, List<NPCSchedule_RTEStorage> allNPCScheduleList)
         {
             foreach (NPCSpawnData_RTEStorage npcSpawnData in allNPCSpawnDataList)
             {
@@ -83,30 +84,32 @@ namespace SealTeam4
 
                 foreach (NPCSchedule_RTEStorage npcSchedule in allNPCScheduleList)
                 {
-                    if (npcSchedule.name == npcSpawnData.npcName)
+                    if (npcSchedule.npcName == npcSpawnData.npcName)
                         npcScheduleList.Add(npcSchedule);
                 }
 
-                AddNewNPCUIData(npcSpawnData, npcScheduleList);
+                AddNewNPCData(npcSpawnData, npcScheduleList);
             }
         }
 
         public void AddNewNPCEntry()
         {
-            AddNewNPCUIData(NpcScriptStorage.instance.AddNewNPCSpawnData(), new List<NPCSchedule_RTEStorage>());
+            AddNewNPCData(NpcScriptStorage.instance.AddNewNPCSpawnData(), new List<NPCSchedule_RTEStorage>());
         }
 
         public void AddNewNPCSchedule()
         {
             PropertiesPanel targetPanel = currActivePropertiesPanel.GetComponent<PropertiesPanel>();
-            string npcName = targetPanel.GetNPCName();
 
-            NPCSchedule_RTEStorage newSchedule = NpcScriptStorage.instance.AddNewNPCScheduleData(npcName);
-
-            targetPanel.AddNewSchedule(newSchedule, allTargetMarkers, allAreaMarkers);
+            if(targetPanel)
+            {
+                string npcName = targetPanel.GetNPCName();
+                NPCSchedule_RTEStorage newSchedule = NpcScriptStorage.instance.AddNewNPCScheduleData(npcName);
+                targetPanel.AddNewScheduleSlot(newSchedule, targetMarkers, areaMarkers);
+            }
         }
 
-        private void AddNewNPCUIData(NPCSpawnData_RTEStorage newNpcSpawnData, List<NPCSchedule_RTEStorage> newNpcSchedulesData)
+        private void AddNewNPCData(NPCSpawnData_RTEStorage newNpcSpawnData, List<NPCSchedule_RTEStorage> newNpcSchedulesData)
         {
             // Spawn npcListButton, PropertiesPanel
             GameObject npcListButton = Instantiate(npcListButton_Prefab, Vector3.zero, Quaternion.identity);
@@ -116,18 +119,18 @@ namespace SealTeam4
             propertiesPanel.transform.SetParent(rightPanel.transform);
 
             // Create new UIData
-            NpcScriptingUIData npsScriptingUIData = new NpcScriptingUIData
+            NPCScriptingUIData npsScriptingUIData = new NPCScriptingUIData
             {
-                npcListButton = npcListButton.GetComponent<NPCListButton>(),
+                button = npcListButton.GetComponent<NPCListButton>(),
                 propertiesPanel = propertiesPanel.GetComponent<PropertiesPanel>()
             };
 
             // Setup various UI components
-            npsScriptingUIData.npcListButton.Setup(newNpcSpawnData.npcName);
+            npsScriptingUIData.button.Setup(newNpcSpawnData.npcName);
             npsScriptingUIData.propertiesPanel.Setup(
-                allNPCSpawnMarkers,
-                allTargetMarkers,
-                allAreaMarkers,
+                npcSpawnMarkers,
+                targetMarkers,
+                areaMarkers,
                 ref newNpcSpawnData,
                 ref newNpcSchedulesData,
                 npcScheduleSlot_Prefab
@@ -144,7 +147,7 @@ namespace SealTeam4
 
             currActivePropertiesPanel =
                 npcScriptingUIDataList
-                .Find(x => x.npcListButton == sourceButton)
+                .Find(x => x.button == sourceButton)
                 .propertiesPanel.gameObject;
 
             currActivePropertiesPanel.SetActive(true);
