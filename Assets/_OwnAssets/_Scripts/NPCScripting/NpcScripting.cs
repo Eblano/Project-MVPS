@@ -97,16 +97,11 @@ namespace SealTeam4
             AddNewNPCData(NpcScriptStorage.instance.AddNewNPCSpawnData(), new List<NPCSchedule_RTEStorage>());
         }
 
-        public void AddNewNPCSchedule()
+        public void AddNewNPCSchedule(PropertiesPanel sourcePanel)
         {
-            PropertiesPanel targetPanel = currActivePropertiesPanel.GetComponent<PropertiesPanel>();
-
-            if(targetPanel)
-            {
-                string npcName = targetPanel.GetNPCName();
-                NPCSchedule_RTEStorage newSchedule = NpcScriptStorage.instance.AddNewNPCScheduleData(npcName);
-                targetPanel.AddNewScheduleSlot(newSchedule, targetMarkers, areaMarkers);
-            }
+            string npcName = sourcePanel.GetNPCName();
+            NPCSchedule_RTEStorage newSchedule = NpcScriptStorage.instance.AddNewNPCScheduleData(npcName);
+            sourcePanel.AddNewScheduleSlot(newSchedule, targetMarkers, areaMarkers);
         }
 
         private void AddNewNPCData(NPCSpawnData_RTEStorage newNpcSpawnData, List<NPCSchedule_RTEStorage> newNpcSchedulesData)

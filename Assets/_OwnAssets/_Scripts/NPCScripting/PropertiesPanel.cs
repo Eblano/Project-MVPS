@@ -197,5 +197,10 @@ namespace SealTeam4
         {
             return ref_npcSpawnData.npcName;
         }
+
+        public void AddNewNPCSchedule()
+        {
+            NpcScripting.instance.AddNewNPCSchedule(this);
+        }
 	}
 }
