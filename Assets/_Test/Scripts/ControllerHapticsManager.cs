@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using VRTK;
+using SealTeam4;
 
 public class ControllerHapticsManager : MonoBehaviour
 {
@@ -37,10 +38,10 @@ public class ControllerHapticsManager : MonoBehaviour
         switch (devices)
         {
             case VRTK_DeviceFinder.Devices.LeftController:
-                reference = DelLete.lHandRef;
+                reference = PlayerInput.lHandRef;
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
-                reference = DelLete.rHandRef;
+                reference = PlayerInput.rHandRef;
                 break;
         }
 

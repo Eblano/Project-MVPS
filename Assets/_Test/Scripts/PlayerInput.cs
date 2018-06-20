@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using VRTK;
+using System.Collections;
 
 namespace SealTeam4
 {
@@ -37,7 +38,7 @@ namespace SealTeam4
                 return;
             }
 
-            //GameManager.instance.SetLocalPlayerName(playerName);
+            GameManager.instance.SetLocalPlayerName(playerName);
             
             head = new Vector3AndQuaternion();
             lHand = new Vector3AndQuaternion();
@@ -49,8 +50,7 @@ namespace SealTeam4
             lHandEvents = lHandCont.GetComponent<VRTK_ControllerEvents>();
             rHandEvents = rHandCont.GetComponent<VRTK_ControllerEvents>();
 
-            lHandRef = VRTK_DeviceFinder.GetControllerReferenceLeftHand();
-            rHandRef = VRTK_DeviceFinder.GetControllerReferenceRightHand();
+            StartCoroutine(SetController());
 
             lHandEvents.GripClicked += LHandEvents_GripClicked;
             rHandEvents.GripClicked += RHandEvents_GripClicked;
@@ -74,6 +74,20 @@ namespace SealTeam4
             lHand.SetPosAndRot(lHandCont);
             rHand.SetPosAndRot(rHandCont);
             playerInteractionSync.CmdSyncVRTransform(head, lHand, rHand);
+        }
+
+        IEnumerator SetController()
+        {
+            while (!VRTK_ControllerReference.IsValid(lHandRef) || !VRTK_ControllerReference.IsValid(rHandRef))
+            {
+                lHandRef = VRTK_DeviceFinder.GetControllerReferenceLeftHand();
+                rHandRef = VRTK_DeviceFinder.GetControllerReferenceRightHand();
+
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            Debug.Log(lHandRef);
+            Debug.Log(rHandRef);
         }
 
         private void RHandEvents_TriggerClicked(object sender, ControllerInteractionEventArgs e)
