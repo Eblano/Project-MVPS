@@ -5,5 +5,5 @@ using UnityEngine.Networking;
 
 public interface IUsableObject
 {
-    void UseObject();
+    void UseObject(NetworkInstanceId networkInstanceId);
 }

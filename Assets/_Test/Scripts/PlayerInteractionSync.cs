@@ -74,9 +74,9 @@ public class PlayerInteractionSync : NetworkBehaviour
     /// </summary>
     /// <param name="control"></param>
     [Command]
-    public void CmdTriggerClick(VRTK_DeviceFinder.Devices control)
+    public void CmdTriggerClick(VRTK_DeviceFinder.Devices control, NetworkInstanceId networkInstanceId)
     {
-        RpcCallTriggerClick(control);
+        RpcCallTriggerClick(control, networkInstanceId);
     }
 
     /// <summary>
@@ -261,7 +261,7 @@ public class PlayerInteractionSync : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcCallTriggerClick(VRTK_DeviceFinder.Devices control)
+    public void RpcCallTriggerClick(VRTK_DeviceFinder.Devices control, NetworkInstanceId networkInstanceId)
     {
         // If the controller is not grabbing something
         if (!ControllerIsGrabbingSomething(control))
@@ -288,7 +288,7 @@ public class PlayerInteractionSync : NetworkBehaviour
         }
 
         UsableObject usableObject = currGrabbedObj.GetComponent<UsableObject>();
-        usableObject.Use();
+        usableObject.Use(networkInstanceId);
     }
 
     [ClientRpc]

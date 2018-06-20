@@ -8,14 +8,15 @@ namespace SealTeam4
     {
         private VRTK_ControllerEvents lHandEvents;
         private VRTK_ControllerEvents rHandEvents;
-        private VRTK_ControllerReference lHandRef;
-        private VRTK_ControllerReference rHandRef;
+        public static VRTK_ControllerReference lHandRef;
+        public static VRTK_ControllerReference rHandRef;
         private PlayerInteractionSync playerInteractionSync;
 
         private Transform headset, lHandCont, rHandCont;
         private Vector3AndQuaternion head, lHand, rHand;
 
-        //[SerializeField] private bool serverCanPlay;
+        private NetworkIdentity networkIdentity;
+        
         [SerializeField] private float grabRadius;
         [SerializeField] private float holdTouchPadTimer;
 
@@ -24,15 +25,11 @@ namespace SealTeam4
 
         private void Start()
         {
-            string playerName = "Player " + GetComponent<NetworkIdentity>().netId;
+            networkIdentity = GetComponent<NetworkIdentity>();
+            string playerName = "Player " + networkIdentity.netId;
             gameObject.name = playerName;
 
             playerInteractionSync = GetComponent<PlayerInteractionSync>();
-
-            //if((!serverCanPlay && playerInteractionSync.isServer && playerInteractionSync.isLocalPlayer))
-            //{
-            //    NetworkServer.Destroy(this.gameObject);
-            //}
 
             if (!playerInteractionSync.isLocalPlayer)
             {
@@ -40,7 +37,7 @@ namespace SealTeam4
                 return;
             }
 
-            GameManager.instance.SetLocalPlayerName(playerName);
+            //GameManager.instance.SetLocalPlayerName(playerName);
             
             head = new Vector3AndQuaternion();
             lHand = new Vector3AndQuaternion();
@@ -49,8 +46,8 @@ namespace SealTeam4
             lHandCont = VRTK_DeviceFinder.DeviceTransform(VRTK_DeviceFinder.Devices.LeftController);
             rHandCont = VRTK_DeviceFinder.DeviceTransform(VRTK_DeviceFinder.Devices.RightController);
 
-            lHandEvents = VRTK_DeviceFinder.DeviceTransform(VRTK_DeviceFinder.Devices.LeftController).GetComponent<VRTK_ControllerEvents>();
-            rHandEvents = VRTK_DeviceFinder.DeviceTransform(VRTK_DeviceFinder.Devices.RightController).GetComponent<VRTK_ControllerEvents>();
+            lHandEvents = lHandCont.GetComponent<VRTK_ControllerEvents>();
+            rHandEvents = rHandCont.GetComponent<VRTK_ControllerEvents>();
 
             lHandRef = VRTK_DeviceFinder.GetControllerReferenceLeftHand();
             rHandRef = VRTK_DeviceFinder.GetControllerReferenceRightHand();
@@ -81,12 +78,12 @@ namespace SealTeam4
 
         private void RHandEvents_TriggerClicked(object sender, ControllerInteractionEventArgs e)
         {
-            playerInteractionSync.CmdTriggerClick(VRTK_DeviceFinder.Devices.RightController);
+            playerInteractionSync.CmdTriggerClick(VRTK_DeviceFinder.Devices.RightController, networkIdentity.netId);
         }
 
         private void LHandEvents_TriggerClicked(object sender, ControllerInteractionEventArgs e)
         {
-            playerInteractionSync.CmdTriggerClick(VRTK_DeviceFinder.Devices.LeftController);
+            playerInteractionSync.CmdTriggerClick(VRTK_DeviceFinder.Devices.LeftController, networkIdentity.netId);
         }
 
         private void RHandEvents_GripUnclicked(object sender, ControllerInteractionEventArgs e)
