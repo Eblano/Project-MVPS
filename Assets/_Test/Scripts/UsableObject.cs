@@ -7,6 +7,7 @@
         private bool downButton = false;
         private IUsableObject usableObj;
         private IButtonActivatable buttonActObj;
+        UnityEngine.Networking.NetworkInstanceId grabberID;
 
         private void Start()
         {
@@ -14,8 +15,9 @@
             buttonActObj = GetComponent(typeof(IButtonActivatable)) as IButtonActivatable;
         }
 
-        public void Use()
+        public void Use(UnityEngine.Networking.NetworkInstanceId networkInstanceId)
         {
+            grabberID = networkInstanceId;
             use = true;
         }
 
@@ -40,7 +42,7 @@
             if (use)
             {
                 use = false;
-                usableObj.UseObject();
+                usableObj.UseObject(grabberID);
             }
 
             if (buttonActObj != null)

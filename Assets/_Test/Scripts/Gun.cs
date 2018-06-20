@@ -90,9 +90,9 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// <summary>
     /// Called if use button is pressed.
     /// </summary>
-    public void UseObject()
+    public void UseObject(NetworkInstanceId networkInstanceId)
     {
-        CmdFireGun();
+        CmdFireGun(networkInstanceId);
     }
 
     /// <summary>
@@ -135,9 +135,9 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// Tries to fire the gun.
     /// </summary>
     [Command]
-    private void CmdFireGun()
+    private void CmdFireGun(NetworkInstanceId networkInstanceId)
     {
-        RpcFireGun();
+        RpcFireGun(networkInstanceId);
     }
 
     /// <summary>
@@ -177,12 +177,24 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     }
 
     [ClientRpc]
-    private void RpcFireGun()
+    private void RpcFireGun(NetworkInstanceId networkInstanceId)
     {
+        VRTK.VRTK_DeviceFinder.Devices devices = VRTK.VRTK_DeviceFinder.Devices.Headset;
+
+        if (transform.parent.name == "LHand")
+        {
+            devices = VRTK.VRTK_DeviceFinder.Devices.LeftController;
+        }
+        else if (transform.parent.name == "RHand")
+        {
+            devices = VRTK.VRTK_DeviceFinder.Devices.RightController;
+        }
+
         // If chamber is loaded and not on safety mode
         if (gun.ChamberIsLoaded() && !gun.IsSafety())
         {
             // Fire bullet
+            GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNFIRE, devices);
             FireBullet();
 
             // If there is a magazine attached
@@ -208,6 +220,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         else
         {
             // Play no bullet sound
+            GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNRELOAD, devices);
         }
     }
 

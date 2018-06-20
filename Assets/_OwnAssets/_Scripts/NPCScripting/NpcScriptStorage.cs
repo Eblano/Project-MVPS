@@ -12,8 +12,6 @@ namespace SealTeam4
 
         private readonly string baseNPCName = "NPC";
         
-        //[SerializeField] private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
-
         [SerializeField] private List<NPCSpawnData_RTEStorage> npcSpawnDataList_RTEStorage;
         [SerializeField] private List<NPCSchedule_RTEStorage> npcScheduleList_RTEStorage;
 
@@ -49,47 +47,37 @@ namespace SealTeam4
             }
         }
 
-        //public List<NpcSpawnData> GetAllNPCSpawnData()
-        //{
-        //    return npcSpawnDataList;
-        //}
-
         public List<NPCSpawnData_RTEStorage> GetAllNPCSpawnData()
         {
             return npcSpawnDataList_RTEStorage;
         }
 
-        //public NpcSpawnData AddNewNPCSpawnData()
-        //{
-        //    NpcSpawnData newData = new NpcSpawnData
-        //    {
-        //        name = GetUniqueNPCName()
-        //    };
-        //    npcSpawnDataList.Add(newData);
-
-        //    return newData;
-        //}
+        public List<NPCSchedule_RTEStorage> GetAllNPCScheduleData()
+        {
+            return npcScheduleList_RTEStorage;
+        }
 
         public NPCSpawnData_RTEStorage AddNewNPCSpawnData()
         {
             NPCSpawnData_RTEStorage newData = new NPCSpawnData_RTEStorage
             {
-                name = GetUniqueNPCName()
+                npcName = GetUniqueNPCName()
             };
             npcSpawnDataList_RTEStorage.Add(newData);
 
             return newData;
         }
 
-        public void UpdateNpcSpawnData(NPCSpawnData_RTEStorage targetNpcSpawnData, NPCSpawnData_RTEStorage newNpcSpawnData)
+        public NPCSchedule_RTEStorage AddNewNPCScheduleData(string npcName)
         {
-            npcSpawnDataList_RTEStorage[npcSpawnDataList_RTEStorage.IndexOf(targetNpcSpawnData)] = newNpcSpawnData;
-        }
+            NPCSchedule_RTEStorage newData = new NPCSchedule_RTEStorage
+            {
+                npcName = npcName
+            };
 
-        //public void UpdateNpcSpawnData(NpcSpawnData targetNpcSpawnData, NpcSpawnData newNpcSpawnData)
-        //{
-        //    npcSpawnDataList[npcSpawnDataList.IndexOf(targetNpcSpawnData)] = newNpcSpawnData;
-        //}
+            npcScheduleList_RTEStorage.Add(newData);
+            return newData;
+        }
 
         public string GetUniqueNPCName()
         {
@@ -101,27 +89,26 @@ namespace SealTeam4
                 {
                     increment++;
                 }
-                while (npcSpawnDataList_RTEStorage.Exists(x => x.name == baseNPCName + increment));
+                while (npcSpawnDataList_RTEStorage.Exists(x => x.npcName == baseNPCName + increment));
             }
 
             return baseNPCName + increment;
         }
 
-        //public string GetUniqueNPCName()
-        //{
-        //    int increment = 0;
-            
-        //    if(npcSpawnDataList.Count >= 1)
-        //    {
-        //        do
-        //        {
-        //            increment++;
-        //        }
-        //        while (npcSpawnDataList.Exists(x => x.name == baseNPCName + increment));
-        //    }
+        public void DeleteAllTargetNPCSpawnData(string npcName)
+        {
+            npcSpawnDataList_RTEStorage.RemoveAll(x => x.npcName == npcName);
+        }
 
-        //    return baseNPCName + increment;
-        //}
+        public void DeleteAllTargetNPCScheduleData(string npcName)
+        {
+            npcScheduleList_RTEStorage.RemoveAll(x => x.npcName == npcName);
+        }
+
+        public void DeleteTargetNPCScheduleData(NPCSchedule_RTEStorage targetNPCSchedule)
+        {
+            npcScheduleList_RTEStorage.Remove(targetNPCSchedule);
+        }
     }
 }
 
@@ -129,28 +116,26 @@ namespace SealTeam4
 [System.Serializable]
 public class NPCSpawnData_RTEStorage
 {
-    public string name;
-    //public enum NPC_TYPE { NULL, TYPE0, TYPE1 };
-    //public NPC_TYPE nPC_TYPE = NPC_TYPE.NULL;
-    public string NPCType;
+    public string npcName;
+
+    // NPCSpawnData Properties
+    [HideInInspector] public string[] defNPCOutfit = { "TYPE0", "TYPE1" };
+    public string npcOutfit = "TYPE0";
     public string spawnMarkerName;
 
-    public AIStats aiStats;
+    // AI Stats Properties
+    [HideInInspector] public string[] defAITypes = { "TERRORIST", "VIP", "CIVILLIAN" };
+    public string aiType = "CIVILLIAN";
 }
 
 [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
 [System.Serializable]
 public class NPCSchedule_RTEStorage
 {
-    public string name;
+    public string npcName;
 
-    //public enum SCHEDULE_TYPE
-    //{
-    //    IDLE, MOVE_TO_POS, MOVE_TO_POS_WITH_ROT, SIT_IN_AREA, TALK_TO_OTHER_NPC
-    //}
-
-    //public SCHEDULE_TYPE scheduleType;
-
-    public string scheduleType;
+    // NPCSchedule Properties
+    [HideInInspector] public string[] defScheduleTypes = { "IDLE", "MOVE_TO_POS", "MOVE_TO_POS_WITH_ROT", "SIT_IN_AREA", "TALK_TO_OTHER_NPC" };
+    public string scheduleType = "IDLE";
     public string argument;
 }

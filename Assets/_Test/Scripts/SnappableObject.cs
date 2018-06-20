@@ -50,8 +50,22 @@ namespace SealTeam4
             {
                 return;
             }
-            
-            SnapObject(snappabbablesWithinRadius[0].transform);
+
+            float nearestDist = float.MaxValue;
+            float distance;
+            Collider nearestColl = null;
+            // Return nearest grabbable object within radius
+            foreach (Collider c in snappabbablesWithinRadius)
+            {
+                distance = Vector3.SqrMagnitude(transform.position - c.transform.position);
+                if (distance < nearestDist)
+                {
+                    nearestDist = distance;
+                    nearestColl = c;
+                }
+            }
+
+            SnapObject(nearestColl.transform);
         }
 
         [ClientRpc]

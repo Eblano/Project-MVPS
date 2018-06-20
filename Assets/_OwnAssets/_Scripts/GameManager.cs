@@ -74,12 +74,6 @@ namespace SealTeam4
 
         public bool networkTest = false;
 
-        public void ToggleNetworkTestBool()
-        {
-            networkTest = !networkTest;
-            GameManagerAssistant.instance.CmdUpdateNetworkTestBool(networkTest);
-        }
-
         //public List<PlayerVectorCalibData> playerVectorCalibDataList = new List<PlayerVectorCalibData>();
 
         private void Start()
@@ -114,8 +108,14 @@ namespace SealTeam4
 
             if(Input.GetKeyDown(KeyCode.Z))
             {
-                ToggleNetworkTestBool();
+                GameManagerAssistant.instance.CmdSetBool(networkTest);
             }
+        }
+
+        public void UpdateNetworkTestBool(bool value)
+        {
+            networkTest = value;
+            Debug.Log(networkTest);
         }
 
         private void Host_Update()
@@ -176,14 +176,17 @@ namespace SealTeam4
         {
             currGameManagerMode = GameManagerMode.CLIENT;
 
-            // Find spawn marker
-            PlayerSpawnMarker playerSpawnMarker =
-                registeredMarkers.Find(x => x.markerType == MARKER_TYPE.PLAYER_SPAWN_MARKER)
-                .markerGO
-                .GetComponent<PlayerSpawnMarker>();
+            if(registeredMarkers.Count > 0)
+            {
+                // Find spawn marker
+                PlayerSpawnMarker playerSpawnMarker =
+                    registeredMarkers.Find(x => x.markerType == MARKER_TYPE.PLAYER_SPAWN_MARKER)
+                    .markerGO
+                    .GetComponent<PlayerSpawnMarker>();
 
-            // Spawn local player controller at spawn position
-            Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
+                // Spawn local player controller at spawn position
+                Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
+            }
         }
 
         public void GM_Host_SwitchToRun()
@@ -286,7 +289,7 @@ namespace SealTeam4
                 // Get spawn marker
                 GameObject SpawnMarker = GetSpawnMarkerByName(npcSpawnData.spawnMarkerName);
                 // Get NPC type to spawn
-                GameObject npcToSpawn = GetNPCPrefabByNPCType(npcSpawnData.nPC_TYPE);
+                GameObject npcToSpawn = GetNPCPrefabByNPCType(npcSpawnData.npcOutfit);
 
                 SpawnMarker targetSpawnMarker = SpawnMarker.GetComponent<SpawnMarker>();
                 
@@ -294,7 +297,7 @@ namespace SealTeam4
                 GameObject npc = Instantiate(npcToSpawn, targetSpawnMarker.pointPosition, targetSpawnMarker.pointRotation);
                 
                 // Spawn NPC on all clients
-                GameManagerAssistant.instance.NetworkSpawnObject(npc);
+                GameManagerAssistant.instance.CmdNetworkSpawnObject(npc);
 
                 // Setting NPC configurations
                 AIController npcGOAIController = npc.GetComponent<AIController>();
@@ -306,17 +309,17 @@ namespace SealTeam4
 
                 // Adding NPC reference to list according to ai type
                 AIStats aiStats = npcSpawnData.aiStats;
-                switch(aiStats.aiType)
+                switch(aiStats.npcType)
                 {
-                    case AIStats.AiType.CIVILLIAN:
+                    case AIStats.NPCType.CIVILLIAN:
                         spawnedCivilianNPCs.Add(npc);
                         break;
 
-                    case AIStats.AiType.TERRORIST:
+                    case AIStats.NPCType.TERRORIST:
                         spawnedHostileNPCs.Add(npc);
                         break;
 
-                    case AIStats.AiType.VIP:
+                    case AIStats.NPCType.VIP:
                         spawnedVIPNPC.Add(npc);
                         break;
                 }
@@ -374,14 +377,14 @@ namespace SealTeam4
                 .markerGO.transform;
         }
         
-        public GameObject GetNPCPrefabByNPCType(NpcSpawnData.NPC_TYPE npcType)
+        public GameObject GetNPCPrefabByNPCType(NpcSpawnData.NPCOutfit npcType)
         {
             switch (npcType)
             {
-                case NpcSpawnData.NPC_TYPE.TYPE0:
+                case NpcSpawnData.NPCOutfit.TYPE0:
                     return type0NPC_Prefab;
 
-                case NpcSpawnData.NPC_TYPE.TYPE1:
+                case NpcSpawnData.NPCOutfit.TYPE1:
                     return type1NPC_Prefab;
             }
             return null;
@@ -413,10 +416,33 @@ namespace SealTeam4
             return totalRegMarkers;
         }
 
-        public List<Marker> GetAllNPCSpawnMarker()
+        public List<Marker> GetAllSpecificMarker(MARKER_TYPE markerType)
         {
-            return registeredMarkers
-                .FindAll(x => x.markerType == MARKER_TYPE.NPC_SPAWN);
+            List<Marker> markers = new List<Marker>();
+
+            switch (markerType)
+            {
+                case MARKER_TYPE.AREA:
+                    markers = registeredMarkers
+                        .FindAll(x => x.markerType == MARKER_TYPE.AREA);
+                    break;
+                case MARKER_TYPE.TARGET:
+                    markers = registeredMarkers
+                        .FindAll(x => x.markerType == MARKER_TYPE.TARGET);
+                    break;
+                case MARKER_TYPE.NPC_SPAWN:
+                    markers = registeredMarkers
+                        .FindAll(x => x.markerType == MARKER_TYPE.NPC_SPAWN);
+                    break;
+                case MARKER_TYPE.SEAT:
+                    markers = null;
+                    break;
+                case MARKER_TYPE.PLAYER_SPAWN_MARKER:
+                    markers = null;
+                    break;
+            }
+
+            return markers;
         }
     }
 

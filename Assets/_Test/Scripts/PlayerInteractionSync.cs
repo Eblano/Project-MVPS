@@ -74,9 +74,9 @@ public class PlayerInteractionSync : NetworkBehaviour
     /// </summary>
     /// <param name="control"></param>
     [Command]
-    public void CmdTriggerClick(VRTK_DeviceFinder.Devices control)
+    public void CmdTriggerClick(VRTK_DeviceFinder.Devices control, NetworkInstanceId networkInstanceId)
     {
-        RpcCallTriggerClick(control);
+        RpcCallTriggerClick(control, networkInstanceId);
     }
 
     /// <summary>
@@ -261,7 +261,7 @@ public class PlayerInteractionSync : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcCallTriggerClick(VRTK_DeviceFinder.Devices control)
+    public void RpcCallTriggerClick(VRTK_DeviceFinder.Devices control, NetworkInstanceId networkInstanceId)
     {
         // If the controller is not grabbing something
         if (!ControllerIsGrabbingSomething(control))
@@ -288,7 +288,7 @@ public class PlayerInteractionSync : NetworkBehaviour
         }
 
         UsableObject usableObject = currGrabbedObj.GetComponent<UsableObject>();
-        usableObject.Use();
+        usableObject.Use(networkInstanceId);
     }
 
     [ClientRpc]
@@ -479,8 +479,22 @@ public class PlayerInteractionSync : NetworkBehaviour
         {
             return null;
         }
-        // Return first grabable object within radius
-        return grabbablesWithinRadius[0].gameObject;
+
+        float nearestDist = float.MaxValue;
+        float distance;
+        Collider nearestColl = null;
+        // Return nearest grabbable object within radius
+        foreach (Collider c in grabbablesWithinRadius)
+        {
+            distance = Vector3.SqrMagnitude(centerPos - c.transform.position);
+            if (distance < nearestDist)
+            {
+                nearestDist = distance;
+                nearestColl = c;
+            }
+        }
+        // Return nearest grabable object within radius
+        return nearestColl.gameObject;
     }
 
     /// <summary>

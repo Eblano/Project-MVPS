@@ -9,27 +9,42 @@ namespace SealTeam4
     {
         public static GameManagerAssistant instance;
 
-        private void Start()
+        private void Update()
         {
             if (isLocalPlayer)
                 instance = this;
+            else
+                return;
         }
 
-        public void NetworkSpawnObject(GameObject GO)
+        [Command]
+        public void CmdSetBool(bool state)
+        {
+            RpcSetBool(state);
+        }
+
+        [ClientRpc]
+        public void RpcSetBool(bool state)
+        {
+            GameManager.instance.UpdateNetworkTestBool(state);
+        }
+
+        [Command]
+        public void CmdNetworkSpawnObject(GameObject GO)
         {
             NetworkServer.Spawn(GO);
         }
 
         [Command]
-        public void CmdUpdateNetworkTestBool(bool newValue)
+        public void CmdSyncHaps(NetworkInstanceId networkInstanceId, ControllerHapticsManager.HapticType hapticType, VRTK.VRTK_DeviceFinder.Devices devices)
         {
-            RpcUpdateNetworkTestBool(newValue);
+            TargetSyncHaps(NetworkServer.objects[networkInstanceId].connectionToClient, hapticType, devices);
         }
 
-        [ClientRpc]
-        public void RpcUpdateNetworkTestBool(bool newValue)
+        [TargetRpc]
+        public void TargetSyncHaps(NetworkConnection networkConnection, ControllerHapticsManager.HapticType hapticType, VRTK.VRTK_DeviceFinder.Devices devices)
         {
-            GameManager.instance.networkTest = newValue;
+            ControllerHapticsManager.instance.PlayHaptic(hapticType, devices);
         }
     }
 }
