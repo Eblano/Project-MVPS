@@ -102,11 +102,15 @@ namespace SealTeam4
 public class NPCSpawnData_RTEStorage
 {
     public string npcName;
-    public string[] defNPCTypes = { "TYPE0", "TYPE1", "SIT_IN_AREA" };
-    public string NPCType = "TYPE0";
+
+    // NPCSpawnData Properties
+    [HideInInspector] public string[] defNPCOutfit = { "TYPE0", "TYPE1" };
+    public string npcOutfit = "TYPE0";
     public string spawnMarkerName;
 
-    public AIStats aiStats;
+    // AI Stats Properties
+    [HideInInspector] public string[] defAITypes = { "TERRORIST", "VIP", "CIVILLIAN" };
+    public string aiType = "CIVILLIAN";
 }
 
 [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
@@ -114,7 +118,9 @@ public class NPCSpawnData_RTEStorage
 public class NPCSchedule_RTEStorage
 {
     public string npcName;
-    public string[] defScheduleTypes = { "IDLE", "MOVE_TO_POS", "MOVE_TO_POS_WITH_ROT", "SIT_IN_AREA", "TALK_TO_OTHER_NPC" };
+
+    // NPCSchedule Properties
+    [HideInInspector] public string[] defScheduleTypes = { "IDLE", "MOVE_TO_POS", "MOVE_TO_POS_WITH_ROT", "SIT_IN_AREA", "TALK_TO_OTHER_NPC" };
     public string scheduleType = "IDLE";
     public string argument;
 }

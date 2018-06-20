@@ -289,7 +289,7 @@ namespace SealTeam4
                 // Get spawn marker
                 GameObject SpawnMarker = GetSpawnMarkerByName(npcSpawnData.spawnMarkerName);
                 // Get NPC type to spawn
-                GameObject npcToSpawn = GetNPCPrefabByNPCType(npcSpawnData.nPC_TYPE);
+                GameObject npcToSpawn = GetNPCPrefabByNPCType(npcSpawnData.npcOutfit);
 
                 SpawnMarker targetSpawnMarker = SpawnMarker.GetComponent<SpawnMarker>();
                 
@@ -309,17 +309,17 @@ namespace SealTeam4
 
                 // Adding NPC reference to list according to ai type
                 AIStats aiStats = npcSpawnData.aiStats;
-                switch(aiStats.aiType)
+                switch(aiStats.npcType)
                 {
-                    case AIStats.AiType.CIVILLIAN:
+                    case AIStats.NPCType.CIVILLIAN:
                         spawnedCivilianNPCs.Add(npc);
                         break;
 
-                    case AIStats.AiType.TERRORIST:
+                    case AIStats.NPCType.TERRORIST:
                         spawnedHostileNPCs.Add(npc);
                         break;
 
-                    case AIStats.AiType.VIP:
+                    case AIStats.NPCType.VIP:
                         spawnedVIPNPC.Add(npc);
                         break;
                 }
@@ -377,14 +377,14 @@ namespace SealTeam4
                 .markerGO.transform;
         }
         
-        public GameObject GetNPCPrefabByNPCType(NpcSpawnData.NPC_TYPE npcType)
+        public GameObject GetNPCPrefabByNPCType(NpcSpawnData.NPCOutfit npcType)
         {
             switch (npcType)
             {
-                case NpcSpawnData.NPC_TYPE.TYPE0:
+                case NpcSpawnData.NPCOutfit.TYPE0:
                     return type0NPC_Prefab;
 
-                case NpcSpawnData.NPC_TYPE.TYPE1:
+                case NpcSpawnData.NPCOutfit.TYPE1:
                     return type1NPC_Prefab;
             }
             return null;

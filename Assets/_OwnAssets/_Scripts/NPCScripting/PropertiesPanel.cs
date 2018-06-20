@@ -8,6 +8,8 @@ namespace SealTeam4
 	public class PropertiesPanel : MonoBehaviour 
 	{
 		[SerializeField] private TMP_Dropdown spawnMarkerDropdown;
+        [SerializeField] private TMP_Dropdown npcOutfitDropdown;
+        [SerializeField] private TMP_Dropdown aiTypeDropdown;
         [SerializeField] private GameObject schedulesPanel;
 
         private GameObject npcScheduleSlot_Prefab;
@@ -23,8 +25,10 @@ namespace SealTeam4
             List<Marker> npcSpawnMarkers,
             List<Marker> targetMarkers,
             List<Marker> areaMarkers,
+
             ref NPCSpawnData_RTEStorage ref_npcSpawnData,
             ref List<NPCSchedule_RTEStorage> ref_schedules,
+
             GameObject npcScheduleSlot_Prefab
             )
         {
@@ -33,9 +37,11 @@ namespace SealTeam4
             this.ref_npcSpawnData = ref_npcSpawnData;
             this.ref_schedules = ref_schedules;
 
-            Setup_SpawnMarkerDropdown(ref_npcSpawnData.spawnMarkerName, npcSpawnMarkers);
+            Setup_SpawnMarkerDropdown(npcSpawnMarkers);
+            Setup_NPCOutfitDropdown();
+            Setup_AITypeDropdown();
             Setup_ScheduleSlots(targetMarkers, areaMarkers);
-            
+
             gameObject.SetActive(false);
         }
 
@@ -67,31 +73,113 @@ namespace SealTeam4
             npcScheduleSlotList.Add(npcScheduleSlot);
         }
 
-        private void Setup_SpawnMarkerDropdown(string selectedSpawnMarker, List<Marker> npcSpawnMarkers)
+        private void Setup_SpawnMarkerDropdown(List<Marker> npcSpawnMarkers)
         {
-            List<TMP_Dropdown.OptionData> npcSpawnMarkersDropdownOptions = new List<TMP_Dropdown.OptionData>();
+            List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
             // Add marker texts to dropdown options
             foreach (Marker npcSpawnMarker in npcSpawnMarkers)
             {
-                TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
+                TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData
                 {
                     text = npcSpawnMarker.markerName
                 };
 
                 // Add option to dropdown
-                npcSpawnMarkersDropdownOptions.Add(optionData);
+                options.Add(option);
             }
 
             // Add options to dropdown if there is 1 or more options
-            if (npcSpawnMarkersDropdownOptions.Count > 0)
+            if (options.Count > 0)
             {
-                spawnMarkerDropdown.AddOptions(npcSpawnMarkersDropdownOptions);
+                spawnMarkerDropdown.AddOptions(options);
             }
+
+            string selectedSpawnMarker = ref_npcSpawnData.spawnMarkerName;
 
             // Setting dropdown value
             int dropdownValue = spawnMarkerDropdown.options.FindIndex((i) => { return i.text.Equals(selectedSpawnMarker); });
             spawnMarkerDropdown.value = dropdownValue;
+        }
+
+        private void Setup_NPCOutfitDropdown()
+        {
+            List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+
+            // Add marker texts to dropdown options
+            foreach (string outfit in ref_npcSpawnData.defNPCOutfit)
+            {
+                TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
+                {
+                    text = outfit
+                };
+
+                // Add option to dropdown
+                options.Add(optionData);
+            }
+
+            // Add options to dropdown if there is 1 or more options
+            if (options.Count > 0)
+            {
+                npcOutfitDropdown.AddOptions(options);
+            }
+
+            string selectedNPCOutfit = ref_npcSpawnData.npcOutfit;
+
+            // Setting dropdown value
+            int dropdownValue = npcOutfitDropdown.options.FindIndex((i) => { return i.text.Equals(selectedNPCOutfit); });
+            npcOutfitDropdown.value = dropdownValue;
+        }
+
+        private void Setup_AITypeDropdown()
+        {
+            List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+
+            // Add marker texts to dropdown options
+            foreach (string aiType in ref_npcSpawnData.defAITypes)
+            {
+                TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
+                {
+                    text = aiType
+                };
+
+                // Add option to dropdown
+                options.Add(optionData);
+            }
+
+            // Add options to dropdown if there is 1 or more options
+            if (options.Count > 0)
+            {
+                aiTypeDropdown.AddOptions(options);
+            }
+
+            string selectedAIType = ref_npcSpawnData.aiType;
+
+            // Setting dropdown value
+            int dropdownValue = aiTypeDropdown.options.FindIndex((i) => { return i.text.Equals(selectedAIType); });
+            aiTypeDropdown.value = dropdownValue;
+        }
+
+        public void OnValueChanged_NPCOutfitDropdown()
+        {
+            int dropdownValue = npcOutfitDropdown.value;
+
+            if (dropdownValue != 0)
+            {
+                string newNPCOutfitName = npcOutfitDropdown.options[dropdownValue].text;
+                ref_npcSpawnData.npcOutfit = newNPCOutfitName;
+            }
+        }
+
+        public void OnValueChanged_AITypeDropdown()
+        {
+            int dropdownValue = aiTypeDropdown.value;
+
+            if (dropdownValue != 0)
+            {
+                string newAiType = aiTypeDropdown.options[dropdownValue].text;
+                ref_npcSpawnData.aiType = newAiType;
+            }
         }
 
         public void OnValueChanged_SpawnMarkerDropdown()

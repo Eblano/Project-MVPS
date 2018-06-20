@@ -6,8 +6,8 @@ using UnityEngine;
 [System.Serializable]
 public class AIStats
 {
-    public enum AiType { TERRORIST, VIP, CIVILLIAN };
-    public AiType aiType = AiType.CIVILLIAN;
+    public enum NPCType { TERRORIST, VIP, CIVILLIAN };
+    public NPCType npcType = NPCType.CIVILLIAN;
 
     [Range(0, 100)] public float chanceEnterHostileMode = 0.0f;
 
