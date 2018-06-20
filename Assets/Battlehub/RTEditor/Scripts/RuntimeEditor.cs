@@ -292,7 +292,7 @@ namespace Battlehub.RTEditor
         private void InitGameView()
         {
             GameCamera[] cameras = FindObjectsOfType<GameCamera>();
-            //GameView.SetActive(cameras.Length > 0);
+            GameView.SetActive(cameras.Length > 0);
 
             RuntimeEditorApplication.GameCameras = cameras.Select(g => g.GetComponent<Camera>()).ToArray();
             if (m_gameViewViewportFitter != null)

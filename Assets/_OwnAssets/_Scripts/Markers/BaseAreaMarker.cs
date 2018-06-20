@@ -37,8 +37,13 @@ namespace SealTeam4
 
         private void InitializeMeshAndMaterial()
         {
-            gameObject.AddComponent<MeshFilter>().mesh = mesh;
-            gameObject.AddComponent<MeshRenderer>().material = meshMat;
+            if(!GetComponent<MeshFilter>())
+                gameObject.AddComponent<MeshFilter>();
+            GetComponent<MeshFilter>().mesh = mesh;
+
+            if (!GetComponent<MeshRenderer>())
+                gameObject.AddComponent<MeshRenderer>();
+            GetComponent<MeshRenderer>().material = meshMat;
         }
 
         public override void CleanUpForSimulationStart()
