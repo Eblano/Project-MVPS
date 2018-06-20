@@ -152,5 +152,33 @@ namespace SealTeam4
 
             currActivePropertiesPanel.SetActive(true);
         }
+
+        public void DeleteNPCEntry(NPCListButton sourceButton)
+        {
+            NPCScriptingUIData targetUIData = npcScriptingUIDataList.Find(x => x.button == sourceButton);
+
+            // If active properties panel is target panel
+            // Set active panel to null
+            if(targetUIData.propertiesPanel == currActivePropertiesPanel)
+            {
+                currActivePropertiesPanel = null;
+            }
+
+            // Delete NPC Data from storage
+            NpcScriptStorage.instance.DeleteAllTargetNPCSpawnData(targetUIData.propertiesPanel.GetNPCName());
+            NpcScriptStorage.instance.DeleteAllTargetNPCScheduleData(targetUIData.propertiesPanel.GetNPCName());
+
+            // Destroy all UI elements for target NPC
+            Destroy(targetUIData.propertiesPanel.gameObject);
+            Destroy(targetUIData.button.gameObject);
+
+            // Delete targetUIData
+            npcScriptingUIDataList.Remove(targetUIData);
+        }
+
+        public void DeleteSchedule(NPCSchedule_RTEStorage targetSchedule)
+        {
+            NpcScriptStorage.instance.DeleteTargetNPCScheduleData(targetSchedule);
+        }
     }
 }

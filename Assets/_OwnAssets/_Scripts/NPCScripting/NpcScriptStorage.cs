@@ -94,6 +94,21 @@ namespace SealTeam4
 
             return baseNPCName + increment;
         }
+
+        public void DeleteAllTargetNPCSpawnData(string npcName)
+        {
+            npcSpawnDataList_RTEStorage.RemoveAll(x => x.npcName == npcName);
+        }
+
+        public void DeleteAllTargetNPCScheduleData(string npcName)
+        {
+            npcScheduleList_RTEStorage.RemoveAll(x => x.npcName == npcName);
+        }
+
+        public void DeleteTargetNPCScheduleData(NPCSchedule_RTEStorage targetNPCSchedule)
+        {
+            npcScheduleList_RTEStorage.Remove(targetNPCSchedule);
+        }
     }
 }
 

@@ -195,5 +195,11 @@ namespace SealTeam4
                 ref_schedule.argument = newAreaMarkerName;
             }
         }
+
+        public void DeleteSchedule()
+        {
+            NpcScripting.instance.DeleteSchedule(ref_schedule);
+            Destroy(this.gameObject);
+        }
     }
 }
