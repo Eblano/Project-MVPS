@@ -10,6 +10,8 @@ namespace SealTeam4
     /// </summary>
     public class BaseMarker : MonoBehaviour, IMarkerBehaviours
     {
+        protected Canvas floatingCanvas;
+
         /// <summary>
         /// Register marker to current active GameManager
         /// </summary>

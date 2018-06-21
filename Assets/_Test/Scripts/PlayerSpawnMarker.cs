@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SealTeam4
 {
-    public class PlayerSpawnMarker : PointMarker
+    public class PlayerSpawnMarker : PointMarker, IMarkerBehaviours
     {
         private new void Start()
         {

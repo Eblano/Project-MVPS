@@ -106,10 +106,15 @@ namespace SealTeam4
                     break;
             }
 
-            if(Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.Space) && currGameManagerHostMode == GameManagerHostMode.IDLE)
             {
-                GameManagerAssistant.instance.CmdSetBool(networkTest);
+                GM_Host_SwitchToRun();
             }
+
+            //if(Input.GetKeyDown(KeyCode.Z))
+            //{
+            //    GameManagerAssistant.instance.CmdSetBool(networkTest);
+            //}
         }
 
         public void UpdateNetworkTestBool(bool value)
@@ -209,7 +214,7 @@ namespace SealTeam4
         {
             foreach (Marker marker in registeredMarkers)
             {
-                if(marker is IMarkerBehaviours)
+                if(marker.markerGO.GetComponent<BaseMarker>() is IMarkerBehaviours)
                 {
                     marker.markerGO.GetComponent<IMarkerBehaviours>().CleanUpForSimulationStart();
                 }
