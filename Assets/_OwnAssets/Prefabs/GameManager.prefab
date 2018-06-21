@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4455132867978186}
   - component: {fileID: 114937303008238198}
   - component: {fileID: 114767845761546020}
-  - component: {fileID: 114689553112045824}
+  - component: {fileID: 114929264871542918}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -42,7 +42,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114689553112045824
+--- !u!114 &114767845761546020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1044430686693050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_guid: b8c9c5fa-af5c-4d70-a967-a47f299b9c6a
+  m_isRuntime: 0
+--- !u!114 &114929264871542918
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -64,19 +77,6 @@ MonoBehaviour:
   - Name: GameManager
     Object: {fileID: 4455132867978186}
     Id: 20965
---- !u!114 &114767845761546020
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1044430686693050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_guid: b8c9c5fa-af5c-4d70-a967-a47f299b9c6a
-  m_isRuntime: 0
 --- !u!114 &114937303008238198
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -99,7 +99,7 @@ MonoBehaviour:
     type: 2}
   gameMasterCamera_Prefab: {fileID: 1175345499955892, guid: 27ace2c748868fa479268bdaad3a4fb2,
     type: 2}
-  gameMasterUI_Prefab: {fileID: 1225870025310332, guid: ed9e847a7498a10409e4a73e59ab978d,
+  gameMasterUI_Prefab: {fileID: 1340597830989512, guid: c2c0d39ac62cfaf49b9e64657da269c8,
     type: 2}
   type0NPC_Prefab: {fileID: 1601331633119506, guid: ce14c7e8560313f4da7e3ad3611cf0a7,
     type: 2}

@@ -113,44 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &290347354 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1044430686693050, guid: af6b4b6ce3a27e4458d36ac4393d2307,
-    type: 2}
-  m_PrefabInternal: {fileID: 350121405}
---- !u!114 &290347355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 290347354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid: cdfb1a12-1d10-4141-a785-08c65454666a
-  Mapping:
-  - Name: GameManager
-    Object: {fileID: 290347356}
-    Id: 20946
-  - Name: GameManager
-    Object: {fileID: 290347354}
-    Id: 20947
-  - Name: GameManager
-    Object: {fileID: 290347358}
-    Id: 20965
---- !u!114 &290347356 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114767845761546020, guid: af6b4b6ce3a27e4458d36ac4393d2307,
-    type: 2}
-  m_PrefabInternal: {fileID: 350121405}
-  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
---- !u!4 &290347358 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4455132867978186, guid: af6b4b6ce3a27e4458d36ac4393d2307,
-    type: 2}
-  m_PrefabInternal: {fileID: 350121405}
 --- !u!1001 &350121405
 Prefab:
   m_ObjectHideFlags: 0
@@ -190,8 +152,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114689553112045824, guid: af6b4b6ce3a27e4458d36ac4393d2307, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: af6b4b6ce3a27e4458d36ac4393d2307, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &904681390 stripped
