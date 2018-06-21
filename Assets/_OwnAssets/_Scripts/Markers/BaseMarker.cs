@@ -23,7 +23,7 @@ namespace SealTeam4
                 dynamicBillboard = gameObject.AddComponent<DynamicBillboard>();
 
 
-            GameObject canvas = Instantiate(canvas_Prefab, transform.position, Quaternion.identity);
+            canvas = Instantiate(canvas_Prefab, transform.position, Quaternion.identity);
             canvas.AddComponent<Battlehub.RTSaveLoad.PersistentIgnore>();
             canvas.transform.SetParent(gameObject.transform);
             canvas.transform.localPosition += new Vector3(0, canvasVerticalOffset, 0);
