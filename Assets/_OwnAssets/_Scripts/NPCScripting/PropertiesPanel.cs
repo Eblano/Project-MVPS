@@ -11,11 +11,12 @@ namespace SealTeam4
         [SerializeField] private TMP_Dropdown npcOutfitDropdown;
         [SerializeField] private TMP_Dropdown aiTypeDropdown;
         [SerializeField] private GameObject schedulesPanel;
+        [SerializeField] private TextMeshProUGUI propertiesSectionText;
 
         private GameObject npcScheduleSlot_Prefab;
 
         // List of schedule slots reference that belongs to this properties panel
-        public List<NPCScheduleSlot> npcScheduleSlotList = new List<NPCScheduleSlot>();
+        [Battlehub.SerializeIgnore] [HideInInspector] public List<NPCScheduleSlot> npcScheduleSlotList = new List<NPCScheduleSlot>();
 
         private NPCSpawnData_RTEStorage ref_npcSpawnData;
         private List<NPCSchedule_RTEStorage> ref_schedules;
@@ -43,6 +44,11 @@ namespace SealTeam4
             Setup_ScheduleSlots(targetMarkers, areaMarkers);
 
             gameObject.SetActive(false);
+        }
+
+        private void Update()
+        {
+            propertiesSectionText.text = ref_npcSpawnData.npcName + " Properties";
         }
 
         private void Setup_ScheduleSlots(List<Marker> targetMarkers, List<Marker> areaMarkers)
