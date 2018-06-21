@@ -214,7 +214,7 @@ namespace SealTeam4
         {
             foreach (Marker marker in registeredMarkers)
             {
-                if(marker.markerGO.GetComponent<BaseMarker>() is IMarkerBehaviours)
+                if (marker.markerGO.GetComponent<BaseMarker>() is IMarkerBehaviours)
                 {
                     marker.markerGO.GetComponent<IMarkerBehaviours>().CleanUpForSimulationStart();
                 }
@@ -294,7 +294,8 @@ namespace SealTeam4
 
         private void SetNPCSpawnDataFromNPCScriptStorage()
         {
-            npcSpawnDataList = NpcScriptStorage.instance.GetAllNPCSpawnData();
+            if(NpcScriptStorage.instance)
+                npcSpawnDataList = NpcScriptStorage.instance.GetAllNPCSpawnData();
         }
 
         private void SpawnAndSetupNPC()

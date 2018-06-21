@@ -38,7 +38,7 @@ namespace SealTeam4
 
         protected void LateUpdate()
         {
-            if(canvas)
+            if(canvas && camToTrack)
             {
                 if(!setupDone)
                 {
@@ -53,6 +53,7 @@ namespace SealTeam4
 
                 RotateCanvasToFaceCamera();
                 ScaleCanvas();
+
             }
         }
 

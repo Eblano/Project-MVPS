@@ -87,6 +87,7 @@ namespace SealTeam4
 
         public override void CleanUpForSimulationStart()
         {
+            base.CleanUpForSimulationStart();
             Destroy(GetComponent<MeshFilter>());
             Destroy(GetComponent<MeshRenderer>());
             Destroy(GetComponent<LineRenderer>());

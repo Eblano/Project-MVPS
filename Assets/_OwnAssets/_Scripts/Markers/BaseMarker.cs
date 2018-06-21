@@ -12,11 +12,17 @@ namespace SealTeam4
     {
         protected DynamicBillboard dynamicBillboard;
         [SerializeField] protected GameObject canvas_Prefab;
+        private GameObject canvas;
         protected float canvasVerticalOffset = 0.8f;
 
         protected void Start()
         {
-            dynamicBillboard = gameObject.AddComponent<DynamicBillboard>();
+            if (GetComponent<DynamicBillboard>())
+                dynamicBillboard = GetComponent<DynamicBillboard>();
+            else
+                dynamicBillboard = gameObject.AddComponent<DynamicBillboard>();
+
+
             GameObject canvas = Instantiate(canvas_Prefab, transform.position, Quaternion.identity);
             canvas.AddComponent<Battlehub.RTSaveLoad.PersistentIgnore>();
             canvas.transform.SetParent(gameObject.transform);
@@ -47,7 +53,11 @@ namespace SealTeam4
         /// Removes Visual indication of the marker
         /// Called by GameManager
         /// </summary>
-        public virtual void CleanUpForSimulationStart() { }
+        public virtual void CleanUpForSimulationStart()
+        {
+            Destroy(canvas);
+            Destroy(dynamicBillboard);
+        }
 
         private void OnDisable()
         {
