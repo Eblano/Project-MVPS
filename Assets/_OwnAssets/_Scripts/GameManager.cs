@@ -157,6 +157,11 @@ namespace SealTeam4
         {
             currGameManagerMode = GameManagerMode.HOST;
 
+            Destroy(Camera.main.gameObject);
+
+            // Set NPCSpawnData
+            SetNPCSpawnDataFromNPCScriptStorage();
+
             // Spawn and Build NavMesh
             Instantiate(navMeshSurfaceInitator_Prefab, Vector3.zero, Quaternion.identity)
                 .GetComponent<NavMeshSurface>()
@@ -280,6 +285,11 @@ namespace SealTeam4
         public void SetLocalPlayerName(string name)
         {
             localPlayerName = name;
+        }
+
+        private void SetNPCSpawnDataFromNPCScriptStorage()
+        {
+            npcSpawnDataList = NpcScriptStorage.instance.GetAllNPCSpawnData();
         }
 
         private void SpawnAndSetupNPC()

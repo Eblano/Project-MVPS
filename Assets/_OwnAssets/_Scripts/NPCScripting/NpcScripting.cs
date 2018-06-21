@@ -57,8 +57,8 @@ namespace SealTeam4
             
             PopulateData
                 (
-                NpcScriptStorage.instance.GetAllNPCSpawnData(),
-                NpcScriptStorage.instance.GetAllNPCScheduleData()
+                NpcScriptStorage.instance.GetAllNPCSpawnData_RTEStorage(),
+                NpcScriptStorage.instance.GetAllNPCScheduleData_RTEStorage()
                 );
         }
 
@@ -94,13 +94,13 @@ namespace SealTeam4
 
         public void AddNewNPCEntry()
         {
-            AddNewNPCData(NpcScriptStorage.instance.AddNewNPCSpawnData(), new List<NPCSchedule_RTEStorage>());
+            AddNewNPCData(NpcScriptStorage.instance.AddNewNPCSpawnData_RTEStorage(), new List<NPCSchedule_RTEStorage>());
         }
 
         public void AddNewNPCSchedule(PropertiesPanel sourcePanel)
         {
             string npcName = sourcePanel.GetNPCName();
-            NPCSchedule_RTEStorage newSchedule = NpcScriptStorage.instance.AddNewNPCScheduleData(npcName);
+            NPCSchedule_RTEStorage newSchedule = NpcScriptStorage.instance.AddNewNPCScheduleData_RTEStorage(npcName);
             sourcePanel.AddNewScheduleSlot(newSchedule, targetMarkers, areaMarkers);
         }
 
@@ -160,8 +160,8 @@ namespace SealTeam4
             }
 
             // Delete NPC Data from storage
-            NpcScriptStorage.instance.DeleteAllTargetNPCSpawnData(targetUIData.propertiesPanel.GetNPCName());
-            NpcScriptStorage.instance.DeleteAllTargetNPCScheduleData(targetUIData.propertiesPanel.GetNPCName());
+            NpcScriptStorage.instance.DeleteAllTargetNPCSpawnData_RTEStorage(targetUIData.propertiesPanel.GetNPCName());
+            NpcScriptStorage.instance.DeleteNPCScheduleData_RTEStorage(targetUIData.propertiesPanel.GetNPCName());
 
             // Destroy all UI elements for target NPC
             Destroy(targetUIData.propertiesPanel.gameObject);
@@ -173,7 +173,7 @@ namespace SealTeam4
 
         public void DeleteSchedule(NPCSchedule_RTEStorage targetSchedule)
         {
-            NpcScriptStorage.instance.DeleteTargetNPCScheduleData(targetSchedule);
+            NpcScriptStorage.instance.DeleteNPCScheduleData_RTEStorage(targetSchedule);
         }
     }
 }
