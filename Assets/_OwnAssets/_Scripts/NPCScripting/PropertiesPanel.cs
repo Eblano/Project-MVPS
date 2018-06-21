@@ -107,7 +107,7 @@ namespace SealTeam4
             List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
             // Add marker texts to dropdown options
-            foreach (string outfit in ref_npcSpawnData.defNPCOutfit)
+            foreach (string outfit in ref_npcSpawnData.GetDefNPCOutfit())
             {
                 TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
                 {
@@ -118,11 +118,10 @@ namespace SealTeam4
                 options.Add(optionData);
             }
 
+            npcOutfitDropdown.ClearOptions();
             // Add options to dropdown if there is 1 or more options
             if (options.Count > 0)
-            {
                 npcOutfitDropdown.AddOptions(options);
-            }
 
             string selectedNPCOutfit = ref_npcSpawnData.npcOutfit;
 
@@ -136,7 +135,7 @@ namespace SealTeam4
             List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
             // Add marker texts to dropdown options
-            foreach (string aiType in ref_npcSpawnData.defAITypes)
+            foreach (string aiType in ref_npcSpawnData.GetDefAITypes())
             {
                 TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
                 {
@@ -147,11 +146,10 @@ namespace SealTeam4
                 options.Add(optionData);
             }
 
+            aiTypeDropdown.ClearOptions();
             // Add options to dropdown if there is 1 or more options
             if (options.Count > 0)
-            {
                 aiTypeDropdown.AddOptions(options);
-            }
 
             string selectedAIType = ref_npcSpawnData.aiType;
 

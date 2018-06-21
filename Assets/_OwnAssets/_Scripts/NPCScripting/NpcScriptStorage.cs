@@ -57,6 +57,11 @@ namespace SealTeam4
             return npcScheduleList_RTEStorage;
         }
 
+        public List<NPCSchedule_RTEStorage> GetSpecificNPCScheduleData_RTEStorage(string npcName)
+        {
+            return npcScheduleList_RTEStorage.FindAll(x => x.npcName == npcName);
+        }
+
         public NPCSpawnData_RTEStorage AddNewNPCSpawnData_RTEStorage()
         {
             NPCSpawnData_RTEStorage newData = new NPCSpawnData_RTEStorage
@@ -110,6 +115,23 @@ namespace SealTeam4
             npcScheduleList_RTEStorage.Remove(targetNPCSchedule);
         }
 
+        private bool CheckIfNameIsUnique(string name)
+        {
+            return !npcSpawnDataList_RTEStorage.Exists(x => x.npcName == name);
+        }
+
+        public bool ChangeName(string oldName, string newName)
+        {
+            if (CheckIfNameIsUnique(newName))
+            {
+                npcSpawnDataList_RTEStorage.Find(x => x.npcName == oldName).npcName = newName;
+                npcScheduleList_RTEStorage.FindAll(x => x.npcName == oldName).ForEach(x => x.npcName = newName);
+                return true;
+            }
+            else
+                return false;
+        }
+
         public List<NpcSpawnData> GetAllNPCSpawnData()
         {
             List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
@@ -151,7 +173,7 @@ namespace SealTeam4
 
                 // Setting schedules
                 List<NPCSchedule> npcSchedule = new List<NPCSchedule>();
-                foreach (NPCSchedule_RTEStorage npcSchedule_RTEStorage in npcScheduleList_RTEStorage)
+                foreach (NPCSchedule_RTEStorage npcSchedule_RTEStorage in GetSpecificNPCScheduleData_RTEStorage(npcSpawnData_RTEStorage.npcName))
                 {
                     NPCSchedule schedule = new NPCSchedule();
                     NPCSchedule.SCHEDULE_TYPE scheduleType;
@@ -202,13 +224,23 @@ public class NPCSpawnData_RTEStorage
     public string npcName;
 
     // NPCSpawnData Properties
-    [HideInInspector] public string[] defNPCOutfit = { "TYPE0", "TYPE1" };
+    private readonly string[] defNPCOutfit = { "TYPE0", "TYPE1" };
     public string npcOutfit = "TYPE0";
     public string spawnMarkerName;
 
     // AI Stats Properties
-    [HideInInspector] public string[] defAITypes = { "TERRORIST", "VIP", "CIVILLIAN" };
+    private readonly string[] defAITypes = { "TERRORIST", "VIP", "CIVILLIAN" };
     public string aiType = "CIVILLIAN";
+
+    public string[] GetDefNPCOutfit()
+    {
+        return defNPCOutfit;
+    }
+
+    public string[] GetDefAITypes()
+    {
+        return defAITypes;
+    }
 }
 
 [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
@@ -218,7 +250,12 @@ public class NPCSchedule_RTEStorage
     public string npcName;
 
     // NPCSchedule Properties
-    [HideInInspector] public string[] defScheduleTypes = { "IDLE", "MOVE_TO_POS", "MOVE_TO_POS_WITH_ROT", "SIT_IN_AREA", "TALK_TO_OTHER_NPC" };
+    private readonly string[] defScheduleTypes = { "IDLE", "MOVE_TO_POS", "MOVE_TO_POS_WITH_ROT", "SIT_IN_AREA", "TALK_TO_OTHER_NPC" };
     public string scheduleType = "IDLE";
     public string argument;
+
+    public string[] GetDefScheduleTypes()
+    {
+        return defScheduleTypes;
+    }
 }

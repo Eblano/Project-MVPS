@@ -33,7 +33,7 @@ namespace SealTeam4
         {
             this.ref_schedule = ref_schedule;
 
-            Setup_ScheduleTypeDropdown(ref_schedule.scheduleType, ref_schedule.defScheduleTypes);
+            Setup_ScheduleTypeDropdown(ref_schedule.scheduleType, ref_schedule.GetDefScheduleTypes());
             Setup_MoveToPosDropdown(targetMarkers);
             Setup_SitInAreaDropdown(areaMarkers);
 
@@ -74,6 +74,7 @@ namespace SealTeam4
                     areaDropdownOptions.Add(optionData);
                 }
 
+                sitInAreaDropdown.ClearOptions();
                 if (areaDropdownOptions.Count > 0)
                     sitInAreaDropdown.AddOptions(areaDropdownOptions);
             }
@@ -94,6 +95,7 @@ namespace SealTeam4
                     moveToPosDropdownOptions.Add(optionData);
                 }
 
+                moveToPosDropdown.ClearOptions();
                 if (moveToPosDropdownOptions.Count > 0)
                     moveToPosDropdown.AddOptions(moveToPosDropdownOptions);
             }
@@ -108,10 +110,11 @@ namespace SealTeam4
                 {
                     text = option
                 };
-
+                
                 scheduleDropdownOptions.Add(optionData);
             }
 
+            scheduleTypeDropdown.ClearOptions();
             if (scheduleDropdownOptions.Count > 0)
                 scheduleTypeDropdown.AddOptions(scheduleDropdownOptions);
 

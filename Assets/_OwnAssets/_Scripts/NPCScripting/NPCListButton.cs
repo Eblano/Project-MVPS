@@ -8,10 +8,12 @@ namespace SealTeam4
 {
     public class NPCListButton : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI labelText;
+        [SerializeField] private TMP_InputField labelText;
+        private string oldText;
 
         public void Setup(string npcName)
         {
+            oldText = npcName;
             labelText.text = npcName;
         }
 
@@ -25,5 +27,18 @@ namespace SealTeam4
             NpcScripting.instance.DeleteNPCEntry(this);
         }
 
+        public void ChangeName()
+        {
+            bool changeSuccess = NpcScriptStorage.instance.ChangeName(oldText, labelText.text);
+
+            if (changeSuccess)
+            {
+                oldText = labelText.text;
+            }
+            else
+            {
+                labelText.text = oldText;
+            }
+        }
     }
 }
