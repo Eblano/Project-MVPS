@@ -14,11 +14,6 @@ namespace SealTeam4
         [SerializeIgnore] private float refreshRate = 3.0f;
         private float currRefreshRate;
 
-        private new void Start()
-        {
-            base.Start();
-        }
-
         private new void Update()
         {
             base.Update();

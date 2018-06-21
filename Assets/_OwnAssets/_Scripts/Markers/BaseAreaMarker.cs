@@ -17,8 +17,9 @@ namespace SealTeam4
 
         [SerializeField] private bool initializedMeshCollider = false;
 
-        protected void Start()
+        protected new void Start()
         {
+            base.Start();
             RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.AREA);
             InitializeMeshAndMaterial();
         }

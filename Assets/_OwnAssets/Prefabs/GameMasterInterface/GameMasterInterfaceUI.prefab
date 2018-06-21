@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 223798678046989626}
   - component: {fileID: 114670695216994378}
   - component: {fileID: 114484419076267092}
+  - component: {fileID: 114729031944984654}
   m_Layer: 5
   m_Name: GameMasterInterfaceUI
   m_TagString: Untagged
@@ -486,6 +487,20 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114729031944984654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1225870025310332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4dcd4e1c3c054841817fe2dcaf1db8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1189795424798420, guid: 2515f44c145f7d64b8ac4f727afbb6c5, type: 2}
+  playerListUI: {fileID: 0}
+  rt: {fileID: 0}
 --- !u!114 &114901053089335632
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -10,7 +10,19 @@ namespace SealTeam4
     /// </summary>
     public class BaseMarker : MonoBehaviour, IMarkerBehaviours
     {
-        protected Canvas floatingCanvas;
+        protected DynamicBillboard dynamicBillboard;
+        [SerializeField] protected GameObject canvas_Prefab;
+        protected float canvasVerticalOffset = 0.8f;
+
+        protected void Start()
+        {
+            dynamicBillboard = gameObject.AddComponent<DynamicBillboard>();
+            GameObject canvas = Instantiate(canvas_Prefab, transform.position, Quaternion.identity);
+            canvas.AddComponent<Battlehub.RTSaveLoad.PersistentIgnore>();
+            canvas.transform.SetParent(gameObject.transform);
+            canvas.transform.localPosition += new Vector3(0, canvasVerticalOffset, 0);
+            dynamicBillboard.canvas = canvas;
+        }
 
         /// <summary>
         /// Register marker to current active GameManager
