@@ -152,6 +152,9 @@ namespace SealTeam4
                     sitInAreaPanel.gameObject.SetActive(false);
                     break;
                 case "MOVE_TO_POS_WITH_ROT":
+                    moveToPosPanel.gameObject.SetActive(true);
+                    idlePanel.gameObject.SetActive(false);
+                    sitInAreaPanel.gameObject.SetActive(false);
                     break;
                 case "SIT_IN_AREA":
                     moveToPosPanel.gameObject.SetActive(false);
@@ -159,6 +162,9 @@ namespace SealTeam4
                     sitInAreaPanel.gameObject.SetActive(true);
                     break;
                 case "TALK_TO_OTHER_NPC":
+                    moveToPosPanel.gameObject.SetActive(false);
+                    idlePanel.gameObject.SetActive(false);
+                    sitInAreaPanel.gameObject.SetActive(false);
                     break;
             }
 
