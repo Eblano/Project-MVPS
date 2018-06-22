@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 namespace SealTeam4
 {
@@ -23,6 +24,19 @@ namespace SealTeam4
 
         // Schedule this Schedule Slot is managing
         private NPCSchedule_RTEStorage ref_schedule;
+
+        private Image scheduleSlotBGImg;
+        [SerializeField] private Color errorColor = Color.grey;
+        private Color origColor;
+
+        private void Update()
+        {
+            // Error checking
+            if (ref_schedule.argument == "")
+                scheduleSlotBGImg.color = errorColor;
+            else
+                scheduleSlotBGImg.color = origColor;
+        }
 
         public void Setup
             (
@@ -57,6 +71,9 @@ namespace SealTeam4
                     sitInAreaPanel.gameObject.SetActive(true);
                     break;
             }
+
+            scheduleSlotBGImg = GetComponent<Image>();
+            origColor = scheduleSlotBGImg.color;
         }
 
         private void Setup_SitInAreaDropdown(List<Marker> markers)

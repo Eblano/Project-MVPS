@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using System;
 
 namespace SealTeam4
 {
 	public class PropertiesPanel : MonoBehaviour 
 	{
 		[SerializeField] private TMP_Dropdown spawnMarkerDropdown;
+        private Image spawnMarkerDropdownBGImg;
         [SerializeField] private TMP_Dropdown npcOutfitDropdown;
         [SerializeField] private TMP_Dropdown aiTypeDropdown;
         [SerializeField] private GameObject schedulesPanel;
@@ -16,10 +19,16 @@ namespace SealTeam4
         private GameObject npcScheduleSlot_Prefab;
 
         // List of schedule slots reference that belongs to this properties panel
-        [Battlehub.SerializeIgnore] [HideInInspector] public List<NPCScheduleSlot> npcScheduleSlotList = new List<NPCScheduleSlot>();
+        [Battlehub.SerializeIgnore] [HideInInspector]
+        public List<NPCScheduleSlot> npcScheduleSlotList = new List<NPCScheduleSlot>();
 
         private NPCSpawnData_RTEStorage ref_npcSpawnData;
         private List<NPCSchedule_RTEStorage> ref_schedules;
+
+        [SerializeField] private Color errorColor = Color.red;
+        private Color origColor;
+
+        private bool hasError;
 
         public void Setup
             (
@@ -44,11 +53,36 @@ namespace SealTeam4
             Setup_ScheduleSlots(targetMarkers, areaMarkers);
 
             gameObject.SetActive(false);
+
+            spawnMarkerDropdownBGImg = spawnMarkerDropdown.GetComponent<Image>();
+            origColor = spawnMarkerDropdownBGImg.color;
         }
 
         private void Update()
         {
+            // Update properties panel label
             propertiesSectionText.text = ref_npcSpawnData.npcName + " Properties";
+
+            // Error checking
+            CheckForErrors();
+        }
+
+        private void CheckForErrors()
+        {
+            hasError = false;
+            if (spawnMarkerDropdown.value == 0)
+            {
+                hasError = true;
+                spawnMarkerDropdownBGImg.color = errorColor;
+            }
+            else
+                spawnMarkerDropdownBGImg.color = origColor;
+
+            foreach (NPCSchedule_RTEStorage ref_schedule in ref_schedules)
+            {
+                if (ref_schedule.argument == "")
+                    hasError = true;
+            }
         }
 
         private void Setup_ScheduleSlots(List<Marker> targetMarkers, List<Marker> areaMarkers)
@@ -205,6 +239,11 @@ namespace SealTeam4
         public void AddNewNPCSchedule()
         {
             NpcScripting.instance.AddNewNPCSchedule(this);
+        }
+
+        public bool HasError()
+        {
+            return hasError;
         }
 	}
 }

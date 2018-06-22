@@ -2,14 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System;
+using UnityEngine.UI;
 
 namespace SealTeam4
 {
     public class NPCListButton : MonoBehaviour
     {
         [SerializeField] private TMP_InputField labelText;
+        private Image buttonBGImg;
         private string oldText;
+        private Color origColor;
+
+        private void Start()
+        {
+            buttonBGImg = GetComponentInChildren<Image>();
+            origColor = buttonBGImg.color;
+        }
 
         public void Setup(string npcName)
         {
@@ -39,6 +47,16 @@ namespace SealTeam4
             {
                 labelText.text = oldText;
             }
+        }
+
+        public void SetBtnColor()
+        {
+            buttonBGImg.color = origColor;
+        }
+
+        public void SetBtnColor(Color newColor)
+        {
+            buttonBGImg.color = newColor;
         }
     }
 }

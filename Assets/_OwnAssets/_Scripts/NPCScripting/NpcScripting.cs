@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SealTeam4
 {
@@ -18,6 +19,10 @@ namespace SealTeam4
         [SerializeField] private GameObject npcListButton_Prefab;
         [SerializeField] private GameObject propertiesPanel_Prefab;
         [SerializeField] private GameObject npcScheduleSlot_Prefab;
+
+        [Header("Status Colors")]
+        [SerializeField] private Color errorColor;
+        private Color origColor = Color.white;
 
         private GameObject currActivePropertiesPanel;
 
@@ -44,6 +49,17 @@ namespace SealTeam4
             }
 
             npcScriptingUIroot.SetActive(false);
+        }
+
+        private void Update()
+        {
+            //foreach(NPCScriptingUIData data in npcScriptingUIDataList)
+            //{
+            //    if (data.propertiesPanel.HasError())
+            //        data.button.SetBtnColor(errorColor);
+            //    else
+            //        data.button.SetBtnColor();
+            //}
         }
 
         public void ShowNPCScriptingUI()
