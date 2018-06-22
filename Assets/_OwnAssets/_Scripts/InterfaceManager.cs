@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace SealTeam4
 {
@@ -17,13 +18,15 @@ namespace SealTeam4
     {
         #region Variables
 
+        [SerializeField] ReplaySystemCameraScript camScript;
+
         #region Calibration Button variables
         private bool calibrationModeOn;
         private Image calibrationBtnColor;
         #endregion
 
         #region Selected Game Object Panel variables
-        private GameObject selectedObject;
+        [SerializeField] private GameObject selectedObject;
         private Text selectedObjectName;
         private RaycastHit hit;
         private Ray ray;
@@ -40,7 +43,12 @@ namespace SealTeam4
         #endregion
 
         #region Action List spawning variables
-        private List<UnityEngine.Object> actionList;
+        private int btnCount;
+        [SerializeField] private Transform actionBtnContainer;
+        [SerializeField] private GameObject actionBtn;
+        [SerializeField] private List<string> actionList = new List<string>();
+        [SerializeField] private List<GameObject> actionBtnList = new List<GameObject>();
+
         #endregion
 
         #endregion
@@ -61,28 +69,21 @@ namespace SealTeam4
         // Update is called once per frame
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
+            if (Input.GetKeyDown(KeyCode.Mouse0) && (camScript.GetComponent<ReplaySystemCameraScript>().MouseActive))
             {
-                try
+                if (selectedObject)
                 {
-                    if (selectedObject != null)
-                    {
-                        selectedObject.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
-                    }
-                    SelectGameObject();
-                    selectedObjectName.text = selectedObject.name;
-                    rend = selectedObject.GetComponent<Renderer>();
-                    rend.material.shader = outlineShader;
-                    rend.material.SetColor("_OutlineColor", Color.yellow);
-                    rend.material.SetFloat("_OutlineWidth", 0.1f);
+                    selectedObject.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
                 }
-                catch (Exception e)
-                {
-                    Debug.Log("Nothing Selected");
-                }
+                SelectGameObject();
+                    
+                selectedObjectName.text = selectedObject.name;
+                rend = selectedObject.GetComponent<Renderer>();
+                rend.material.shader = outlineShader;
+                rend.material.SetColor("_OutlineColor", Color.yellow);
+                rend.material.SetFloat("_OutlineWidth", 0.1f);
             }
         }
-
         // Toggles the position Buttons on and off
         public void ToggleCalibration()
         {
@@ -114,15 +115,48 @@ namespace SealTeam4
                 Physics.Raycast(ray, out hit);
                 selectedObject = hit.transform.gameObject;
 
-                // Future code don't delete
-                // Gets action list from selected object
-                // selectedObject.GetComponent<AIController>().GetActions();
+                UpdateActions();
 
             }
             catch (Exception e)
             {
                 // Nothing here
             }
+
+        }
+
+        private void UpdateActions()
+        {
+            foreach (GameObject b in actionBtnList)
+            {
+                Destroy(b);
+            }
+
+            actionBtnList.Clear();
+
+            actionList = selectedObject.GetComponent<IActions>().GetActions();
+
+            foreach (string action in actionList)
+            {
+                GameObject go = Instantiate(actionBtn, actionBtnContainer);
+
+                go.GetComponentInChildren<Text>().text = action;
+                Debug.Log("0");
+                go.GetComponent<Button>().onClick.AddListener(delegate
+                {
+                    OnBtnClick(go.GetComponent<Button>());
+                });
+                Debug.Log("1");
+
+                actionBtnList.Add(go);
+            }
+        }
+
+        public void OnBtnClick(Button btn)
+        {
+            string txt = btn.GetComponentInChildren<Text>().text;
+            selectedObject.GetComponent<IActions>().SetActions(txt);
+            Debug.Log("BtnClk");
 
         }
 
