@@ -13,7 +13,7 @@ namespace SealTeam4
         protected DynamicBillboard dynamicBillboard;
         [SerializeField] protected GameObject canvas_Prefab;
         private GameObject canvas;
-        protected float canvasVerticalOffset = 0.8f;
+        protected float canvasVerticalOffset = 0;
 
         protected void Start()
         {
