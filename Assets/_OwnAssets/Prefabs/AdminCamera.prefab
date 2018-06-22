@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4129293733763736}
-  - component: {fileID: 114223320765212068}
+  - component: {fileID: 114688641268499904}
   m_Layer: 0
   m_Name: AdminCamera
   m_TagString: MainCamera
@@ -115,7 +115,7 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1363615716251526}
   m_Enabled: 1
---- !u!114 &114223320765212068
+--- !u!114 &114688641268499904
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -123,9 +123,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1175345499955892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42be1af5f588aaa46a9f9ef4186edd80, type: 3}
+  m_Script: {fileID: 11500000, guid: ad31900d3ee333c449bfe1a5f79e6ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MouseActive: 0
+  grc: {fileID: 0}
+  sens: 0.2
 --- !u!124 &124605072012547368
 Behaviour:
   m_ObjectHideFlags: 1

@@ -18,7 +18,7 @@ namespace SealTeam4
     {
         #region Variables
 
-        [SerializeField] ReplaySystemCameraScript camScript;
+        ReplaySystemCameraScript camScript;
 
         #region Calibration Button variables
         private bool calibrationModeOn;
@@ -64,6 +64,8 @@ namespace SealTeam4
             // Selection Setup
             selectedObjectName = GameObject.Find("Selected Object Name").GetComponent<Text>();
             outlineShader = Shader.Find("Outlined/Uniform");
+
+            camScript = GameObject.Find("AdminCamera(Clone)").GetComponent<ReplaySystemCameraScript>();
         }
 
         // Update is called once per frame

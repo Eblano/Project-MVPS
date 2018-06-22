@@ -17,19 +17,17 @@ using UnityEngine.UI;
 
 public class ReplaySystemCameraScript : MonoBehaviour
 {
-   
+
 
 
     public bool MouseActive;
-    private Transform origin;
     private Transform cam;
     [SerializeField] private GraphicRaycaster grc;
     [SerializeField] [Range(0.1f, 1.0f)] private float sens = 0.2f;
 
     private void Start()
     {
-        origin = GameObject.Find("Origin").transform;
-        origin.position = this.transform.position;
+        grc = FindObjectOfType<Canvas>().GetComponent<GraphicRaycaster>();
         cam = this.GetComponentInChildren<Camera>().transform;
     }
 
@@ -56,7 +54,7 @@ public class ReplaySystemCameraScript : MonoBehaviour
             Cursor.visible = true;
             grc.enabled = true;
         }
-        
+
 
     }
 
@@ -118,12 +116,5 @@ public class ReplaySystemCameraScript : MonoBehaviour
             this.transform.position = Vector3.Slerp(this.transform.position, (this.transform.position + new Vector3(0, yTranslate, 0)), sens);
             //this.transform.Translate(0, yTranslate * 50 * Time.deltaTime, 0);
         }
-    }
-
-    private void Reset()
-    {
-
-        transform.SetPositionAndRotation(origin.position, Quaternion.identity);
-        cam.SetPositionAndRotation(origin.position, Quaternion.Euler(10, 360, 0));
     }
 }
