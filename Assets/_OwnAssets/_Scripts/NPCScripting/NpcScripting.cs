@@ -91,6 +91,8 @@ namespace SealTeam4
                 NpcScriptStorage.instance.GetAllNPCSpawnData_RTEStorage(),
                 NpcScriptStorage.instance.GetAllNPCScheduleData_RTEStorage()
                 );
+
+            CheckData();
         }
 
         public void HideNPCScriptingUI()

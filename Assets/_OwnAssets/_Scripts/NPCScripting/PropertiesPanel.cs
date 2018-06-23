@@ -28,8 +28,6 @@ namespace SealTeam4
         [SerializeField] private Color errorColor = Color.red;
         private Color origColor;
 
-        private bool dataIsComplete;
-
         public void Setup
             (
             List<Marker> npcSpawnMarkers,
@@ -66,13 +64,13 @@ namespace SealTeam4
 
         public bool CheckData()
         {
-            dataIsComplete = true;
+            bool dataIsComplete = true;
 
             // Checking SpawnMarkerDropdown
             if (spawnMarkerDropdown.value == 0)
             {
-                dataIsComplete = false;
                 spawnMarkerDropdownBGImg.color = errorColor;
+                dataIsComplete = false;
             }
             else
                 spawnMarkerDropdownBGImg.color = origColor;
@@ -80,10 +78,14 @@ namespace SealTeam4
             // Checking all NPC Schedule slots under this properties panel
             foreach (NPCScheduleSlot slot in npcScheduleSlotList)
             {
-                dataIsComplete = slot.CheckData();
+                bool npcDataIsComplete = slot.CheckData();
+                if (!npcDataIsComplete)
+                    dataIsComplete = false;
             }
-        
-            return dataIsComplete;
+            if (dataIsComplete)
+                return true;
+            else
+                return false;
         }
 
         private void Setup_ScheduleSlots(List<Marker> targetMarkers, List<Marker> areaMarkers)

@@ -48,7 +48,7 @@ namespace SealTeam4
         private float sceneHash_timeLeftToRefresh;
 
         [Space(5)]
-        
+
         [Header("SceneMask")]
         [SerializeField] private GameObject mask;
         [SerializeField] private TextMeshProUGUI maskSceneNameTxt;
@@ -61,7 +61,7 @@ namespace SealTeam4
 
         private void Start()
         {
-            if(!instance)
+            if (!instance)
             {
                 instance = this;
             }
@@ -70,14 +70,14 @@ namespace SealTeam4
                 Debug.Log("There is already runtime editor utilities in this scene");
                 Destroy(this);
             }
-            
+
             m_projectManager = Dependencies.ProjectManager;
             assetsFolderPath = Application.persistentDataPath + "/Assets";
         }
 
         private void Update()
         {
-            if(sceneHash_timeLeftToRefresh <= 0)
+            if (sceneHash_timeLeftToRefresh <= 0)
             {
                 sceneHash_timeLeftToRefresh = sceneHash_refreshRate;
                 string hash = GetActiveSceneHash();
@@ -132,11 +132,11 @@ namespace SealTeam4
                 new[] {
             new ExtensionFilter("RTA File", "rta")
                 };
-            
+
             string savePath = StandaloneFileBrowser.SaveFilePanel(
-                                "Export Assets", 
-                                "", 
-                                "ProjectExport_" + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss"), 
+                                "Export Assets",
+                                "",
+                                "ProjectExport_" + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss"),
                                 extensions);
 
             if (savePath == "")
@@ -173,7 +173,7 @@ namespace SealTeam4
 
             string filePath = StandaloneFileBrowser.OpenFilePanel("Import Assets", "", extensions, false)[0];
 
-            if(!File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
                 return;
             }
@@ -237,30 +237,33 @@ namespace SealTeam4
         /// </summary>
         public void SwitchRTSceneToUnityScenePopup()
         {
-            if(GetActiveSceneHash() != null)
+            if (GetActiveSceneHash() == null)
             {
-                if(NpcScripting.instance.DataIsComplete())
-                {
-                    PopupWindow.Show("Confirmation", "\nStart Currently Loaded Scene?",
-                        "Yes",
-                        args =>
+                PopupWindow.Show("Error", "\nCannot Start Scene because scene is not saved or not loaded", "Ok");
+                return;
+            }
+
+            NpcScripting.instance.ShowNPCScriptingUI();
+
+            if (NpcScripting.instance.DataIsComplete())
+            {
+                NpcScripting.instance.HideNPCScriptingUI();
+
+                PopupWindow.Show("Confirmation", "\nStart Currently Loaded Scene?",
+                    "Yes",
+                    args =>
+                    {
+                        if (!args.Cancel)
                         {
-                            if (!args.Cancel)
-                            {
-                                SwitchRTSceneToUnityScene();
-                            }
-                        },
-                        "Cancel"
-                        );
-                }
-                else
-                {
-                    PopupWindow.Show("Error", "\nNPC Script is still incomplete, please rectify", "Ok");
-                }
+                            SwitchRTSceneToUnityScene();
+                        }
+                    },
+                    "Cancel"
+                    );
             }
             else
             {
-                PopupWindow.Show("Error", "\nCannot Start Scene because scene is not saved or not loaded", "Ok");
+                PopupWindow.Show("Error", "\nNPC Script is still incomplete, please rectify", "Ok");
             }
         }
 
