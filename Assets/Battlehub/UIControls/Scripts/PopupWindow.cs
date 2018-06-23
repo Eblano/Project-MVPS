@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.Events;
 using System.Linq;
+using TMPro;
 
 namespace Battlehub.UIControls
 {
@@ -22,9 +23,9 @@ namespace Battlehub.UIControls
         [SerializeField]
         private PopupWindow Prefab;
         [SerializeField]
-        private Text DefaultBody;
+        private TextMeshProUGUI DefaultBody;
         [SerializeField]
-        private Text TxtHeader;
+        private TextMeshProUGUI TxtHeader;
         [SerializeField]
         private Transform Body;
         [SerializeField]
