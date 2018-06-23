@@ -27,15 +27,15 @@ namespace SealTeam4
         // If functions of the script can be triggered via keypresses
         [SerializeField] private bool acceptKeyInput = false;
 
-        [SerializeField] private KeyCode OpenAssetsFolderKey = KeyCode.Keypad1;
-        [SerializeField] private KeyCode AddFilesToRTEKey = KeyCode.Keypad2;
-        [SerializeField] private KeyCode resetRuntimeAssetsAndRestartKey = KeyCode.Keypad4;
-        [SerializeField] private KeyCode exportAssetsKey = KeyCode.Keypad5;
-        [SerializeField] private KeyCode importAssetsKey = KeyCode.Keypad6;
-        [SerializeField] private KeyCode calcSceneHash = KeyCode.Keypad7;
+        [SerializeField] private readonly KeyCode openAssetsFolderKey = KeyCode.Keypad1;
+        [SerializeField] private readonly KeyCode addFilesToRTEKey = KeyCode.Keypad2;
+        [SerializeField] private readonly KeyCode resetRuntimeAssetsAndRestartKey = KeyCode.Keypad4;
+        [SerializeField] private readonly KeyCode exportAssetsKey = KeyCode.Keypad5;
+        [SerializeField] private readonly KeyCode importAssetsKey = KeyCode.Keypad6;
+        [SerializeField] private readonly KeyCode calcSceneHash = KeyCode.Keypad7;
 
         [Header("List Excecuted by Order")]
-        [SerializeField] private KeyCode removeGameObjectsKey = KeyCode.Keypad3;
+        [SerializeField] private readonly KeyCode removeGameObjectsKey = KeyCode.Keypad3;
         [SerializeField] private List<string> gameObjectsToDestroyByName;
         [SerializeField] private List<GameObject> gameObjectsToSpawn;
 
@@ -48,8 +48,7 @@ namespace SealTeam4
         private float sceneHash_timeLeftToRefresh;
 
         [Space(5)]
-
-        [SerializeField] private Button startSceneButton;
+        
         [SerializeField] private GameObject mask;
         [SerializeField] private TextMeshProUGUI maskSceneNameTxt;
         [SerializeField] private TextMeshProUGUI maskSceneHashTxt;
@@ -78,15 +77,9 @@ namespace SealTeam4
                 string hash = GetActiveSceneHash();
 
                 if (hash != null)
-                {
                     sceneHashText.text = hash;
-                    startSceneButton.interactable = true;
-                }
                 else
-                {
                     sceneHashText.text = " - ";
-                    startSceneButton.interactable = false;
-                }
             }
             else
             {
@@ -95,10 +88,10 @@ namespace SealTeam4
 
             if (acceptKeyInput)
             {
-                if (InputController.GetKeyDown(OpenAssetsFolderKey))
+                if (InputController.GetKeyDown(openAssetsFolderKey))
                     OpenRuntimeAssetsFolder();
 
-                if (InputController.GetKeyDown(AddFilesToRTEKey))
+                if (InputController.GetKeyDown(addFilesToRTEKey))
                     AddFilesToRTE();
 
                 if (Input.GetKeyDown(removeGameObjectsKey))
@@ -222,17 +215,24 @@ namespace SealTeam4
         /// </summary>
         public void SwitchRTSceneToUnityScenePopup()
         {
-            PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
-                "Yes",
-                args =>
-                {
-                    if (!args.Cancel)
+            if(GetActiveSceneHash() != null)
+            {
+                PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
+                    "Yes",
+                    args =>
                     {
-                        SwitchRTSceneToUnityScene();
-                    }
-                },
-                "Cancel"
-                );
+                        if (!args.Cancel)
+                        {
+                            SwitchRTSceneToUnityScene();
+                        }
+                    },
+                    "Cancel"
+                    );
+            }
+            else
+            {
+                PopupWindow.Show("Error", "\nCannot Start Scene because scene is not saved or not loaded", "Ok");
+            }
         }
 
         /// <summary>
