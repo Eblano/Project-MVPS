@@ -8,7 +8,7 @@ namespace SealTeam4
 {
     public class DynamicBillboard : MonoBehaviour
     {
-        private GameObject canvas; // Canvas that shows npc stats
+        public GameObject canvas; // Canvas that shows npc stats
         private TextMeshProUGUI canvasText;
 
         protected Transform camToTrack;
@@ -35,7 +35,8 @@ namespace SealTeam4
         {
             camToTrack = GameObject.Find("Editor Camera").transform;
 
-            canvas = Instantiate(RuntimeEditorUltiltes.instance.GetMarkerFloatintTextPrefab(), transform);
+            if(!canvas)
+                canvas = Instantiate(RuntimeEditorUltiltes.instance.GetMarkerFloatintTextPrefab(), transform);
         }
 
         protected void LateUpdate()
