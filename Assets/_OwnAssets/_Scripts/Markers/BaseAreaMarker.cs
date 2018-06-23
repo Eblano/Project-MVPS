@@ -15,11 +15,10 @@ namespace SealTeam4
         [SerializeField] private Mesh mesh;
         [SerializeField] private Material meshMat;
 
-        [SerializeField] private bool initializedMeshCollider = false;
+        private bool initializedMeshCollider = false;
 
-        protected new void Start()
+        protected void Start()
         {
-            base.Start();
             RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.AREA);
             InitializeMeshAndMaterial();
         }

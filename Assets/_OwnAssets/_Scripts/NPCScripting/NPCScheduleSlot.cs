@@ -25,24 +25,18 @@ namespace SealTeam4
         // Schedule this Schedule Slot is managing
         private NPCSchedule_RTEStorage ref_schedule;
 
+        private PropertiesPanel parentPropertiesPanel;
+
         private Image scheduleSlotBGImg;
         [SerializeField] private Color errorColor = Color.grey;
         private Color origColor;
-
-        private void Update()
-        {
-            // Error checking
-            if (ref_schedule.argument == "")
-                scheduleSlotBGImg.color = errorColor;
-            else
-                scheduleSlotBGImg.color = origColor;
-        }
 
         public void Setup
             (
             NPCSchedule_RTEStorage ref_schedule,
             List<Marker> targetMarkers,
-            List<Marker> areaMarkers
+            List<Marker> areaMarkers,
+            PropertiesPanel parentPropertiesPanel
             )
         {
             this.ref_schedule = ref_schedule;
@@ -54,19 +48,18 @@ namespace SealTeam4
             moveToPosPanel.gameObject.SetActive(false);
             idlePanel.gameObject.SetActive(false);
             sitInAreaPanel.gameObject.SetActive(false);
-
-            //{ "IDLE", "MOVE_TO_POS", "MOVE_TO_POS_WITH_ROT", "SIT_IN_AREA", "TALK_TO_OTHER_NPC" };
+            
             switch (ref_schedule.scheduleType)
             {
-                case "IDLE":
+                case "Idle":
                     idleInputField.text = ref_schedule.argument;
                     idlePanel.gameObject.SetActive(true);
                     break;
-                case "MOVE_TO_POS":
+                case "Move to Waypoint":
                     SetValue_MoveToPosDropdown(ref_schedule.argument);
                     moveToPosPanel.gameObject.SetActive(true);
                     break;
-                case "SIT_IN_AREA":
+                case "Sit in Area":
                     SetValue_SitInAreaDropdown(ref_schedule.argument);
                     sitInAreaPanel.gameObject.SetActive(true);
                     break;
@@ -74,6 +67,8 @@ namespace SealTeam4
 
             scheduleSlotBGImg = GetComponent<Image>();
             origColor = scheduleSlotBGImg.color;
+
+            this.parentPropertiesPanel = parentPropertiesPanel;
         }
 
         private void Setup_SitInAreaDropdown(List<Marker> markers)
@@ -81,14 +76,21 @@ namespace SealTeam4
             if (markers.Count > 0)
             {
                 List<TMP_Dropdown.OptionData> areaDropdownOptions = new List<TMP_Dropdown.OptionData>();
+
+                TMP_Dropdown.OptionData noneOption = new TMP_Dropdown.OptionData
+                {
+                    text = "None"
+                };
+                areaDropdownOptions.Add(noneOption);
+
                 foreach (Marker marker in markers)
                 {
-                    TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
+                    TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData
                     {
                         text = marker.markerName
                     };
 
-                    areaDropdownOptions.Add(optionData);
+                    areaDropdownOptions.Add(option);
                 }
 
                 sitInAreaDropdown.ClearOptions();
@@ -97,19 +99,41 @@ namespace SealTeam4
             }
         }
 
+        public bool CheckData()
+        {
+            // Checking argument
+            if (ref_schedule.argument == "" || ref_schedule.argument == "None")
+            {
+                scheduleSlotBGImg.color = errorColor;
+                return false;
+            }
+            else
+            {
+                scheduleSlotBGImg.color = origColor;
+                return true;
+            }
+        }
+
         private void Setup_MoveToPosDropdown(List<Marker> markers)
         {
             if(markers.Count > 0)
             {
                 List<TMP_Dropdown.OptionData> moveToPosDropdownOptions = new List<TMP_Dropdown.OptionData>();
+
+                TMP_Dropdown.OptionData noneOption = new TMP_Dropdown.OptionData
+                {
+                    text = "None"
+                };
+                moveToPosDropdownOptions.Add(noneOption);
+
                 foreach (Marker marker in markers)
                 {
-                    TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
+                    TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData
                     {
                         text = marker.markerName
                     };
 
-                    moveToPosDropdownOptions.Add(optionData);
+                    moveToPosDropdownOptions.Add(option);
                 }
 
                 moveToPosDropdown.ClearOptions();
@@ -118,20 +142,22 @@ namespace SealTeam4
             }
         }
 
-        private void Setup_ScheduleTypeDropdown(string selectedSchedule, string[] options)
+        private void Setup_ScheduleTypeDropdown(string selectedSchedule, string[] scheduleTypes)
         {
             List<TMP_Dropdown.OptionData> scheduleDropdownOptions = new List<TMP_Dropdown.OptionData>();
-            foreach (string option in options)
+
+            foreach (string scheduleType in scheduleTypes)
             {
                 TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
                 {
-                    text = option
+                    text = scheduleType
                 };
                 
                 scheduleDropdownOptions.Add(optionData);
             }
 
             scheduleTypeDropdown.ClearOptions();
+            
             if (scheduleDropdownOptions.Count > 0)
                 scheduleTypeDropdown.AddOptions(scheduleDropdownOptions);
 
@@ -158,27 +184,27 @@ namespace SealTeam4
             // Update Panel Visibility based on schedule type
             switch (newScheduleType)
             {
-                case "IDLE":
+                case "Idle":
                     moveToPosPanel.gameObject.SetActive(false);
                     idlePanel.gameObject.SetActive(true);
                     sitInAreaPanel.gameObject.SetActive(false);
                     break;
-                case "MOVE_TO_POS":
+                case "Move to Waypoint":
                     moveToPosPanel.gameObject.SetActive(true);
                     idlePanel.gameObject.SetActive(false);
                     sitInAreaPanel.gameObject.SetActive(false);
                     break;
-                case "MOVE_TO_POS_WITH_ROT":
+                case "Move to Waypoint + Rotate":
                     moveToPosPanel.gameObject.SetActive(true);
                     idlePanel.gameObject.SetActive(false);
                     sitInAreaPanel.gameObject.SetActive(false);
                     break;
-                case "SIT_IN_AREA":
+                case "Sit in Area":
                     moveToPosPanel.gameObject.SetActive(false);
                     idlePanel.gameObject.SetActive(false);
                     sitInAreaPanel.gameObject.SetActive(true);
                     break;
-                case "TALK_TO_OTHER_NPC":
+                case "Talk to other NPC":
                     moveToPosPanel.gameObject.SetActive(false);
                     idlePanel.gameObject.SetActive(false);
                     sitInAreaPanel.gameObject.SetActive(false);
@@ -203,29 +229,22 @@ namespace SealTeam4
         public void OnValueChanged_TargetMarkerDropdown()
         {
             int dropdownValue = moveToPosDropdown.value;
-
-            if (dropdownValue != 0)
-            {
-                string targetMarkerName = moveToPosDropdown.options[dropdownValue].text;
-                ref_schedule.argument = targetMarkerName;
-            }
+            
+            string targetMarkerName = moveToPosDropdown.options[dropdownValue].text;
+            ref_schedule.argument = targetMarkerName;
         }
 
         public void OnValueChanged_SitInAreaDropdown()
         {
             int dropdownValue = sitInAreaDropdown.value;
 
-            if (dropdownValue != 0)
-            {
-                string newAreaMarkerName = sitInAreaDropdown.options[dropdownValue].text;
-                ref_schedule.argument = newAreaMarkerName;
-            }
+            string newAreaMarkerName = sitInAreaDropdown.options[dropdownValue].text;
+            ref_schedule.argument = newAreaMarkerName;
         }
 
         public void DeleteSchedule()
         {
-            NpcScripting.instance.DeleteSchedule(ref_schedule);
-            Destroy(this.gameObject);
+            parentPropertiesPanel.DeleteScheduleSlot(this, ref_schedule);
         }
     }
 }

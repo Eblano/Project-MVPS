@@ -9,18 +9,13 @@ namespace SealTeam4
     public class NPCListButton : MonoBehaviour
     {
         [SerializeField] private TMP_InputField labelText;
-        private Image buttonBGImg;
-        private string oldText;
+        [SerializeField] private Image buttonBGImg;
         private Color origColor;
-
-        private void Start()
-        {
-            buttonBGImg = GetComponentInChildren<Image>();
-            origColor = buttonBGImg.color;
-        }
+        private string oldText;
 
         public void Setup(string npcName)
         {
+            origColor = buttonBGImg.color;
             oldText = npcName;
             labelText.text = npcName;
         }

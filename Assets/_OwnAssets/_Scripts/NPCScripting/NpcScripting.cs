@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Battlehub.RTCommon;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,8 @@ namespace SealTeam4
         private List<Marker> targetMarkers;
         private List<Marker> areaMarkers;
 
+        private bool allDataIsComplete;
+
         private class NPCScriptingUIData
         {
             public NPCListButton button;
@@ -53,13 +56,25 @@ namespace SealTeam4
 
         private void Update()
         {
-            //foreach(NPCScriptingUIData data in npcScriptingUIDataList)
-            //{
-            //    if (data.propertiesPanel.HasError())
-            //        data.button.SetBtnColor(errorColor);
-            //    else
-            //        data.button.SetBtnColor();
-            //}
+            CheckData();
+        }
+
+        private void CheckData()
+        {
+            allDataIsComplete = true;
+
+            foreach (NPCScriptingUIData npcScriptingUIData in npcScriptingUIDataList)
+            {
+                bool dataIsComplete = npcScriptingUIData.propertiesPanel.CheckData();
+
+                if(!dataIsComplete)
+                {
+                    allDataIsComplete = false;
+                    npcScriptingUIData.button.SetBtnColor(errorColor);
+                }
+                else
+                    npcScriptingUIData.button.SetBtnColor();
+            }
         }
 
         public void ShowNPCScriptingUI()
@@ -90,6 +105,7 @@ namespace SealTeam4
             currActivePropertiesPanel = null;
             npcScriptingUIDataList.Clear();
             npcScriptingUIroot.SetActive(false);
+            RuntimeUndo.RecordSelection();
         }
 
         private void PopulateData(List<NPCSpawnData_RTEStorage> allNPCSpawnDataList, List<NPCSchedule_RTEStorage> allNPCScheduleList)
@@ -190,6 +206,11 @@ namespace SealTeam4
         public void DeleteSchedule(NPCSchedule_RTEStorage targetSchedule)
         {
             NpcScriptStorage.instance.DeleteNPCScheduleData_RTEStorage(targetSchedule);
+        }
+
+        public bool DataIsComplete()
+        {
+            return allDataIsComplete;
         }
     }
 }

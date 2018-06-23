@@ -49,9 +49,15 @@ namespace SealTeam4
 
         [Space(5)]
         
+        [Header("SceneMask")]
         [SerializeField] private GameObject mask;
         [SerializeField] private TextMeshProUGUI maskSceneNameTxt;
         [SerializeField] private TextMeshProUGUI maskSceneHashTxt;
+
+        [Space(5)]
+
+        [Header("GameObjects for RuntimeEditor Prefabs")]
+        [SerializeField] private GameObject markerFloatingText_Prefab;
 
         private void Start()
         {
@@ -213,21 +219,44 @@ namespace SealTeam4
         /// <summary>
         /// Popup cofirmation dialog for Method "SwitchRTSceneToUnityScene"
         /// </summary>
+        public void OpenNPCScriptEditorPopup()
+        {
+            if (NpcScriptStorage.instance == null)
+            {
+                PopupWindow.Show("Error", "Please add NPCScriptStorage onto the Scene",
+                    "Ok");
+            }
+            else
+            {
+                NpcScripting.instance.ShowNPCScriptingUI();
+            }
+        }
+
+        /// <summary>
+        /// Popup cofirmation dialog for Method "SwitchRTSceneToUnityScene"
+        /// </summary>
         public void SwitchRTSceneToUnityScenePopup()
         {
             if(GetActiveSceneHash() != null)
             {
-                PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
-                    "Yes",
-                    args =>
-                    {
-                        if (!args.Cancel)
+                if(NpcScripting.instance.DataIsComplete())
+                {
+                    PopupWindow.Show("Confirmation", "\nStart Currently Loaded Scene?",
+                        "Yes",
+                        args =>
                         {
-                            SwitchRTSceneToUnityScene();
-                        }
-                    },
-                    "Cancel"
-                    );
+                            if (!args.Cancel)
+                            {
+                                SwitchRTSceneToUnityScene();
+                            }
+                        },
+                        "Cancel"
+                        );
+                }
+                else
+                {
+                    PopupWindow.Show("Error", "\nNPC Script is still incomplete, please rectify", "Ok");
+                }
             }
             else
             {
@@ -419,6 +448,11 @@ namespace SealTeam4
             {
                 return null;
             }
+        }
+
+        public GameObject GetMarkerFloatintTextPrefab()
+        {
+            return markerFloatingText_Prefab;
         }
     }
 }

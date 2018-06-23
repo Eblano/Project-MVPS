@@ -30,10 +30,8 @@ namespace SealTeam4
 
         private bool setupMode = true;
 
-        protected new void Start()
+        protected void Start()
         {
-            base.Start();
-
             if (!GetComponent<MeshFilter>())
                 meshFilter = gameObject.AddComponent<MeshFilter>();
             else
@@ -60,7 +58,7 @@ namespace SealTeam4
 
         private void Update()
         {
-            if(setupMode)
+            if(setupMode && lineRenderer)
             {
                 transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 

@@ -28,7 +28,7 @@ namespace SealTeam4
         [SerializeField] private Color errorColor = Color.red;
         private Color origColor;
 
-        private bool hasError;
+        private bool dataIsComplete;
 
         public void Setup
             (
@@ -38,7 +38,7 @@ namespace SealTeam4
 
             ref NPCSpawnData_RTEStorage ref_npcSpawnData,
             ref List<NPCSchedule_RTEStorage> ref_schedules,
-
+            
             GameObject npcScheduleSlot_Prefab
             )
         {
@@ -62,27 +62,28 @@ namespace SealTeam4
         {
             // Update properties panel label
             propertiesSectionText.text = ref_npcSpawnData.npcName + " Properties";
-
-            // Error checking
-            CheckForErrors();
         }
 
-        private void CheckForErrors()
+        public bool CheckData()
         {
-            hasError = false;
+            dataIsComplete = true;
+
+            // Checking SpawnMarkerDropdown
             if (spawnMarkerDropdown.value == 0)
             {
-                hasError = true;
+                dataIsComplete = false;
                 spawnMarkerDropdownBGImg.color = errorColor;
             }
             else
                 spawnMarkerDropdownBGImg.color = origColor;
 
-            foreach (NPCSchedule_RTEStorage ref_schedule in ref_schedules)
+            // Checking all NPC Schedule slots under this properties panel
+            foreach (NPCScheduleSlot slot in npcScheduleSlotList)
             {
-                if (ref_schedule.argument == "")
-                    hasError = true;
+                dataIsComplete = slot.CheckData();
             }
+        
+            return dataIsComplete;
         }
 
         private void Setup_ScheduleSlots(List<Marker> targetMarkers, List<Marker> areaMarkers)
@@ -94,7 +95,7 @@ namespace SealTeam4
                     .GetComponent<NPCScheduleSlot>();
 
                 npcScheduleSlot.transform.SetParent(schedulesPanel.transform);
-                npcScheduleSlot.Setup(schedule, targetMarkers, areaMarkers);
+                npcScheduleSlot.Setup(schedule, targetMarkers, areaMarkers, this);
 
                 npcScheduleSlotList.Add(npcScheduleSlot);
             }
@@ -108,7 +109,7 @@ namespace SealTeam4
                 .GetComponent<NPCScheduleSlot>();
 
             npcScheduleSlot.transform.SetParent(schedulesPanel.transform);
-            npcScheduleSlot.Setup(schedule, targetMarkers, areaMarkers);
+            npcScheduleSlot.Setup(schedule, targetMarkers, areaMarkers, this);
 
             npcScheduleSlotList.Add(npcScheduleSlot);
         }
@@ -241,9 +242,12 @@ namespace SealTeam4
             NpcScripting.instance.AddNewNPCSchedule(this);
         }
 
-        public bool HasError()
+        public void DeleteScheduleSlot(NPCScheduleSlot sourceNPCScheduleSlot, NPCSchedule_RTEStorage targetSchedule)
         {
-            return hasError;
+            npcScheduleSlotList.Remove(sourceNPCScheduleSlot);
+            Destroy(sourceNPCScheduleSlot.gameObject);
+
+            NpcScripting.instance.DeleteSchedule(targetSchedule);
         }
 	}
 }

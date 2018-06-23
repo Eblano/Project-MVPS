@@ -11,23 +11,12 @@ namespace SealTeam4
     public class BaseMarker : MonoBehaviour, IMarkerBehaviours
     {
         protected DynamicBillboard dynamicBillboard;
-        [SerializeField] protected GameObject canvas_Prefab;
-        private GameObject canvas;
+
         protected float canvasVerticalOffset = 0;
 
-        protected void Start()
+        private void Start()
         {
-            if (GetComponent<DynamicBillboard>())
-                dynamicBillboard = GetComponent<DynamicBillboard>();
-            else
-                dynamicBillboard = gameObject.AddComponent<DynamicBillboard>();
-
-
-            canvas = Instantiate(canvas_Prefab, transform.position, Quaternion.identity);
-            canvas.AddComponent<Battlehub.RTSaveLoad.PersistentIgnore>();
-            canvas.transform.SetParent(gameObject.transform);
-            canvas.transform.localPosition += new Vector3(0, canvasVerticalOffset, 0);
-            dynamicBillboard.canvas = canvas;
+            dynamicBillboard = GetComponent<DynamicBillboard>();
         }
 
         /// <summary>
@@ -55,8 +44,7 @@ namespace SealTeam4
         /// </summary>
         public virtual void CleanUpForSimulationStart()
         {
-            Destroy(canvas);
-            Destroy(dynamicBillboard);
+            Destroy(dynamicBillboard.gameObject);
         }
 
         private void OnDisable()

@@ -8,7 +8,6 @@ namespace SealTeam4
 	public class NpcScriptStorage : MonoBehaviour
     {
         [Battlehub.SerializeIgnore] public static NpcScriptStorage instance;
-        [SerializeField] private bool editNPCScripts = false;
 
         private readonly string baseNPCName = "NPC";
         
@@ -36,15 +35,6 @@ namespace SealTeam4
         {
             if(instance == this)
                 instance = null;
-        }
-
-        private void Update()
-        {
-            if (editNPCScripts)
-            {
-                editNPCScripts = false;
-                NpcScripting.instance.ShowNPCScriptingUI();
-            }
         }
 
         public List<NPCSpawnData_RTEStorage> GetAllNPCSpawnData_RTEStorage()
@@ -142,10 +132,10 @@ namespace SealTeam4
                 NpcSpawnData.NPCOutfit npcOutfit;
                 switch (npcSpawnData_RTEStorage.aiType)
                 {
-                    case "TYPE0":
+                    case "Type 0":
                         npcOutfit = NpcSpawnData.NPCOutfit.TYPE0;
                         break;
-                    case "TYPE1":
+                    case "Type 1":
                         npcOutfit = NpcSpawnData.NPCOutfit.TYPE1;
                         break;
                     default:
@@ -157,13 +147,13 @@ namespace SealTeam4
                 AIStats.NPCType npcType;
                 switch (npcSpawnData_RTEStorage.aiType)
                 {
-                    case "TERRORIST":
+                    case "Terrorist":
                         npcType = AIStats.NPCType.TERRORIST;
                         break;
                     case "VIP":
                         npcType = AIStats.NPCType.VIP;
                         break;
-                    case "CIVILLIAN":
+                    case "Civillian":
                         npcType = AIStats.NPCType.CIVILLIAN;
                         break;
                     default:
@@ -179,19 +169,19 @@ namespace SealTeam4
                     NPCSchedule.SCHEDULE_TYPE scheduleType;
                     switch (npcSchedule_RTEStorage.scheduleType)
                     {
-                        case "IDLE":
+                        case "Idle":
                             scheduleType = NPCSchedule.SCHEDULE_TYPE.IDLE;
                             break;
-                        case "MOVE_TO_POS":
+                        case "Move to Waypoint":
                             scheduleType = NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS;
                             break;
-                        case "MOVE_TO_POS_WITH_ROT":
+                        case "Move to Waypoint + Rotate":
                             scheduleType = NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS_WITH_ROT;
                             break;
-                        case "SIT_IN_AREA":
+                        case "Sit in Area":
                             scheduleType = NPCSchedule.SCHEDULE_TYPE.SIT_IN_AREA;
                             break;
-                        case "TALK_TO_OTHER_NPC":
+                        case "Talk to other NPC":
                             scheduleType = NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC;
                             break;
                         default:
@@ -224,13 +214,13 @@ public class NPCSpawnData_RTEStorage
     public string npcName;
 
     // NPCSpawnData Properties
-    private readonly string[] defNPCOutfit = { "TYPE0", "TYPE1" };
-    public string npcOutfit = "TYPE0";
+    private readonly string[] defNPCOutfit = { "None", "Type 0", "Type 1" };
+    public string npcOutfit = "TYPE 0";
     public string spawnMarkerName;
 
     // AI Stats Properties
-    private readonly string[] defAITypes = { "TERRORIST", "VIP", "CIVILLIAN" };
-    public string aiType = "CIVILLIAN";
+    private readonly string[] defAITypes = { "Terrorist", "VIP", "Civillian" };
+    public string aiType = "Civillian";
 
     public string[] GetDefNPCOutfit()
     {
@@ -250,8 +240,9 @@ public class NPCSchedule_RTEStorage
     public string npcName;
 
     // NPCSchedule Properties
-    private readonly string[] defScheduleTypes = { "IDLE", "MOVE_TO_POS", "MOVE_TO_POS_WITH_ROT", "SIT_IN_AREA", "TALK_TO_OTHER_NPC" };
-    public string scheduleType = "IDLE";
+    private readonly string[] defScheduleTypes = 
+        { "Idle", "Move to Waypoint", "Move to Waypoint + Rotate", "Sit in Area", "Talk to other NPC" };
+    public string scheduleType = "Idle";
     public string argument;
 
     public string[] GetDefScheduleTypes()
