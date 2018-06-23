@@ -239,8 +239,7 @@ namespace SealTeam4
         {
             if (GetActiveSceneHash() == null)
             {
-                PopupWindow.Show("Error", "\nCannot Start Scene because scene is not saved or not loaded", "Ok");
-                return;
+                PopupWindow.Show("Error", "Cannot Start Scene because Scene is not saved or not Loaded", "Ok");
             }
 
             NpcScripting.instance.ShowNPCScriptingUI();
@@ -249,7 +248,7 @@ namespace SealTeam4
             {
                 NpcScripting.instance.HideNPCScriptingUI();
 
-                PopupWindow.Show("Confirmation", "\nStart Currently Loaded Scene?",
+                PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
                     "Yes",
                     args =>
                     {
@@ -263,7 +262,7 @@ namespace SealTeam4
             }
             else
             {
-                PopupWindow.Show("Error", "\nNPC Script is still incomplete, please rectify", "Ok");
+                PopupWindow.Show("Error", "NPC Script has missing links, please resolve.", "Ok");
             }
         }
 
