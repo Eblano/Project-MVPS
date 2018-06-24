@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.Events;
 using System.Linq;
-using TMPro;
 
 namespace Battlehub.UIControls
 {
@@ -16,16 +15,16 @@ namespace Battlehub.UIControls
     public delegate void PopupWindowAction(PopupWindowArgs args);
 
     [Serializable]
-    public class PopupWindowEvent : UnityEvent<PopupWindowArgs> {  }
+    public class PopupWindowEvent : UnityEvent<PopupWindowArgs> { }
 
     public class PopupWindow : MonoBehaviour
     {
         [SerializeField]
         private PopupWindow Prefab;
         [SerializeField]
-        private TextMeshProUGUI DefaultBody;
+        private Text DefaultBody;
         [SerializeField]
-        private TextMeshProUGUI TxtHeader;
+        private Text TxtHeader;
         [SerializeField]
         private Transform Body;
         [SerializeField]
@@ -53,7 +52,7 @@ namespace Battlehub.UIControls
 
         private void Awake()
         {
-            if(Prefab != null)
+            if (Prefab != null)
             {
                 m_instance = this;
             }
@@ -61,12 +60,12 @@ namespace Battlehub.UIControls
 
         private void Start()
         {
-            if(BtnCancel != null)
+            if (BtnCancel != null)
             {
                 BtnCancel.onClick.AddListener(OnBtnCancel);
             }
-            
-            if(BtnOk != null)
+
+            if (BtnOk != null)
             {
                 BtnOk.onClick.AddListener(OnBtnOk);
             }
@@ -74,29 +73,29 @@ namespace Battlehub.UIControls
 
         private void Update()
         {
-            if(this == m_instance)
+            if (this == m_instance)
             {
                 return;
             }
 
-            if(Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 OnBtnOk();
             }
-            else if(Input.GetKeyDown(KeyCode.Escape))
+            else if (Input.GetKeyDown(KeyCode.Escape))
             {
                 OnBtnCancel();
             }
         }
-        
+
         private void OnDestroy()
         {
-            if(BtnCancel != null)
+            if (BtnCancel != null)
             {
                 BtnCancel.onClick.RemoveListener(OnBtnCancel);
             }
 
-            if(BtnOk != null)
+            if (BtnOk != null)
             {
                 BtnOk.onClick.RemoveListener(OnBtnOk);
             }
@@ -120,13 +119,13 @@ namespace Battlehub.UIControls
             {
                 PopupWindowArgs args = new PopupWindowArgs();
                 m_okCallback(args);
-                if(args.Cancel)
+                if (args.Cancel)
                 {
                     return;
                 }
             }
 
-            
+
             HidePopup();
         }
 
@@ -146,22 +145,22 @@ namespace Battlehub.UIControls
             {
                 PopupWindowArgs args = new PopupWindowArgs();
                 m_cancelCallback(args);
-                if(args.Cancel)
+                if (args.Cancel)
                 {
                     return;
                 }
             }
-          
+
             HidePopup();
         }
 
         private void HidePopup()
         {
-            if(m_openedPopupWindows != null)
+            if (m_openedPopupWindows != null)
             {
                 foreach (PopupWindow wnd in m_openedPopupWindows)
                 {
-                    if(wnd != null)
+                    if (wnd != null)
                     {
                         wnd.gameObject.SetActive(true);
                     }
@@ -180,23 +179,23 @@ namespace Battlehub.UIControls
         {
             m_openedPopupWindows = FindObjectsOfType<PopupWindow>().Where(
                 wnd => wnd.IsOpened && wnd.isActiveAndEnabled).ToArray();
-            foreach(PopupWindow wnd in m_openedPopupWindows)
+            foreach (PopupWindow wnd in m_openedPopupWindows)
             {
                 wnd.gameObject.SetActive(false);
             }
 
             gameObject.SetActive(true);
-            if(TxtHeader != null)
+            if (TxtHeader != null)
             {
                 TxtHeader.text = header;
             }
 
-            if(Body != null)
+            if (Body != null)
             {
                 body.SetParent(Body, false);
             }
 
-            if(BtnOk != null)
+            if (BtnOk != null)
             {
                 if (string.IsNullOrEmpty(ok))
                 {
@@ -212,22 +211,22 @@ namespace Battlehub.UIControls
                 }
             }
 
-            if(BtnCancel != null)
+            if (BtnCancel != null)
             {
-                if(string.IsNullOrEmpty(cancel))
+                if (string.IsNullOrEmpty(cancel))
                 {
                     BtnCancel.gameObject.SetActive(false);
                 }
                 else
                 {
                     Text text = BtnCancel.GetComponentInChildren<Text>();
-                    if(text != null)
+                    if (text != null)
                     {
                         text.text = cancel;
                     }
                 }
             }
-            if(Panel != null)
+            if (Panel != null)
             {
                 Panel.preferredWidth = width;
             }
@@ -238,7 +237,7 @@ namespace Battlehub.UIControls
 
         public void Close(bool result)
         {
-            if(result)
+            if (result)
             {
                 OnBtnOk();
             }
@@ -265,7 +264,7 @@ namespace Battlehub.UIControls
 
         public static void Show(string header, Transform body, string ok, PopupWindowAction okCallback = null, string cancel = null, PopupWindowAction cancelCallback = null, float width = 530)
         {
-            if(m_instance == null)
+            if (m_instance == null)
             {
                 Debug.LogWarning("PopupWindows.m_instance is null");
                 return;
