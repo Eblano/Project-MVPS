@@ -223,10 +223,7 @@ namespace SealTeam4
         public void OnValueChanged_IdleInputField()
         {
             string inputFieldText = idleInputField.text;
-            if(float.Parse(idleInputField.text) < 0.0f)
-                ref_schedule.argument = "";
-            else
-                ref_schedule.argument = inputFieldText;
+            ref_schedule.argument = inputFieldText;
         }
 
         public void OnValueChanged_TargetMarkerDropdown()
