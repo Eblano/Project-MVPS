@@ -242,6 +242,11 @@ Prefab:
       propertyPath: Objects.Array.size
       value: 107
       objectReference: {fileID: 0}
+    - target: {fileID: 114153860259881124, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 468744, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1754,6 +1759,31 @@ Prefab:
       value: 
       objectReference: {fileID: 1932020566658480, guid: be0371fe3814dfd4ea58029461d2687b,
         type: 2}
+    - target: {fileID: 114153860259881124, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114153860259881124, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114153860259881124, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1949156739}
+    - target: {fileID: 114153860259881124, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: UpdateChanges
+      objectReference: {fileID: 0}
+    - target: {fileID: 114153860259881124, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114551182776321964, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
@@ -1938,3 +1968,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_guid: 485461ea-a15f-458e-8a57-b57e0cd37cad
   m_isRuntime: 0
+--- !u!114 &1949156739 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114797514826983332, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+    type: 2}
+  m_PrefabInternal: {fileID: 862505072}
+  m_Script: {fileID: 11500000, guid: 8ef4475b51898314cacc7b21dffe536f, type: 3}

@@ -240,9 +240,9 @@ namespace SealTeam4
             NpcScripting.instance.ShowNPCScriptingUI();
             NpcScripting.instance.HideNPCScriptingUI();
 
-            if (NpcScripting.instance.DataIsComplete())
+            if (!saveSceneButton.IsInteractable())
             {
-                if(saveSceneButton.IsInteractable())
+                if (NpcScripting.instance.DataIsComplete())
                 {
                     PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
                         "Yes",
@@ -258,12 +258,12 @@ namespace SealTeam4
                 }
                 else
                 {
-                    PopupWindow.Show("Error", "Cannot Start Scene because Scene is not Saved or not Loaded", "Ok");
+                    PopupWindow.Show("Error", "NPC Script Editor has missing links, please resolve.", "Ok");
                 }
             }
             else
             {
-                PopupWindow.Show("Error", "NPC Script Editor has missing links, please resolve.", "Ok");
+                PopupWindow.Show("Error", "Cannot start scene because scene is not saved.", "Ok");
             }
         }
 

@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 114134973361642180}
   - component: {fileID: 114095424428205528}
   - component: {fileID: 114196523117519802}
-  - component: {fileID: 114551182776321964}
+  - component: {fileID: 114583901154683608}
   m_Layer: 0
   m_Name: RuntimeEditor
   m_TagString: Untagged
@@ -8860,6 +8860,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 114797514826983332}
+        m_MethodName: UpdateChanges
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114160806292388906
@@ -10068,7 +10079,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Edit Level
+  m_text: Close
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a322a0708be23034485bea82e65dcd7e, type: 2}
   m_sharedMaterial: {fileID: 21395214818002124, guid: a322a0708be23034485bea82e65dcd7e,
@@ -10136,10 +10147,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 114316909814545004}
-    characterCount: 10
+    characterCount: 5
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 0
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -10269,11 +10280,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 1617672154607620, guid: 58be5b907b037604f8108d02cf377b2e, type: 2}
-  - {fileID: 0}
-  - {fileID: 1058072811172740, guid: 9522fe7cc9e6b7c429b125ce941d76c1, type: 2}
-  - {fileID: 1909842068108730, guid: 8c1be06b96481db4ebe16c0d5390d498, type: 2}
-  - {fileID: 1354582875448138, guid: ae61b55888989b64880d7419828f5835, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -10294,10 +10300,32 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 1632088149352518, guid: 630fa8241b21ad04c8e153005d659123, type: 2}
-  - {fileID: 1435795011121466, guid: 480b54607b255bd4cb2f540de569967e, type: 2}
-  - {fileID: 1910632700397892, guid: be0371fe3814dfd4ea58029461d2687b, type: 2}
-  - {fileID: 1832751735737820, guid: 3dbb05581f6ec574f8361e902010ed4a, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1790009062326340, guid: 9522fe7cc9e6b7c429b125ce941d76c1, type: 2}
+  - {fileID: 0}
+  - {fileID: 1044117293607678, guid: 8c1be06b96481db4ebe16c0d5390d498, type: 2}
+  - {fileID: 1241800740237632, guid: ae61b55888989b64880d7419828f5835, type: 2}
+  - {fileID: 1215692126005322, guid: 630fa8241b21ad04c8e153005d659123, type: 2}
+  - {fileID: 1280434591990550, guid: 58be5b907b037604f8108d02cf377b2e, type: 2}
+  - {fileID: 1561685679764718, guid: 480b54607b255bd4cb2f540de569967e, type: 2}
+  - {fileID: 1286154400095414, guid: 3dbb05581f6ec574f8361e902010ed4a, type: 2}
+  - {fileID: 1932020566658480, guid: be0371fe3814dfd4ea58029461d2687b, type: 2}
 --- !u!114 &114335433164122590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11503,28 +11531,6 @@ MonoBehaviour:
   m_FlexibleWidth: 1.08
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114551182776321964
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid: cdfb1a12-1d10-4141-a785-08c65454666a
-  Mapping:
-  - Name: RuntimeEditor
-    Object: {fileID: 114196523117519802}
-    Id: 20934
-  - Name: RuntimeEditor
-    Object: {fileID: 146550}
-    Id: 20935
-  - Name: RuntimeEditor
-    Object: {fileID: 468744}
-    Id: 20936
 --- !u!114 &114559683158493566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11805,6 +11811,28 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
+--- !u!114 &114583901154683608
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Guid: cdfb1a12-1d10-4141-a785-08c65454666a
+  Mapping:
+  - Name: RuntimeEditor
+    Object: {fileID: 114196523117519802}
+    Id: 20934
+  - Name: RuntimeEditor
+    Object: {fileID: 146550}
+    Id: 20935
+  - Name: RuntimeEditor
+    Object: {fileID: 468744}
+    Id: 20936
 --- !u!114 &114599270001097918
 MonoBehaviour:
   m_ObjectHideFlags: 1
