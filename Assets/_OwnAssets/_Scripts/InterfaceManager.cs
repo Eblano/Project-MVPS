@@ -18,8 +18,6 @@ namespace SealTeam4
     {
         #region Variables
 
-        ReplaySystemCameraScript camScript;
-
         #region Calibration Button variables
         private bool calibrationModeOn;
         private Image calibrationBtnColor;
@@ -32,6 +30,7 @@ namespace SealTeam4
         private Ray ray;
         private Shader outlineShader;
         private Renderer rend;
+        
         #endregion
 
         #region Player container list spawning variables
@@ -64,26 +63,32 @@ namespace SealTeam4
             // Selection Setup
             selectedObjectName = GameObject.Find("Selected Object Name").GetComponent<Text>();
             outlineShader = Shader.Find("Outlined/Uniform");
-
-            camScript = GameObject.Find("AdminCamera(Clone)").GetComponent<ReplaySystemCameraScript>();
         }
 
         // Update is called once per frame
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && (camScript.GetComponent<ReplaySystemCameraScript>().MouseActive))
+            if (Input.GetKeyDown(KeyCode.Mouse0) && (ReplaySystemCameraScript.instance.MouseActive))
             {
                 if (selectedObject)
                 {
                     selectedObject.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
                 }
                 SelectGameObject();
-                    
-                selectedObjectName.text = selectedObject.name;
-                rend = selectedObject.GetComponent<Renderer>();
-                rend.material.shader = outlineShader;
-                rend.material.SetColor("_OutlineColor", Color.yellow);
-                rend.material.SetFloat("_OutlineWidth", 0.1f);
+                if (!selectedObject)
+                {
+                    selectedObjectName.text = "";
+                }
+                else
+                {
+                    selectedObjectName.text = selectedObject.name;
+                    rend = selectedObject.GetComponent<Renderer>();
+                    rend.material.shader = outlineShader;
+                    rend.material.SetColor("_OutlineColor", Color.yellow);
+                    rend.material.SetFloat("_OutlineWidth", 0.1f);
+                }
+                
+                
             }
         }
         // Toggles the position Buttons on and off
@@ -110,48 +115,53 @@ namespace SealTeam4
         // Gets an object and puts it in focus
         private void SelectGameObject()
         {
-            try
+            // Raycasts to find object for selection
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Physics.Raycast(ray, out hit);
+            if (hit.transform)
             {
-                // Raycasts to find object for selection
-                ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                Physics.Raycast(ray, out hit);
                 selectedObject = hit.transform.gameObject;
-
-                UpdateActions();
-
             }
-            catch (Exception e)
+            else
             {
-                // Nothing here
+                selectedObject = null;
             }
 
+            UpdateActions();
         }
 
         private void UpdateActions()
         {
-            foreach (GameObject b in actionBtnList)
+            if (selectedObject)
             {
-                Destroy(b);
-            }
-
-            actionBtnList.Clear();
-
-            actionList = selectedObject.GetComponent<IActions>().GetActions();
-
-            foreach (string action in actionList)
-            {
-                GameObject go = Instantiate(actionBtn, actionBtnContainer);
-
-                go.GetComponentInChildren<Text>().text = action;
-                Debug.Log("0");
-                go.GetComponent<Button>().onClick.AddListener(delegate
+                foreach (GameObject b in actionBtnList)
                 {
-                    OnBtnClick(go.GetComponent<Button>());
-                });
-                Debug.Log("1");
+                    Destroy(b);
+                }
 
-                actionBtnList.Add(go);
+                actionBtnList.Clear();
+                if (selectedObject.GetComponents<IActions>().Length != 0)
+                {
+                    actionList = selectedObject.GetComponent<IActions>().GetActions();
+                }
+
+
+                foreach (string action in actionList)
+                {
+                    GameObject go = Instantiate(actionBtn, actionBtnContainer);
+
+                    go.GetComponentInChildren<Text>().text = action;
+                    Debug.Log("0");
+                    go.GetComponent<Button>().onClick.AddListener(delegate
+                    {
+                        OnBtnClick(go.GetComponent<Button>());
+                    });
+                    Debug.Log("1");
+
+                    actionBtnList.Add(go);
+                }
             }
+
         }
 
         public void OnBtnClick(Button btn)

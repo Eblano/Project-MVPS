@@ -18,7 +18,7 @@ using UnityEngine.UI;
 public class ReplaySystemCameraScript : MonoBehaviour
 {
 
-
+    [SerializeField] public static ReplaySystemCameraScript instance;
 
     public bool MouseActive;
     private Transform cam;
@@ -27,6 +27,14 @@ public class ReplaySystemCameraScript : MonoBehaviour
 
     private void Start()
     {
+        if (!instance)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
         grc = FindObjectOfType<Canvas>().GetComponent<GraphicRaycaster>();
         cam = this.GetComponentInChildren<Camera>().transform;
     }
