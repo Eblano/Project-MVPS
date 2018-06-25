@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 namespace SealTeam4
 {
@@ -48,9 +49,8 @@ namespace SealTeam4
         [SerializeField] private GameObject actionBtn;
         [SerializeField] private List<string> actionList = new List<string>();
         [SerializeField] private List<GameObject> actionBtnList = new List<GameObject>();
-
         #endregion
-        
+
         #endregion
 
         // Use this for initialization
@@ -87,15 +87,15 @@ namespace SealTeam4
                         rend.material.SetColor("_OutlineColor", Color.yellow);
                         rend.material.SetFloat("_OutlineWidth", 0.1f);
                     }
-
-                    UpdateActions();
                 }
                 else
                 {
                     selectedObjectName.text = "";
                 }
             }
+            UpdateActionList();
         }
+
         // Toggles the position Buttons on and off
         public void ToggleCalibration()
         {
@@ -132,36 +132,54 @@ namespace SealTeam4
             }
         }
 
-        private void UpdateActions()
+        private void UpdateActionList()
+        {
+            if (selectedObject)
+            {
+                if (selectedObject.GetComponents<IActions>().Length != 0)
+                {
+                    List<string> newActionList = selectedObject.GetComponent<IActions>().GetActions();
+                    if (actionList.SequenceEqual(newActionList))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        actionList = new List<string>(newActionList);
+                        UpdateActionListButtons();
+                    }
+                }
+            }
+        }
+
+        public void UpdateActionListButtons()
         {
             foreach (GameObject b in actionBtnList)
             {
                 Destroy(b);
             }
-            
-            foreach(GameObject btn in actionBtnList)
+
+            foreach (GameObject btn in actionBtnList)
             {
                 Destroy(btn.gameObject);
             }
             actionBtnList.Clear();
 
-            if (selectedObject.GetComponents<IActions>().Length != 0)
+            if (actionList != null && actionList.Count > 0)
             {
-                actionList = selectedObject.GetComponent<IActions>().GetActions();
-            }
-
-            foreach (string action in actionList)
-            {
-                GameObject go = Instantiate(actionBtn, actionBtnContainer);
-
-                go.GetComponentInChildren<Text>().text = action;
-
-                go.GetComponent<Button>().onClick.AddListener(delegate
+                foreach (string action in actionList)
                 {
-                    OnBtnClick(go.GetComponent<Button>());
-                });
-                    
-                actionBtnList.Add(go);
+                    GameObject go = Instantiate(actionBtn, actionBtnContainer);
+
+                    go.GetComponentInChildren<Text>().text = action;
+
+                    go.GetComponent<Button>().onClick.AddListener(delegate
+                    {
+                        OnBtnClick(go.GetComponent<Button>());
+                    });
+
+                    actionBtnList.Add(go);
+                }
             }
         }
 

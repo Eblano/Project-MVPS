@@ -2,6 +2,7 @@
 using UnityEngine;
 using ProtoBuf;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 /// <summary>
 /// Manages AI thought process
@@ -27,9 +28,7 @@ namespace SealTeam4
         // Schedules this NPC has
         private List<NPCSchedule> npcSchedules;
 
-        private List<string> actionableParameters = new List<string>();
-        private string[] allActionParameters =
-        { "Activate NPC", "Deactivate NPC"};
+        [SerializeField] private List<string> actionableParameters = new List<string>();
 
         private void Start()
         {
@@ -45,7 +44,7 @@ namespace SealTeam4
 
         private void Update()
         {
-            UpdateAIActionableParameters();
+            UpdateActionableParameters();
 
             if (!aiState.active)
                 return;
@@ -356,14 +355,6 @@ namespace SealTeam4
             return finalPosition;
         }
 
-        private void UpdateAIActionableParameters()
-        {
-            actionableParameters.Clear();
-
-            if (!aiState.active)
-                actionableParameters.Add("Activate NPC");
-        }
-
         #region IActions Interace methods
         public List<string> GetActions()
         {
@@ -377,15 +368,33 @@ namespace SealTeam4
                 case "Activate NPC":
                     SetAction_ActivateNPC();
                     break;
+
+                case "Kill NPC":
+                    SetAction_KillNPC();
+                    break;
             }
         }
         #endregion
 
+        private void UpdateActionableParameters()
+        {
+            if (!aiState.active && !actionableParameters.Contains("Activate NPC"))
+                actionableParameters.Add("Activate NPC");
+
+            if(aiState.active && !actionableParameters.Contains("Kill NPC"))
+                actionableParameters.Add("Kill NPC");
+        }
+
         private void SetAction_ActivateNPC()
         {
             aiState.active = true;
-            actionableParameters.Remove("Deactivate NPC");
+            actionableParameters.Remove("Activate NPC");
+        }
+
+        private void SetAction_KillNPC()
+        {
+            actionableParameters.Remove("Kill NPC");
+            gameObject.SetActive(false);
         }
     }
 }
-
