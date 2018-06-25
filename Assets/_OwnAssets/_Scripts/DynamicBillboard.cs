@@ -15,19 +15,19 @@ namespace SealTeam4
 
         [Header("Canvas Scaling Parameters")]
         //At what distance do we want to start scaling the UI?
-        [SerializeField] protected float uiScaleStartDist = 0.01f;
+        private float uiScaleStartDist = 0.01f;
         //When do we want to stop scaling the UI?
-        [SerializeField] protected float uiScaleEndDist = 200;
+        private float uiScaleEndDist = 200;
         //The smallest the UI element can get.
-        [SerializeField] protected float minUiScale = 0.2f;
+        private float minUiScale = 0.05f;
         //The largest the UI element can get.
-        [SerializeField] protected float maxUiScale = 1;
+        private float maxUiScale = 0.1f;
         //How slowly you want the UI element to grow. This may be a bit counter-intuitive, but higher is slower.
-        [SerializeField] protected float scaleRate = 10;
+        private float scaleRate = 10;
         // For Canvas scaling
-        protected float distanceFromCamera;
+        private float distanceFromCamera = 0;
         //The modifier of our UI scale.
-        protected float uiElementScaleModifier;
+        private float uiElementScaleModifier = 0;
 
         private bool setupDone;
 
@@ -36,7 +36,7 @@ namespace SealTeam4
             camToTrack = GameObject.Find("Editor Camera").transform;
 
             if(!canvas)
-                canvas = Instantiate(RuntimeEditorUltiltes.instance.GetMarkerFloatintTextPrefab(), transform);
+                canvas = Instantiate(RuntimeEditorUltiltes.instance.GetMarkerFloatintTextPrefab(), transform.position, transform.rotation);
         }
 
         protected void LateUpdate()
@@ -56,7 +56,7 @@ namespace SealTeam4
 
                 RotateCanvasToFaceCamera();
                 ScaleCanvas();
-
+                MoveCanvas();
             }
         }
 
@@ -85,12 +85,34 @@ namespace SealTeam4
             }
         }
 
+        private void MoveCanvas()
+        {
+            canvas.transform.position = transform.position;
+        }
+
         private void RotateCanvasToFaceCamera()
         {
             Vector3 lookPos = canvas.transform.position - camToTrack.position;
             Quaternion rotation = Quaternion.LookRotation(lookPos);
 
             canvas.transform.rotation = rotation;
+        }
+
+        private void OnDestroy()
+        {
+            Destroy(canvas.gameObject);
+        }
+
+        private void OnDisable()
+        {
+            if (canvas)
+                canvas.gameObject.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            if(canvas)
+                canvas.gameObject.SetActive(true);
         }
     }
 }

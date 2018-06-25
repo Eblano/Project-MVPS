@@ -65,7 +65,9 @@ namespace SealTeam4
                 RaycastHit hitInfo;
                 lineRenderer.SetPosition(0, transform.position);
 
-                if (Physics.Raycast(transform.position, -transform.up, out hitInfo, 100))
+                int layer = 1 << LayerMask.NameToLayer("Ground");
+
+                if (Physics.Raycast(transform.position, -transform.up, out hitInfo, 100, layer))
                 {
                     lineRenderer.SetPosition(1, hitInfo.point);
                     lineRenderer.SetPosition(2, hitInfo.point + transform.forward * directionLineLength);

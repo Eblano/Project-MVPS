@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4628765621508712}
-  - component: {fileID: 114192534330964500}
+  - component: {fileID: 114631235961914708}
   m_Layer: 5
   m_Name: MarkerFloatingText
   m_TagString: Untagged
@@ -76,19 +76,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114192534330964500
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1442591681505686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_guid: 
-  m_isRuntime: 0
 --- !u!114 &114219357758853304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,6 +113,19 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114631235961914708
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1442591681505686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_guid: 
+  m_isRuntime: 0
 --- !u!114 &114908293603750130
 MonoBehaviour:
   m_ObjectHideFlags: 1
