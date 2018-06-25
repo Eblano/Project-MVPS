@@ -179,7 +179,7 @@ namespace SealTeam4
 
         private void Setup_ActivateOnSpawnToggle()
         {
-            spawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_ActivateOnSpawnToggle(); });
+            activateAtSpawnToggle.onValueChanged.AddListener(delegate { OnValueChanged_ActivateOnSpawnToggle(); });
             activateAtSpawnToggle.isOn = ref_npcSpawnData.activateOnStart;
         }
 
