@@ -193,10 +193,14 @@ namespace SealTeam4
                     npcSchedule.Add(schedule);
                 }
 
-                NpcSpawnData npcSpawnData = new NpcSpawnData();
-                npcSpawnData.npcOutfit = npcOutfit;
-                npcSpawnData.npcSchedules = npcSchedule;
+                NpcSpawnData npcSpawnData = new NpcSpawnData
+                {
+                    npcOutfit = npcOutfit,
+                    npcSchedules = npcSchedule
+                };
                 npcSpawnData.aiStats.npcType = npcType;
+                npcSpawnData.aiStats.activateOnStart = npcSpawnData_RTEStorage.activateOnStart;
+
                 npcSpawnData.npcName = npcSpawnData_RTEStorage.npcName;
                 npcSpawnData.spawnMarkerName = npcSpawnData_RTEStorage.spawnMarkerName;
 
@@ -212,6 +216,7 @@ namespace SealTeam4
 public class NPCSpawnData_RTEStorage
 {
     public string npcName;
+    public bool activateOnStart = true;
 
     // NPCSpawnData Properties
     private readonly string[] defNPCOutfit = { "None", "Type 0", "Type 1" };

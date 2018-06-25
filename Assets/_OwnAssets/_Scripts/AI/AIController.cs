@@ -355,6 +355,11 @@ namespace SealTeam4
             return finalPosition;
         }
 
+        public void AISetActive()
+        {
+            aiState.active = true;
+        }
+
         #region IActions Interace methods
         public List<string> GetActions()
         {
@@ -369,7 +374,7 @@ namespace SealTeam4
                     SetAction_ActivateNPC();
                     break;
 
-                case "Kill NPC":
+                case "Set Inactive(Debug)":
                     SetAction_KillNPC();
                     break;
             }
@@ -381,8 +386,8 @@ namespace SealTeam4
             if (!aiState.active && !actionableParameters.Contains("Activate NPC"))
                 actionableParameters.Add("Activate NPC");
 
-            if(aiState.active && !actionableParameters.Contains("Kill NPC"))
-                actionableParameters.Add("Kill NPC");
+            if(aiState.active && !actionableParameters.Contains("Set Inactive(Debug)"))
+                actionableParameters.Add("Set Inactive(Debug)");
         }
 
         private void SetAction_ActivateNPC()
@@ -393,7 +398,7 @@ namespace SealTeam4
 
         private void SetAction_KillNPC()
         {
-            actionableParameters.Remove("Kill NPC");
+            actionableParameters.Remove("Set Inactive(Debug)");
             gameObject.SetActive(false);
         }
     }
