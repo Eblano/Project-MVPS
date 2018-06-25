@@ -102,7 +102,11 @@ namespace SealTeam4
         public bool CheckData()
         {
             // Checking argument
-            if (ref_schedule.argument == "" || ref_schedule.argument == "None")
+            if (
+                ref_schedule.argument == "" || 
+                ref_schedule.argument == "None" ||
+                ref_schedule.argument.StartsWith("-")
+                )
             {
                 scheduleSlotBGImg.color = errorColor;
                 return false;
