@@ -10,14 +10,7 @@ namespace SealTeam4
     /// </summary>
     public class BaseMarker : MonoBehaviour, IMarkerBehaviours
     {
-        protected DynamicBillboard dynamicBillboard;
-
         protected float canvasVerticalOffset = 0;
-
-        private void Start()
-        {
-            dynamicBillboard = GetComponent<DynamicBillboard>();
-        }
 
         /// <summary>
         /// Register marker to current active GameManager
@@ -44,7 +37,7 @@ namespace SealTeam4
         /// </summary>
         public virtual void CleanUpForSimulationStart()
         {
-            Destroy(dynamicBillboard.gameObject);
+            Destroy(GetComponent<DynamicBillboard>().canvas.gameObject);
         }
 
         private void OnDisable()
