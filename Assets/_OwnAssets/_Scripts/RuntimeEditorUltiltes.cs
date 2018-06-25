@@ -237,27 +237,29 @@ namespace SealTeam4
         /// </summary>
         public void SwitchRTSceneToUnityScenePopup()
         {
-            if (GetActiveSceneHash() == null)
-            {
-                PopupWindow.Show("Error", "Cannot Start Scene because Scene is not Saved or not Loaded", "Ok");
-            }
-
             NpcScripting.instance.ShowNPCScriptingUI();
             NpcScripting.instance.HideNPCScriptingUI();
 
             if (NpcScripting.instance.DataIsComplete())
             {
-                PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
-                    "Yes",
-                    args =>
-                    {
-                        if (!args.Cancel)
+                if(saveSceneButton.IsInteractable())
+                {
+                    PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
+                        "Yes",
+                        args =>
                         {
-                            SwitchRTSceneToUnityScene();
-                        }
-                    },
-                    "Cancel"
-                    );
+                            if (!args.Cancel)
+                            {
+                                SwitchRTSceneToUnityScene();
+                            }
+                        },
+                        "Cancel"
+                        );
+                }
+                else
+                {
+                    PopupWindow.Show("Error", "Cannot Start Scene because Scene is not Saved or not Loaded", "Ok");
+                }
             }
             else
             {
