@@ -25,11 +25,16 @@ namespace SealTeam4
 
         protected void Update()
         {
-            if (!initializedMeshCollider && GetComponent<MeshCollider>())
+            if (!initializedMeshCollider)
             {
                 initializedMeshCollider = true;
 
                 MeshCollider collider = GetComponent<MeshCollider>();
+                if(!collider)
+                    collider = gameObject.AddComponent<MeshCollider>();
+
+                collider = GetComponent<MeshCollider>();
+                collider.sharedMesh = mesh;
                 collider.convex = true;
                 collider.isTrigger = true;
             }

@@ -29,6 +29,7 @@ namespace SealTeam4
         public Quaternion pointRotation;
 
         private bool setupMode = true;
+        protected Vector3 raycastHitPos;
 
         protected void Start()
         {
@@ -56,7 +57,7 @@ namespace SealTeam4
             lineRenderer.positionCount = 3;
         }
 
-        private void Update()
+        public virtual void Update()
         {
             if(setupMode && lineRenderer)
             {
@@ -65,7 +66,9 @@ namespace SealTeam4
                 RaycastHit hitInfo;
                 lineRenderer.SetPosition(0, transform.position);
 
-                if (Physics.Raycast(transform.position, -transform.up, out hitInfo, 100))
+                int layer = 1 << LayerMask.NameToLayer("Ground");
+
+                if (Physics.Raycast(transform.position, -transform.up, out hitInfo, 100, layer))
                 {
                     lineRenderer.SetPosition(1, hitInfo.point);
                     lineRenderer.SetPosition(2, hitInfo.point + transform.forward * directionLineLength);
@@ -80,6 +83,8 @@ namespace SealTeam4
                     pointPosition = Vector3.zero;
                     pointRotation = Quaternion.identity;
                 }
+
+                raycastHitPos = pointPosition;
             }
         }
 
