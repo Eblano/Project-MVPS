@@ -22,7 +22,7 @@ public class ReplaySystemCameraScript : MonoBehaviour
 
     public bool MouseActive;
     private Transform cam;
-    [SerializeField] private GraphicRaycaster grc;
+    public GraphicRaycaster grc;
     [SerializeField] [Range(0.1f, 1.0f)] private float sens = 0.2f;
 
     private void Start()
@@ -41,9 +41,13 @@ public class ReplaySystemCameraScript : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
+        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
         {
-            MouseActive = !MouseActive;
+            MouseActive = true;
+        }
+        else
+        {
+            MouseActive = false;
         }
 
         if (!MouseActive)

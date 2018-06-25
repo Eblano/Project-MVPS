@@ -4,5 +4,5 @@ public interface IActions
 {
     List<string> GetActions();
 
-    void SetActions(string action);
+    void SetAction(string action);
 }

@@ -8,14 +8,14 @@ using UnityEngine.AI;
 /// </summary>
 namespace SealTeam4
 {
-    public class AIController : MonoBehaviour
+    public class AIController : MonoBehaviour, IActions
     {
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
         private AIAnimEventReciever animEventReciever;
-        
+
         // Stores various state of this AI
-        AIState aiState;
+        AIState aiState = new AIState();
         // Stores various stats of this AI
         AIStats aiStats;
 
@@ -26,6 +26,10 @@ namespace SealTeam4
 
         // Schedules this NPC has
         private List<NPCSchedule> npcSchedules;
+
+        private List<string> actionableParameters = new List<string>();
+        private string[] allActionParameters =
+        { "Activate NPC", "Deactivate NPC"};
 
         private void Start()
         {
@@ -41,6 +45,11 @@ namespace SealTeam4
 
         private void Update()
         {
+            UpdateAIActionableParameters();
+
+            if (!aiState.active)
+                return;
+
             // if area under attack
             if(GameManager.instance.areaUnderAttack)
             {
@@ -334,12 +343,6 @@ namespace SealTeam4
             this.aiStats = aiStats;
         }
 
-        public void ActivateNPC()
-        {
-            aiState = GetComponent<AIState>();
-            aiState.active = true;
-        }
-
         public Vector3 GetRandNavmeshPos(float radius)
         {
             Vector3 randomDirection = Random.insideUnitSphere * radius;
@@ -351,6 +354,37 @@ namespace SealTeam4
                 finalPosition = hit.position;
             }
             return finalPosition;
+        }
+
+        private void UpdateAIActionableParameters()
+        {
+            actionableParameters.Clear();
+
+            if (!aiState.active)
+                actionableParameters.Add("Activate NPC");
+        }
+
+        #region IActions Interace methods
+        public List<string> GetActions()
+        {
+            return actionableParameters;
+        }
+
+        public void SetAction(string action)
+        {
+            switch (action)
+            {
+                case "Activate NPC":
+                    SetAction_ActivateNPC();
+                    break;
+            }
+        }
+        #endregion
+
+        private void SetAction_ActivateNPC()
+        {
+            aiState.active = true;
+            actionableParameters.Remove("Deactivate NPC");
         }
     }
 }

@@ -19,7 +19,7 @@ public class Explosive : MonoBehaviour, IActions
         return action;
     }
 
-    public void SetActions(string action)
+    public void SetAction(string action)
     {
         Debug.Log("SetAction");
         Explode();

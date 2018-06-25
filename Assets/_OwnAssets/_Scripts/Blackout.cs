@@ -19,7 +19,7 @@ public class Blackout : MonoBehaviour, IActions
         return action;
     }
 
-    public void SetActions(string action)
+    public void SetAction(string action)
     {
         switch (action)
         {

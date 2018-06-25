@@ -8,9 +8,12 @@ namespace SealTeam4
     [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
     public class AIStats
     {
+        // User Set-Able parameters
         public enum NPCType { TERRORIST, VIP, CIVILLIAN };
         public NPCType npcType = NPCType.CIVILLIAN;
+        public bool startOnSpawn = true;
 
+        // Hidden Parameters
         [Range(0, 100)] public float chanceEnterHostileMode = 0.0f;
 
         // Min angle to move to 
