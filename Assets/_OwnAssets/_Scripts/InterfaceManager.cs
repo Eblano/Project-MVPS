@@ -256,6 +256,11 @@ namespace SealTeam4
             // decreases the viewport to account for removal of one row of stats
             rt.sizeDelta = new Vector2(rt.sizeDelta.x, rt.sizeDelta.y - 60);
         }
+
+        public void OnStartButtonClick()
+        {
+            GameManager.instance.GM_Host_SwitchToRun();
+        }
     }
 
 }

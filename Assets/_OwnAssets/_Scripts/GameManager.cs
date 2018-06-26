@@ -106,11 +106,6 @@ namespace SealTeam4
                     break;
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && currGameManagerHostMode == GameManagerHostMode.IDLE && currGameManagerMode == GameManagerMode.HOST)
-            {
-                GM_Host_SwitchToRun();
-            }
-
             //if(Input.GetKeyDown(KeyCode.Z))
             //{
             //    GameManagerAssistant.instance.CmdSetBool(networkTest);
