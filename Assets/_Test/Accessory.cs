@@ -9,19 +9,25 @@ public class Accessory
     [SerializeField] private AccessoriesHandler.Item spawnItem = AccessoriesHandler.Item.PISTOL;
     [SerializeField] private AccessoriesHandler.Position spawnPosition = AccessoriesHandler.Position.L_HAND;
 
+    public Accessory(int item, int pos)
+    {
+        spawnItem = (AccessoriesHandler.Item)item;
+        spawnPosition = (AccessoriesHandler.Position)pos;
+    }
+
     public int GetItem()
     {
-        return (int) spawnItem;
+        return (int)spawnItem;
     }
 
     public int GetPosition()
     {
-        return (int) spawnPosition;
+        return (int)spawnPosition;
     }
 
     public void SetItem(int item)
     {
-        spawnItem = (AccessoriesHandler.Item) item;
+        spawnItem = (AccessoriesHandler.Item)item;
     }
 
     public void SetPosition(int pos)

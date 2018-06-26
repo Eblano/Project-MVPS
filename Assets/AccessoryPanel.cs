@@ -17,7 +17,7 @@ public class AccessoryPanel : MonoBehaviour
 
     private int prevVal = 0;
 
-    public void Initialise(ref Accessory acc, ref List<AccessorySpawnPosition> accSpwnPos, ref List<string> accItems)
+    public void Initialise(ref Accessory acc, ref List<AccessorySpawnPosition> accSpwnPos, ref List<string> accItems, bool savedData)
     {
         // Set reference values
         accessory = acc;
@@ -29,13 +29,20 @@ public class AccessoryPanel : MonoBehaviour
         drpPosition.onValueChanged.AddListener(OnDrpPosChanged);
         btnDelete.onClick.AddListener(OnBtnDelClicked);
 
-        foreach (AccessorySpawnPosition position in accessorySpawnPositions)
+        if (!savedData)
         {
-            if (!position.IsTaken())
+            foreach (AccessorySpawnPosition position in accessorySpawnPositions)
             {
-                accessory.SetEnumPosition(position.GetPositionEnum());
-                break;
+                if (!position.IsTaken())
+                {
+                    accessory.SetEnumPosition(position.GetPositionEnum());
+                    break;
+                }
             }
+        }
+        else
+        {
+            drpItem.value = accessory.GetItem();
         }
 
         RefreshDropDown();
@@ -97,20 +104,22 @@ public class AccessoryPanel : MonoBehaviour
 
     private void OnDrpItemChanged(int value)
     {
-        drpItem.value = value;
         accessory.SetItem(value);
+        
+        if (AccessoriesHandler.instance.setupDone)
+            AccessoriesHandler.instance.RefreshAllDropdown();
     }
 
     private void OnDrpPosChanged(int value)
     {
         SetTakenStateOfPos(drpPosition.options[0].text, false);
         Debug.Log("Set false, " + drpPosition.options[0].text);
-        //drpPosition.value = 0;
-        //prevVal = drpPosition.value;
         accessory.SetEnumPosition(AccessoriesHandler.instance.GetPositionEnumFromName(drpPosition.options[drpPosition.value].text));
         SetTakenStateOfPos(drpPosition.options[drpPosition.value].text, true);
         Debug.Log("Set true, " + drpPosition.options[drpPosition.value].text);
-        AccessoriesHandler.instance.RefreshAllDropdown();
+
+        if(AccessoriesHandler.instance.setupDone)
+            AccessoriesHandler.instance.RefreshAllDropdown();
     }
 
     private void OnBtnDelClicked()
@@ -122,7 +131,11 @@ public class AccessoryPanel : MonoBehaviour
 
         AccessoryPanel ap = this;
         AccessoriesHandler.instance.DeletePanelEntry(ref accessory, ref ap);
-        AccessoriesHandler.instance.RefreshAllDropdown();
+
+
+        if (AccessoriesHandler.instance.setupDone)
+            AccessoriesHandler.instance.RefreshAllDropdown();
+
         Destroy(this.gameObject);
     }
 }

@@ -18,6 +18,8 @@ public class AccessoriesHandler : MonoBehaviour
     [SerializeField] private List<AccessorySpawnPosition> accessorySpawnPositions = new List<AccessorySpawnPosition>();
     [SerializeField] private List<string> items = new List<string>();
 
+    public bool setupDone = false;
+
     private void Start()
     {
         if (instance == null)
@@ -27,22 +29,54 @@ public class AccessoriesHandler : MonoBehaviour
 
         PopulateAccPosSpawnList();
         PopulateAccItemSpawnList();
+        ProcessSavedData();
+        setupDone = true;
     }
 
-    public void AddAccessoryPanel()
+    public void ProcessSavedData()
+    {
+        if (!PlayerPrefs.HasKey("NumOfEntries"))
+        {
+            PlayerPrefs.SetInt("NumOfEntries", 0);
+        }
+
+        for (int i = 0; i < PlayerPrefs.GetInt("NumOfEntries"); i++)
+        {
+            AddAccessoryPanel(PlayerPrefs.GetInt("Entry" + i + "Item"), PlayerPrefs.GetInt("Entry" + i + "Pos"), true);
+        }
+    }
+
+    public void SaveData()
+    {
+        PlayerPrefs.SetInt("NumOfEntries", accessories.Count);
+
+        for (int i = 0; i < accessories.Count; i++)
+        {
+            PlayerPrefs.SetInt("Entry" + i + "Item", accessories[i].GetItem());
+            PlayerPrefs.SetInt("Entry" + i + "Pos", accessories[i].GetPosition());
+        }
+    }
+
+    public void AddAccBtn()
+    {
+        AddAccessoryPanel(0, 0, false);
+    }
+
+    public void AddAccessoryPanel(int item, int position, bool savedData)
     {
         if (accessoryPanels.Count > Enum.GetNames(typeof(Position)).Length - 1)
         {
             return;
         }
 
-        Accessory accessory = new Accessory();
+        Accessory accessory = new Accessory(item, position);
         GameObject accPanelGO = Instantiate(accPnlPrefab, transform);
         AccessoryPanel accessoryPanel = accPanelGO.GetComponent<AccessoryPanel>();
 
-        accessoryPanel.Initialise(ref accessory, ref accessorySpawnPositions, ref items);
+        accessoryPanel.Initialise(ref accessory, ref accessorySpawnPositions, ref items, savedData);
         accessories.Add(accessory);
         accessoryPanels.Add(accessoryPanel);
+        //SaveData();
     }
 
     public void RefreshAllDropdown()
@@ -51,6 +85,8 @@ public class AccessoriesHandler : MonoBehaviour
         {
             accPnl.RefreshDropDown();
         }
+
+        SaveData();
     }
 
     private void PopulateAccPosSpawnList()
