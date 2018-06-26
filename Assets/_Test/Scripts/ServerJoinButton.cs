@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using TMPro;
 
 public class ServerJoinButton : MonoBehaviour
 {
-    private Text buttonText;
+    private TextMeshProUGUI buttonText;
     private LanConnectionInfo game;
 
     private void Awake()
     {
-        buttonText = GetComponentInChildren<Text>();
+        buttonText = GetComponentInChildren<TextMeshProUGUI>();
         GetComponent<Button>().onClick.AddListener(JoinLanGame);
     }
 

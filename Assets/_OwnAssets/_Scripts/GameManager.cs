@@ -13,6 +13,10 @@ namespace SealTeam4
     /// </summary>
     public class GameManager : MonoBehaviour
     {
+        // Scene Info for loaded scene
+        private string sceneName;
+        private string sceneHash;
+
         // Instance of the Game Manager
         public static GameManager instance;
 
@@ -454,6 +458,22 @@ namespace SealTeam4
             }
 
             return markers;
+        }
+
+        public void SetSceneInfo(string sceneName, string sceneHash)
+        {
+            this.sceneName = sceneName;
+            this.sceneHash = sceneHash;
+        }
+
+        public string GetSceneName()
+        {
+            return sceneName;
+        }
+
+        public string GetSceneHash()
+        {
+            return sceneHash;
         }
     }
 

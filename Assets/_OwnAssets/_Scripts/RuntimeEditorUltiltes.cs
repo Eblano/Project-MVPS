@@ -275,6 +275,8 @@ namespace SealTeam4
         /// </summary>
         public void SwitchRTSceneToUnityScene()
         {
+            GameManager.instance.SetSceneInfo(m_projectManager.ActiveScene.Name, GetActiveSceneHash());
+
             // Destroy selected GameObjects by name in hierarchy
             for (int i = 0; i < gameObjectsToDestroyByName.Count; i++)
             {

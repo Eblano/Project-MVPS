@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using TMPro;
 using SealTeam4;
+using System.Net;
+using System.Net.Sockets;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,6 +14,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject uiPanel;
     [SerializeField] private GameObject connectedPlayerUI;
     private Text txtConnectedPlayer;
+
+    [SerializeField] private TextMeshProUGUI ipaddressTxt;
+    [SerializeField] private TextMeshProUGUI sceneNameTxt;
+    [SerializeField] private TextMeshProUGUI sceneHastTxt;
+
+    private readonly float ipRefreshRate = 5.0f;
+    private float currIPrefreshCD = 0;
 
     private void Start()
     {
@@ -24,6 +35,46 @@ public class UIManager : MonoBehaviour
         }
 
         txtConnectedPlayer = connectedPlayerUI.GetComponent<Text>();
+
+        SetSceneInfoTxt();
+    }
+
+    private void Update()
+    {
+        UpdateIPAddressText();
+    }
+
+    private void SetSceneInfoTxt()
+    {
+        sceneNameTxt.text = GameManager.instance.GetSceneName();
+        sceneHastTxt.text = GameManager.instance.GetSceneHash();
+    }
+
+    private void UpdateIPAddressText()
+    {
+        if (currIPrefreshCD <= 0)
+        {
+            currIPrefreshCD = ipRefreshRate;
+            ipaddressTxt.text = "Host Address: " + GetLocalIPAddress();
+        }
+        else
+            currIPrefreshCD -= Time.deltaTime;
+    }
+
+    public string GetLocalIPAddress()
+    {
+        IPHostEntry host;
+        string localIP = "";
+        host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (IPAddress ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                localIP = ip.ToString();
+                break;
+            }
+        }
+        return localIP;
     }
 
     public void SetUIPanelState(bool state)
@@ -49,5 +100,10 @@ public class UIManager : MonoBehaviour
     public void BtnScanForBroadcasts()
     {
         CustomNetworkDiscovery.instance.ScanForGames();
+    }
+
+    public void OnBackToEditorBtnClick()
+    {
+        GameManager.instance.RestartScene();
     }
 }
