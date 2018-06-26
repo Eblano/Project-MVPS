@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SealTeam4;
 
 public class Explosive : MonoBehaviour, IActions
 {
@@ -31,6 +32,8 @@ public class Explosive : MonoBehaviour, IActions
         ParticleSystem explosion;
         explosion = Instantiate(explosionParticles, gameObject.transform.position, Quaternion.identity) as ParticleSystem;
         explosion.Play();
+        //GameManagerAssistant.instance.CmdSyncHaps(, ControllerHapticsManager.HapticType.GUNFIRE, VRTK.VRTK_DeviceFinder.Devices.LeftController);
+        //GameManagerAssistant.instance.CmdSyncHaps(, ControllerHapticsManager.HapticType.GUNFIRE, VRTK.VRTK_DeviceFinder.Devices.RightController);
         Destroy(gameObject);
         
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Blackout : MonoBehaviour, IActions
 {
-    [SerializeField] private List<LightController> lamps;
+    [SerializeField] private List<Light> lamps;
     List<string> action = new List<string>();
 
     private void Start()
@@ -24,16 +24,16 @@ public class Blackout : MonoBehaviour, IActions
         switch (action)
         {
             case "Activate Blackout":
-                foreach (LightController lamp in lamps)
+                foreach (Light lamp in lamps)
                 {
-                    lamp.on = false;
+                    lamp.enabled = false;
                 }
                 break;
 
             case "Deactivate Blackout":
-                foreach (LightController lamp in lamps)
+                foreach (Light lamp in lamps)
                 {
-                    lamp.on = true;
+                    lamp.enabled = true;
                 }
                 break;
         }
