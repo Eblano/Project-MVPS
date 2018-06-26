@@ -37,4 +37,9 @@ public class Explosive : MonoBehaviour, IActions
         Destroy(gameObject);
         
     }
+
+    public string GetName()
+    {
+        return gameObject.name;
+    }
 }

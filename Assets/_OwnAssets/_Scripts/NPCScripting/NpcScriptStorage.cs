@@ -216,7 +216,7 @@ namespace SealTeam4
 public class NPCSpawnData_RTEStorage
 {
     public string npcName;
-    public bool activateOnStart = true;
+    public bool activateOnStart;
 
     // NPCSpawnData Properties
     private readonly string[] defNPCOutfit = { "None", "Type 0", "Type 1" };

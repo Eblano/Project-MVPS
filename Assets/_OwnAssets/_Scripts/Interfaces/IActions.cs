@@ -5,4 +5,6 @@ public interface IActions
     List<string> GetActions();
 
     void SetAction(string action);
+
+    string GetName();
 }

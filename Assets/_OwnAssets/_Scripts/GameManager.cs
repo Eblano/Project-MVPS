@@ -311,15 +311,15 @@ namespace SealTeam4
                 
                 // Spawn NPC
                 GameObject npc = Instantiate(npcToSpawn, targetSpawnMarker.pointPosition, targetSpawnMarker.pointRotation);
-                
+                // Set name
+                npc.name = npcSpawnData.npcName;
+
                 // Spawn NPC on all clients
                 GameManagerAssistant.instance.CmdNetworkSpawnObject(npc);
 
                 // Setting NPC configurations
                 AIController npcGOAIController = npc.GetComponent<AIController>();
-                npcGOAIController.SetAIStats(npcSpawnData.aiStats);
-                npcGOAIController.SetSchedule(npcSpawnData.npcSchedules);
-
+                npcGOAIController.Setup(npcSpawnData.npcName, npcSpawnData.aiStats, npcSpawnData.npcSchedules);
                 if (npcSpawnData.aiStats.activateOnStart)
                     npcGOAIController.AISetActive();
 
