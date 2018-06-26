@@ -7,68 +7,122 @@ using System;
 
 public class AccessoryPanel : MonoBehaviour
 {
-    private Accessory accessory;
     [SerializeField] private TMP_Dropdown drpItem;
     [SerializeField] private TMP_Dropdown drpPosition;
     [SerializeField] private Button btnDelete;
 
-    public void InitialisePanel(ref Accessory accRef, Transform parentTrans)
+    private Accessory accessory;
+    private List<AccessorySpawnPosition> accessorySpawnPositions;
+    private List<string> items;
+
+    private int prevVal = 0;
+
+    public void Initialise(ref Accessory acc, ref List<AccessorySpawnPosition> accSpwnPos, ref List<string> accItems)
     {
-        transform.SetParent(parentTrans);
-        accessory = accRef;
-        PopulateDropdownOptions();
-        btnDelete.onClick.AddListener(DestroyPanel);
-        drpItem.onValueChanged.AddListener(UpdateItemDrpDown);
-        drpPosition.onValueChanged.AddListener(UpdatePositionDrpDown);
+        // Set reference values
+        accessory = acc;
+        accessorySpawnPositions = accSpwnPos;
+        items = accItems;
+
+        // Add listeners
+        drpItem.onValueChanged.AddListener(OnDrpItemChanged);
+        drpPosition.onValueChanged.AddListener(OnDrpPosChanged);
+        btnDelete.onClick.AddListener(OnBtnDelClicked);
+
+        foreach (AccessorySpawnPosition position in accessorySpawnPositions)
+        {
+            if (!position.IsTaken())
+            {
+                accessory.SetEnumPosition(position.GetPositionEnum());
+                break;
+            }
+        }
+
+        RefreshDropDown();
+
+        OnDrpItemChanged(1);
+        OnDrpItemChanged(0);
+        OnDrpPosChanged(1);
+        OnDrpPosChanged(0);
     }
 
-    private void UpdateItemDrpDown(int value)
+    public void RefreshDropDown()
+    {
+        drpItem.ClearOptions();
+        drpPosition.ClearOptions();
+
+        foreach (string item in items)
+        {
+            drpItem.options.Add(new TMP_Dropdown.OptionData() { text = item });
+        }
+
+        ProcessUntakenPositions();
+        drpPosition.value = 0;
+        drpPosition.RefreshShownValue();
+        drpItem.RefreshShownValue();
+    }
+
+    private void ProcessUntakenPositions()
+    {
+        string selectedPosition = accessory.GetPositionName();
+        // Add currently selected option
+        drpPosition.options.Add(new TMP_Dropdown.OptionData() { text = selectedPosition });
+        // Set pos as a taken position
+        SetTakenStateOfPos(selectedPosition, true);
+
+        foreach (AccessorySpawnPosition position in accessorySpawnPositions)
+        {
+            // Check if position is taken
+            if (position.IsTaken())
+            {
+                continue;
+            }
+
+            drpPosition.options.Add(new TMP_Dropdown.OptionData() { text = position.GetPositionAsString() });
+        }
+    }
+
+    private void SetTakenStateOfPos(string takenPosName, bool setState)
+    {
+        foreach (AccessorySpawnPosition position in accessorySpawnPositions)
+        {
+            // Check if position is same as taken pos name
+            if (position.GetPositionAsString() == takenPosName)
+            {
+                position.SetTakenState(setState);
+                return;
+            }
+        }
+    }
+
+    private void OnDrpItemChanged(int value)
     {
         drpItem.value = value;
         accessory.SetItem(value);
     }
 
-    private void UpdatePositionDrpDown(int value)
+    private void OnDrpPosChanged(int value)
     {
-        drpPosition.value = value;
-        accessory.SetPosition(value);
+        SetTakenStateOfPos(drpPosition.options[0].text, false);
+        Debug.Log("Set false, " + drpPosition.options[0].text);
+        //drpPosition.value = 0;
+        //prevVal = drpPosition.value;
+        accessory.SetEnumPosition(AccessoriesHandler.instance.GetPositionEnumFromName(drpPosition.options[drpPosition.value].text));
+        SetTakenStateOfPos(drpPosition.options[drpPosition.value].text, true);
+        Debug.Log("Set true, " + drpPosition.options[drpPosition.value].text);
+        AccessoriesHandler.instance.RefreshAllDropdown();
     }
 
-    private void PopulateDropdownOptions()
+    private void OnBtnDelClicked()
     {
-        drpItem.ClearOptions();
-        drpPosition.ClearOptions();
+        // Add back entry
+        string selectedPosition = accessory.GetPositionName();
+        // Set pos as a not taken position
+        SetTakenStateOfPos(selectedPosition, false);
 
-        foreach (string item in accessory.GetItemNames())
-        {
-            TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
-            {
-                text = item
-            };
-
-            drpItem.options.Add(optionData);
-        }
-
-        foreach (string position in accessory.GetPositionNames())
-        {
-            TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
-            {
-                text = position
-            };
-
-            drpPosition.options.Add(optionData);
-        }
-
-        drpItem.value = 1;
-        drpPosition.value = 1;
-
-        drpItem.value = 0;
-        drpPosition.value = 0;
-    }
-
-    private void DestroyPanel()
-    {
-        AccessoriesHandler.instance.OnDeleteAccessory(accessory);
+        AccessoryPanel ap = this;
+        AccessoriesHandler.instance.DeletePanelEntry(ref accessory, ref ap);
+        AccessoriesHandler.instance.RefreshAllDropdown();
         Destroy(this.gameObject);
     }
 }
