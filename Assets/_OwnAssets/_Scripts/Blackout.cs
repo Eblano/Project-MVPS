@@ -15,7 +15,6 @@ public class Blackout : MonoBehaviour, IActions
 
     public List<string> GetActions()
     {
-        Debug.Log("GA");
         return action;
     }
 
