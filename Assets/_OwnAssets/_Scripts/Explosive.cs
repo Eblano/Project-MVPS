@@ -5,6 +5,7 @@ using UnityEngine;
 public class Explosive : MonoBehaviour, IActions
 {
     List<string> action = new List<string>();
+    [SerializeField] ParticleSystem explosionParticles;
 
     void Start()
     {
@@ -27,7 +28,7 @@ public class Explosive : MonoBehaviour, IActions
 
     private void Explode()
     {
-        Debug.Log("Exploded");
+        explosionParticles.Play();
         Destroy(gameObject);
     }
 }
