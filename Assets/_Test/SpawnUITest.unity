@@ -190,7 +190,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 162939011}
-        m_MethodName: OnAddAccesory
+        m_MethodName: OnAddAssesoryBtnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -305,8 +305,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6cf580c44ba6c04d9a0da94b2403293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  accessoryPnlPrefab: {fileID: 1156190159574484, guid: a54c68fab85556c4699a1ed1e6905740,
+  accPnlPrefab: {fileID: 1156190159574484, guid: a54c68fab85556c4699a1ed1e6905740,
     type: 2}
+  accessories: []
+  accessoryPanels: []
+  accessorySpawnPositions: []
+  items: []
 --- !u!114 &162939012
 MonoBehaviour:
   m_ObjectHideFlags: 0

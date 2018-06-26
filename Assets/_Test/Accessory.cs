@@ -6,17 +6,8 @@ using UnityEngine;
 [System.Serializable]
 public class Accessory
 {
-    public enum Item { DEFAULT, PISTOL, PISTOL_FANNY, RIFLE_HANDBAG, MAGAZINE }
-    public enum Position { DEFAULT, L_HAND, R_HAND, L_THIGH, R_THIGH, L_THIGHSIDE, R_THIGHSIDE, STOMACH }
-
-    [SerializeField] private Item spawnItem = Item.DEFAULT;
-    [SerializeField] private Position spawnPosition = Position.DEFAULT;
-
-    public Accessory(Item item, Position pos)
-    {
-        spawnItem = item;
-        spawnPosition = pos;
-    }
+    [SerializeField] private AccessoriesHandler.Item spawnItem = AccessoriesHandler.Item.PISTOL;
+    [SerializeField] private AccessoriesHandler.Position spawnPosition = AccessoriesHandler.Position.L_HAND;
 
     public int GetItem()
     {
@@ -30,21 +21,21 @@ public class Accessory
 
     public void SetItem(int item)
     {
-        spawnItem = (Item) item;
+        spawnItem = (AccessoriesHandler.Item) item;
     }
 
     public void SetPosition(int pos)
     {
-        spawnPosition = (Position) pos;
+        spawnPosition = (AccessoriesHandler.Position)pos;
     }
 
-    public string[] GetItemNames()
+    public void SetEnumPosition(AccessoriesHandler.Position pos)
     {
-        return Enum.GetNames(typeof(Item));
+        spawnPosition = pos;
     }
 
-    public string[] GetPositionNames()
+    public string GetPositionName()
     {
-        return Enum.GetNames(typeof(Position));
+        return Enum.GetName(typeof(AccessoriesHandler.Position), spawnPosition);
     }
 }
