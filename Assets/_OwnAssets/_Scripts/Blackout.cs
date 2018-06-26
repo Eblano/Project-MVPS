@@ -38,4 +38,9 @@ public class Blackout : MonoBehaviour, IActions
                 break;
         }
     }
+
+    public string GetName()
+    {
+        return gameObject.name;
+    }
 }

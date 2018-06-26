@@ -81,7 +81,7 @@ namespace SealTeam4
 
                 if (selectedObject)
                 {
-                    selectedObjectName.text = selectedObject.name;
+                    selectedObjectName.text = selectedObject.GetComponent<IActions>().GetName();
 
 
                     //Renderer selectedObjRenderer = selectedObject.GetComponent<Renderer>();
@@ -161,9 +161,13 @@ namespace SealTeam4
                 // Raycasts to find object for selection
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 Physics.Raycast(ray, out hit);
-                if (hit.transform)
+                if (hit.transform && hit.transform.GetComponents<IActions>().Length != 0)
                 {
                     selectedObject = hit.transform.gameObject;
+                }
+                else
+                {
+                    selectedObject = null;
                 }
             }
         }

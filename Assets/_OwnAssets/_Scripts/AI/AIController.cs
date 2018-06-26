@@ -11,6 +11,8 @@ namespace SealTeam4
 {
     public class AIController : MonoBehaviour, IActions
     {
+        private string npcName;
+
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
         private AIAnimEventReciever animEventReciever;
@@ -40,6 +42,13 @@ namespace SealTeam4
             aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
             aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
             aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
+        }
+
+        public void Setup(string npcName, AIStats aiStats, List<NPCSchedule> npcSchedules)
+        {
+            this.npcName = npcName;
+            this.aiStats = aiStats;
+            this.npcSchedules = npcSchedules;
         }
 
         private void Update()
@@ -331,16 +340,6 @@ namespace SealTeam4
             string targetName = npcSchedules[aiState.general.currSchedule].argument;
             return GameManager.instance.GetTargetMarkerTransform(targetName);
         }
-        
-        public void SetSchedule(List<NPCSchedule> npcSchedules)
-        {
-            this.npcSchedules = npcSchedules;
-        }
-
-        public void SetAIStats(AIStats aiStats)
-        {
-            this.aiStats = aiStats;
-        }
 
         public Vector3 GetRandNavmeshPos(float radius)
         {
@@ -378,6 +377,11 @@ namespace SealTeam4
                     SetAction_KillNPC();
                     break;
             }
+        }
+
+        public string GetName()
+        {
+            return npcName;
         }
         #endregion
 
