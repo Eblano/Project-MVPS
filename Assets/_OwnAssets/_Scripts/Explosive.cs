@@ -13,7 +13,7 @@ public class Explosive : MonoBehaviour, IActions
     }
     public List<string> GetActions()
     {
-        foreach(string a in action)
+        foreach (string a in action)
         {
             Debug.Log(a);
         }
@@ -28,7 +28,10 @@ public class Explosive : MonoBehaviour, IActions
 
     private void Explode()
     {
-        explosionParticles.Play();
+        ParticleSystem explosion;
+        explosion = Instantiate(explosionParticles, gameObject.transform.position, Quaternion.identity) as ParticleSystem;
+        explosion.Play();
         Destroy(gameObject);
+        
     }
 }

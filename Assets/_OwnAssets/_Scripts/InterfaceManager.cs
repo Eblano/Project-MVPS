@@ -32,7 +32,7 @@ namespace SealTeam4
         private Ray ray;
         private Shader outlineShader;
         private Renderer rend;
-        
+
         #endregion
 
         #region Player container list spawning variables
@@ -49,6 +49,12 @@ namespace SealTeam4
         [SerializeField] private GameObject actionBtn;
         [SerializeField] private List<string> actionList = new List<string>();
         [SerializeField] private List<GameObject> actionBtnList = new List<GameObject>();
+        #endregion
+
+        #region Selection Marker Variable
+        [SerializeField] GameObject markerPrefab;
+        private GameObject marker;
+        private bool markerActive;
         #endregion
 
         #endregion
@@ -75,18 +81,21 @@ namespace SealTeam4
 
                 if (selectedObject)
                 {
-                    Renderer selectedObjRenderer = selectedObject.GetComponent<Renderer>();
+                    selectedObjectName.text = selectedObject.name;
 
-                    if(selectedObjRenderer)
-                    {
-                        selectedObjRenderer.material.shader = Shader.Find("Standard");
 
-                        selectedObjectName.text = selectedObject.name;
-                        rend = selectedObject.GetComponent<Renderer>();
-                        rend.material.shader = outlineShader;
-                        rend.material.SetColor("_OutlineColor", Color.yellow);
-                        rend.material.SetFloat("_OutlineWidth", 0.1f);
-                    }
+                    //Renderer selectedObjRenderer = selectedObject.GetComponent<Renderer>();
+
+                    //if(selectedObjRenderer)
+                    //{
+                    //    selectedObjRenderer.material.shader = Shader.Find("Standard");
+
+                    //    selectedObjectName.text = selectedObject.name;
+                    //    rend = selectedObject.GetComponent<Renderer>();
+                    //    rend.material.shader = outlineShader;
+                    //    rend.material.SetColor("_OutlineColor", Color.yellow);
+                    //    rend.material.SetFloat("_OutlineWidth", 0.1f);
+                    //}
                 }
                 else
                 {
@@ -94,8 +103,35 @@ namespace SealTeam4
                 }
             }
             UpdateActionList();
+            //if(selectedObject) UpdateMarker();
         }
 
+
+        private void MarkSelectedObject()
+        {
+            if (!markerActive)
+            {
+                marker = Instantiate(markerPrefab, selectedObject.transform);
+                markerActive = true;
+            }
+            
+
+            if (selectedObject)
+            {
+                marker.transform.position = selectedObject.transform.position + new Vector3(0, 10, 0);
+            }
+            else if(markerActive)
+            {
+                Destroy(marker.gameObject);
+            }
+        }
+
+
+        //private void UpdateMarker()
+        //{
+        //    marker.transform.position = selectedObject.transform.position + new Vector3(0, 10, 0);
+        //}
+    
         // Toggles the position Buttons on and off
         public void ToggleCalibration()
         {
