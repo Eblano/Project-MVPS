@@ -8,7 +8,7 @@ namespace SealTeam4
 {
     public class DynamicBillboard : MonoBehaviour
     {
-        public GameObject canvas; // Canvas that shows npc stats
+        private GameObject canvas;
         private TextMeshProUGUI canvasText;
 
         protected Transform camToTrack;
@@ -19,9 +19,9 @@ namespace SealTeam4
         //When do we want to stop scaling the UI?
         private float uiScaleEndDist = 200;
         //The smallest the UI element can get.
-        private float minUiScale = 0.05f;
+        private float minUiScale = 0.1f;
         //The largest the UI element can get.
-        private float maxUiScale = 0.1f;
+        private float maxUiScale = 0.3f;
         //How slowly you want the UI element to grow. This may be a bit counter-intuitive, but higher is slower.
         private float scaleRate = 10;
         // For Canvas scaling
@@ -34,9 +34,6 @@ namespace SealTeam4
         protected void Start()
         {
             camToTrack = GameObject.Find("Editor Camera").transform;
-
-            if(!canvas)
-                canvas = Instantiate(RuntimeEditorUltiltes.instance.GetMarkerFloatintTextPrefab(), transform.position, transform.rotation);
         }
 
         protected void LateUpdate()
@@ -98,6 +95,11 @@ namespace SealTeam4
             canvas.transform.rotation = rotation;
         }
 
+        public GameObject GetCanvas()
+        {
+            return canvas;
+        }
+
         private void OnDestroy()
         {
             Destroy(canvas.gameObject);
@@ -106,13 +108,13 @@ namespace SealTeam4
         private void OnDisable()
         {
             if (canvas)
-                canvas.gameObject.SetActive(false);
+                Destroy(canvas.gameObject);
         }
 
         private void OnEnable()
         {
-            if(canvas)
-                canvas.gameObject.SetActive(true);
+            if(!canvas)
+                canvas = Instantiate(RuntimeEditorUltiltes.instance.GetMarkerFloatingtTextPrefab(), transform.position, transform.rotation);
         }
     }
 }

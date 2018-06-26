@@ -107,6 +107,10 @@ namespace SealTeam4
             currActivePropertiesPanel = null;
             npcScriptingUIDataList.Clear();
             npcScriptingUIroot.SetActive(false);
+        }
+
+        public void UpdateChanges()
+        {
             RuntimeUndo.RecordSelection();
         }
 

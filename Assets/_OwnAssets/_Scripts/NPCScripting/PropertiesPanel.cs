@@ -15,6 +15,7 @@ namespace SealTeam4
         [SerializeField] private TMP_Dropdown aiTypeDropdown;
         [SerializeField] private GameObject schedulesPanel;
         [SerializeField] private TextMeshProUGUI propertiesSectionText;
+        [SerializeField] private Toggle activateAtSpawnToggle;
 
         private GameObject npcScheduleSlot_Prefab;
 
@@ -48,6 +49,7 @@ namespace SealTeam4
             Setup_SpawnMarkerDropdown(npcSpawnMarkers);
             Setup_NPCOutfitDropdown();
             Setup_AITypeDropdown();
+            Setup_ActivateOnSpawnToggle();
             Setup_ScheduleSlots(targetMarkers, areaMarkers);
 
             gameObject.SetActive(false);
@@ -118,6 +120,7 @@ namespace SealTeam4
 
         private void Setup_SpawnMarkerDropdown(List<Marker> npcSpawnMarkers)
         {
+            spawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_SpawnMarkerDropdown(); });
             List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
             // Add marker texts to dropdown options
@@ -147,6 +150,7 @@ namespace SealTeam4
 
         private void Setup_NPCOutfitDropdown()
         {
+            spawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_NPCOutfitDropdown(); });
             List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
             // Add marker texts to dropdown options
@@ -173,8 +177,15 @@ namespace SealTeam4
             npcOutfitDropdown.value = dropdownValue;
         }
 
+        private void Setup_ActivateOnSpawnToggle()
+        {
+            activateAtSpawnToggle.onValueChanged.AddListener(delegate { OnValueChanged_ActivateOnSpawnToggle(); });
+            activateAtSpawnToggle.isOn = ref_npcSpawnData.activateOnStart;
+        }
+
         private void Setup_AITypeDropdown()
         {
+            spawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_AITypeDropdown(); });
             List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
             // Add marker texts to dropdown options
@@ -210,6 +221,11 @@ namespace SealTeam4
                 string newNPCOutfitName = npcOutfitDropdown.options[dropdownValue].text;
                 ref_npcSpawnData.npcOutfit = newNPCOutfitName;
             }
+        }
+
+        public void OnValueChanged_ActivateOnSpawnToggle()
+        {
+            ref_npcSpawnData.activateOnStart = activateAtSpawnToggle.isOn;
         }
 
         public void OnValueChanged_AITypeDropdown()

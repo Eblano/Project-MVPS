@@ -320,8 +320,8 @@ namespace SealTeam4
                 npcGOAIController.SetAIStats(npcSpawnData.aiStats);
                 npcGOAIController.SetSchedule(npcSpawnData.npcSchedules);
 
-                // Activate NPC
-                npcGOAIController.ActivateNPC();
+                if (npcSpawnData.aiStats.activateOnStart)
+                    npcGOAIController.AISetActive();
 
                 // Adding NPC reference to list according to ai type
                 AIStats aiStats = npcSpawnData.aiStats;
