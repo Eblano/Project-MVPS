@@ -181,6 +181,11 @@ namespace SealTeam4
                     }
                 }
             }
+            else
+            {
+                actionList.Clear();
+                UpdateActionListButtons();
+            }
         }
 
         public void UpdateActionListButtons()
