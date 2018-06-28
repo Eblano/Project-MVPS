@@ -242,12 +242,7 @@ namespace SealTeam4
         public void OnValueChanged_SpawnMarkerDropdown()
         {
             int dropdownValue = spawnMarkerDropdown.value;
-
-            if (dropdownValue != 0)
-            {
-                string newSpawnMarkerName = spawnMarkerDropdown.options[dropdownValue].text;
-                ref_npcSpawnData.spawnMarkerName = newSpawnMarkerName;
-            }
+            ref_npcSpawnData.spawnMarkerName = spawnMarkerDropdown.options[dropdownValue].text;
         }
 
         public string GetNPCName()

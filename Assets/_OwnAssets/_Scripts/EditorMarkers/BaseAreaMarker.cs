@@ -19,7 +19,8 @@ namespace SealTeam4
 
         protected void Start()
         {
-            gameObject.name = RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.AREA);
+            //gameObject.name = RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.AREA);
+            RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.AREA);
             InitializeMeshAndMaterial();
         }
 

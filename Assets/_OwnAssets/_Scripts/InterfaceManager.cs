@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System.Linq;
-using SealTeam4;
+using TMPro;
 
 namespace SealTeam4
 {
@@ -20,43 +20,36 @@ namespace SealTeam4
     public class InterfaceManager : MonoBehaviour
     {
         #region Variables
-
-        #region Calibration Button variables
+        
+        // Calibration Button variables
         private bool calibrationModeOn;
         private Image calibrationBtnColor;
-        #endregion
-
-        #region Selected Game Object Panel variables
-        [SerializeField] private GameObject selectedObject;
-        private Text selectedObjectName;
+        
+        [Header("Selected Game Object Panel variables")]
+        [SerializeField] private GameObject currSelectedGO;
+        [SerializeField] private TextMeshProUGUI selectedGOTxt;
         private RaycastHit hit;
         private Ray ray;
         private Shader outlineShader;
         private Renderer rend;
-
-        #endregion
-
-        #region Player container list spawning variables
-        private int count;
+        
+        [Header("Player container list spawning variables")]
         [SerializeField] private GameObject prefab;
-        [SerializeField] private GameObject playerListUI;
-        private List<GameObject> playerContainerList = new List<GameObject>();
+        [SerializeField] private GameObject playerList_GO;
         [SerializeField] private RectTransform rt;
-        #endregion
+        private int count;
+        private List<GameObject> playerContainerList = new List<GameObject>();
 
-        #region Action List spawning variables
-        private int btnCount;
+        [Header("Action List spawning variables")]
         [SerializeField] private Transform actionBtnContainer;
-        [SerializeField] private GameObject actionBtn;
-        [SerializeField] private List<string> actionList = new List<string>();
-        [SerializeField] private List<GameObject> actionBtnList = new List<GameObject>();
-        #endregion
-
-        #region Selection Marker Variable
+        [SerializeField] private GameObject actionBtn_Prefab;
+        private List<string> actionList = new List<string>();
+        private List<GameObject> actionBtnList = new List<GameObject>();
+        
+        [Header("Selection Marker Variable")]
         [SerializeField] GameObject markerPrefab;
         private GameObject marker;
         private bool markerActive;
-        #endregion
 
         #endregion
 
@@ -69,7 +62,6 @@ namespace SealTeam4
             calibrationBtnColor.color = Color.grey;
 
             // Selection Setup
-            selectedObjectName = GameObject.Find("Selected Object Name").GetComponent<Text>();
             outlineShader = Shader.Find("Outlined/Uniform");
         }
 
@@ -80,11 +72,10 @@ namespace SealTeam4
             {
                 SelectGameObject();
 
-                if (selectedObject)
+                if (currSelectedGO)
                 {
-                    selectedObjectName.text = selectedObject.GetComponent<IActions>().GetName();
-
-
+                    selectedGOTxt.text = currSelectedGO.GetComponent<IActions>().GetName();
+                    
                     //Renderer selectedObjRenderer = selectedObject.GetComponent<Renderer>();
 
                     //if(selectedObjRenderer)
@@ -100,7 +91,7 @@ namespace SealTeam4
                 }
                 else
                 {
-                    selectedObjectName.text = "";
+                    selectedGOTxt.text = "Nothing Selected";
                 }
             }
             UpdateActionList();
@@ -112,14 +103,13 @@ namespace SealTeam4
         {
             if (!markerActive)
             {
-                marker = Instantiate(markerPrefab, selectedObject.transform);
+                marker = Instantiate(markerPrefab, currSelectedGO.transform);
                 markerActive = true;
             }
-            
 
-            if (selectedObject)
+            if (currSelectedGO)
             {
-                marker.transform.position = selectedObject.transform.position + new Vector3(0, 10, 0);
+                marker.transform.position = currSelectedGO.transform.position + new Vector3(0, 10, 0);
             }
             else if(markerActive)
             {
@@ -164,22 +154,22 @@ namespace SealTeam4
                 Physics.Raycast(ray, out hit);
                 if (hit.transform && hit.transform.GetComponents<IActions>().Length != 0)
                 {
-                    selectedObject = hit.transform.gameObject;
+                    currSelectedGO = hit.transform.gameObject;
                 }
                 else
                 {
-                    selectedObject = null;
+                    currSelectedGO = null;
                 }
             }
         }
 
         private void UpdateActionList()
         {
-            if (selectedObject)
+            if (currSelectedGO)
             {
-                if (selectedObject.GetComponents<IActions>().Length != 0)
+                if (currSelectedGO.GetComponents<IActions>().Length != 0)
                 {
-                    List<string> newActionList = selectedObject.GetComponent<IActions>().GetActions();
+                    List<string> newActionList = currSelectedGO.GetComponent<IActions>().GetActions();
                     if (actionList.SequenceEqual(newActionList))
                     {
                         return;
@@ -210,9 +200,9 @@ namespace SealTeam4
             {
                 foreach (string action in actionList)
                 {
-                    GameObject go = Instantiate(actionBtn, actionBtnContainer);
+                    GameObject go = Instantiate(actionBtn_Prefab, actionBtnContainer);
 
-                    go.GetComponentInChildren<Text>().text = action;
+                    go.GetComponentInChildren<TextMeshProUGUI>().text = action;
 
                     go.GetComponent<Button>().onClick.AddListener(delegate
                     {
@@ -226,10 +216,9 @@ namespace SealTeam4
 
         public void OnBtnClick(Button btn)
         {
-            string txt = btn.GetComponentInChildren<Text>().text;
-            Debug.Log("BtnClk " + btn.name + " on object " + selectedObject.name + " set action " + txt);
+            string txt = btn.GetComponentInChildren<TextMeshProUGUI>().text;
 
-            selectedObject.GetComponent<IActions>().SetAction(txt);
+            currSelectedGO.GetComponent<IActions>().SetAction(txt);
         }
 
         // Adds a new ui prefab to the player list
@@ -241,9 +230,9 @@ namespace SealTeam4
             // Instantiate a new player UI prefab
             GameObject go = Instantiate(
                 prefab,
-                playerListUI.transform.position,
+                playerList_GO.transform.position,
                 Quaternion.identity,
-                playerListUI.transform);
+                playerList_GO.transform);
 
             // Checks if calibration mode is on, then sets visibility accordingly
             go.GetComponent<playerUIContainer>().SetButtonStates(calibrationModeOn);

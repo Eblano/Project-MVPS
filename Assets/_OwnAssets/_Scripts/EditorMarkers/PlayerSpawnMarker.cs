@@ -12,7 +12,8 @@ namespace SealTeam4
         private new void Start()
         {
             base.Start();
-            gameObject.name = RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.PLAYER_SPAWN_MARKER);
+            //gameObject.name = RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.PLAYER_SPAWN_MARKER);
+            RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.PLAYER_SPAWN_MARKER);
 
             if (!networkStartPosGO)
                 networkStartPosGO = new GameObject();

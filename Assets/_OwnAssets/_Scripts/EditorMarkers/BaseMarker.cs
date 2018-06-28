@@ -15,15 +15,15 @@ namespace SealTeam4
 
         protected virtual void Update()
         {
-            CheckMarkerNameChange();
+            //CheckMarkerNameChange();
         }
 
         private void CheckMarkerNameChange()
         {
-            if(oldName != gameObject.name && GameManager.instance.MarkerNameExists(gameObject.name))
-            {
-                gameObject.name = oldName;
-            }
+            //if(oldName != gameObject.name && GameManager.instance.MarkerNameExists(gameObject.name))
+            //{
+            //    gameObject.name = oldName;
+            //}
         }
 
         /// <summary>
