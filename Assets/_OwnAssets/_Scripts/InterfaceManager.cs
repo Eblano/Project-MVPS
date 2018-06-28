@@ -222,8 +222,13 @@ namespace SealTeam4
         public void OnBtnClick(Button btn)
         {
             string txt = btn.GetComponentInChildren<TextMeshProUGUI>().text;
-
             currSelectedGO.GetComponent<IActions>().SetAction(txt);
+
+            if (txt == "Set Inactive(Debug)")
+            {
+                currSelectedGO = null;
+                selectedGOTxt.text = "Nothing Selected";
+            }
         }
 
         // Adds a new ui prefab to the player list
