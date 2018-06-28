@@ -32,7 +32,7 @@ namespace SealTeam4
         [SerializeField] private readonly KeyCode resetRuntimeAssetsAndRestartKey = KeyCode.Keypad4;
         [SerializeField] private readonly KeyCode exportAssetsKey = KeyCode.Keypad5;
         [SerializeField] private readonly KeyCode importAssetsKey = KeyCode.Keypad6;
-        [SerializeField] private readonly KeyCode calcSceneHash = KeyCode.Keypad7;
+        [SerializeField] private readonly KeyCode refreshRTEGameobjectName = KeyCode.Keypad7;
 
         [Header("List Excecuted by Order")]
         [SerializeField] private readonly KeyCode removeGameObjectsKey = KeyCode.Keypad3;
@@ -112,9 +112,14 @@ namespace SealTeam4
                 if (Input.GetKeyDown(importAssetsKey))
                     ImportAssets();
 
-                if (Input.GetKeyDown(calcSceneHash))
-                    GetActiveSceneHash();
+                if (Input.GetKeyDown(refreshRTEGameobjectName))
+                    RefreshRTEGameobjectName();
             }
+        }
+
+        private void RefreshRTEGameobjectName()
+        {
+
         }
 
         /// <summary>

@@ -41,7 +41,7 @@ namespace SealTeam4
         [SerializeField] private GameObject gameMasterCamera_Prefab;
         [SerializeField] private GameObject gameMasterUI_Prefab;
 
-        public enum MARKER_TYPE { AREA, TARGET, NPC_SPAWN, SEAT, PLAYER_SPAWN_MARKER };
+        public enum MARKER_TYPE { AREA, WAYPOINT, NPCSPAWN, SEAT, PLAYER_SPAWN_MARKER };
 
         [Header("NPC Prefabs")]
         [SerializeField] private GameObject type0NPC_Prefab;
@@ -251,14 +251,56 @@ namespace SealTeam4
             }
         }
 
+        public bool MarkerNameExists(string markerName)
+        {
+            return registeredMarkers.Exists(x => x.markerName == markerName);
+        }
+
+        public string GetUniqueMarkerName(MARKER_TYPE markerType)
+        {
+            string baseMarkerName;
+            int nameModifier = 0;
+
+            switch (markerType)
+            {
+                case MARKER_TYPE.AREA:
+                    baseMarkerName = "Area Marker ";
+                    break;
+                case MARKER_TYPE.WAYPOINT:
+                    baseMarkerName = "Waypoint Marker ";
+                    break;
+                case MARKER_TYPE.NPCSPAWN:
+                    baseMarkerName = "NPC Spawn Marker ";
+                    break;
+                case MARKER_TYPE.SEAT:
+                    baseMarkerName = "Seat Marker ";
+                    break;
+                case MARKER_TYPE.PLAYER_SPAWN_MARKER:
+                    baseMarkerName = "Player Spawn Marker ";
+                    break;
+                default:
+                    baseMarkerName = "";
+                    break;
+            }
+
+            while (MarkerNameExists(baseMarkerName + nameModifier))
+            {
+                nameModifier++;
+            }
+
+            return baseMarkerName + nameModifier;
+        }
+
         /// <summary>
         /// Adds markers to the Registered Markers list
         /// </summary>
         /// <param name="gameObject"></param>
         /// <param name="markerType"></param>
-        public void RegisterMarker(GameObject gameObject, MARKER_TYPE markerType)
+        public string RegisterMarker(GameObject gameObject, MARKER_TYPE markerType)
         {
             registeredMarkers.Add(new Marker(gameObject, markerType));
+
+            return GetUniqueMarkerName(markerType);
         }
 
         /// <summary>
@@ -306,7 +348,7 @@ namespace SealTeam4
                 // Get NPC type to spawn
                 GameObject npcToSpawn = GetNPCPrefabByNPCType(npcSpawnData.npcOutfit);
 
-                SpawnMarker targetSpawnMarker = SpawnMarker.GetComponent<SpawnMarker>();
+                NPCSpawnMarker targetSpawnMarker = SpawnMarker.GetComponent<NPCSpawnMarker>();
                 
                 // Spawn NPC
                 GameObject npc = Instantiate(npcToSpawn, targetSpawnMarker.pointPosition, targetSpawnMarker.pointRotation);
@@ -387,7 +429,7 @@ namespace SealTeam4
         public Transform GetTargetMarkerTransform(string targetName)
         {
             return registeredMarkers
-                .FindAll(x => x.markerType == MARKER_TYPE.TARGET)
+                .FindAll(x => x.markerType == MARKER_TYPE.WAYPOINT)
                 .Find(x => x.markerName == targetName)
                 .markerGO.transform;
         }
@@ -408,7 +450,7 @@ namespace SealTeam4
         private GameObject GetSpawnMarkerByName(string name)
         {
             return registeredMarkers
-                .FindAll(x => x.markerType == MARKER_TYPE.NPC_SPAWN)
+                .FindAll(x => x.markerType == MARKER_TYPE.NPCSPAWN)
                 .Find(x => x.markerName == name)
                 .markerGO;
         }
@@ -441,13 +483,13 @@ namespace SealTeam4
                     markers = registeredMarkers
                         .FindAll(x => x.markerType == MARKER_TYPE.AREA);
                     break;
-                case MARKER_TYPE.TARGET:
+                case MARKER_TYPE.WAYPOINT:
                     markers = registeredMarkers
-                        .FindAll(x => x.markerType == MARKER_TYPE.TARGET);
+                        .FindAll(x => x.markerType == MARKER_TYPE.WAYPOINT);
                     break;
-                case MARKER_TYPE.NPC_SPAWN:
+                case MARKER_TYPE.NPCSPAWN:
                     markers = registeredMarkers
-                        .FindAll(x => x.markerType == MARKER_TYPE.NPC_SPAWN);
+                        .FindAll(x => x.markerType == MARKER_TYPE.NPCSPAWN);
                     break;
                 case MARKER_TYPE.SEAT:
                     markers = null;

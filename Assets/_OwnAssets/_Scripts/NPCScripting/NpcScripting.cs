@@ -80,8 +80,8 @@ namespace SealTeam4
         public void ShowNPCScriptingUI()
         {
             // Get all markers on scene
-            npcSpawnMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.NPC_SPAWN);
-            targetMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.TARGET);
+            npcSpawnMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.NPCSPAWN);
+            targetMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.WAYPOINT);
             areaMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.AREA);
 
             npcScriptingUIroot.SetActive(true);
