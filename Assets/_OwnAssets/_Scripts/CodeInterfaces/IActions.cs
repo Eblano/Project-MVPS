@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public interface IActions
 {
@@ -7,4 +8,6 @@ public interface IActions
     void SetAction(string action);
 
     string GetName();
+
+    Vector3 GetHighestPoint();
 }

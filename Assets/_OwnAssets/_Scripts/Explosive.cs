@@ -42,4 +42,9 @@ public class Explosive : MonoBehaviour, IActions
     {
         return gameObject.name;
     }
+
+    public Vector3 GetHighestPoint()
+    {
+        throw new System.NotImplementedException();
+    }
 }

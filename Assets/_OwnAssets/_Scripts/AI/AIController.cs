@@ -16,7 +16,7 @@ namespace SealTeam4
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
         private AIAnimEventReciever animEventReciever;
-
+        
         // Stores various state of this AI
         AIState aiState = new AIState();
         // Stores various stats of this AI
@@ -31,6 +31,7 @@ namespace SealTeam4
         private List<NPCSchedule> npcSchedules;
 
         [SerializeField] private List<string> actionableParameters = new List<string>();
+        [SerializeField] private Transform highestPoint;
 
         private void Start()
         {
@@ -382,6 +383,11 @@ namespace SealTeam4
         public string GetName()
         {
             return npcName;
+        }
+
+        public Vector3 GetHighestPoint()
+        {
+            return highestPoint.position;
         }
         #endregion
 
