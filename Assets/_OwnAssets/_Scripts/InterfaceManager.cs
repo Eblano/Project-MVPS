@@ -44,7 +44,7 @@ namespace SealTeam4
         [SerializeField] private Transform actionBtnContainer;
         [SerializeField] private GameObject actionBtn_Prefab;
         private List<string> actionList = new List<string>();
-        private List<GameObject> actionBtnList = new List<GameObject>();
+        private List<Button> actionBtnList = new List<Button>();
         
         [Header("Selection Marker Variable")]
         [SerializeField] GameObject markerPrefab;
@@ -95,7 +95,26 @@ namespace SealTeam4
                 }
             }
             UpdateActionList();
+            ListenForKeys();
             //if(selectedObject) UpdateMarker();
+        }
+
+        private void ListenForKeys()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1) && actionBtnList.Count > 0)
+                actionBtnList[0].onClick.Invoke();
+
+            if (Input.GetKeyDown(KeyCode.Alpha2) && actionBtnList.Count > 1)
+                actionBtnList[1].onClick.Invoke();
+
+            if (Input.GetKeyDown(KeyCode.Alpha3) && actionBtnList.Count > 2)
+                actionBtnList[2].onClick.Invoke();
+
+            if (Input.GetKeyDown(KeyCode.Alpha4) && actionBtnList.Count > 3)
+                actionBtnList[3].onClick.Invoke();
+
+            if (Input.GetKeyDown(KeyCode.Alpha5) && actionBtnList.Count > 4)
+                actionBtnList[4].onClick.Invoke();
         }
 
 
@@ -190,12 +209,7 @@ namespace SealTeam4
 
         public void UpdateActionListButtons()
         {
-            foreach (GameObject b in actionBtnList)
-            {
-                Destroy(b);
-            }
-
-            foreach (GameObject btn in actionBtnList)
+            foreach (Button btn in actionBtnList)
             {
                 Destroy(btn.gameObject);
             }
@@ -203,28 +217,33 @@ namespace SealTeam4
 
             if (actionList != null && actionList.Count > 0)
             {
-                foreach (string action in actionList)
+                for (int i = 0; i < actionList.Count; i++)
                 {
-                    GameObject go = Instantiate(actionBtn_Prefab, actionBtnContainer);
+                    Button actionBtn = Instantiate(actionBtn_Prefab, actionBtnContainer).GetComponent<Button>();
 
-                    go.GetComponentInChildren<TextMeshProUGUI>().text = action;
+                    actionBtn.GetComponentInChildren<TextMeshProUGUI>().text =  (i+1) + " - " + actionList[i];
 
-                    go.GetComponent<Button>().onClick.AddListener(delegate
+                    actionBtn.onClick.AddListener(delegate
                     {
-                        OnBtnClick(go.GetComponent<Button>());
+                        OnBtnClick(actionBtn);
                     });
 
-                    actionBtnList.Add(go);
+                    actionBtnList.Add(actionBtn);
                 }
             }
         }
 
         public void OnBtnClick(Button btn)
         {
-            string txt = btn.GetComponentInChildren<TextMeshProUGUI>().text;
-            currSelectedGO.GetComponent<IActions>().SetAction(txt);
+            string text = btn.GetComponentInChildren<TextMeshProUGUI>().text.Substring(3);
+            SendAction(text);
+        }
 
-            if (txt == "Set Inactive(Debug)")
+        private void SendAction(string text)
+        {
+            currSelectedGO.GetComponent<IActions>().SetAction(text);
+
+            if (text == "Set Inactive(Debug)")
             {
                 currSelectedGO = null;
                 selectedGOTxt.text = "Nothing Selected";

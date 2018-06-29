@@ -41,7 +41,7 @@ public class ReplaySystemCameraScript : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+        if (Input.GetKey(KeyCode.Mouse1))
         {
             MouseActive = true;
         }

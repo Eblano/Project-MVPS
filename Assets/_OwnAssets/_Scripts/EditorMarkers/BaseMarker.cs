@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Battlehub.RTGizmos;
+using UnityEngine.AI;
 
 namespace SealTeam4
 {
