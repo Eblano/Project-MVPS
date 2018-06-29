@@ -200,6 +200,25 @@ namespace SealTeam4
                 };
                 npcSpawnData.aiStats.npcType = npcType;
                 npcSpawnData.aiStats.activateOnStart = npcSpawnData_RTEStorage.activateOnStart;
+                
+                // Setting Civillian Stress Respond Mode
+                AIStats.CivillianStressResponseMode civillianStressResponseMode;
+                switch (npcSpawnData_RTEStorage.stressResponse)
+                {
+                    case "Freeze":
+                        civillianStressResponseMode = AIStats.CivillianStressResponseMode.FREEZE;
+                        break;
+                    case "Run to Exit":
+                        civillianStressResponseMode = AIStats.CivillianStressResponseMode.RUNTOEXIT;
+                        break;
+                    case "Random":
+                        civillianStressResponseMode = AIStats.CivillianStressResponseMode.RANDOM;
+                        break;
+                    default:
+                        civillianStressResponseMode = AIStats.CivillianStressResponseMode.FREEZE;
+                        break;
+                }
+                npcSpawnData.aiStats.stressResponseMode = civillianStressResponseMode;
 
                 npcSpawnData.npcName = npcSpawnData_RTEStorage.npcName;
                 npcSpawnData.spawnMarkerName = npcSpawnData_RTEStorage.spawnMarkerName;
@@ -216,25 +235,27 @@ namespace SealTeam4
 public class NPCSpawnData_RTEStorage
 {
     public string npcName;
-    public bool activateOnStart;
 
     // NPCSpawnData Properties
-    private readonly string[] defNPCOutfit = { "None", "Type 0", "Type 1" };
+    private readonly string[] allNPCOutfits = { "None", "Type 0", "Type 1" };
     public string npcOutfit = "TYPE 0";
     public string spawnMarkerName;
 
     // AI Stats Properties
-    private readonly string[] defAITypes = { "Terrorist", "VIP", "Civillian" };
+    public bool activateOnStart;
+    private readonly string[] allAITypes = { "Terrorist", "VIP", "Civillian" };
     public string aiType = "Civillian";
+    private readonly string[] allStressResponses = { "Freeze", "Run To Exit", "Random" };
+    public string stressResponse = "Freeze";
 
     public string[] GetDefNPCOutfit()
     {
-        return defNPCOutfit;
+        return allNPCOutfits;
     }
 
     public string[] GetDefAITypes()
     {
-        return defAITypes;
+        return allAITypes;
     }
 }
 
@@ -245,13 +266,13 @@ public class NPCSchedule_RTEStorage
     public string npcName;
 
     // NPCSchedule Properties
-    private readonly string[] defScheduleTypes = 
+    private readonly string[] allScheduleTypes = 
         { "Idle", "Move to Waypoint", "Move to Waypoint + Rotate", "Sit in Area", "Talk to other NPC" };
     public string scheduleType = "Idle";
     public string argument;
 
     public string[] GetDefScheduleTypes()
     {
-        return defScheduleTypes;
+        return allScheduleTypes;
     }
 }

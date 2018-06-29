@@ -4,6 +4,7 @@ using SealTeam4;
 using Battlehub.RTSaveLoad;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace SealTeam4
 {
@@ -41,16 +42,16 @@ namespace SealTeam4
         [SerializeField] private GameObject gameMasterCamera_Prefab;
         [SerializeField] private GameObject gameMasterUI_Prefab;
 
-        public enum MARKER_TYPE { AREA, WAYPOINT, NPCSPAWN, SEAT, PLAYER_SPAWN_MARKER };
+        public enum MARKER_TYPE { AREA, WAYPOINT, NPCSPAWN, SEAT, PLAYER_SPAWN_MARKER, EXIT };
 
         [Header("NPC Prefabs")]
         [SerializeField] private GameObject type0NPC_Prefab;
         [SerializeField] private GameObject type1NPC_Prefab;
 
         // List of markers GameManager keeps track of
-        private List<Marker> registeredMarkers = new List<Marker>();
         [Header("Registered Markers Counter")]
         [SerializeField] private int totalRegMarkers;
+        private List<Marker> registeredMarkers = new List<Marker>();
         [SerializeField] private float refreshRate = 3.0f;
         private float currRefreshRate;
 
@@ -168,7 +169,6 @@ namespace SealTeam4
 
             // Spawn and Build NavMesh
             NavMeshSurface nmSurface = Instantiate(navMeshSurfaceInitator_Prefab, Vector3.zero, Quaternion.identity).GetComponent<NavMeshSurface>();
-            nmSurface.buildHeightMesh = true;
             nmSurface.BuildNavMesh();
 
             Host_SetupMarkers();
@@ -383,18 +383,19 @@ namespace SealTeam4
             }
         }
 
-        public GameObject GetNearestCivilianNPC(Transform transform, GameObject ownGameObject)
+        public GameObject GetNearestCivilianNPC(GameObject npcGO)
         {
             GameObject closestNPC = null;
 
             float distance = Mathf.Infinity;
-            Vector3 position = transform.position;
+            Vector3 position = npcGO.transform.position;
             foreach (GameObject civilianNpc in spawnedCivilianNPCs)
             {
-                if (civilianNpc != ownGameObject)
+                if (civilianNpc != npcGO)
                 {
                     Vector3 diff = civilianNpc.transform.position - position;
                     float curDistance = diff.sqrMagnitude;
+
                     if (curDistance < distance)
                     {
                         closestNPC = civilianNpc;
@@ -405,27 +406,48 @@ namespace SealTeam4
             return closestNPC;
         }
 
-        public bool LineOfSightAgainstHostileNPC(Transform npcT)
+        public Vector3 GetNearestExitMarkerVector(GameObject npcGO)
         {
-            foreach (GameObject hostileNPC in spawnedHostileNPCs)
-            {
-                RaycastHit hitinfo;
-                if (Physics.Raycast(npcT.position, hostileNPC.transform.position - npcT.position, out hitinfo))
-                {
-                    if (hitinfo.transform.tag == "NPC")
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                    }
-                    Debug.DrawLine(npcT.position, hitinfo.point);
-                }
+            Marker closetExitMarker = null;
+            float smallestDist = Mathf.Infinity;
 
+            Vector3 position = npcGO.transform.position;
+            foreach (Marker marker in registeredMarkers)
+            {
+                if (marker.markerType == MARKER_TYPE.EXIT)
+                {
+                    float markerDist = (marker.markerGO.transform.position - position).magnitude;
+                    if (markerDist < smallestDist)
+                    {
+                        closetExitMarker = marker;
+                        smallestDist = markerDist;
+                    }
+                }
             }
-            return false;
+            return closetExitMarker.markerGO.GetComponent<ExitMarker>().pointPosition;
         }
-        
+
+        //public bool LineOfSightAgainstHostileNPC(Transform npcT)
+        //{
+        //    foreach (GameObject hostileNPC in spawnedHostileNPCs)
+        //    {
+        //        RaycastHit hitinfo;
+        //        if (Physics.Raycast(npcT.position, hostileNPC.transform.position - npcT.position, out hitinfo))
+        //        {
+        //            if (hitinfo.transform.tag == "NPC")
+        //            {
+        //                return true;
+        //            }
+        //            else
+        //            {
+        //            }
+        //            Debug.DrawLine(npcT.position, hitinfo.point);
+        //        }
+
+        //    }
+        //    return false;
+        //}
+
         public Transform GetTargetMarkerTransform(string targetName)
         {
             return registeredMarkers

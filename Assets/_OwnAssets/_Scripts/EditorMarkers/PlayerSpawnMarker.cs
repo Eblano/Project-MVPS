@@ -29,7 +29,7 @@ namespace SealTeam4
 
         private void UpdateNetworkStartPosGOPos()
         {
-            networkStartPosGO.transform.position = raycastHitPos;
+            networkStartPosGO.transform.position = pointPosition;
         }
 
         private void OnDestroy()

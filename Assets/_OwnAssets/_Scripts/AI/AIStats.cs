@@ -4,15 +4,19 @@ using UnityEngine;
 
 namespace SealTeam4
 {
-    [System.Serializable]
-    public class AIStats : MonoBehaviour
+    public class AIStats
     {
-        // User Set-Able parameters
-        public enum NPCType { TERRORIST, VIP, CIVILLIAN };
-        public NPCType npcType = NPCType.CIVILLIAN;
         public bool activateOnStart = true;
 
-        // Hidden Parameters
+        #region User Set-Able parameters
+        public enum NPCType { TERRORIST, VIP, CIVILLIAN };
+        public NPCType npcType = NPCType.CIVILLIAN;
+
+        public enum CivillianStressResponseMode { FREEZE, RUNTOEXIT, RANDOM }
+        public CivillianStressResponseMode stressResponseMode = CivillianStressResponseMode.FREEZE;
+        #endregion
+
+        #region Hidden Parameters
         [Range(0, 100)] public float chanceEnterHostileMode = 0.0f;
 
         // Min angle to move to 
@@ -25,5 +29,6 @@ namespace SealTeam4
         public float collisionAvoidanceMultiplyer = 1.0f;
         // Enable collision avoidance via raycast
         public bool enableCollisionAvoidance = false;
+        #endregion
     }
 }

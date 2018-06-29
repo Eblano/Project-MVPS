@@ -242,12 +242,6 @@ namespace SealTeam4
         private void SendAction(string text)
         {
             currSelectedGO.GetComponent<IActions>().SetAction(text);
-
-            if (text == "Set Inactive(Debug)")
-            {
-                currSelectedGO = null;
-                selectedGOTxt.text = "Nothing Selected";
-            }
         }
 
         // Adds a new ui prefab to the player list

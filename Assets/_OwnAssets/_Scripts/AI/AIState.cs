@@ -31,7 +31,7 @@ namespace SealTeam4
             public int currSubschedule = 0;
             // Current timer value, used for delay schedules
             public float currTimerValue = 0;
-            // Target NPC traverses to
+            // Waypoint NPC traverses to
             public Transform currWaypointTarget = null;
 
             // Current Seat NPC is on
@@ -59,9 +59,8 @@ namespace SealTeam4
                 public enum AI_Civilian_UnderAttack
                 {
                     SETUP,
-                    BRACE_ON_SPOT,
-                    RUN_RANDOMLY,
-                    RUN_TO_EXIT
+                    FREEZE,
+                    RUNTOEXIT
                 }
                 public AI_Civilian_UnderAttack Civilian_UnderAttack = AI_Civilian_UnderAttack.SETUP;
 

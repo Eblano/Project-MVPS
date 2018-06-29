@@ -29,7 +29,6 @@ namespace SealTeam4
         public Quaternion pointRotation;
 
         private bool setupMode = true;
-        protected Vector3 raycastHitPos;
 
         protected void Start()
         {
@@ -85,9 +84,12 @@ namespace SealTeam4
                     pointPosition = Vector3.zero;
                     pointRotation = Quaternion.identity;
                 }
-
-                raycastHitPos = pointPosition;
             }
+        }
+
+        public Vector3 GetMarkerPoint()
+        {
+            return pointPosition;
         }
 
         public override void CleanUpForSimulationStart()

@@ -33,24 +33,22 @@ namespace SealTeam4
         [SerializeField] private List<string> actionableParameters = new List<string>();
         [SerializeField] private Transform highestPoint;
 
-        private void Start()
-        {
-            nmAgent = GetComponent<NavMeshAgent>();
-            aiAnimController = GetComponent<AIAnimationController>();
-            animEventReciever = GetComponent<AIAnimEventReciever>();
-            aiState = gameObject.AddComponent<AIState>();
-
-            // Initializing FSM classes
-            aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
-            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
-            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
-        }
-
         public void Setup(string npcName, AIStats aiStats, List<NPCSchedule> npcSchedules)
         {
             this.npcName = npcName;
             this.aiStats = aiStats;
             this.npcSchedules = npcSchedules;
+
+            nmAgent = GetComponent<NavMeshAgent>();
+            aiAnimController = GetComponent<AIAnimationController>();
+            animEventReciever = GetComponent<AIAnimEventReciever>();
+            aiState = gameObject.GetComponent<AIState>();
+            this.aiStats = aiStats;
+
+            // Initializing FSM classes
+            aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
+            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
+            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
         }
 
         private void Update()
@@ -152,9 +150,10 @@ namespace SealTeam4
             }
         }
         
-        public void MoveToPosition(Vector3 targetPos , float extraStoppingDistance)
+        public bool MoveToPosition(Vector3 targetPos , float extraStoppingDistance)
         {
             nmAgent.SetDestination(targetPos);
+
             if (nmAgent.remainingDistance > aiStats.stopDist + extraStoppingDistance)
             {
                 if(aiStats.enableCollisionAvoidance)
@@ -163,16 +162,18 @@ namespace SealTeam4
                 }
 
                 aiAnimController.Anim_Move(nmAgent.desiredVelocity, false, 1);
+                return false;
             }
             else
             {
                 aiState.general.currSubschedule++;
+                return true;
             }
         }
         
         public void MoveToWaypoint_ProcSetup()
         {
-            aiState.general.currWaypointTarget = GetTargetMarkerPosition();
+            aiState.general.currWaypointTarget = GetTargetMarkerTransform();
             nmAgent.SetDestination(aiState.general.currWaypointTarget.position);
             aiState.general.currSubschedule++;
         }
@@ -187,7 +188,7 @@ namespace SealTeam4
         public void TalkToOtherNPC_Setup()
         {
             // Get gameobject of nearest NPC
-            GameObject otherNPC = GameManager.instance.GetNearestCivilianNPC(transform, gameObject);
+            GameObject otherNPC = GameManager.instance.GetNearestCivilianNPC(gameObject);
             if(otherNPC) // If found NPC
             {
                 if(otherNPC.GetComponent<AIController>().ConvoProcess_ReqForConvo(gameObject))
@@ -303,6 +304,11 @@ namespace SealTeam4
         {
             nmAgent.SetDestination(transform.position);
         }
+
+        public void SetNMAgentDestination(Vector3 position)
+        {
+            nmAgent.SetDestination(position);
+        }
         
         private Vector3 GetCollisionAvoidanceVector(Vector3 direction)
         {
@@ -337,7 +343,7 @@ namespace SealTeam4
             return Vector3.Angle(transform.forward, t.forward) < aiStats.minAngleToFaceTarget;
         }
         
-        public Transform GetTargetMarkerPosition()
+        public Transform GetTargetMarkerTransform()
         {
             string targetName = npcSchedules[aiState.general.currSchedule].argument;
             return GameManager.instance.GetTargetMarkerTransform(targetName);
@@ -354,6 +360,11 @@ namespace SealTeam4
                 finalPosition = hit.position;
             }
             return finalPosition;
+        }
+
+        public void FadeAway()
+        {
+            gameObject.SetActive(false);
         }
 
         public void AISetActive()
@@ -397,8 +408,8 @@ namespace SealTeam4
             if (!aiState.active && !actionableParameters.Contains("Activate NPC"))
                 actionableParameters.Add("Activate NPC");
 
-            if(aiState.active && !actionableParameters.Contains("Set Inactive(Debug)"))
-                actionableParameters.Add("Set Inactive(Debug)");
+            if(aiState.active && !actionableParameters.Contains("Fade Away(Debug)"))
+                actionableParameters.Add("Fade Away(Debug)");
         }
 
         private void SetAction_ActivateNPC()
@@ -409,8 +420,8 @@ namespace SealTeam4
 
         private void SetAction_KillNPC()
         {
-            actionableParameters.Remove("Set Inactive(Debug)");
-            gameObject.SetActive(false);
+            actionableParameters.Remove("Fade Away(Debug)");
+            FadeAway();
         }
     }
 }
