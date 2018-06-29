@@ -34,7 +34,7 @@ namespace SealTeam4
                 aiAnimController.Anim_StopStandTalking();
                 aiState.general.inConversation = false;
             }
-            aiState.civilian.underAttack.Civilian_UnderAttack = AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.RUN_RANDOMLY;
+            aiState.civilian.underAttack.Civilian_UnderAttack = AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.BRACE_ON_SPOT;
         }
 
         private void BraceOnSpot()

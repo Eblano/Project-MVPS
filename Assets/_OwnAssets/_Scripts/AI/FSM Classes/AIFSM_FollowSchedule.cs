@@ -6,6 +6,26 @@ namespace SealTeam4
 {
     public class AIFSM_FollowSchedule : AIFSM_Base
     {
+        // Schedules this NPC has
+        protected List<NPCSchedule> npcSchedules;
+
+        public void InitializeFSM(
+            AIController aiController,
+            Transform aiTransform,
+            AIState aiState,
+            AIStats aiStats,
+            AIAnimationController aiAnimController,
+            List<NPCSchedule> npcSchedules
+            )
+        {
+            this.aiController = aiController;
+            this.aiTransform = aiTransform;
+            this.aiState = aiState;
+            this.aiStats = aiStats;
+            this.aiAnimController = aiAnimController;
+            this.npcSchedules = npcSchedules;
+        }
+
         public void FSM_Update()
         {
             // if all schedule is finished or NPC not active
@@ -177,7 +197,7 @@ namespace SealTeam4
                     aiController.TalkToOtherNPC_Setup();
                     break;
                 case 2:
-                    aiController.MoveToPosition(aiState.general.currConvoNPCTarget.transform.position, aiStats.extraStoppingDistForConvo);
+                    aiController.MoveToPosition(aiState.general.currConvoNPCTarget.transform.position, aiStats.stopDist_Convo);
                     break;
                 case 3:
                     aiController.MoveToWaypoint_ProcTerm();

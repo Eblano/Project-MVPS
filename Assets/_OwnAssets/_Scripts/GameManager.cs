@@ -167,9 +167,9 @@ namespace SealTeam4
             SetNPCSpawnDataFromNPCScriptStorage();
 
             // Spawn and Build NavMesh
-            Instantiate(navMeshSurfaceInitator_Prefab, Vector3.zero, Quaternion.identity)
-                .GetComponent<NavMeshSurface>()
-                .BuildNavMesh();
+            NavMeshSurface nmSurface = Instantiate(navMeshSurfaceInitator_Prefab, Vector3.zero, Quaternion.identity).GetComponent<NavMeshSurface>();
+            nmSurface.buildHeightMesh = true;
+            nmSurface.BuildNavMesh();
 
             Host_SetupMarkers();
             isHost = true;

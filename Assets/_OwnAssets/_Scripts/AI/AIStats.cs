@@ -5,8 +5,7 @@ using UnityEngine;
 namespace SealTeam4
 {
     [System.Serializable]
-    [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
-    public class AIStats
+    public class AIStats : MonoBehaviour
     {
         // User Set-Able parameters
         public enum NPCType { TERRORIST, VIP, CIVILLIAN };
@@ -18,8 +17,8 @@ namespace SealTeam4
 
         // Min angle to move to 
         public float minAngleToFaceTarget = 5.0f;
-        // Extra Stopping distance for conversation
-        public float extraStoppingDistForConvo = 1.0f;
+        public float stopDist = 0.2f;
+        public float stopDist_Convo = 1.0f;
 
         // Collision avoidance ray legth
         public float collisionAvoidanceRayLen = 0.7f;        // Multiplyer for avoidance vector length

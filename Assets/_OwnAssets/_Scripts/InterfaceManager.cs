@@ -235,7 +235,7 @@ namespace SealTeam4
 
         public void OnBtnClick(Button btn)
         {
-            string text = btn.GetComponentInChildren<TextMeshProUGUI>().text.Substring(3);
+            string text = btn.GetComponentInChildren<TextMeshProUGUI>().text.Substring(4);
             SendAction(text);
         }
 

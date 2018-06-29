@@ -16,9 +16,9 @@ namespace SealTeam4
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
         private AIAnimEventReciever animEventReciever;
-        
+
         // Stores various state of this AI
-        AIState aiState = new AIState();
+        AIState aiState;
         // Stores various stats of this AI
         AIStats aiStats;
 
@@ -38,11 +38,12 @@ namespace SealTeam4
             nmAgent = GetComponent<NavMeshAgent>();
             aiAnimController = GetComponent<AIAnimationController>();
             animEventReciever = GetComponent<AIAnimEventReciever>();
-            
+            aiState = gameObject.AddComponent<AIState>();
+
             // Initializing FSM classes
             aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
-            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
-            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
+            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
+            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
         }
 
         public void Setup(string npcName, AIStats aiStats, List<NPCSchedule> npcSchedules)
@@ -60,7 +61,7 @@ namespace SealTeam4
                 return;
 
             // if area under attack
-            if(GameManager.instance.areaUnderAttack)
+            if (GameManager.instance.areaUnderAttack)
             {
                 switch (aiStats.npcType)
                 {
@@ -154,7 +155,7 @@ namespace SealTeam4
         public void MoveToPosition(Vector3 targetPos , float extraStoppingDistance)
         {
             nmAgent.SetDestination(targetPos);
-            if (nmAgent.remainingDistance > nmAgent.stoppingDistance + extraStoppingDistance)
+            if (nmAgent.remainingDistance > aiStats.stopDist + extraStoppingDistance)
             {
                 if(aiStats.enableCollisionAvoidance)
                 {
