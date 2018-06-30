@@ -386,7 +386,7 @@ namespace SealTeam4
                     SetAction_ActivateNPC();
                     break;
 
-                case "Set Inactive(Debug)":
+                case "Fade Away(Debug)":
                     SetAction_KillNPC();
                     break;
             }

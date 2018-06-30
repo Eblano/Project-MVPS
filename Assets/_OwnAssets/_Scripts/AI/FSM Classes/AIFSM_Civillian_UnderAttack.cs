@@ -79,6 +79,12 @@ namespace SealTeam4
                     aiState.civilian.underAttack.currMoveVector = 
                         GameManager.instance.GetNearestExitMarkerVector(aiController.gameObject);
 
+                    if (aiState.civilian.underAttack.currMoveVector == aiController.gameObject.transform.position)
+                    {
+                        aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.FREEZE;
+                        break;
+                    }
+
                     aiController.SetNMAgentDestination(aiState.civilian.underAttack.currMoveVector);
                     actionStage++;
                     break;

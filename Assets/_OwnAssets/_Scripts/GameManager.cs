@@ -424,7 +424,10 @@ namespace SealTeam4
                     }
                 }
             }
-            return closetExitMarker.markerGO.GetComponent<ExitMarker>().pointPosition;
+            if (closetExitMarker != null)
+                return closetExitMarker.markerGO.GetComponent<ExitMarker>().pointPosition;
+            else
+                return npcGO.transform.position;
         }
 
         //public bool LineOfSightAgainstHostileNPC(Transform npcT)

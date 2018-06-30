@@ -11,7 +11,7 @@ namespace SealTeam4
         private GameObject canvas;
         private TextMeshProUGUI canvasText;
 
-        protected Transform camToTrack;
+        protected GameObject camToTrack;
 
         [Header("Canvas Scaling Parameters")]
         //At what distance do we want to start scaling the UI?
@@ -33,7 +33,6 @@ namespace SealTeam4
 
         protected void Start()
         {
-            camToTrack = GameObject.Find("Editor Camera").transform;
         }
 
         protected void LateUpdate()
@@ -55,6 +54,13 @@ namespace SealTeam4
                 ScaleCanvas();
                 MoveCanvas();
             }
+            else
+            {
+                camToTrack = GameObject.Find("Editor Camera");
+
+                if(!camToTrack)
+                    camToTrack = GameObject.Find("AdminCam");
+            }
         }
 
         private void UpdateCanvasText()
@@ -64,7 +70,7 @@ namespace SealTeam4
 
         private void ScaleCanvas()
         {
-            distanceFromCamera = (canvas.transform.position - camToTrack.position).magnitude;
+            distanceFromCamera = (canvas.transform.position - camToTrack.transform.position).magnitude;
 
             if (distanceFromCamera >= uiScaleStartDist)
             {
@@ -89,7 +95,7 @@ namespace SealTeam4
 
         private void RotateCanvasToFaceCamera()
         {
-            Vector3 lookPos = canvas.transform.position - camToTrack.position;
+            Vector3 lookPos = canvas.transform.position - camToTrack.transform.position;
             Quaternion rotation = Quaternion.LookRotation(lookPos);
 
             canvas.transform.rotation = rotation;
