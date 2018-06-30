@@ -84,10 +84,10 @@ namespace SealTeam4
                 {
                     increment++;
                 }
-                while (npcSpawnDataList_RTEStorage.Exists(x => x.npcName == baseNPCName + increment));
+                while (npcSpawnDataList_RTEStorage.Exists(x => x.npcName == baseNPCName + " " + increment));
             }
 
-            return baseNPCName + increment;
+            return baseNPCName + " " + increment;
         }
 
         public void DeleteAllTargetNPCSpawnData_RTEStorage(string npcName)
@@ -202,23 +202,23 @@ namespace SealTeam4
                 npcSpawnData.aiStats.activateOnStart = npcSpawnData_RTEStorage.activateOnStart;
                 
                 // Setting Civillian Stress Respond Mode
-                AIStats.CivillianStressResponseMode civillianStressResponseMode;
-                switch (npcSpawnData_RTEStorage.stressResponse)
+                AIStats.CivillianStressResponseMode civillianThreatResponseMode;
+                switch (npcSpawnData_RTEStorage.threatResponse)
                 {
                     case "Freeze":
-                        civillianStressResponseMode = AIStats.CivillianStressResponseMode.FREEZE;
+                        civillianThreatResponseMode = AIStats.CivillianStressResponseMode.FREEZE;
                         break;
                     case "Run to Exit":
-                        civillianStressResponseMode = AIStats.CivillianStressResponseMode.RUNTOEXIT;
+                        civillianThreatResponseMode = AIStats.CivillianStressResponseMode.RUNTOEXIT;
                         break;
                     case "Random":
-                        civillianStressResponseMode = AIStats.CivillianStressResponseMode.RANDOM;
+                        civillianThreatResponseMode = AIStats.CivillianStressResponseMode.RANDOM;
                         break;
                     default:
-                        civillianStressResponseMode = AIStats.CivillianStressResponseMode.FREEZE;
+                        civillianThreatResponseMode = AIStats.CivillianStressResponseMode.FREEZE;
                         break;
                 }
-                npcSpawnData.aiStats.stressResponseMode = civillianStressResponseMode;
+                npcSpawnData.aiStats.threatResponseMode = civillianThreatResponseMode;
 
                 npcSpawnData.npcName = npcSpawnData_RTEStorage.npcName;
                 npcSpawnData.spawnMarkerName = npcSpawnData_RTEStorage.spawnMarkerName;
@@ -245,15 +245,20 @@ public class NPCSpawnData_RTEStorage
     public bool activateOnStart;
     private readonly string[] allAITypes = { "Terrorist", "VIP", "Civillian" };
     public string aiType = "Civillian";
-    private readonly string[] allStressResponses = { "Freeze", "Run To Exit", "Random" };
-    public string stressResponse = "Freeze";
+    private readonly string[] allCivillianThreatResponses = { "Freeze", "Run to Exit", "Random" };
+    public string threatResponse = "Freeze";
 
-    public string[] GetDefNPCOutfit()
+    public string[] GetAllCivillianStressResponses()
+    {
+        return allCivillianThreatResponses;
+    }
+
+    public string[] GetAllNPCOutfit()
     {
         return allNPCOutfits;
     }
 
-    public string[] GetDefAITypes()
+    public string[] GetAllAITypes()
     {
         return allAITypes;
     }
@@ -271,7 +276,7 @@ public class NPCSchedule_RTEStorage
     public string scheduleType = "Idle";
     public string argument;
 
-    public string[] GetDefScheduleTypes()
+    public string[] GetAllScheduleTypes()
     {
         return allScheduleTypes;
     }

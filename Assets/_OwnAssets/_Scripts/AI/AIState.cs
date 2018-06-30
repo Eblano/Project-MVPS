@@ -56,13 +56,13 @@ namespace SealTeam4
             [System.Serializable]
             public class UnderAttack
             {
-                public enum AI_Civilian_UnderAttack
+                public enum Mode
                 {
                     SETUP,
                     FREEZE,
                     RUNTOEXIT
                 }
-                public AI_Civilian_UnderAttack Civilian_UnderAttack = AI_Civilian_UnderAttack.SETUP;
+                public Mode mode = Mode.SETUP;
 
                 public bool bracing = false;
                 public float timeLeftBeforeFindingNewRandPosition = 0;

@@ -15,15 +15,15 @@ namespace SealTeam4
 
         [Header("Canvas Scaling Parameters")]
         //At what distance do we want to start scaling the UI?
-        private float uiScaleStartDist = 0.01f;
+        private readonly float uiScaleStartDist = 0.1f;
         //When do we want to stop scaling the UI?
-        private float uiScaleEndDist = 200;
+        private readonly float uiScaleEndDist = 500f;
         //The smallest the UI element can get.
-        private float minUiScale = 0.1f;
+        private readonly float minUiScale = 0.05f;
         //The largest the UI element can get.
-        private float maxUiScale = 0.3f;
+        private readonly float maxUiScale = 10f;
         //How slowly you want the UI element to grow. This may be a bit counter-intuitive, but higher is slower.
-        private float scaleRate = 10;
+        private readonly float scaleRate = 35;
         // For Canvas scaling
         private float distanceFromCamera = 0;
         //The modifier of our UI scale.

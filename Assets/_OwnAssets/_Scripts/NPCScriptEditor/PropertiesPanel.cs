@@ -9,25 +9,37 @@ namespace SealTeam4
 {
 	public class PropertiesPanel : MonoBehaviour 
 	{
-		[SerializeField] private TMP_Dropdown spawnMarkerDropdown;
-        private Image spawnMarkerDropdownBGImg;
-        [SerializeField] private TMP_Dropdown npcOutfitDropdown;
-        [SerializeField] private TMP_Dropdown aiTypeDropdown;
-        [SerializeField] private GameObject schedulesPanel;
-        [SerializeField] private TextMeshProUGUI propertiesSectionText;
-        [SerializeField] private Toggle activateAtSpawnToggle;
+        // a - All NPC Types
+        // c - Civillian
 
+        // All Inputs
+		[SerializeField] private TMP_Dropdown a_SpawnMarkerDropdown;
+        [SerializeField] private TMP_Dropdown a_NPCOutfitDropdown;
+        [SerializeField] private TMP_Dropdown a_AITypeDropdown;
+        [SerializeField] private GameObject a_SchedulesPanel;
+        [SerializeField] private TextMeshProUGUI a_PropertiesSectionText;
+        [SerializeField] private Toggle a_ActivateAtSpawnToggle;
+        // Civillian Specific
+        [SerializeField] private GameObject c_PropertiesPanel;
+        [SerializeField] private TMP_Dropdown c_threatRespondBehaviourDropdown;
+
+        // Color when there is error
+        [SerializeField] private Color errorColor = Color.red;
+        private Color origColor;
+
+        // BG of inputs
+        private Image spawnMarkerDropdownBGImg;
+
+        // Prefab of NPC Schedule Slot
         private GameObject npcScheduleSlot_Prefab;
 
         // List of schedule slots reference that belongs to this properties panel
         [Battlehub.SerializeIgnore] [HideInInspector]
         public List<NPCScheduleSlot> npcScheduleSlotList = new List<NPCScheduleSlot>();
 
+        // Data handled by this properties panel
         private NPCSpawnData_RTEStorage ref_npcSpawnData;
         private List<NPCSchedule_RTEStorage> ref_schedules;
-
-        [SerializeField] private Color errorColor = Color.red;
-        private Color origColor;
 
         public void Setup
             (
@@ -42,7 +54,6 @@ namespace SealTeam4
             )
         {
             this.npcScheduleSlot_Prefab = npcScheduleSlot_Prefab;
-
             this.ref_npcSpawnData = ref_npcSpawnData;
             this.ref_schedules = ref_schedules;
 
@@ -52,16 +63,18 @@ namespace SealTeam4
             Setup_ActivateOnSpawnToggle();
             Setup_ScheduleSlots(targetMarkers, areaMarkers);
 
-            gameObject.SetActive(false);
-
-            spawnMarkerDropdownBGImg = spawnMarkerDropdown.GetComponent<Image>();
+            Setup_C_PropertiesPanel();
+            
+            spawnMarkerDropdownBGImg = a_SpawnMarkerDropdown.GetComponent<Image>();
             origColor = spawnMarkerDropdownBGImg.color;
+
+            gameObject.SetActive(false);
         }
 
         private void Update()
         {
             // Update properties panel label
-            propertiesSectionText.text = ref_npcSpawnData.npcName + " Properties";
+            a_PropertiesSectionText.text = ref_npcSpawnData.npcName + " Properties";
         }
 
         public bool CheckData()
@@ -69,7 +82,7 @@ namespace SealTeam4
             bool dataIsComplete = true;
 
             // Checking SpawnMarkerDropdown
-            if (spawnMarkerDropdown.value == 0)
+            if (a_SpawnMarkerDropdown.value == 0)
             {
                 spawnMarkerDropdownBGImg.color = errorColor;
                 dataIsComplete = false;
@@ -90,6 +103,45 @@ namespace SealTeam4
                 return false;
         }
 
+        private void Setup_C_PropertiesPanel()
+        {
+            Setup_C_ThreatRespondBehaviourDropdown();
+
+            if(a_AITypeDropdown.options[a_AITypeDropdown.value].text == "Civillian")
+                c_PropertiesPanel.SetActive(true);
+            else
+                c_PropertiesPanel.SetActive(false);
+        }
+
+        private void Setup_C_ThreatRespondBehaviourDropdown()
+        {
+            c_threatRespondBehaviourDropdown.onValueChanged.AddListener(delegate { OnValueChanged_C_ThreatRespondBehaviourDropdown(); });
+            List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+
+            // Add threat behaviour texts to dropdown options
+            foreach (string option in ref_npcSpawnData.GetAllCivillianStressResponses())
+            {
+                TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
+                {
+                    text = option
+                };
+
+                // Add option to dropdown
+                options.Add(optionData);
+            }
+
+            c_threatRespondBehaviourDropdown.ClearOptions();
+            // Add options to dropdown if there is 1 or more options
+            if (options.Count > 0)
+                c_threatRespondBehaviourDropdown.AddOptions(options);
+
+            string selectedThreatResponseBehaviour = ref_npcSpawnData.threatResponse;
+
+            // Setting dropdown value
+            int dropdownValue = c_threatRespondBehaviourDropdown.options.FindIndex((i) => { return i.text.Equals(selectedThreatResponseBehaviour); });
+            c_threatRespondBehaviourDropdown.value = dropdownValue;
+        }
+
         private void Setup_ScheduleSlots(List<Marker> targetMarkers, List<Marker> areaMarkers)
         {
             foreach (NPCSchedule_RTEStorage schedule in ref_schedules)
@@ -98,7 +150,7 @@ namespace SealTeam4
                     Instantiate(npcScheduleSlot_Prefab, Vector3.zero, Quaternion.identity)
                     .GetComponent<NPCScheduleSlot>();
 
-                npcScheduleSlot.transform.SetParent(schedulesPanel.transform);
+                npcScheduleSlot.transform.SetParent(a_SchedulesPanel.transform);
                 npcScheduleSlot.Setup(schedule, targetMarkers, areaMarkers, this);
 
                 npcScheduleSlotList.Add(npcScheduleSlot);
@@ -112,7 +164,7 @@ namespace SealTeam4
                 Instantiate(npcScheduleSlot_Prefab, Vector3.zero, Quaternion.identity)
                 .GetComponent<NPCScheduleSlot>();
 
-            npcScheduleSlot.transform.SetParent(schedulesPanel.transform);
+            npcScheduleSlot.transform.SetParent(a_SchedulesPanel.transform);
             npcScheduleSlot.Setup(schedule, targetMarkers, areaMarkers, this);
 
             npcScheduleSlotList.Add(npcScheduleSlot);
@@ -120,7 +172,7 @@ namespace SealTeam4
 
         private void Setup_SpawnMarkerDropdown(List<Marker> npcSpawnMarkers)
         {
-            spawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_SpawnMarkerDropdown(); });
+            a_SpawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_SpawnMarkerDropdown(); });
             List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
             // Add marker texts to dropdown options
@@ -138,23 +190,23 @@ namespace SealTeam4
             // Add options to dropdown if there is 1 or more options
             if (options.Count > 0)
             {
-                spawnMarkerDropdown.AddOptions(options);
+                a_SpawnMarkerDropdown.AddOptions(options);
             }
 
             string selectedSpawnMarker = ref_npcSpawnData.spawnMarkerName;
 
             // Setting dropdown value
-            int dropdownValue = spawnMarkerDropdown.options.FindIndex((i) => { return i.text.Equals(selectedSpawnMarker); });
-            spawnMarkerDropdown.value = dropdownValue;
+            int dropdownValue = a_SpawnMarkerDropdown.options.FindIndex((i) => { return i.text.Equals(selectedSpawnMarker); });
+            a_SpawnMarkerDropdown.value = dropdownValue;
         }
 
         private void Setup_NPCOutfitDropdown()
         {
-            spawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_NPCOutfitDropdown(); });
+            a_SpawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_NPCOutfitDropdown(); });
             List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
             // Add marker texts to dropdown options
-            foreach (string outfit in ref_npcSpawnData.GetDefNPCOutfit())
+            foreach (string outfit in ref_npcSpawnData.GetAllNPCOutfit())
             {
                 TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
                 {
@@ -165,31 +217,31 @@ namespace SealTeam4
                 options.Add(optionData);
             }
 
-            npcOutfitDropdown.ClearOptions();
+            a_NPCOutfitDropdown.ClearOptions();
             // Add options to dropdown if there is 1 or more options
             if (options.Count > 0)
-                npcOutfitDropdown.AddOptions(options);
+                a_NPCOutfitDropdown.AddOptions(options);
 
             string selectedNPCOutfit = ref_npcSpawnData.npcOutfit;
 
             // Setting dropdown value
-            int dropdownValue = npcOutfitDropdown.options.FindIndex((i) => { return i.text.Equals(selectedNPCOutfit); });
-            npcOutfitDropdown.value = dropdownValue;
+            int dropdownValue = a_NPCOutfitDropdown.options.FindIndex((i) => { return i.text.Equals(selectedNPCOutfit); });
+            a_NPCOutfitDropdown.value = dropdownValue;
         }
 
         private void Setup_ActivateOnSpawnToggle()
         {
-            activateAtSpawnToggle.onValueChanged.AddListener(delegate { OnValueChanged_ActivateOnSpawnToggle(); });
-            activateAtSpawnToggle.isOn = ref_npcSpawnData.activateOnStart;
+            a_ActivateAtSpawnToggle.onValueChanged.AddListener(delegate { OnValueChanged_ActivateOnSpawnToggle(); });
+            a_ActivateAtSpawnToggle.isOn = ref_npcSpawnData.activateOnStart;
         }
 
         private void Setup_AITypeDropdown()
         {
-            spawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_AITypeDropdown(); });
+            a_AITypeDropdown.onValueChanged.AddListener(delegate { OnValueChanged_AITypeDropdown(); });
             List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
             // Add marker texts to dropdown options
-            foreach (string aiType in ref_npcSpawnData.GetDefAITypes())
+            foreach (string aiType in ref_npcSpawnData.GetAllAITypes())
             {
                 TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
                 {
@@ -200,49 +252,61 @@ namespace SealTeam4
                 options.Add(optionData);
             }
 
-            aiTypeDropdown.ClearOptions();
+            a_AITypeDropdown.ClearOptions();
             // Add options to dropdown if there is 1 or more options
             if (options.Count > 0)
-                aiTypeDropdown.AddOptions(options);
+                a_AITypeDropdown.AddOptions(options);
 
             string selectedAIType = ref_npcSpawnData.aiType;
 
             // Setting dropdown value
-            int dropdownValue = aiTypeDropdown.options.FindIndex((i) => { return i.text.Equals(selectedAIType); });
-            aiTypeDropdown.value = dropdownValue;
+            int dropdownValue = a_AITypeDropdown.options.FindIndex((i) => { return i.text.Equals(selectedAIType); });
+            a_AITypeDropdown.value = dropdownValue;
         }
 
         public void OnValueChanged_NPCOutfitDropdown()
         {
-            int dropdownValue = npcOutfitDropdown.value;
+            int dropdownValue = a_NPCOutfitDropdown.value;
 
             if (dropdownValue != 0)
             {
-                string newNPCOutfitName = npcOutfitDropdown.options[dropdownValue].text;
+                string newNPCOutfitName = a_NPCOutfitDropdown.options[dropdownValue].text;
                 ref_npcSpawnData.npcOutfit = newNPCOutfitName;
             }
         }
 
         public void OnValueChanged_ActivateOnSpawnToggle()
         {
-            ref_npcSpawnData.activateOnStart = activateAtSpawnToggle.isOn;
+            ref_npcSpawnData.activateOnStart = a_ActivateAtSpawnToggle.isOn;
         }
 
         public void OnValueChanged_AITypeDropdown()
         {
-            int dropdownValue = aiTypeDropdown.value;
+            int dropdownValue = a_AITypeDropdown.value;
 
-            if (dropdownValue != 0)
+            string newAiType = a_AITypeDropdown.options[dropdownValue].text;
+            ref_npcSpawnData.aiType = newAiType;
+
+            // Toggling Specific NPC Type Properties Panel
+            c_PropertiesPanel.SetActive(false);
+            switch (a_AITypeDropdown.options[dropdownValue].text)
             {
-                string newAiType = aiTypeDropdown.options[dropdownValue].text;
-                ref_npcSpawnData.aiType = newAiType;
+                case "Civillian":
+                    c_PropertiesPanel.SetActive(true);
+                    break;
             }
         }
 
         public void OnValueChanged_SpawnMarkerDropdown()
         {
-            int dropdownValue = spawnMarkerDropdown.value;
-            ref_npcSpawnData.spawnMarkerName = spawnMarkerDropdown.options[dropdownValue].text;
+            int dropdownValue = a_SpawnMarkerDropdown.value;
+            ref_npcSpawnData.spawnMarkerName = a_SpawnMarkerDropdown.options[dropdownValue].text;
+        }
+
+        public void OnValueChanged_C_ThreatRespondBehaviourDropdown()
+        {
+            int dropdownValue = c_threatRespondBehaviourDropdown.value;
+            ref_npcSpawnData.threatResponse = c_threatRespondBehaviourDropdown.options[dropdownValue].text;
         }
 
         public string GetNPCName()

@@ -41,7 +41,7 @@ namespace SealTeam4
         {
             this.ref_schedule = ref_schedule;
 
-            Setup_ScheduleTypeDropdown(ref_schedule.scheduleType, ref_schedule.GetDefScheduleTypes());
+            Setup_ScheduleTypeDropdown(ref_schedule.scheduleType, ref_schedule.GetAllScheduleTypes());
             Setup_MoveToPosDropdown(targetMarkers);
             Setup_SitInAreaDropdown(areaMarkers);
 

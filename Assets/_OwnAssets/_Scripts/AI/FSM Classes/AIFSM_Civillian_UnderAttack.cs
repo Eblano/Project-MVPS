@@ -10,17 +10,17 @@ namespace SealTeam4
 
         public void FSM_Update()
         {
-            switch (aiState.civilian.underAttack.Civilian_UnderAttack)
+            switch (aiState.civilian.underAttack.mode)
             {
-                case AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.SETUP:
+                case AIState.Civilian.UnderAttack.Mode.SETUP:
                     CivilianUnderAttack_Setup();
                     break;
 
-                case AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.FREEZE:
+                case AIState.Civilian.UnderAttack.Mode.FREEZE:
                     BraceOnSpot();
                     break;
 
-                case AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.RUNTOEXIT:
+                case AIState.Civilian.UnderAttack.Mode.RUNTOEXIT:
                     RunToExit();
                     break;
             }
@@ -37,22 +37,22 @@ namespace SealTeam4
                 aiState.general.inConversation = false;
             }
 
-            switch (aiStats.stressResponseMode)
+            switch (aiStats.threatResponseMode)
             {
                 case AIStats.CivillianStressResponseMode.FREEZE:
-                    aiState.civilian.underAttack.Civilian_UnderAttack = AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.FREEZE;
+                    aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.FREEZE;
                     break;
                 case AIStats.CivillianStressResponseMode.RUNTOEXIT:
-                    aiState.civilian.underAttack.Civilian_UnderAttack = AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.RUNTOEXIT;
+                    aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.RUNTOEXIT;
                     break;
                 case AIStats.CivillianStressResponseMode.RANDOM:
                     switch (Random.Range(0, 1))
                     {
                         case 0:
-                            aiState.civilian.underAttack.Civilian_UnderAttack = AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.FREEZE;
+                            aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.FREEZE;
                             break;
                         case 1:
-                            aiState.civilian.underAttack.Civilian_UnderAttack = AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.RUNTOEXIT;
+                            aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.RUNTOEXIT;
                             break;
                     }
                     break;

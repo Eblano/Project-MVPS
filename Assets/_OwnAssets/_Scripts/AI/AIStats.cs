@@ -13,7 +13,7 @@ namespace SealTeam4
         public NPCType npcType = NPCType.CIVILLIAN;
 
         public enum CivillianStressResponseMode { FREEZE, RUNTOEXIT, RANDOM }
-        public CivillianStressResponseMode stressResponseMode = CivillianStressResponseMode.FREEZE;
+        public CivillianStressResponseMode threatResponseMode = CivillianStressResponseMode.FREEZE;
         #endregion
 
         #region Hidden Parameters

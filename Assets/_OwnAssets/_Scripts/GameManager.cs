@@ -215,7 +215,7 @@ namespace SealTeam4
             {
                 if (marker.markerGO.GetComponent<BaseMarker>() is IMarkerBehaviours)
                 {
-                    marker.markerGO.GetComponent<IMarkerBehaviours>().CleanUpForSimulationStart();
+                    //marker.markerGO.GetComponent<IMarkerBehaviours>().CleanUpForSimulationStart();
                 }
             }
         }
