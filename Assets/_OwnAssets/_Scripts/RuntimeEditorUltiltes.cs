@@ -27,12 +27,12 @@ namespace SealTeam4
         // If functions of the script can be triggered via keypresses
         [SerializeField] private bool acceptKeyInput = false;
 
-        [SerializeField] private readonly KeyCode openAssetsFolderKey = KeyCode.Keypad1;
-        [SerializeField] private readonly KeyCode addFilesToRTEKey = KeyCode.Keypad2;
-        [SerializeField] private readonly KeyCode resetRuntimeAssetsAndRestartKey = KeyCode.Keypad4;
-        [SerializeField] private readonly KeyCode exportAssetsKey = KeyCode.Keypad5;
-        [SerializeField] private readonly KeyCode importAssetsKey = KeyCode.Keypad6;
-        [SerializeField] private readonly KeyCode refreshRTEGameobjectName = KeyCode.Keypad7;
+        [SerializeField] private KeyCode openAssetsFolderKey = KeyCode.Keypad1;
+        [SerializeField] private KeyCode addFilesToRTEKey = KeyCode.Keypad2;
+        [SerializeField] private KeyCode resetRuntimeAssetsAndRestartKey = KeyCode.Keypad4;
+        [SerializeField] private KeyCode exportAssetsKey = KeyCode.Keypad5;
+        [SerializeField] private KeyCode importAssetsKey = KeyCode.Keypad6;
+        [SerializeField] private KeyCode refreshRTEGameobjectName = KeyCode.Keypad7;
 
         [Header("List Excecuted by Order")]
         [SerializeField] private readonly KeyCode removeGameObjectsKey = KeyCode.Keypad3;
