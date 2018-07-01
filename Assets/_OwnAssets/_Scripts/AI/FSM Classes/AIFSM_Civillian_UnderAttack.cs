@@ -70,7 +70,7 @@ namespace SealTeam4
             {
                 aiAnimController.Anim_Brace();
                 aiState.civilian.underAttack.bracing = true;
-                aiController.SetNMAgentDestination_CurrPos();
+                aiController.SetNMAgentDestination(aiController.transform.position);
             }
         }
 

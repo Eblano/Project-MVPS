@@ -103,7 +103,7 @@ namespace SealTeam4
                     MoveToWaypoint(aiState.general.currWaypointTarget.position, 0);
                     break;
                 case 3:
-                    aiController.MoveToWaypoint_ProcTerm();
+                    Terminate_MoveToWaypoint();
                     break;
                 case 4:
                     aiState.general.currSubschedule = 0;
@@ -136,7 +136,7 @@ namespace SealTeam4
                     aiController.RotateToTargetRotation(aiState.general.currWaypointTarget, false);
                     break;
                 case 4:
-                    aiController.MoveToWaypoint_ProcTerm();
+                    Terminate_MoveToWaypoint();
                     break;
                 case 5:
                     aiState.general.currSubschedule = 0;
@@ -202,7 +202,7 @@ namespace SealTeam4
                     MoveToWaypoint(aiState.general.currConvoNPCTarget.transform.position, aiStats.stopDist_Convo);
                     break;
                 case 3:
-                    aiController.MoveToWaypoint_ProcTerm();
+                    Terminate_MoveToWaypoint();
                     break;
                 case 4:
                     aiController.ConvoProcess_TalkToOtherNPC();
@@ -226,26 +226,12 @@ namespace SealTeam4
             aiState.general.currSubschedule++;
         }
 
-        public void LeaveSeat()
-        {
-            bool leftSeat = aiController.LeaveSeat();
-
-            if(leftSeat)
-                aiState.general.seated = false;
-                aiState.general.currSubschedule++;
-        }
-
         public bool MoveToWaypoint(Vector3 waypointPos, float extraStoppingDistance)
         {
             aiController.SetNMAgentDestination(waypointPos);
 
             if (!aiController.ReachedNMAgentDestination(extraStoppingDistance))
             {
-                //if (aiStats.enableCollisionAvoidance)
-                //{
-                //    waypointPos = GetCollisionAvoidanceVector(waypointPos);
-                //}
-
                 aiController.MoveAITowardsNMAgentDestination();
                 return false;
             }
@@ -254,6 +240,21 @@ namespace SealTeam4
                 aiState.general.currSubschedule++;
                 return true;
             }
+        }
+
+        public void Terminate_MoveToWaypoint()
+        {
+            aiController.StopAIMovement();
+            aiState.general.currSubschedule++;
+        }
+
+        public void LeaveSeat()
+        {
+            bool leftSeat = aiController.LeaveSeat();
+
+            if(leftSeat)
+                aiState.general.seated = false;
+                aiState.general.currSubschedule++;
         }
     }
 }

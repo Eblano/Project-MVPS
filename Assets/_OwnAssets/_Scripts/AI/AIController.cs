@@ -148,13 +148,6 @@ namespace SealTeam4
                 return false;
             }
         }
-
-        public void MoveToWaypoint_ProcTerm()
-        {
-            SetNMAgentDestination_CurrPos();
-            aiAnimController.Anim_Move(Vector3.zero, false, 1);
-            aiState.general.currSubschedule++;
-        }
         
         public void TalkToOtherNPC_Setup()
         {
@@ -258,11 +251,6 @@ namespace SealTeam4
             nmAgent.SetDestination(position);
         }
 
-        public void SetNMAgentDestination_CurrPos()
-        {
-            nmAgent.SetDestination(transform.position);
-        }
-
         public bool ReachedNMAgentDestination(float extraStoppingDistance)
         {
             return nmAgent.remainingDistance < aiStats.stopDist + extraStoppingDistance;
@@ -271,6 +259,12 @@ namespace SealTeam4
         public void MoveAITowardsNMAgentDestination()
         {
             aiAnimController.Anim_Move(nmAgent.desiredVelocity, false, 1);
+        }
+
+        public void StopAIMovement()
+        {
+            SetNMAgentDestination(transform.position);
+            aiAnimController.Anim_Move(Vector3.zero, false, 1);
         }
 
         public bool LeaveSeat()
