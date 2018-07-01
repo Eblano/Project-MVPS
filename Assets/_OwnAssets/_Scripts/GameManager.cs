@@ -445,7 +445,16 @@ namespace SealTeam4
 
             return waypointMarker.pointPosition;
         }
-        
+
+        public Quaternion GetWaypointMarkerRotation(string targetName)
+        {
+            WaypointMarker waypointMarker = (WaypointMarker)registeredMarkers
+                .FindAll(x => x is WaypointMarker)
+                .Find(x => x.name == targetName);
+
+            return waypointMarker.pointRotation;
+        }
+
         public GameObject GetNPCPrefabByNPCType(NpcSpawnData.NPCOutfit npcType)
         {
             switch (npcType)

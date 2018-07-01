@@ -177,7 +177,8 @@ namespace SealTeam4
 
         public bool ReachedDestination(Vector3 destination, float extraStoppingDistance)
         {
-            return Vector3.Distance(transform.position, destination) < aiStats.stopDist + extraStoppingDistance;
+            //return Vector3.Distance(transform.position, destination) < aiStats.stopDist + extraStoppingDistance;
+            return nmAgent.remainingDistance < aiStats.stopDist + extraStoppingDistance;
         }
 
         public void MoveAITowardsNMAgentDestination()
@@ -191,6 +192,7 @@ namespace SealTeam4
                 targetRotation = Quaternion.Inverse(targetRotation);
 
             aiAnimController.Anim_Turn(targetRotation);
+            Debug.Log(Quaternion.Angle(transform.rotation, targetRotation) + " " + aiStats.minAngleToFaceTarget);
             return Quaternion.Angle(transform.rotation, targetRotation) < aiStats.minAngleToFaceTarget;
         }
 

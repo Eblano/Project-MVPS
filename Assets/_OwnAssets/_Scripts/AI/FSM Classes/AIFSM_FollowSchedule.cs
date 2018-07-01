@@ -219,7 +219,8 @@ namespace SealTeam4
 
         public void Setup_MoveToWaypoint()
         {
-            aiState.general.currWaypointPosition = GetWaypointMarkerVector();
+            aiState.general.currWaypointPosition = GetWaypointMarkerPosition();
+            aiState.general.currWaypointRotation = GetWaypointMarkerRotation();
             aiController.SetNMAgentDestination(aiState.general.currWaypointPosition);
             aiState.general.currSubschedule++;
         }
@@ -238,10 +239,16 @@ namespace SealTeam4
             }
         }
 
-        public Vector3 GetWaypointMarkerVector()
+        public Vector3 GetWaypointMarkerPosition()
         {
             string targetName = npcSchedules[aiState.general.currSchedule].argument;
             return GameManager.instance.GetWaypointMarkerPosition(targetName);
+        }
+
+        public Quaternion GetWaypointMarkerRotation()
+        {
+            string targetName = npcSchedules[aiState.general.currSchedule].argument;
+            return GameManager.instance.GetWaypointMarkerRotation(targetName);
         }
 
         public void Terminate_MoveToWaypoint()

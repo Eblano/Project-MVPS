@@ -46,7 +46,9 @@ namespace SealTeam4
 			// convert the world relative moveInput vector into a local-relative
 			// turn amount and forward amount required to head in the desired
 			// direction.
-			if (move.magnitude > 1f) move.Normalize();
+			if (move.magnitude > 1f)
+                move.Normalize();
+
 			move = transform.InverseTransformDirection(move);
             move = Vector3.ProjectOnPlane(move, GetGroundNormal());
 			m_TurnAmount = Mathf.Atan2(move.x, move.z);
@@ -72,7 +74,9 @@ namespace SealTeam4
         // BROKEN
         public void Anim_Turn(Quaternion targetRotation)
         {
-            //m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
+            float rotateDirection = (((targetRotation.eulerAngles.y - transform.rotation.eulerAngles.y) + 360f) % 360f) > 180.0f ? -1 : 1;
+
+            m_Animator.SetFloat("Turn", rotateDirection, 0.1f, Time.deltaTime);
         }
 
         public void Anim_Sit()
