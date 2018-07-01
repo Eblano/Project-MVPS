@@ -15,11 +15,13 @@ namespace SealTeam4
         [SerializeField] private GameObject moveToPosPanel;
         [SerializeField] private GameObject idlePanel;
         [SerializeField] private GameObject sitInAreaPanel;
+        [SerializeField] private GameObject talkToNPCPanel;
 
         [Space(10)]
 
         [SerializeField] private TMP_Dropdown moveToPosDropdown;
         [SerializeField] private TMP_InputField idleInputField;
+        [SerializeField] private TMP_InputField talkToNPCInputField;
         [SerializeField] private TMP_Dropdown sitInAreaDropdown;
 
         // Schedule this Schedule Slot is managing
@@ -47,6 +49,7 @@ namespace SealTeam4
 
             moveToPosPanel.gameObject.SetActive(false);
             idlePanel.gameObject.SetActive(false);
+            talkToNPCPanel.gameObject.SetActive(false);
             sitInAreaPanel.gameObject.SetActive(false);
             
             switch (ref_schedule.scheduleType)
@@ -62,6 +65,10 @@ namespace SealTeam4
                 case "Sit in Area":
                     SetValue_SitInAreaDropdown(ref_schedule.argument);
                     sitInAreaPanel.gameObject.SetActive(true);
+                    break;
+                case "Talk to other NPC":
+                    talkToNPCInputField.text = ref_schedule.argument;
+                    talkToNPCPanel.gameObject.SetActive(true);
                     break;
             }
 
@@ -192,26 +199,31 @@ namespace SealTeam4
                     moveToPosPanel.gameObject.SetActive(false);
                     idlePanel.gameObject.SetActive(true);
                     sitInAreaPanel.gameObject.SetActive(false);
+                    talkToNPCPanel.gameObject.SetActive(false);
                     break;
                 case "Move to Waypoint":
                     moveToPosPanel.gameObject.SetActive(true);
                     idlePanel.gameObject.SetActive(false);
                     sitInAreaPanel.gameObject.SetActive(false);
+                    talkToNPCPanel.gameObject.SetActive(false);
                     break;
                 case "Move to Waypoint + Rotate":
                     moveToPosPanel.gameObject.SetActive(true);
                     idlePanel.gameObject.SetActive(false);
                     sitInAreaPanel.gameObject.SetActive(false);
+                    talkToNPCPanel.gameObject.SetActive(false);
                     break;
                 case "Sit in Area":
                     moveToPosPanel.gameObject.SetActive(false);
                     idlePanel.gameObject.SetActive(false);
                     sitInAreaPanel.gameObject.SetActive(true);
+                    talkToNPCPanel.gameObject.SetActive(false);
                     break;
                 case "Talk to other NPC":
                     moveToPosPanel.gameObject.SetActive(false);
                     idlePanel.gameObject.SetActive(false);
                     sitInAreaPanel.gameObject.SetActive(false);
+                    talkToNPCPanel.gameObject.SetActive(true);
                     break;
             }
 
@@ -220,6 +232,7 @@ namespace SealTeam4
 
             // Reset all input from all panels
             idleInputField.text = "";
+            talkToNPCInputField.text = "";
             sitInAreaDropdown.value = 0;
             moveToPosDropdown.value = 0;
         }
@@ -227,6 +240,12 @@ namespace SealTeam4
         public void OnValueChanged_IdleInputField()
         {
             string inputFieldText = idleInputField.text;
+            ref_schedule.argument = inputFieldText;
+        }
+
+        public void OnValueChanged_TalkToNPCInputField()
+        {
+            string inputFieldText = talkToNPCInputField.text;
             ref_schedule.argument = inputFieldText;
         }
 
