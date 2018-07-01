@@ -32,8 +32,10 @@ namespace SealTeam4
             public int currSubschedule = 0;
             // Current timer value, used for delay schedules
             public float currTimerValue = 0;
-            // Waypoint NPC traverses to
-            public Transform currWaypointTarget = null;
+            // Waypoint position NPC traverses to
+            public Vector3 currWaypointPosition;
+            // Waypoint rotation NPC traverses to
+            public Quaternion currWaypointRotation;
 
             // Current Seat NPC is on
             public GameObject currSeatTarget = null;

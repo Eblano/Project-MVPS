@@ -45,9 +45,9 @@ namespace SealTeam4
             this.aiStats = aiStats;
 
             // Initializing FSM classes
-            aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, aiAnimEventReciever,npcSchedules);
-            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, aiAnimEventReciever);
-            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, aiAnimEventReciever);
+            aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
+            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
+            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
         }
 
         private void Update()
@@ -134,11 +134,11 @@ namespace SealTeam4
         
         private bool ConvoProcess_ReqForConvo(GameObject conversationNPC)
         {
-            if (!aiState.general.seated)
+            if (!aiState.general.seated && aiState.active)
             {
                 aiState.general.aIMode = AIState.General.AIMode.PARTICIPATE_CONVO;
                 aiState.general.waitingForConversationToStart = true;
-                aiAnimController.Anim_Move(Vector3.zero, false, 1);
+                aiAnimController.Anim_Move(Vector3.zero, 1);
                 nmAgent.SetDestination(transform.position);
                 aiState.general.currConvoNPCTarget = conversationNPC;
                 return true;
@@ -169,78 +169,35 @@ namespace SealTeam4
             }
         }
         
-        public void SitDownInArea_Setup()
-        {
-            // Get Area
-            AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument);
-            // Empty seat from selected Area
-            aiState.general.currSeatTarget = areaMarker.GetRandomEmptySeat();
-
-            if (aiState.general.currSeatTarget)
-            {
-                aiState.general.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(false);
-                nmAgent.SetDestination(aiState.general.currSeatTarget.transform.position);
-                aiState.general.currSubschedule++;
-            }
-            else
-            {
-                Debug.Log("No Seat Found in " + areaMarker.name);
-                aiState.general.currSubschedule = -1;
-            }
-        }
-
-        public void SitDownInArea_Term()
-        {
-            nmAgent.SetDestination(transform.position);
-            aiAnimController.Anim_Move(Vector3.zero, false, 1);
-            aiState.general.currSubschedule++;
-        }
-        
-        public void SitDownOnSeat()
-        {
-            aiAnimController.Anim_Sit();
-
-            if (aiAnimEventReciever.sitting_Completed)
-            {
-                aiState.general.seated = true;
-                aiState.general.currSubschedule++;
-            }
-        }
-        
         // NEW METHODS THAT IS SHARED, PLEASE ORGANIZE LATER
         public void SetNMAgentDestination(Vector3 position)
         {
             nmAgent.SetDestination(position);
         }
 
-        public bool ReachedNMAgentDestination(float extraStoppingDistance)
+        public bool ReachedDestination(Vector3 destination, float extraStoppingDistance)
         {
-            return nmAgent.remainingDistance < aiStats.stopDist + extraStoppingDistance;
+            return Vector3.Distance(transform.position, destination) < aiStats.stopDist + extraStoppingDistance;
         }
 
         public void MoveAITowardsNMAgentDestination()
         {
-            aiAnimController.Anim_Move(nmAgent.desiredVelocity, false, 1);
+            aiAnimController.Anim_Move(nmAgent.desiredVelocity, 1);
         }
 
-        public bool RotateTowardsTargetRotation(Transform targetRotation, bool reversedDirection)
+        public bool RotateTowardsTargetRotation(Quaternion targetRotation, bool reversedDirection)
         {
             if (reversedDirection)
-            {
-                aiAnimController.Anim_Move(-targetRotation.forward, true, 1);
-                return Vector3.Angle(-transform.forward, targetRotation.forward) < aiStats.minAngleToFaceTarget;
-            }
-            else
-            {
-                aiAnimController.Anim_Move(targetRotation.forward, true, 1);
-                return Vector3.Angle(transform.forward, targetRotation.forward) < aiStats.minAngleToFaceTarget;
-            }
+                targetRotation = Quaternion.Inverse(targetRotation);
+
+            aiAnimController.Anim_Turn(targetRotation);
+            return Quaternion.Angle(transform.rotation, targetRotation) < aiStats.minAngleToFaceTarget;
         }
 
-        public void StopAIMovement()
+        public void StopMovement()
         {
             SetNMAgentDestination(transform.position);
-            aiAnimController.Anim_Move(Vector3.zero, false, 1);
+            aiAnimController.Anim_Move(Vector3.zero, 1);
         }
 
         public bool LeaveSeat()
@@ -261,6 +218,12 @@ namespace SealTeam4
             }
             else
                 return false;
+        }
+
+        public bool SitDown()
+        {
+            aiAnimController.Anim_Sit();
+            return aiAnimEventReciever.sitting_Completed;
         }
         //..................................................
 
@@ -291,12 +254,6 @@ namespace SealTeam4
             }
             return direction;
         }
-        
-        public Transform GetTargetMarkerTransform()
-        {
-            string targetName = npcSchedules[aiState.general.currSchedule].argument;
-            return GameManager.instance.GetTargetMarkerTransform(targetName);
-        }
 
         public Vector3 GetRandNavmeshPos(float radius)
         {
@@ -310,7 +267,7 @@ namespace SealTeam4
             }
             return finalPosition;
         }
-
+         
         public void FadeAway()
         {
             gameObject.SetActive(false);

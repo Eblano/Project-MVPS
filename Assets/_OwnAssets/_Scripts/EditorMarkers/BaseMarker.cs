@@ -31,15 +31,12 @@ namespace SealTeam4
         /// Register marker to current active GameManager
         /// </summary>
         /// <param name="markerType"></param>
-        protected string RegisterMarkerOnGameManager(GameManager.MARKER_TYPE markerType)
+        protected string RegisterMarkerOnGameManager(BaseMarker marker)
         {
             if (GameManager.instance)
             {
-                string newMarkerName = 
-                    GameManager.instance.RegisterMarker(
-                    this.gameObject,
-                    markerType
-                    );
+                string newMarkerName =
+                    GameManager.instance.RegisterMarker(marker);
 
                 oldName = newMarkerName;
                 return newMarkerName;

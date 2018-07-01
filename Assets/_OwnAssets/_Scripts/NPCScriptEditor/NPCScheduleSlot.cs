@@ -33,8 +33,8 @@ namespace SealTeam4
         public void Setup
             (
             NPCSchedule_RTEStorage ref_schedule,
-            List<Marker> waypointMarkers,
-            List<Marker> areaMarkers,
+            List<WaypointMarker> waypointMarkers,
+            List<AreaMarker> areaMarkers,
             PropertiesPanel parentPropertiesPanel
             )
         {
@@ -82,7 +82,7 @@ namespace SealTeam4
             this.parentPropertiesPanel = parentPropertiesPanel;
         }
 
-        private void Setup_SitInAreaDropdown(List<Marker> markers)
+        private void Setup_SitInAreaDropdown(List<AreaMarker> markers)
         {
             if (markers.Count > 0)
             {
@@ -94,11 +94,11 @@ namespace SealTeam4
                 };
                 areaDropdownOptions.Add(noneOption);
 
-                foreach (Marker marker in markers)
+                foreach (AreaMarker marker in markers)
                 {
                     TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData
                     {
-                        text = marker.markerName
+                        text = marker.name
                     };
 
                     areaDropdownOptions.Add(option);
@@ -129,7 +129,7 @@ namespace SealTeam4
             }
         }
 
-        private void Setup_WaypointMarkerDropdown(List<Marker> markers)
+        private void Setup_WaypointMarkerDropdown(List<WaypointMarker> markers)
         {
             if(markers.Count > 0)
             {
@@ -141,11 +141,11 @@ namespace SealTeam4
                 };
                 moveToPosDropdownOptions.Add(noneOption);
 
-                foreach (Marker marker in markers)
+                foreach (WaypointMarker marker in markers)
                 {
                     TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData
                     {
-                        text = marker.markerName
+                        text = marker.name
                     };
 
                     moveToPosDropdownOptions.Add(option);

@@ -8,7 +8,7 @@ namespace SealTeam4
     {
         public void FSM_Update()
         {
-            aiController.RotateTowardsTargetRotation(aiState.general.currConvoNPCTarget.transform, true);
+            aiController.RotateTowardsTargetRotation(aiState.general.currConvoNPCTarget.transform.rotation, true);
 
             if (aiState.general.inConversation)
             {

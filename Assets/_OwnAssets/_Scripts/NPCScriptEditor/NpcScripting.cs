@@ -27,9 +27,9 @@ namespace SealTeam4
 
         private GameObject currActivePropertiesPanel;
 
-        private List<Marker> npcSpawnMarkers;
-        private List<Marker> waypointMarkers;
-        private List<Marker> areaMarkers;
+        private List<NPCSpawnMarker> npcSpawnMarkers;
+        private List<WaypointMarker> waypointMarkers;
+        private List<AreaMarker> areaMarkers;
 
         private bool allDataIsComplete;
 
@@ -80,9 +80,9 @@ namespace SealTeam4
         public void ShowNPCScriptingUI()
         {
             // Get all markers on scene
-            npcSpawnMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.NPCSPAWN);
-            waypointMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.WAYPOINT);
-            areaMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.AREA);
+            npcSpawnMarkers = GameManager.instance.GetAllNPCSpawnMarkers();
+            waypointMarkers = GameManager.instance.GetAllWaypointMarkers();
+            areaMarkers = GameManager.instance.GetAllAreaMarkers();
 
             npcScriptingUIroot.SetActive(true);
             

@@ -16,7 +16,7 @@ namespace SealTeam4
         {
             base.Start();
             //gameObject.name = RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.WAYPOINT);
-            RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.WAYPOINT);
+            RegisterMarkerOnGameManager(this);
         }
     }
 }

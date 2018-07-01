@@ -13,7 +13,7 @@ namespace SealTeam4
         {
             base.Start();
             //gameObject.name = RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.PLAYER_SPAWN_MARKER);
-            RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.PLAYER_SPAWN_MARKER);
+            RegisterMarkerOnGameManager(this);
 
             if (!networkStartPosGO)
                 networkStartPosGO = new GameObject();

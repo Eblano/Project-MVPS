@@ -15,7 +15,7 @@ namespace SealTeam4
 
         private void Start()
         {
-            RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.SEAT);
+            RegisterMarkerOnGameManager(this);
             Destroy(GetComponent<LineRenderer>());
         }
 

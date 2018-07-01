@@ -94,7 +94,7 @@ namespace SealTeam4
                 case 1:
                     aiController.MoveAITowardsNMAgentDestination();
 
-                    if (aiController.ReachedNMAgentDestination(0))
+                    if (aiController.ReachedDestination(aiState.civilian.underAttack.currMoveVector, 0))
                         actionStage++;
                     break;
                 case 2:

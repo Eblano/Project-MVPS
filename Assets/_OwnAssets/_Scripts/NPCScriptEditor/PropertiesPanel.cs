@@ -43,9 +43,9 @@ namespace SealTeam4
 
         public void Setup
             (
-            List<Marker> npcSpawnMarkers,
-            List<Marker> waypointMarkers,
-            List<Marker> areaMarkers,
+            List<NPCSpawnMarker> npcSpawnMarkers,
+            List<WaypointMarker> waypointMarkers,
+            List<AreaMarker> areaMarkers,
 
             ref NPCSpawnData_RTEStorage ref_npcSpawnData,
             ref List<NPCSchedule_RTEStorage> ref_schedules,
@@ -148,7 +148,7 @@ namespace SealTeam4
             c_threatRespondBehaviourDropdown.value = dropdownValue;
         }
 
-        private void Setup_ScheduleSlots(List<Marker> waypointMarkers, List<Marker> areaMarkers)
+        private void Setup_ScheduleSlots(List<WaypointMarker> waypointMarkers, List<AreaMarker> areaMarkers)
         {
             foreach (NPCSchedule_RTEStorage schedule in ref_schedules)
             {
@@ -163,7 +163,7 @@ namespace SealTeam4
             }
         }
 
-        public void AddNewScheduleSlot(NPCSchedule_RTEStorage schedule, List<Marker> waypointMarkers, List<Marker> areaMarkers)
+        public void AddNewScheduleSlot(NPCSchedule_RTEStorage schedule, List<WaypointMarker> waypointMarkers, List<AreaMarker> areaMarkers)
         {
             // Create Schedule Slot Object
             NPCScheduleSlot npcScheduleSlot =
@@ -176,16 +176,16 @@ namespace SealTeam4
             npcScheduleSlotList.Add(npcScheduleSlot);
         }
 
-        private void Setup_SpawnMarkerDropdown(List<Marker> npcSpawnMarkers)
+        private void Setup_SpawnMarkerDropdown(List<NPCSpawnMarker> npcSpawnMarkers)
         {
             List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
             // Add marker texts to dropdown options
-            foreach (Marker npcSpawnMarker in npcSpawnMarkers)
+            foreach (NPCSpawnMarker npcSpawnMarker in npcSpawnMarkers)
             {
                 TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData
                 {
-                    text = npcSpawnMarker.markerName
+                    text = npcSpawnMarker.name
                 };
 
                 // Add option to dropdown

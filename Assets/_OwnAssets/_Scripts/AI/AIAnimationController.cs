@@ -39,7 +39,7 @@ namespace SealTeam4
         /// </summary>
         /// <param name="move"></param>
         /// <param name="isTurningOnly"></param>
-        public void Anim_Move(Vector3 move, bool isTurningOnly, float moveSpeed)
+        public void Anim_Move(Vector3 move, float moveSpeed)
 		{
             nmAgent.speed = moveSpeed;
 
@@ -51,11 +51,7 @@ namespace SealTeam4
             move = Vector3.ProjectOnPlane(move, GetGroundNormal());
 			m_TurnAmount = Mathf.Atan2(move.x, move.z);
 
-            // Set forward movement to 0 if only turning
-            if(isTurningOnly)
-			    m_ForwardAmount = 0;
-            else
-                m_ForwardAmount = move.z;
+            m_ForwardAmount = move.z;
 
             ApplyExtraTurnRotation();
 
@@ -71,6 +67,12 @@ namespace SealTeam4
                 m_Animator.SetFloat("Forward", m_ForwardAmount * moveSpeed, 0.1f, Time.deltaTime);
                 m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
             }
+        }
+
+        // BROKEN
+        public void Anim_Turn(Quaternion targetRotation)
+        {
+            //m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
         }
 
         public void Anim_Sit()
