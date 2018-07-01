@@ -67,13 +67,13 @@ namespace SealTeam4
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    aiController.Idle_Setup();
+                    Idle_Setup();
                     break;
                 case 1:
-                    aiController.Idle();
+                    Idle();
                     break;
                 case 2:
-                    aiController.Idle_Term();
+                    Idle_Term();
                     break;
                 case 3:
                     aiState.general.currSubschedule = 0;
@@ -133,7 +133,7 @@ namespace SealTeam4
                     MoveToWaypoint(aiState.general.currWaypointTarget.position, 0);
                     break;
                 case 3:
-                    aiController.RotateToTargetRotation(aiState.general.currWaypointTarget, false);
+                    RotateToTargetRotation(aiState.general.currWaypointTarget, false);
                     break;
                 case 4:
                     Terminate_MoveToWaypoint();
@@ -166,7 +166,7 @@ namespace SealTeam4
                     MoveToWaypoint(aiState.general.currSeatTarget.transform.position, 0);
                     break;
                 case 3:
-                    aiController.RotateToTargetRotation(aiState.general.currSeatTarget.transform, false);
+                    RotateToTargetRotation(aiState.general.currSeatTarget.transform, false);
                     break;
                 case 4:
                     aiController.SitDownOnSeat();
@@ -255,6 +255,39 @@ namespace SealTeam4
             if(leftSeat)
                 aiState.general.seated = false;
                 aiState.general.currSubschedule++;
+        }
+
+        public void RotateToTargetRotation(Transform targetRotation, bool reversedDirection)
+        {
+            bool rotateComplete = aiController.RotateTowardsTargetRotation(targetRotation, reversedDirection);
+
+            if (rotateComplete)
+            {
+                aiState.general.currSubschedule++;
+            }
+        }
+
+        public void Idle_Setup()
+        {
+            aiState.general.currTimerValue = float.Parse(npcSchedules[aiState.general.currSchedule].argument);
+            aiState.general.currSubschedule++;
+        }
+
+        public void Idle()
+        {
+            if (aiState.general.currTimerValue > 0)
+            {
+                aiState.general.currTimerValue -= Time.deltaTime;
+            }
+            else
+            {
+                aiState.general.currSubschedule++;
+            }
+        }
+
+        public void Idle_Term()
+        {
+            aiState.general.currSubschedule++;
         }
     }
 }

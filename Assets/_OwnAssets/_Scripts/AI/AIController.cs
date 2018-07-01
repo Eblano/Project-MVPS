@@ -169,44 +169,6 @@ namespace SealTeam4
             }
         }
         
-        public void Idle()
-        {
-            if (aiState.general.currTimerValue <= 0)
-            {
-                aiState.general.currTimerValue -= Time.deltaTime;
-            }
-            else
-            {
-                aiState.general.currSubschedule++;
-            }
-        }
-
-        public void Idle_Setup()
-        {
-            aiState.general.currTimerValue = float.Parse(npcSchedules[aiState.general.currSchedule].argument);
-            aiState.general.currSubschedule++;
-        }
-
-        public void Idle_Term()
-        {
-            aiState.general.currSubschedule++;
-        }
-        
-        public void RotateToTargetRotation(Transform targetRotation, bool reversedDirection)
-        {
-            if (!RotationIsInLine(targetRotation))
-            {
-                if(reversedDirection)
-                    aiAnimController.Anim_Move(-targetRotation.forward, true, 1);
-                else
-                    aiAnimController.Anim_Move(targetRotation.forward, true, 1);
-            }
-            else
-            {
-                aiState.general.currSubschedule++;
-            }
-        }
-        
         public void SitDownInArea_Setup()
         {
             // Get Area
@@ -259,6 +221,20 @@ namespace SealTeam4
         public void MoveAITowardsNMAgentDestination()
         {
             aiAnimController.Anim_Move(nmAgent.desiredVelocity, false, 1);
+        }
+
+        public bool RotateTowardsTargetRotation(Transform targetRotation, bool reversedDirection)
+        {
+            if (reversedDirection)
+            {
+                aiAnimController.Anim_Move(-targetRotation.forward, true, 1);
+                return Vector3.Angle(-transform.forward, targetRotation.forward) < aiStats.minAngleToFaceTarget;
+            }
+            else
+            {
+                aiAnimController.Anim_Move(targetRotation.forward, true, 1);
+                return Vector3.Angle(transform.forward, targetRotation.forward) < aiStats.minAngleToFaceTarget;
+            }
         }
 
         public void StopAIMovement()
@@ -314,11 +290,6 @@ namespace SealTeam4
                 return direction + (rightHitInfo.normal * aiStats.collisionAvoidanceMultiplyer);
             }
             return direction;
-        }
-        
-        public bool RotationIsInLine(Transform t)
-        {
-            return Vector3.Angle(transform.forward, t.forward) < aiStats.minAngleToFaceTarget;
         }
         
         public Transform GetTargetMarkerTransform()
