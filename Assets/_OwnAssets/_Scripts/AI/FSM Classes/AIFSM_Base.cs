@@ -16,13 +16,16 @@ namespace SealTeam4
         protected AIController aiController;
         // Animation Controller for the AI
         protected AIAnimationController aiAnimController;
+        // Animation event reciver
+        protected AIAnimEventReciever aiAnimEventReciever;
 
         public virtual void InitializeFSM(
             AIController aiController,
             Transform aiTransform,
             AIState aiState,
             AIStats aiStats,
-            AIAnimationController aiAnimController
+            AIAnimationController aiAnimController,
+            AIAnimEventReciever aiAnimEventReciever
             )
         {
             this.aiController = aiController;
@@ -30,6 +33,7 @@ namespace SealTeam4
             this.aiState = aiState;
             this.aiStats = aiStats;
             this.aiAnimController = aiAnimController;
+            this.aiAnimEventReciever = aiAnimEventReciever;
         }
     }
 }

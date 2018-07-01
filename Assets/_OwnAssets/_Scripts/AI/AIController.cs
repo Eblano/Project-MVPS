@@ -15,7 +15,7 @@ namespace SealTeam4
 
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
-        private AIAnimEventReciever animEventReciever;
+        private AIAnimEventReciever aiAnimEventReciever;
 
         // Stores various state of this AI
         [SerializeField] private AIState aiState;
@@ -41,13 +41,13 @@ namespace SealTeam4
 
             nmAgent = GetComponent<NavMeshAgent>();
             aiAnimController = GetComponent<AIAnimationController>();
-            animEventReciever = GetComponent<AIAnimEventReciever>();
+            aiAnimEventReciever = GetComponent<AIAnimEventReciever>();
             this.aiStats = aiStats;
 
             // Initializing FSM classes
-            aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
-            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
-            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
+            aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, aiAnimEventReciever,npcSchedules);
+            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, aiAnimEventReciever);
+            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, aiAnimEventReciever);
         }
 
         private void Update()
@@ -148,38 +148,10 @@ namespace SealTeam4
                 return false;
             }
         }
-        
-        public bool MoveToPosition(Vector3 targetPos , float extraStoppingDistance)
-        {
-            nmAgent.SetDestination(targetPos);
-
-            if (nmAgent.remainingDistance > aiStats.stopDist + extraStoppingDistance)
-            {
-                if(aiStats.enableCollisionAvoidance)
-                {
-                    targetPos = GetCollisionAvoidanceVector(targetPos);
-                }
-
-                aiAnimController.Anim_Move(nmAgent.desiredVelocity, false, 1);
-                return false;
-            }
-            else
-            {
-                aiState.general.currSubschedule++;
-                return true;
-            }
-        }
-        
-        public void MoveToWaypoint_ProcSetup()
-        {
-            aiState.general.currWaypointTarget = GetTargetMarkerTransform();
-            nmAgent.SetDestination(aiState.general.currWaypointTarget.position);
-            aiState.general.currSubschedule++;
-        }
 
         public void MoveToWaypoint_ProcTerm()
         {
-            StopNMAgentMovement();
+            SetNMAgentDestination_CurrPos();
             aiAnimController.Anim_Move(Vector3.zero, false, 1);
             aiState.general.currSubschedule++;
         }
@@ -227,25 +199,6 @@ namespace SealTeam4
             aiState.general.currSubschedule++;
         }
         
-        public void LeaveIfSittingOnSeat()
-        {
-            if(aiState.general.seated)
-            {
-                aiAnimController.Anim_Stand();
-            }
-
-            if (animEventReciever.standing_Completed || !aiState.general.seated)
-            {
-                if(aiState.general.currSeatTarget)
-                {
-                    aiState.general.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(true);
-                    aiState.general.currSeatTarget = null;
-                }
-                aiState.general.seated = false;
-                aiState.general.currSubschedule++;
-            }
-        }
-
         public void RotateToTargetRotation(Transform targetRotation, bool reversedDirection)
         {
             if (!RotationIsInLine(targetRotation))
@@ -292,23 +245,55 @@ namespace SealTeam4
         {
             aiAnimController.Anim_Sit();
 
-            if (animEventReciever.sitting_Completed)
+            if (aiAnimEventReciever.sitting_Completed)
             {
                 aiState.general.seated = true;
                 aiState.general.currSubschedule++;
             }
         }
         
-        public void StopNMAgentMovement()
-        {
-            nmAgent.SetDestination(transform.position);
-        }
-
+        // NEW METHODS THAT IS SHARED, PLEASE ORGANIZE LATER
         public void SetNMAgentDestination(Vector3 position)
         {
             nmAgent.SetDestination(position);
         }
-        
+
+        public void SetNMAgentDestination_CurrPos()
+        {
+            nmAgent.SetDestination(transform.position);
+        }
+
+        public bool ReachedNMAgentDestination(float extraStoppingDistance)
+        {
+            return nmAgent.remainingDistance < aiStats.stopDist + extraStoppingDistance;
+        }
+
+        public void MoveAITowardsNMAgentDestination()
+        {
+            aiAnimController.Anim_Move(nmAgent.desiredVelocity, false, 1);
+        }
+
+        public bool LeaveSeat()
+        {
+            if (aiState.general.seated)
+            {
+                aiAnimController.Anim_Stand();
+            }
+
+            if (aiAnimEventReciever.standing_Completed || !aiState.general.seated)
+            {
+                if (aiState.general.currSeatTarget)
+                {
+                    aiState.general.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(true);
+                    aiState.general.currSeatTarget = null;
+                }
+                return true;
+            }
+            else
+                return false;
+        }
+        //..................................................
+
         private Vector3 GetCollisionAvoidanceVector(Vector3 direction)
         {
             RaycastHit centerHitInfo;
@@ -370,8 +355,8 @@ namespace SealTeam4
         {
             aiState.active = true;
         }
-
-        #region IActions Interace methods
+        
+        #region IActions methods & Actionable related Methods
         public List<string> GetActions()
         {
             return actionableParameters;
@@ -400,7 +385,6 @@ namespace SealTeam4
         {
             return highestPoint.position;
         }
-        #endregion
 
         private void UpdateActionableParameters()
         {
@@ -422,5 +406,6 @@ namespace SealTeam4
             actionableParameters.Remove("Fade Away(Debug)");
             FadeAway();
         }
+        #endregion
     }
 }

@@ -29,7 +29,10 @@ namespace SealTeam4
         {
             if (aiState.general.seated)
             {
-                aiController.LeaveIfSittingOnSeat();
+                bool leftSeat = aiController.LeaveSeat();
+
+                if (!leftSeat)
+                    return;
             }
             if (aiState.general.inConversation)
             {
@@ -67,7 +70,7 @@ namespace SealTeam4
             {
                 aiAnimController.Anim_Brace();
                 aiState.civilian.underAttack.bracing = true;
-                aiController.StopNMAgentMovement();
+                aiController.SetNMAgentDestination_CurrPos();
             }
         }
 
@@ -89,9 +92,9 @@ namespace SealTeam4
                     actionStage++;
                     break;
                 case 1:
-                    bool reachedWaypoint = aiController.MoveToPosition(aiState.civilian.underAttack.currMoveVector, 0);
+                    aiController.MoveAITowardsNMAgentDestination();
 
-                    if (reachedWaypoint)
+                    if (aiController.ReachedNMAgentDestination(0))
                         actionStage++;
                     break;
                 case 2:

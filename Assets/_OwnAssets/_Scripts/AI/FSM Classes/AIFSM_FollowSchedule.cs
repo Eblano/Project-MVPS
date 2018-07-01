@@ -15,6 +15,7 @@ namespace SealTeam4
             AIState aiState,
             AIStats aiStats,
             AIAnimationController aiAnimController,
+            AIAnimEventReciever aiAnimEventReciever,
             List<NPCSchedule> npcSchedules
             )
         {
@@ -23,6 +24,7 @@ namespace SealTeam4
             this.aiState = aiState;
             this.aiStats = aiStats;
             this.aiAnimController = aiAnimController;
+            this.aiAnimEventReciever = aiAnimEventReciever;
             this.npcSchedules = npcSchedules;
         }
 
@@ -35,11 +37,11 @@ namespace SealTeam4
             switch (npcSchedules[aiState.general.currSchedule].scheduleType)
             {
                 case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS:
-                    ScheduleProcess_MoveToPosition();
+                    ScheduleProcess_MoveToWaypoint();
                     break;
 
                 case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS_WITH_ROT:
-                    ScheduleProcess_MoveToPosition_And_Rotation();
+                    ScheduleProcess_MoveToWaypoint_And_Rotate();
                     break;
 
                 case NPCSchedule.SCHEDULE_TYPE.IDLE:
@@ -87,18 +89,18 @@ namespace SealTeam4
         /// <summary>
         /// Run move to position schedule
         /// </summary>
-        private void ScheduleProcess_MoveToPosition()
+        private void ScheduleProcess_MoveToWaypoint()
         {
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    aiController.LeaveIfSittingOnSeat();
+                    LeaveSeat();
                     break;
                 case 1:
-                    aiController.MoveToWaypoint_ProcSetup();
+                    Setup_MoveToWaypoint();
                     break;
                 case 2:
-                    aiController.MoveToPosition(aiState.general.currWaypointTarget.position, 0);
+                    MoveToWaypoint(aiState.general.currWaypointTarget.position, 0);
                     break;
                 case 3:
                     aiController.MoveToWaypoint_ProcTerm();
@@ -117,18 +119,18 @@ namespace SealTeam4
         /// <summary>
         /// Run move to position with rotation schedule
         /// </summary>
-        private void ScheduleProcess_MoveToPosition_And_Rotation()
+        private void ScheduleProcess_MoveToWaypoint_And_Rotate()
         {
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    aiController.LeaveIfSittingOnSeat();
+                    LeaveSeat();
                     break;
                 case 1:
-                    aiController.MoveToWaypoint_ProcSetup();
+                    Setup_MoveToWaypoint();
                     break;
                 case 2:
-                    aiController.MoveToPosition(aiState.general.currWaypointTarget.position, 0);
+                    MoveToWaypoint(aiState.general.currWaypointTarget.position, 0);
                     break;
                 case 3:
                     aiController.RotateToTargetRotation(aiState.general.currWaypointTarget, false);
@@ -155,13 +157,13 @@ namespace SealTeam4
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    aiController.LeaveIfSittingOnSeat();
+                    LeaveSeat();
                     break;
                 case 1:
                     aiController.SitDownInArea_Setup();
                     break;
                 case 2:
-                    aiController.MoveToPosition(aiState.general.currSeatTarget.transform.position, 0);
+                    MoveToWaypoint(aiState.general.currSeatTarget.transform.position, 0);
                     break;
                 case 3:
                     aiController.RotateToTargetRotation(aiState.general.currSeatTarget.transform, false);
@@ -191,13 +193,13 @@ namespace SealTeam4
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    aiController.LeaveIfSittingOnSeat();
+                    LeaveSeat();
                     break;
                 case 1:
                     aiController.TalkToOtherNPC_Setup();
                     break;
                 case 2:
-                    aiController.MoveToPosition(aiState.general.currConvoNPCTarget.transform.position, aiStats.stopDist_Convo);
+                    MoveToWaypoint(aiState.general.currConvoNPCTarget.transform.position, aiStats.stopDist_Convo);
                     break;
                 case 3:
                     aiController.MoveToWaypoint_ProcTerm();
@@ -216,6 +218,42 @@ namespace SealTeam4
             }
         }
         #endregion
-        
+
+        public void Setup_MoveToWaypoint()
+        {
+            aiState.general.currWaypointTarget = aiController.GetTargetMarkerTransform();
+            aiController.SetNMAgentDestination(aiState.general.currWaypointTarget.position);
+            aiState.general.currSubschedule++;
+        }
+
+        public void LeaveSeat()
+        {
+            bool leftSeat = aiController.LeaveSeat();
+
+            if(leftSeat)
+                aiState.general.seated = false;
+                aiState.general.currSubschedule++;
+        }
+
+        public bool MoveToWaypoint(Vector3 waypointPos, float extraStoppingDistance)
+        {
+            aiController.SetNMAgentDestination(waypointPos);
+
+            if (!aiController.ReachedNMAgentDestination(extraStoppingDistance))
+            {
+                //if (aiStats.enableCollisionAvoidance)
+                //{
+                //    waypointPos = GetCollisionAvoidanceVector(waypointPos);
+                //}
+
+                aiController.MoveAITowardsNMAgentDestination();
+                return false;
+            }
+            else
+            {
+                aiState.general.currSubschedule++;
+                return true;
+            }
+        }
     }
 }
