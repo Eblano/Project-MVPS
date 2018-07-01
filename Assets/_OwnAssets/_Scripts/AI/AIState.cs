@@ -7,7 +7,8 @@ namespace SealTeam4
     /// <summary>
     /// Stores various states of the AI
     /// </summary>
-    public class AIState : MonoBehaviour
+    [System.Serializable]
+    public class AIState
     {
         // If NPC is allowed to function
         public bool active = false;

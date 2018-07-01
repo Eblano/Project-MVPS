@@ -28,7 +28,7 @@ namespace SealTeam4
         private GameObject currActivePropertiesPanel;
 
         private List<Marker> npcSpawnMarkers;
-        private List<Marker> targetMarkers;
+        private List<Marker> waypointMarkers;
         private List<Marker> areaMarkers;
 
         private bool allDataIsComplete;
@@ -81,7 +81,7 @@ namespace SealTeam4
         {
             // Get all markers on scene
             npcSpawnMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.NPCSPAWN);
-            targetMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.WAYPOINT);
+            waypointMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.WAYPOINT);
             areaMarkers = GameManager.instance.GetAllSpecificMarker(GameManager.MARKER_TYPE.AREA);
 
             npcScriptingUIroot.SetActive(true);
@@ -139,7 +139,7 @@ namespace SealTeam4
         {
             string npcName = sourcePanel.GetNPCName();
             NPCSchedule_RTEStorage newSchedule = NpcScriptStorage.instance.AddNewNPCScheduleData_RTEStorage(npcName);
-            sourcePanel.AddNewScheduleSlot(newSchedule, targetMarkers, areaMarkers);
+            sourcePanel.AddNewScheduleSlot(newSchedule, waypointMarkers, areaMarkers);
         }
 
         private void AddNewNPCData(NPCSpawnData_RTEStorage newNpcSpawnData, List<NPCSchedule_RTEStorage> newNpcSchedulesData)
@@ -162,7 +162,7 @@ namespace SealTeam4
             npsScriptingUIData.button.Setup(newNpcSpawnData.npcName);
             npsScriptingUIData.propertiesPanel.Setup(
                 npcSpawnMarkers,
-                targetMarkers,
+                waypointMarkers,
                 areaMarkers,
                 ref newNpcSpawnData,
                 ref newNpcSchedulesData,

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SealTeam4
 {
+    [System.Serializable]
     public class AIStats
     {
         public bool activateOnStart = true;

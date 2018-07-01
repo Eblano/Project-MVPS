@@ -124,7 +124,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1091235984830294
 GameObject:
   m_ObjectHideFlags: 1
@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 114488007119807700}
   - component: {fileID: 114282878665127962}
   m_Layer: 5
-  m_Name: TargetMarkerDropdown
+  m_Name: WaypointMarkerDropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -525,7 +525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224121700141305164}
   m_Layer: 5
-  m_Name: MoveToPosPanel
+  m_Name: WaypointMarkerPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4036,12 +4036,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c4cd5b9e58e0145981e51c9b61a0b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scheduleTypeDropdown: {fileID: 114912376781165544}
   moveToPosPanel: {fileID: 1629469804026410}
   idlePanel: {fileID: 1027030619443606}
   sitInAreaPanel: {fileID: 1846433922424866}
   talkToNPCPanel: {fileID: 1088728231144556}
-  moveToPosDropdown: {fileID: 114282878665127962}
+  scheduleTypeDropdown: {fileID: 114912376781165544}
+  WaypointMarkerDropdown: {fileID: 114282878665127962}
   idleInputField: {fileID: 114290453858145910}
   talkToNPCInputField: {fileID: 114409731212533056}
   sitInAreaDropdown: {fileID: 114327375221226402}
@@ -4915,10 +4915,10 @@ RectTransform:
   m_Father: {fileID: 224551805169887022}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 485, y: -50}
+  m_SizeDelta: {x: 970, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224195720254715184
 RectTransform:

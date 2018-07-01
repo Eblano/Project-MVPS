@@ -8,10 +8,6 @@ namespace SealTeam4
 {
     public class NPCScheduleSlot : MonoBehaviour
     {
-        [SerializeField] private TMP_Dropdown scheduleTypeDropdown;
-
-        [Space(10)]
-
         [SerializeField] private GameObject moveToPosPanel;
         [SerializeField] private GameObject idlePanel;
         [SerializeField] private GameObject sitInAreaPanel;
@@ -19,7 +15,8 @@ namespace SealTeam4
 
         [Space(10)]
 
-        [SerializeField] private TMP_Dropdown moveToPosDropdown;
+        [SerializeField] private TMP_Dropdown scheduleTypeDropdown;
+        [SerializeField] private TMP_Dropdown WaypointMarkerDropdown;
         [SerializeField] private TMP_InputField idleInputField;
         [SerializeField] private TMP_InputField talkToNPCInputField;
         [SerializeField] private TMP_Dropdown sitInAreaDropdown;
@@ -36,15 +33,22 @@ namespace SealTeam4
         public void Setup
             (
             NPCSchedule_RTEStorage ref_schedule,
-            List<Marker> targetMarkers,
+            List<Marker> waypointMarkers,
             List<Marker> areaMarkers,
             PropertiesPanel parentPropertiesPanel
             )
         {
             this.ref_schedule = ref_schedule;
 
+            // Add listeners
+            scheduleTypeDropdown.onValueChanged.AddListener(delegate { OnValueChanged_ScheduleTypeDropdown(); });
+            WaypointMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_WaypointMarkerDropdown(); });
+            idleInputField.onValueChanged.AddListener(delegate { OnValueChanged_IdleInputField(); });
+            talkToNPCInputField.onValueChanged.AddListener(delegate { OnValueChanged_TalkToNPCInputField(); });
+            sitInAreaDropdown.onValueChanged.AddListener(delegate { OnValueChanged_SitInAreaDropdown(); });
+
             Setup_ScheduleTypeDropdown(ref_schedule.scheduleType, ref_schedule.GetAllScheduleTypes());
-            Setup_MoveToPosDropdown(targetMarkers);
+            Setup_WaypointMarkerDropdown(waypointMarkers);
             Setup_SitInAreaDropdown(areaMarkers);
 
             moveToPosPanel.gameObject.SetActive(false);
@@ -125,7 +129,7 @@ namespace SealTeam4
             }
         }
 
-        private void Setup_MoveToPosDropdown(List<Marker> markers)
+        private void Setup_WaypointMarkerDropdown(List<Marker> markers)
         {
             if(markers.Count > 0)
             {
@@ -147,9 +151,9 @@ namespace SealTeam4
                     moveToPosDropdownOptions.Add(option);
                 }
 
-                moveToPosDropdown.ClearOptions();
+                WaypointMarkerDropdown.ClearOptions();
                 if (moveToPosDropdownOptions.Count > 0)
-                    moveToPosDropdown.AddOptions(moveToPosDropdownOptions);
+                    WaypointMarkerDropdown.AddOptions(moveToPosDropdownOptions);
             }
         }
 
@@ -178,8 +182,8 @@ namespace SealTeam4
 
         private void SetValue_MoveToPosDropdown(string selectedWaypoint)
         {
-            int dropdownValue = moveToPosDropdown.options.FindIndex((i) => { return i.text.Equals(selectedWaypoint); });
-            moveToPosDropdown.value = dropdownValue;
+            int dropdownValue = WaypointMarkerDropdown.options.FindIndex((i) => { return i.text.Equals(selectedWaypoint); });
+            WaypointMarkerDropdown.value = dropdownValue;
         }
 
         private void SetValue_SitInAreaDropdown(string selectedArea)
@@ -234,7 +238,7 @@ namespace SealTeam4
             idleInputField.text = "";
             talkToNPCInputField.text = "";
             sitInAreaDropdown.value = 0;
-            moveToPosDropdown.value = 0;
+            WaypointMarkerDropdown.value = 0;
         }
 
         public void OnValueChanged_IdleInputField()
@@ -249,11 +253,11 @@ namespace SealTeam4
             ref_schedule.argument = inputFieldText;
         }
 
-        public void OnValueChanged_TargetMarkerDropdown()
+        public void OnValueChanged_WaypointMarkerDropdown()
         {
-            int dropdownValue = moveToPosDropdown.value;
+            int dropdownValue = WaypointMarkerDropdown.value;
             
-            string targetMarkerName = moveToPosDropdown.options[dropdownValue].text;
+            string targetMarkerName = WaypointMarkerDropdown.options[dropdownValue].text;
             ref_schedule.argument = targetMarkerName;
         }
 

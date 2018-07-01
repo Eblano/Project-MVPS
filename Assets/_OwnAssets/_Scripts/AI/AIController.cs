@@ -18,9 +18,9 @@ namespace SealTeam4
         private AIAnimEventReciever animEventReciever;
 
         // Stores various state of this AI
-        AIState aiState;
+        [SerializeField] private AIState aiState;
         // Stores various stats of this AI
-        AIStats aiStats;
+        [SerializeField] private AIStats aiStats;
 
         // FSM classes
         AIFSM_FollowSchedule aiFSM_FollowSchedule = new AIFSM_FollowSchedule();
@@ -42,7 +42,6 @@ namespace SealTeam4
             nmAgent = GetComponent<NavMeshAgent>();
             aiAnimController = GetComponent<AIAnimationController>();
             animEventReciever = GetComponent<AIAnimEventReciever>();
-            aiState = gameObject.GetComponent<AIState>();
             this.aiStats = aiStats;
 
             // Initializing FSM classes

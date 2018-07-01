@@ -281,7 +281,6 @@ GameObject:
   - component: {fileID: 114349869692889062}
   - component: {fileID: 114371402435369606}
   - component: {fileID: 114828136136523392}
-  - component: {fileID: 114639858873785886}
   - component: {fileID: 114205776409073432}
   - component: {fileID: 114420444214848926}
   - component: {fileID: 114521400907815908}
@@ -1055,6 +1054,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7c6f744d051c6841a810e2dfec1c9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aiState: {fileID: 0}
+  aiStats:
+    activateOnStart: 1
+    npcType: 2
+    threatResponseMode: 0
+    chanceEnterHostileMode: 0
+    minAngleToFaceTarget: 5
+    stopDist: 0.2
+    stopDist_Convo: 1
+    collisionAvoidanceRayLen: 0.7
+    collisionAvoidanceMultiplyer: 1
+    enableCollisionAvoidance: 0
   actionableParameters: []
   highestPoint: {fileID: 4652597901801500}
 --- !u!114 &114371402435369606
@@ -1102,36 +1113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fde4790f75153294cb0604998f79c9ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114639858873785886
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1601331633119506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecc8c465f9e92ba45b9d4d970a170a68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  active: 0
-  general:
-    aIMode: 0
-    currSchedule: 0
-    currSubschedule: 0
-    currTimerValue: 0
-    currWaypointTarget: {fileID: 0}
-    currSeatTarget: {fileID: 0}
-    seated: 0
-    waitingForConversationToStart: 1
-    inConversation: 0
-    timeInConvo: 0
-    currConvoNPCTarget: {fileID: 0}
-  civilian:
-    underAttack:
-      Civilian_UnderAttack: 0
-      bracing: 0
-      timeLeftBeforeFindingNewRandPosition: 0
-      currMoveVector: {x: 0, y: 0, z: 0}
 --- !u!114 &114826955351541836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1148,7 +1129,7 @@ MonoBehaviour:
   - {fileID: 114349869692889062}
   - {fileID: 114371402435369606}
   - {fileID: 114828136136523392}
-  - {fileID: 114639858873785886}
+  - {fileID: 0}
 --- !u!114 &114828136136523392
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -44,7 +44,7 @@ namespace SealTeam4
         public void Setup
             (
             List<Marker> npcSpawnMarkers,
-            List<Marker> targetMarkers,
+            List<Marker> waypointMarkers,
             List<Marker> areaMarkers,
 
             ref NPCSpawnData_RTEStorage ref_npcSpawnData,
@@ -57,11 +57,17 @@ namespace SealTeam4
             this.ref_npcSpawnData = ref_npcSpawnData;
             this.ref_schedules = ref_schedules;
 
+            // Add listerners
+            a_SpawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_SpawnMarkerDropdown(); });
+            a_SpawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_NPCOutfitDropdown(); });
+            a_AITypeDropdown.onValueChanged.AddListener(delegate { OnValueChanged_AITypeDropdown(); });
+            a_ActivateAtSpawnToggle.onValueChanged.AddListener(delegate { OnValueChanged_ActivateOnSpawnToggle(); });
+
             Setup_SpawnMarkerDropdown(npcSpawnMarkers);
             Setup_NPCOutfitDropdown();
             Setup_AITypeDropdown();
             Setup_ActivateOnSpawnToggle();
-            Setup_ScheduleSlots(targetMarkers, areaMarkers);
+            Setup_ScheduleSlots(waypointMarkers, areaMarkers);
 
             Setup_C_PropertiesPanel();
             
@@ -142,7 +148,7 @@ namespace SealTeam4
             c_threatRespondBehaviourDropdown.value = dropdownValue;
         }
 
-        private void Setup_ScheduleSlots(List<Marker> targetMarkers, List<Marker> areaMarkers)
+        private void Setup_ScheduleSlots(List<Marker> waypointMarkers, List<Marker> areaMarkers)
         {
             foreach (NPCSchedule_RTEStorage schedule in ref_schedules)
             {
@@ -151,13 +157,13 @@ namespace SealTeam4
                     .GetComponent<NPCScheduleSlot>();
 
                 npcScheduleSlot.transform.SetParent(a_SchedulesPanel.transform);
-                npcScheduleSlot.Setup(schedule, targetMarkers, areaMarkers, this);
+                npcScheduleSlot.Setup(schedule, waypointMarkers, areaMarkers, this);
 
                 npcScheduleSlotList.Add(npcScheduleSlot);
             }
         }
 
-        public void AddNewScheduleSlot(NPCSchedule_RTEStorage schedule, List<Marker> targetMarkers, List<Marker> areaMarkers)
+        public void AddNewScheduleSlot(NPCSchedule_RTEStorage schedule, List<Marker> waypointMarkers, List<Marker> areaMarkers)
         {
             // Create Schedule Slot Object
             NPCScheduleSlot npcScheduleSlot =
@@ -165,14 +171,13 @@ namespace SealTeam4
                 .GetComponent<NPCScheduleSlot>();
 
             npcScheduleSlot.transform.SetParent(a_SchedulesPanel.transform);
-            npcScheduleSlot.Setup(schedule, targetMarkers, areaMarkers, this);
+            npcScheduleSlot.Setup(schedule, waypointMarkers, areaMarkers, this);
 
             npcScheduleSlotList.Add(npcScheduleSlot);
         }
 
         private void Setup_SpawnMarkerDropdown(List<Marker> npcSpawnMarkers)
         {
-            a_SpawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_SpawnMarkerDropdown(); });
             List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
             // Add marker texts to dropdown options
@@ -202,7 +207,6 @@ namespace SealTeam4
 
         private void Setup_NPCOutfitDropdown()
         {
-            a_SpawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_NPCOutfitDropdown(); });
             List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
             // Add marker texts to dropdown options
@@ -231,13 +235,11 @@ namespace SealTeam4
 
         private void Setup_ActivateOnSpawnToggle()
         {
-            a_ActivateAtSpawnToggle.onValueChanged.AddListener(delegate { OnValueChanged_ActivateOnSpawnToggle(); });
             a_ActivateAtSpawnToggle.isOn = ref_npcSpawnData.activateOnStart;
         }
 
         private void Setup_AITypeDropdown()
         {
-            a_AITypeDropdown.onValueChanged.AddListener(delegate { OnValueChanged_AITypeDropdown(); });
             List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
             // Add marker texts to dropdown options
