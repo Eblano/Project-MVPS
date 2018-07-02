@@ -92,13 +92,13 @@ namespace SealTeam4
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    LeaveSeat();
+                    LeaveSeatIfSeated();
                     break;
                 case 1:
                     Setup_MoveToWaypoint();
                     break;
                 case 2:
-                    MoveToWaypoint(aiState.general.currWaypointPosition, 0);
+                    MoveToWaypoint(aiState.general.currWaypointPosition, aiStats.normalMoveSpeed, 0);
                     break;
                 case 3:
                     Terminate_MoveToWaypoint();
@@ -122,13 +122,13 @@ namespace SealTeam4
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    LeaveSeat();
+                    LeaveSeatIfSeated();
                     break;
                 case 1:
                     Setup_MoveToWaypoint();
                     break;
                 case 2:
-                    MoveToWaypoint(aiState.general.currWaypointPosition, 0);
+                    MoveToWaypoint(aiState.general.currWaypointPosition, aiStats.normalMoveSpeed, 0);
                     break;
                 case 3:
                     RotateToTargetRotation(aiState.general.currWaypointRotation, false);
@@ -155,13 +155,13 @@ namespace SealTeam4
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    LeaveSeat();
+                    LeaveSeatIfSeated();
                     break;
                 case 1:
                     SitDownInArea_Setup();
                     break;
                 case 2:
-                    MoveToWaypoint(aiState.general.currSeatTarget.transform.position, 0);
+                    MoveToWaypoint(aiState.general.currSeatTarget.transform.position, aiStats.normalMoveSpeed, 0);
                     break;
                 case 3:
                     RotateToTargetRotation(aiState.general.currSeatTarget.transform.rotation, false);
@@ -191,13 +191,13 @@ namespace SealTeam4
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    LeaveSeat();
+                    LeaveSeatIfSeated();
                     break;
                 case 1:
                     aiController.TalkToOtherNPC_Setup();
                     break;
                 case 2:
-                    MoveToWaypoint(aiState.general.currConvoNPCTarget.transform.position, aiStats.stopDist_Convo);
+                    MoveToWaypoint(aiState.general.currConvoNPCTarget.transform.position, aiStats.normalMoveSpeed, aiStats.stopDist_Convo);
                     break;
                 case 3:
                     Terminate_MoveToWaypoint();
@@ -225,11 +225,11 @@ namespace SealTeam4
             aiState.general.currSubschedule++;
         }
 
-        public bool MoveToWaypoint(Vector3 waypointPos, float extraStoppingDistance)
+        public bool MoveToWaypoint(Vector3 waypointPos, float moveSpeed, float extraStoppingDistance)
         {
             if (!aiController.ReachedDestination(aiState.general.currWaypointPosition, extraStoppingDistance))
             {
-                aiController.MoveAITowardsNMAgentDestination();
+                aiController.MoveAITowardsNMAgentDestination(moveSpeed);
                 return false;
             }
             else
@@ -258,7 +258,7 @@ namespace SealTeam4
             aiState.general.currSubschedule++;
         }
 
-        public void LeaveSeat()
+        public void LeaveSeatIfSeated()
         {
             bool leftSeat = aiController.LeaveSeat();
 

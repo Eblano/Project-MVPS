@@ -21,6 +21,9 @@ namespace SealTeam4
         public float minAngleToFaceTarget = 5.0f; // Min angle of error when rotating to face target
         public float stopDist = 0.2f; // Stop distance to any target
         public float stopDist_Convo = 1.0f; // Stop distance for conversation
+
         public float turningSpeed = 2.0f;
+        public float normalMoveSpeed = 1.0f;
+        public float runningSpeed = 2.0f;
     }
 }

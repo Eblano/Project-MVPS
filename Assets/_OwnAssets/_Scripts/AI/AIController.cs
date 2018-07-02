@@ -181,9 +181,9 @@ namespace SealTeam4
             return nmAgent.remainingDistance < aiStats.stopDist + extraStoppingDistance;
         }
 
-        public void MoveAITowardsNMAgentDestination()
+        public void MoveAITowardsNMAgentDestination(float speed)
         {
-            aiAnimController.Anim_Move(nmAgent.desiredVelocity, 1);
+            aiAnimController.Anim_Move(nmAgent.desiredVelocity, speed);
         }
 
         public bool RotateTowardsTargetRotation(Quaternion targetRotation, bool reversedDirection)
