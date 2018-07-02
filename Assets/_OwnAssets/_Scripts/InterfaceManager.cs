@@ -58,7 +58,6 @@ namespace SealTeam4
         [SerializeField] private GameObject borderUiPrefab;
         private GameObject borderUI;
         private List<GameObject> markerList = new List<GameObject>();
-        private Plane[] planes;
         #endregion
 
         // Use this for initialization
@@ -75,7 +74,6 @@ namespace SealTeam4
             outlineShader = Shader.Find("Outlined/Uniform");
             borderUI = Instantiate(borderUiPrefab, this.GetComponent<Canvas>().transform);
             borderUI.SetActive(false);
-            planes = GeometryUtility.CalculateFrustumPlanes(cam);
         }
 
         // Update is called once per frame
@@ -133,7 +131,7 @@ namespace SealTeam4
             Debug.Log("Draw Marker");
             pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPoint();
             screenPos = cam.WorldToScreenPoint(pos);
-            if (currSelectedGO)
+            if (currSelectedGO && screenPos.z <= 0)
             {
                 if (markerList.Count != 0)
                 {
@@ -147,7 +145,7 @@ namespace SealTeam4
                 GameObject m = Instantiate(markerPrefab, screenPos, Quaternion.identity, this.GetComponent<Canvas>().transform);
                 markerList.Add(m);
             }
-            else if (currSelectedGO && screenPos == null)
+            else if (currSelectedGO && screenPos.z < 0)
             {
                 borderUI.SetActive(true);
             }
@@ -161,11 +159,6 @@ namespace SealTeam4
         //    GL.End();
         //}
 
-        //private void UpdateMarker()
-        //{
-        //    marker.transform.position = selectedObject.transform.position + new Vector3(0, 10, 0);
-        //}
-
         private void UpdateMarker()
         {
             Debug.Log("Update Marker");
@@ -174,19 +167,16 @@ namespace SealTeam4
                 return;
             }
 
-            if (GeometryUtility.TestPlanesAABB(planes, currSelectedGO.GetComponent<Collider>().bounds))
+            if (screenPos.z <0)
+            {
+                borderUI.SetActive(true);
+            }
+            else
             {
                 borderUI.SetActive(false);
                 pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPoint();
                 screenPos = cam.WorldToScreenPoint(pos);
-                markerList.First().transform.position = screenPos;
-            }
-            else
-            {
-                borderUI.SetActive(true);
-            }
-
-            Debug.Log(GeometryUtility.TestPlanesAABB(planes, currSelectedGO.GetComponent<Collider>().bounds));
+                markerList.First().transform.position = screenPos;            }
         }
 
         // Toggles the position Buttons on and off
