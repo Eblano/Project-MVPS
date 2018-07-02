@@ -9,27 +9,18 @@ namespace SealTeam4
     {
         public bool activateOnStart = true;
 
-        #region User Set-Able parameters
         public enum NPCType { TERRORIST, VIP, CIVILLIAN };
-        public NPCType npcType = NPCType.CIVILLIAN;
-
         public enum CivillianStressResponseMode { FREEZE, RUNTOEXIT, RANDOM }
+
+        [Header("User Set-Able parameters")]
+        public NPCType npcType = NPCType.CIVILLIAN;
         public CivillianStressResponseMode threatResponseMode = CivillianStressResponseMode.FREEZE;
-        #endregion
 
-        #region Hidden Parameters
+        [Header("Hidden Parameters")]
         [Range(0, 100)] public float chanceEnterHostileMode = 0.0f;
-
-        // Min angle to move to 
-        public float minAngleToFaceTarget = 5.0f;
-        public float stopDist = 0.2f;
-        public float stopDist_Convo = 1.0f;
-
-        // Collision avoidance ray legth
-        public float collisionAvoidanceRayLen = 0.7f;        // Multiplyer for avoidance vector length
-        public float collisionAvoidanceMultiplyer = 1.0f;
-        // Enable collision avoidance via raycast
-        public bool enableCollisionAvoidance = false;
-        #endregion
+        public float minAngleToFaceTarget = 5.0f; // Min angle of error when rotating to face target
+        public float stopDist = 0.2f; // Stop distance to any target
+        public float stopDist_Convo = 1.0f; // Stop distance for conversation
+        public float turningSpeed = 2.0f;
     }
 }

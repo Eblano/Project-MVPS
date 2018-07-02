@@ -191,8 +191,10 @@ namespace SealTeam4
             if (reversedDirection)
                 targetRotation = Quaternion.Inverse(targetRotation);
 
+            StopMovement();
             aiAnimController.Anim_Turn(targetRotation);
-            Debug.Log(Quaternion.Angle(transform.rotation, targetRotation) + " " + aiStats.minAngleToFaceTarget);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * aiStats.turningSpeed);
+
             return Quaternion.Angle(transform.rotation, targetRotation) < aiStats.minAngleToFaceTarget;
         }
 
@@ -227,49 +229,8 @@ namespace SealTeam4
             aiAnimController.Anim_Sit();
             return aiAnimEventReciever.sitting_Completed;
         }
-        //..................................................
-
-        private Vector3 GetCollisionAvoidanceVector(Vector3 direction)
-        {
-            RaycastHit centerHitInfo;
-            RaycastHit leftHitInfo;
-            RaycastHit rightHitInfo;
-            Ray centerRay = new Ray(transform.position, transform.forward);
-            Ray leftRay = new Ray(transform.position, ((transform.forward - transform.right) / 1).normalized);
-            Ray rightRay = new Ray(transform.position, ((transform.forward + transform.right) / 1).normalized);
-
-            // Create 3 raycasts and calculate avoidance vector
-            if(Physics.Raycast(centerRay, out centerHitInfo, aiStats.collisionAvoidanceRayLen, 1 << LayerMask.NameToLayer("NPC")))
-            {
-                Debug.Log("Collision Avoidance");
-                return direction + (centerHitInfo.normal * aiStats.collisionAvoidanceMultiplyer);
-            }
-            if (Physics.Raycast(leftRay, out leftHitInfo, aiStats.collisionAvoidanceRayLen, 1 << LayerMask.NameToLayer("NPC")))
-            {
-                Debug.Log("Collision Avoidance");
-                return direction + (leftHitInfo.normal * aiStats.collisionAvoidanceMultiplyer);
-            }
-            if (Physics.Raycast(rightRay, out rightHitInfo, aiStats.collisionAvoidanceRayLen, 1 << LayerMask.NameToLayer("NPC")))
-            {
-                Debug.Log("Collision Avoidance");
-                return direction + (rightHitInfo.normal * aiStats.collisionAvoidanceMultiplyer);
-            }
-            return direction;
-        }
-
-        public Vector3 GetRandNavmeshPos(float radius)
-        {
-            Vector3 randomDirection = Random.insideUnitSphere * radius;
-            randomDirection += transform.position;
-            NavMeshHit hit;
-            Vector3 finalPosition = Vector3.zero;
-            if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
-            {
-                finalPosition = hit.position;
-            }
-            return finalPosition;
-        }
-         
+        //************************************************
+                 
         public void FadeAway()
         {
             gameObject.SetActive(false);

@@ -8,7 +8,7 @@ namespace SealTeam4
 {
     public class NPCScheduleSlot : MonoBehaviour
     {
-        [SerializeField] private GameObject moveToPosPanel;
+        [SerializeField] private GameObject waypointMarkerPanel;
         [SerializeField] private GameObject idlePanel;
         [SerializeField] private GameObject sitInAreaPanel;
         [SerializeField] private GameObject talkToNPCPanel;
@@ -51,7 +51,7 @@ namespace SealTeam4
             Setup_WaypointMarkerDropdown(waypointMarkers);
             Setup_SitInAreaDropdown(areaMarkers);
 
-            moveToPosPanel.gameObject.SetActive(false);
+            waypointMarkerPanel.gameObject.SetActive(false);
             idlePanel.gameObject.SetActive(false);
             talkToNPCPanel.gameObject.SetActive(false);
             sitInAreaPanel.gameObject.SetActive(false);
@@ -64,7 +64,11 @@ namespace SealTeam4
                     break;
                 case "Move to Waypoint":
                     SetValue_MoveToPosDropdown(ref_schedule.argument);
-                    moveToPosPanel.gameObject.SetActive(true);
+                    waypointMarkerPanel.gameObject.SetActive(true);
+                    break;
+                case "Move to Waypoint + Rotate":
+                    SetValue_MoveToPosDropdown(ref_schedule.argument);
+                    waypointMarkerPanel.gameObject.SetActive(true);
                     break;
                 case "Sit in Area":
                     SetValue_SitInAreaDropdown(ref_schedule.argument);
@@ -200,31 +204,31 @@ namespace SealTeam4
             switch (newScheduleType)
             {
                 case "Idle":
-                    moveToPosPanel.gameObject.SetActive(false);
+                    waypointMarkerPanel.gameObject.SetActive(false);
                     idlePanel.gameObject.SetActive(true);
                     sitInAreaPanel.gameObject.SetActive(false);
                     talkToNPCPanel.gameObject.SetActive(false);
                     break;
                 case "Move to Waypoint":
-                    moveToPosPanel.gameObject.SetActive(true);
+                    waypointMarkerPanel.gameObject.SetActive(true);
                     idlePanel.gameObject.SetActive(false);
                     sitInAreaPanel.gameObject.SetActive(false);
                     talkToNPCPanel.gameObject.SetActive(false);
                     break;
                 case "Move to Waypoint + Rotate":
-                    moveToPosPanel.gameObject.SetActive(true);
+                    waypointMarkerPanel.gameObject.SetActive(true);
                     idlePanel.gameObject.SetActive(false);
                     sitInAreaPanel.gameObject.SetActive(false);
                     talkToNPCPanel.gameObject.SetActive(false);
                     break;
                 case "Sit in Area":
-                    moveToPosPanel.gameObject.SetActive(false);
+                    waypointMarkerPanel.gameObject.SetActive(false);
                     idlePanel.gameObject.SetActive(false);
                     sitInAreaPanel.gameObject.SetActive(true);
                     talkToNPCPanel.gameObject.SetActive(false);
                     break;
                 case "Talk to other NPC":
-                    moveToPosPanel.gameObject.SetActive(false);
+                    waypointMarkerPanel.gameObject.SetActive(false);
                     idlePanel.gameObject.SetActive(false);
                     sitInAreaPanel.gameObject.SetActive(false);
                     talkToNPCPanel.gameObject.SetActive(true);

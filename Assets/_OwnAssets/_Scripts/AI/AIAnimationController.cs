@@ -76,7 +76,7 @@ namespace SealTeam4
         {
             float rotateDirection = (((targetRotation.eulerAngles.y - transform.rotation.eulerAngles.y) + 360f) % 360f) > 180.0f ? -1 : 1;
 
-            m_Animator.SetFloat("Turn", rotateDirection, 0.1f, Time.deltaTime);
+            m_Animator.SetFloat("Turn", rotateDirection);
         }
 
         public void Anim_Sit()
