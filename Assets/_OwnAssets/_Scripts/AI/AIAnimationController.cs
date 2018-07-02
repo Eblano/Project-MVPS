@@ -70,13 +70,17 @@ namespace SealTeam4
                 m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
             }
         }
-
-        // BROKEN
+        
         public void Anim_Turn(Quaternion targetRotation)
         {
             float rotateDirection = (((targetRotation.eulerAngles.y - transform.rotation.eulerAngles.y) + 360f) % 360f) > 180.0f ? -1 : 1;
 
             m_Animator.SetFloat("Turn", rotateDirection);
+        }
+
+        public void Anim_StopTurn()
+        {
+            m_Animator.SetFloat("Turn", 0);
         }
 
         public void Anim_Sit()

@@ -90,40 +90,30 @@ namespace SealTeam4
             }
         }
         
-        public void ConvoProcess_TalkToOtherNPC()
+        public bool RequestStartConvo(AIController requester)
         {
-            AIController otherNPCAIController = aiState.general.currConvoNPCTarget.GetComponent<AIController>();
-
-            if (!aiState.general.inConversation)
+            if(AvailableForConversation())
             {
-                otherNPCAIController.ConvoProcess_StartConvo();
-                aiState.general.inConversation = true;
-            }
-            if (aiState.general.timeInConvo > float.Parse(npcSchedules[aiState.general.currSchedule].argument))
-            {
-                otherNPCAIController.ConvoProcess_EndConvo();
-                aiState.general.inConversation = false;
-                aiState.general.timeInConvo = 0;
-                aiAnimController.Anim_StopStandTalking();
-                aiState.general.currSubschedule++;
+                aiState.general.aIMode = AIState.General.AIMode.PARTICIPATE_CONVO;
+                aiState.general.waitingForConversationToStart = true;
+                StopMovement();
+                aiState.general.currConvoNPCTarget = requester;
+                return true;
             }
             else
             {
-                aiAnimController.Anim_StartStandTalking();
-                aiState.general.timeInConvo += Time.deltaTime;
+                Debug.Log(gameObject.name + " denied conversation request");
+                return false;
             }
         }
-        
-        public void ConvoProcess_StartConvo()
+
+        public void StartConvoWithConvoNPCTarget()
         {
             aiState.general.inConversation = true;
-            aiState.general.waitingForConversationToStart = false;
-            nmAgent.SetDestination(transform.position);
             aiAnimController.Anim_StartStandTalking();
-            aiState.general.timeInConvo = 0;
         }
         
-        public void ConvoProcess_EndConvo()
+        public void EndConvoWithConvoNPCTarget()
         {
             aiState.general.inConversation = false;
             aiState.general.aIMode = AIState.General.AIMode.FOLLOW_SCHEDULE;
@@ -132,44 +122,11 @@ namespace SealTeam4
             aiState.general.timeInConvo = 0;
         }
         
-        private bool ConvoProcess_ReqForConvo(GameObject conversationNPC)
+        public bool AvailableForConversation()
         {
-            if (!aiState.general.seated && aiState.active)
-            {
-                aiState.general.aIMode = AIState.General.AIMode.PARTICIPATE_CONVO;
-                aiState.general.waitingForConversationToStart = true;
-                aiAnimController.Anim_Move(Vector3.zero, 1);
-                nmAgent.SetDestination(transform.position);
-                aiState.general.currConvoNPCTarget = conversationNPC;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return !aiState.general.seated && aiState.active && !aiState.general.inConversation;
         }
         
-        public void TalkToOtherNPC_Setup()
-        {
-            // Get gameobject of nearest NPC
-            GameObject otherNPC = GameManager.instance.GetNearestCivilianNPC(gameObject);
-            if(otherNPC) // If found NPC
-            {
-                if(otherNPC.GetComponent<AIController>().ConvoProcess_ReqForConvo(gameObject))
-                {
-                    aiState.general.currConvoNPCTarget = otherNPC;
-                    nmAgent.SetDestination(aiState.general.currConvoNPCTarget.transform.position);
-                    aiState.general.currSubschedule++;
-                }
-            }
-            else
-            {
-                Debug.Log("Failed to find available NPC");
-                aiState.general.currSubschedule = -1;
-            }
-        }
-        
-        // NEW METHODS THAT IS SHARED, PLEASE ORGANIZE LATER
         public void SetNMAgentDestination(Vector3 position)
         {
             nmAgent.SetDestination(position);
@@ -186,11 +143,8 @@ namespace SealTeam4
             aiAnimController.Anim_Move(nmAgent.desiredVelocity, speed);
         }
 
-        public bool RotateTowardsTargetRotation(Quaternion targetRotation, bool reversedDirection)
+        public bool RotateTowardsTargetRotation(Quaternion targetRotation)
         {
-            if (reversedDirection)
-                targetRotation = Quaternion.Inverse(targetRotation);
-
             StopMovement();
             aiAnimController.Anim_Turn(targetRotation);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * aiStats.turningSpeed);
@@ -198,10 +152,32 @@ namespace SealTeam4
             return Quaternion.Angle(transform.rotation, targetRotation) < aiStats.minAngleToFaceTarget;
         }
 
+        public bool RotateTowardsTargetDirection(Vector3 targetPosition)
+        {
+            StopMovement();
+
+            Vector3 direction = targetPosition - transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            aiAnimController.Anim_Turn(lookRotation);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * aiStats.turningSpeed);
+            return Quaternion.Angle(transform.rotation, lookRotation) < aiStats.minAngleToFaceTarget;
+        }
+
         public void StopMovement()
         {
             SetNMAgentDestination(transform.position);
             aiAnimController.Anim_Move(Vector3.zero, 1);
+        }
+
+        public void StopRotation()
+        {
+            aiAnimController.Anim_StopTurn();
+        }
+
+        public void StopStandTalking()
+        {
+            aiAnimController.Anim_StopStandTalking();
         }
 
         public bool LeaveSeat()
@@ -229,7 +205,6 @@ namespace SealTeam4
             aiAnimController.Anim_Sit();
             return aiAnimEventReciever.sitting_Completed;
         }
-        //************************************************
                  
         public void FadeAway()
         {

@@ -64,9 +64,9 @@ namespace SealTeam4
 
         // NPC List
         [SerializeField] private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
-        private List<GameObject> spawnedCivilianNPCs = new List<GameObject>();
-        private List<GameObject> spawnedVIPNPC = new List<GameObject>();
-        private List<GameObject> spawnedHostileNPCs = new List<GameObject>();
+        private List<AIController> spawnedCivilianNPCs = new List<AIController>();
+        private List<AIController> spawnedVIPNPC = new List<AIController>();
+        private List<AIController> spawnedHostileNPCs = new List<AIController>();
 
         //// For calibration of in game position from physical position
         //public bool calibrationMode = false;
@@ -376,41 +376,48 @@ namespace SealTeam4
                 switch(aiStats.npcType)
                 {
                     case AIStats.NPCType.CIVILLIAN:
-                        spawnedCivilianNPCs.Add(npc);
+                        spawnedCivilianNPCs.Add(npcGOAIController);
                         break;
 
                     case AIStats.NPCType.TERRORIST:
-                        spawnedHostileNPCs.Add(npc);
+                        spawnedHostileNPCs.Add(npcGOAIController);
                         break;
 
                     case AIStats.NPCType.VIP:
-                        spawnedVIPNPC.Add(npc);
+                        spawnedVIPNPC.Add(npcGOAIController);
                         break;
                 }
             }
         }
 
-        public GameObject GetNearestCivilianNPC(GameObject npcGO)
+        public AIController GetNearestAvailableCivilianNPCForConvo(AIController requester)
         {
-            GameObject closestNPC = null;
+            List<AIController> availableNPCs = new List<AIController>();
+            AIController availableClosestNPC = null;
+            float closestDist = Mathf.Infinity;
 
-            float distance = Mathf.Infinity;
-            Vector3 position = npcGO.transform.position;
-            foreach (GameObject civilianNpc in spawnedCivilianNPCs)
+            Vector3 position = requester.transform.position;
+            foreach (AIController civilianNpc in spawnedCivilianNPCs)
             {
-                if (civilianNpc != npcGO)
+                if (civilianNpc != requester && civilianNpc.AvailableForConversation())
                 {
-                    Vector3 diff = civilianNpc.transform.position - position;
-                    float curDistance = diff.sqrMagnitude;
-
-                    if (curDistance < distance)
-                    {
-                        closestNPC = civilianNpc;
-                        distance = curDistance;
-                    }
+                    availableNPCs.Add(civilianNpc);
                 }
             }
-            return closestNPC;
+
+            foreach(AIController availableNPC in availableNPCs)
+            {
+                Vector3 diff = availableNPC.transform.position - position;
+                float curDistance = diff.sqrMagnitude;
+
+                if (curDistance < closestDist)
+                {
+                    availableClosestNPC = availableNPC;
+                    closestDist = curDistance;
+                }
+            }
+
+            return availableClosestNPC;
         }
 
         public Vector3 GetNearestExitMarkerVector(GameObject npcGO)
