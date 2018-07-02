@@ -328,5 +328,10 @@ namespace SealTeam4
 
             NpcScripting.instance.DeleteSchedule(targetSchedule);
         }
+
+        public void MoveScheduleOrder(NPCSchedule_RTEStorage scheduleToMove, NpcScriptStorage.SCHEDULE_MOVE_DIRECTION moveDir)
+        {
+            NpcScriptStorage.instance.MoveScheduleOrder(ref_npcSpawnData.npcName, scheduleToMove, moveDir);
+        }
 	}
 }
