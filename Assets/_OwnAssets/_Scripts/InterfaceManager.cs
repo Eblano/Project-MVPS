@@ -21,6 +21,9 @@ namespace SealTeam4
     {
         #region Variables
 
+        [SerializeField] private GameObject camPrefab;
+        private Camera cam;
+
         // Calibration Button variables
         private bool calibrationModeOn;
         private Image calibrationBtnColor;
@@ -50,12 +53,19 @@ namespace SealTeam4
         [SerializeField] GameObject markerPrefab;
         private GameObject marker;
         private bool markerActive;
-
+        private Vector3 pos;
+        private Vector3 screenPos;
+        [SerializeField] private GameObject borderUiPrefab;
+        private GameObject borderUI;
+        private List<GameObject> markerList = new List<GameObject>();
+        private Plane[] planes;
         #endregion
 
         // Use this for initialization
         void Start()
         {
+            cam = Instantiate(camPrefab).GetComponentInChildren<Camera>();
+
             // Calibration Button Setup
             calibrationModeOn = false;
             calibrationBtnColor = GameObject.Find("PlayerPosCalibrationBtn").GetComponent<Image>();
@@ -63,6 +73,9 @@ namespace SealTeam4
 
             // Selection Setup
             outlineShader = Shader.Find("Outlined/Uniform");
+            borderUI = Instantiate(borderUiPrefab, this.GetComponent<Canvas>().transform);
+            borderUI.SetActive(false);
+            planes = GeometryUtility.CalculateFrustumPlanes(cam);
         }
 
         // Update is called once per frame
@@ -75,27 +88,16 @@ namespace SealTeam4
                 if (currSelectedGO)
                 {
                     selectedGOTxt.text = currSelectedGO.GetComponent<IActions>().GetName();
-
-                    //Renderer selectedObjRenderer = selectedObject.GetComponent<Renderer>();
-
-                    //if(selectedObjRenderer)
-                    //{
-                    //    selectedObjRenderer.material.shader = Shader.Find("Standard");
-
-                    //    selectedObjectName.text = selectedObject.name;
-                    //    rend = selectedObject.GetComponent<Renderer>();
-                    //    rend.material.shader = outlineShader;
-                    //    rend.material.SetColor("_OutlineColor", Color.yellow);
-                    //    rend.material.SetFloat("_OutlineWidth", 0.1f);
-                    //}
                 }
                 else
                 {
                     selectedGOTxt.text = "Nothing Selected";
                 }
             }
+            UpdateMarker();
             UpdateActionList();
             ListenForKeys();
+            
             //if(selectedObject) UpdateMarker();
         }
 
@@ -120,27 +122,72 @@ namespace SealTeam4
 
         private void MarkSelectedObject()
         {
-            if (!markerActive)
-            {
-                marker = Instantiate(markerPrefab, currSelectedGO.transform);
-                markerActive = true;
-            }
+            Debug.Log("Mark Selected Object");
 
+            DrawObjectMarker();
+            //DrawMarkerLine();
+        }
+
+        private void DrawObjectMarker()
+        {
+            Debug.Log("Draw Marker");
+            pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPoint();
+            screenPos = cam.WorldToScreenPoint(pos);
             if (currSelectedGO)
             {
-                marker.transform.position = currSelectedGO.transform.position + new Vector3(0, 10, 0);
+                if (markerList.Count != 0)
+                {
+                    foreach (GameObject g in markerList)
+                    {
+                        Destroy(g.gameObject);
+                    }
+                    markerList.Clear();
+                }
+                borderUI.SetActive(false);
+                GameObject m = Instantiate(markerPrefab, screenPos, Quaternion.identity, this.GetComponent<Canvas>().transform);
+                markerList.Add(m);
             }
-            else if (markerActive)
+            else if (currSelectedGO && screenPos == null)
             {
-                Destroy(marker.gameObject);
+                borderUI.SetActive(true);
             }
         }
 
+        //private void DrawMarkerLine()
+        //{
+        //    GL.Begin(GL.LINES);
+        //    GL.Vertex3(pos.x, pos.y, pos.z);
+        //    GL.Vertex3(selectedGOTxt.bounds.center.x, selectedGOTxt.bounds.center.y, selectedGOTxt.bounds.center.z);
+        //    GL.End();
+        //}
 
         //private void UpdateMarker()
         //{
         //    marker.transform.position = selectedObject.transform.position + new Vector3(0, 10, 0);
         //}
+
+        private void UpdateMarker()
+        {
+            Debug.Log("Update Marker");
+            if (markerList.Count == 0)
+            {
+                return;
+            }
+
+            if (GeometryUtility.TestPlanesAABB(planes, currSelectedGO.GetComponent<Collider>().bounds))
+            {
+                borderUI.SetActive(false);
+                pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPoint();
+                screenPos = cam.WorldToScreenPoint(pos);
+                markerList.First().transform.position = screenPos;
+            }
+            else
+            {
+                borderUI.SetActive(true);
+            }
+
+            Debug.Log(GeometryUtility.TestPlanesAABB(planes, currSelectedGO.GetComponent<Collider>().bounds));
+        }
 
         // Toggles the position Buttons on and off
         public void ToggleCalibration()
@@ -169,18 +216,16 @@ namespace SealTeam4
             if (!EventSystem.current.IsPointerOverGameObject())
             {
                 // Raycasts to find object for selection
-                ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                ray = cam.ScreenPointToRay(Input.mousePosition);
 
                 int ignoreLayer = ~(1 << LayerMask.NameToLayer("UI"));
 
                 Physics.Raycast(ray, out hit, Mathf.Infinity, ignoreLayer);
-                Debug.DrawLine(ray.origin, hit.point);
-                Debug.Log(hit.collider);
-                Debug.Log(hit.distance);
 
                 if (hit.transform && hit.transform.GetComponents<IActions>().Length != 0)
                 {
                     currSelectedGO = hit.transform.gameObject;
+                    MarkSelectedObject();
                 }
                 else
                 {
@@ -209,6 +254,7 @@ namespace SealTeam4
             }
             else
             {
+                selectedGOTxt.text = "Nothing Selected";
                 actionList.Clear();
                 UpdateActionListButtons();
             }

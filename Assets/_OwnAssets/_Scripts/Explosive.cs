@@ -5,8 +5,9 @@ using SealTeam4;
 
 public class Explosive : MonoBehaviour, IActions
 {
-    List<string> action = new List<string>();
-    [SerializeField] ParticleSystem explosionParticles;
+    private List<string> action = new List<string>();
+    [SerializeField] private ParticleSystem explosionParticles;
+    [SerializeField] private Transform highestPoint;
 
     void Start()
     {
@@ -35,7 +36,7 @@ public class Explosive : MonoBehaviour, IActions
         //GameManagerAssistant.instance.CmdSyncHaps(, ControllerHapticsManager.HapticType.GUNFIRE, VRTK.VRTK_DeviceFinder.Devices.LeftController);
         //GameManagerAssistant.instance.CmdSyncHaps(, ControllerHapticsManager.HapticType.GUNFIRE, VRTK.VRTK_DeviceFinder.Devices.RightController);
         Destroy(gameObject);
-        
+        action.Clear();
     }
 
     public string GetName()
@@ -45,6 +46,6 @@ public class Explosive : MonoBehaviour, IActions
 
     public Vector3 GetHighestPoint()
     {
-        throw new System.NotImplementedException();
+        return highestPoint.position;
     }
 }
