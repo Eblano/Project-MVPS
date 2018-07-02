@@ -20,11 +20,11 @@ namespace SealTeam4
     public class InterfaceManager : MonoBehaviour
     {
         #region Variables
-        
+
         // Calibration Button variables
         private bool calibrationModeOn;
         private Image calibrationBtnColor;
-        
+
         [Header("Selected Game Object Panel variables")]
         [SerializeField] private GameObject currSelectedGO;
         [SerializeField] private TextMeshProUGUI selectedGOTxt;
@@ -32,7 +32,7 @@ namespace SealTeam4
         private Ray ray;
         private Shader outlineShader;
         private Renderer rend;
-        
+
         [Header("Player container list spawning variables")]
         [SerializeField] private GameObject prefab;
         [SerializeField] private GameObject playerList_GO;
@@ -45,7 +45,7 @@ namespace SealTeam4
         [SerializeField] private GameObject actionBtn_Prefab;
         private List<string> actionList = new List<string>();
         private List<Button> actionBtnList = new List<Button>();
-        
+
         [Header("Selection Marker Variable")]
         [SerializeField] GameObject markerPrefab;
         private GameObject marker;
@@ -75,7 +75,7 @@ namespace SealTeam4
                 if (currSelectedGO)
                 {
                     selectedGOTxt.text = currSelectedGO.GetComponent<IActions>().GetName();
-                    
+
                     //Renderer selectedObjRenderer = selectedObject.GetComponent<Renderer>();
 
                     //if(selectedObjRenderer)
@@ -130,7 +130,7 @@ namespace SealTeam4
             {
                 marker.transform.position = currSelectedGO.transform.position + new Vector3(0, 10, 0);
             }
-            else if(markerActive)
+            else if (markerActive)
             {
                 Destroy(marker.gameObject);
             }
@@ -141,7 +141,7 @@ namespace SealTeam4
         //{
         //    marker.transform.position = selectedObject.transform.position + new Vector3(0, 10, 0);
         //}
-    
+
         // Toggles the position Buttons on and off
         public void ToggleCalibration()
         {
@@ -170,7 +170,14 @@ namespace SealTeam4
             {
                 // Raycasts to find object for selection
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                Physics.Raycast(ray, out hit);
+
+                int ignoreLayer = ~(1 << LayerMask.NameToLayer("UI"));
+
+                Physics.Raycast(ray, out hit, Mathf.Infinity, ignoreLayer);
+                Debug.DrawLine(ray.origin, hit.point);
+                Debug.Log(hit.collider);
+                Debug.Log(hit.distance);
+
                 if (hit.transform && hit.transform.GetComponents<IActions>().Length != 0)
                 {
                     currSelectedGO = hit.transform.gameObject;
@@ -221,7 +228,7 @@ namespace SealTeam4
                 {
                     Button actionBtn = Instantiate(actionBtn_Prefab, actionBtnContainer).GetComponent<Button>();
 
-                    actionBtn.GetComponentInChildren<TextMeshProUGUI>().text =  (i+1) + " - " + actionList[i];
+                    actionBtn.GetComponentInChildren<TextMeshProUGUI>().text = (i + 1) + " - " + actionList[i];
 
                     actionBtn.onClick.AddListener(delegate
                     {
