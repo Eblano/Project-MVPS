@@ -59,6 +59,11 @@ namespace SealTeam4
         [Header("GameObjects for RuntimeEditor Prefabs")]
         [SerializeField] private GameObject markerFloatingText_Prefab;
 
+        [Header("MarkerUI Camera Properties")]
+        [Battlehub.SerializeIgnore] [SerializeField] private GameObject markerUICamera_Prefab;
+        private GameObject markerUICameraGO;
+        private GameObject camToFollow;
+
         private void Start()
         {
             if (!instance)
@@ -73,10 +78,27 @@ namespace SealTeam4
 
             m_projectManager = Dependencies.ProjectManager;
             assetsFolderPath = Application.persistentDataPath + "/Assets";
+
+            markerUICameraGO = Instantiate(markerUICamera_Prefab, Vector3.zero, Quaternion.identity);
+        }
+
+        private void UpdateMarkerUICameraTransform()
+        {
+            if (!camToFollow)
+            {
+                camToFollow = GameObject.Find("Editor Camera");
+            }
+            else
+            {
+                markerUICameraGO.transform.position = camToFollow.transform.position;
+                markerUICameraGO.transform.rotation = camToFollow.transform.rotation;
+            }
         }
 
         private void Update()
         {
+            UpdateMarkerUICameraTransform();
+
             if (sceneHash_timeLeftToRefresh <= 0)
             {
                 sceneHash_timeLeftToRefresh = sceneHash_refreshRate;
@@ -88,9 +110,7 @@ namespace SealTeam4
                     sceneHashText.text = " - ";
             }
             else
-            {
                 sceneHash_timeLeftToRefresh -= Time.deltaTime;
-            }
 
             if (acceptKeyInput)
             {

@@ -63,7 +63,7 @@ namespace SealTeam4
         [Space(10)]
 
         // NPC List
-        [SerializeField] private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
+        private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
         private List<AIController> spawnedCivilianNPCs = new List<AIController>();
         private List<AIController> spawnedVIPNPC = new List<AIController>();
         private List<AIController> spawnedHostileNPCs = new List<AIController>();
