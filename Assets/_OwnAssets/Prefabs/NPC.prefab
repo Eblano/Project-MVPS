@@ -1054,7 +1054,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7c6f744d051c6841a810e2dfec1c9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiState: {fileID: 0}
+  aiState:
+    active: 0
+    general:
+      aIMode: 0
+      currSchedule: 0
+      currSubschedule: 0
+      currTimerValue: 0
+      currWaypointPosition: {x: 0, y: 0, z: 0}
+      currWaypointRotation: {x: 0, y: 0, z: 0, w: 0}
+      currSeatTarget: {fileID: 0}
+      seated: 0
+      waitingForConversationToStart: 1
+      inConversation: 0
+      timeInConvo: 0
+      currConvoNPCTarget: {fileID: 0}
+    civilian:
+      underAttack:
+        mode: 0
+        bracing: 0
+        timeLeftBeforeFindingNewRandPosition: 0
+        currMoveVector: {x: 0, y: 0, z: 0}
   aiStats:
     activateOnStart: 1
     npcType: 2
@@ -1063,9 +1083,9 @@ MonoBehaviour:
     minAngleToFaceTarget: 5
     stopDist: 0.2
     stopDist_Convo: 1
-    collisionAvoidanceRayLen: 0.7
-    collisionAvoidanceMultiplyer: 1
-    enableCollisionAvoidance: 0
+    turningSpeed: 2
+    normalMoveSpeed: 1
+    runningSpeed: 2
   actionableParameters: []
   highestPoint: {fileID: 4652597901801500}
 --- !u!114 &114371402435369606
