@@ -318,6 +318,8 @@ namespace SealTeam4
                 GameObject go = Instantiate(gameObjectsToSpawn[i], Vector3.zero, Quaternion.identity);
                 go.transform.SetParent(null);
             }
+
+            markerUICameraGO.SetActive(true);
         }
 
         /// <summary>
@@ -486,6 +488,11 @@ namespace SealTeam4
         public GameObject GetMarkerFloatingtTextPrefab()
         {
             return markerFloatingText_Prefab;
+        }
+
+        public void ToggleMarkerVisibility()
+        {
+            markerUICameraGO.SetActive(!markerUICameraGO.activeInHierarchy);
         }
     }
 }
