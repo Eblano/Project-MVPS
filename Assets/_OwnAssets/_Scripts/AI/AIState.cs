@@ -49,7 +49,7 @@ namespace SealTeam4
             // Current conversation time passed
             public float timeInConvo = 0;
             // Reference to NPC that is in conversation with
-            public GameObject currConvoNPCTarget = null;
+            public AIController currConvoNPCTarget = null;
         }
         public General general = new General();
 

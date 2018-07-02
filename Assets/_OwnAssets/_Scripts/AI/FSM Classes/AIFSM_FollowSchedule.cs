@@ -131,7 +131,7 @@ namespace SealTeam4
                     MoveToWaypoint(aiState.general.currWaypointPosition, aiStats.normalMoveSpeed, 0);
                     break;
                 case 3:
-                    RotateToTargetRotation(aiState.general.currWaypointRotation, false);
+                    RotateToTargetRotation(aiState.general.currWaypointRotation);
                     break;
                 case 4:
                     Terminate_MoveToWaypoint();
@@ -158,19 +158,19 @@ namespace SealTeam4
                     LeaveSeatIfSeated();
                     break;
                 case 1:
-                    SitDownInArea_Setup();
+                    Setup_SitDownInArea();
                     break;
                 case 2:
                     MoveToWaypoint(aiState.general.currSeatTarget.transform.position, aiStats.normalMoveSpeed, 0);
                     break;
                 case 3:
-                    RotateToTargetRotation(aiState.general.currSeatTarget.transform.rotation, false);
+                    RotateToTargetRotation(aiState.general.currSeatTarget.transform.rotation);
                     break;
                 case 4:
                     SitDownOnSeat();
                     break;
                 case 5:
-                    SitDownInArea_Term();
+                    Terminate_SetDownInArea();
                     break;
                 case 6:
                     aiState.general.currSubschedule = 0;
@@ -194,7 +194,7 @@ namespace SealTeam4
                     LeaveSeatIfSeated();
                     break;
                 case 1:
-                    aiController.TalkToOtherNPC_Setup();
+                    TalkToOtherNPC_FindPartner();
                     break;
                 case 2:
                     MoveToWaypoint(aiState.general.currConvoNPCTarget.transform.position, aiStats.normalMoveSpeed, aiStats.stopDist_Convo);
@@ -203,9 +203,15 @@ namespace SealTeam4
                     Terminate_MoveToWaypoint();
                     break;
                 case 4:
-                    aiController.ConvoProcess_TalkToOtherNPC();
+                    Setup_TalkToOtherNPC();
                     break;
                 case 5:
+                    TalkToOtherNPC();
+                    break;
+                case 6:
+                    Terminate_TalkToOtherNPC();
+                    break;
+                case 7:
                     aiState.general.currSubschedule = 0;
                     aiState.general.currSchedule++;
                     break;
@@ -267,9 +273,9 @@ namespace SealTeam4
                 aiState.general.currSubschedule++;
         }
 
-        public void RotateToTargetRotation(Quaternion targetRotation, bool reversedDirection)
+        public void RotateToTargetRotation(Quaternion targetRotation)
         {
-            bool rotateComplete = aiController.RotateTowardsTargetRotation(targetRotation, reversedDirection);
+            bool rotateComplete = aiController.RotateTowardsTargetRotation(targetRotation);
 
             if (rotateComplete)
             {
@@ -301,7 +307,7 @@ namespace SealTeam4
             aiState.general.currSubschedule++;
         }
 
-        public void SitDownInArea_Setup()
+        public void Setup_SitDownInArea()
         {
             // Get Area
             AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument);
@@ -321,7 +327,7 @@ namespace SealTeam4
             }
         }
 
-        public void SitDownInArea_Term()
+        public void Terminate_SetDownInArea()
         {
             bool notSitting = aiController.LeaveSeat();
 
@@ -338,6 +344,57 @@ namespace SealTeam4
                 aiState.general.seated = true;
                 aiState.general.currSubschedule++;
             }
+        }
+
+        public void TalkToOtherNPC_FindPartner()
+        {
+            // Get gameobject of nearest NPC
+            AIController otherNPC = GameManager.instance.GetNearestAvailableCivilianNPCForConvo(aiController);
+
+            if(otherNPC && otherNPC.AvailableForConversation()) // If found NPC & able to convo
+            {
+                // Request for conversation
+                bool reqResults = otherNPC.RequestStartConvo(aiController);
+
+                if (reqResults == true)
+                {
+                    aiState.general.currConvoNPCTarget = otherNPC;
+                    aiController.SetNMAgentDestination(aiState.general.currConvoNPCTarget.transform.position);
+                    aiState.general.currSubschedule++;
+                }
+                else
+                {
+                    Debug.Log("Failed to find available NPC");
+                    aiState.general.currSubschedule = -1;
+                }
+            }
+        }
+
+        public void Setup_TalkToOtherNPC()
+        {
+            aiState.general.currConvoNPCTarget.StartConvoWithConvoNPCTarget();
+            aiAnimController.Anim_StartStandTalking();
+            aiState.general.inConversation = true;
+            aiState.general.currSubschedule++;
+        }
+
+        public void TalkToOtherNPC()
+        {
+            float conversationDuration = float.Parse(npcSchedules[aiState.general.currSchedule].argument);
+
+            if (aiState.general.timeInConvo > conversationDuration)
+                aiState.general.currSubschedule++;
+            else
+                aiState.general.timeInConvo += Time.deltaTime;
+        }
+
+        public void Terminate_TalkToOtherNPC()
+        {
+            aiState.general.inConversation = false;
+            aiState.general.timeInConvo = 0;
+            aiAnimController.Anim_StopStandTalking();
+            aiState.general.currConvoNPCTarget.EndConvoWithConvoNPCTarget();
+            aiState.general.currSubschedule++;
         }
     }
 }
