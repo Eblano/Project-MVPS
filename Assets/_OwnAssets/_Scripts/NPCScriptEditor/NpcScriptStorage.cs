@@ -10,6 +10,7 @@ namespace SealTeam4
         [Battlehub.SerializeIgnore] public static NpcScriptStorage instance;
 
         private readonly string baseNPCName = "NPC";
+        public enum SCHEDULE_MOVE_DIRECTION { UP, DOWN };
         
         [SerializeField] private List<NPCSpawnData_RTEStorage> npcSpawnDataList_RTEStorage;
         [SerializeField] private List<NPCSchedule_RTEStorage> npcScheduleList_RTEStorage;
@@ -120,6 +121,26 @@ namespace SealTeam4
             }
             else
                 return false;
+        }
+
+
+        public void MoveScheduleOrder(string npcName, NPCSchedule_RTEStorage scheduleToMove, SCHEDULE_MOVE_DIRECTION moveDir)
+        {
+            List<NPCSchedule_RTEStorage> targetNPCScheduleList_Copy = npcScheduleList_RTEStorage.FindAll(x => x.npcName == "NPC 0");
+            NPCSchedule_RTEStorage targetScheduleToMove = targetNPCScheduleList_Copy.Find(x => x == npcScheduleList_RTEStorage.Find(y => y == scheduleToMove));
+
+            foreach (NPCSchedule_RTEStorage item in targetNPCScheduleList_Copy)
+                npcScheduleList_RTEStorage.Remove(item);
+
+            int itemIndex = targetNPCScheduleList_Copy.FindIndex(x => x == targetScheduleToMove);
+            targetNPCScheduleList_Copy.RemoveAt(itemIndex);
+
+            if(moveDir == SCHEDULE_MOVE_DIRECTION.UP)
+                targetNPCScheduleList_Copy.Insert(itemIndex - 1, targetScheduleToMove);
+            if(moveDir == SCHEDULE_MOVE_DIRECTION.DOWN)
+                targetNPCScheduleList_Copy.Insert(itemIndex + 1, targetScheduleToMove);
+
+            npcScheduleList_RTEStorage.AddRange(targetNPCScheduleList_Copy);
         }
 
         public List<NpcSpawnData> GetAllNPCSpawnData()

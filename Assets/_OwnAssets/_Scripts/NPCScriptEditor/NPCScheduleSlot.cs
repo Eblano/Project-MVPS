@@ -21,6 +21,12 @@ namespace SealTeam4
         [SerializeField] private TMP_InputField talkToNPCInputField;
         [SerializeField] private TMP_Dropdown sitInAreaDropdown;
 
+        [Space(10)]
+
+        [SerializeField] private TextMeshProUGUI scheduleOrderTxt;
+        [SerializeField] private Button moveUpButton;
+        [SerializeField] private Button moveDownButton;
+
         // Schedule this Schedule Slot is managing
         private NPCSchedule_RTEStorage ref_schedule;
 
@@ -29,6 +35,11 @@ namespace SealTeam4
         private Image scheduleSlotBGImg;
         [SerializeField] private Color errorColor = Color.grey;
         private Color origColor;
+
+        private void Update()
+        {
+            UpdateOrderText();
+        }
 
         public void Setup
             (
@@ -46,7 +57,9 @@ namespace SealTeam4
             idleInputField.onValueChanged.AddListener(delegate { OnValueChanged_IdleInputField(); });
             talkToNPCInputField.onValueChanged.AddListener(delegate { OnValueChanged_TalkToNPCInputField(); });
             sitInAreaDropdown.onValueChanged.AddListener(delegate { OnValueChanged_SitInAreaDropdown(); });
-
+            moveUpButton.onClick.AddListener(delegate { OnButtonClick_MoveUpButton(); });
+            moveDownButton.onClick.AddListener(delegate { OnButtonClick_MoveDownButton(); });
+            ;
             Setup_ScheduleTypeDropdown(ref_schedule.scheduleType, ref_schedule.GetAllScheduleTypes());
             Setup_WaypointMarkerDropdown(waypointMarkers);
             Setup_SitInAreaDropdown(areaMarkers);
@@ -84,6 +97,11 @@ namespace SealTeam4
             origColor = scheduleSlotBGImg.color;
 
             this.parentPropertiesPanel = parentPropertiesPanel;
+        }
+
+        private void UpdateOrderText()
+        {
+            scheduleOrderTxt.text = (transform.GetSiblingIndex() + 1).ToString();
         }
 
         private void Setup_SitInAreaDropdown(List<AreaMarker> markers)
@@ -276,6 +294,24 @@ namespace SealTeam4
         public void DeleteSchedule()
         {
             parentPropertiesPanel.DeleteScheduleSlot(this, ref_schedule);
+        }
+
+        public void OnButtonClick_MoveUpButton()
+        {
+            if(transform.GetSiblingIndex() > 0)
+            {
+                parentPropertiesPanel.MoveScheduleOrder(ref_schedule, NpcScriptStorage.SCHEDULE_MOVE_DIRECTION.UP);
+                transform.SetSiblingIndex(transform.GetSiblingIndex() - 1);
+            }
+        }
+
+        public void OnButtonClick_MoveDownButton()
+        {
+            if (transform.parent.childCount - 1 != transform.GetSiblingIndex())
+            {
+                parentPropertiesPanel.MoveScheduleOrder(ref_schedule, NpcScriptStorage.SCHEDULE_MOVE_DIRECTION.DOWN);
+                transform.SetSiblingIndex(transform.GetSiblingIndex() + 1);
+            }
         }
     }
 }
