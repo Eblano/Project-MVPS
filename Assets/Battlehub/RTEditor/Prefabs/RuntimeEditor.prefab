@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 114134973361642180}
   - component: {fileID: 114095424428205528}
   - component: {fileID: 114196523117519802}
-  - component: {fileID: 114898380093553982}
+  - component: {fileID: 114300906797063496}
   m_Layer: 0
   m_Name: RuntimeEditor
   m_TagString: Untagged
@@ -723,7 +723,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 139590}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92243744f566c614fbb88a7e54153e1b, type: 3}
   m_Name: 
@@ -10123,6 +10123,28 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
+--- !u!114 &114300906797063496
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Guid: cdfb1a12-1d10-4141-a785-08c65454666a
+  Mapping:
+  - Name: RuntimeEditor
+    Object: {fileID: 114196523117519802}
+    Id: 20934
+  - Name: RuntimeEditor
+    Object: {fileID: 146550}
+    Id: 20935
+  - Name: RuntimeEditor
+    Object: {fileID: 468744}
+    Id: 20936
 --- !u!114 &114300930361846548
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10653,6 +10675,7 @@ MonoBehaviour:
   - {fileID: 1767019299507266, guid: 480b54607b255bd4cb2f540de569967e, type: 2}
   - {fileID: 1800644147584302, guid: be0371fe3814dfd4ea58029461d2687b, type: 2}
   - {fileID: 1683678383164940, guid: 3dbb05581f6ec574f8361e902010ed4a, type: 2}
+  - {fileID: 1550403834457356, guid: 5c804c1fc3b26504aa30e9cba89848e1, type: 2}
 --- !u!114 &114335433164122590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11283,6 +11306,13 @@ MonoBehaviour:
   maskSceneHashTxt: {fileID: 114839321165259152}
   markerFloatingText_Prefab: {fileID: 1442591681505686, guid: e9974318537914748a298390293fea2b,
     type: 2}
+  skyboxMats:
+  - {fileID: 2100000, guid: 8a3c60bf799b5454fb232e93cc76ca77, type: 2}
+  - {fileID: 2100000, guid: 21f28c8c85e288b419729b10c7f750df, type: 2}
+  - {fileID: 2100000, guid: fbf4f387c562e8940b9fe41b38b982bf, type: 2}
+  - {fileID: 2100000, guid: 8fbc545de05dd8340a8033a89a532bc2, type: 2}
+  - {fileID: 2100000, guid: 6d3a3fce6acc4f44eb2264898bfbd519, type: 2}
+  - {fileID: 2100000, guid: 79e94c78115088b48b39b011725bc01f, type: 2}
   markerUICamera_Prefab: {fileID: 1577181913337718, guid: 40541ff4afd54f247b7cfd3de6750337,
     type: 2}
 --- !u!114 &114457020632183742
@@ -14356,28 +14386,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114898380093553982
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid: cdfb1a12-1d10-4141-a785-08c65454666a
-  Mapping:
-  - Name: RuntimeEditor
-    Object: {fileID: 114196523117519802}
-    Id: 20934
-  - Name: RuntimeEditor
-    Object: {fileID: 146550}
-    Id: 20935
-  - Name: RuntimeEditor
-    Object: {fileID: 468744}
-    Id: 20936
 --- !u!114 &114900131642221852
 MonoBehaviour:
   m_ObjectHideFlags: 1

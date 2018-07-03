@@ -175,7 +175,7 @@ namespace SealTeam4
             isHost = true;
 
             // Instantiate admin cam
-            // Instantiate(gameMasterCamera_Prefab, transform.position, transform.rotation);
+            //Instantiate(gameMasterCamera_Prefab, transform.position, transform.rotation);
 
             // Instantiate admin interface
             Instantiate(gameMasterUI_Prefab, Vector3.zero, Quaternion.identity);

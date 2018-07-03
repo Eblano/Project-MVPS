@@ -4,10 +4,11 @@ using UnityEngine;
 
 namespace SealTeam4
 {
+    [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
     public class RTESkyboxSetter : MonoBehaviour
     {
         private Material[] skyboxMats;
-        private enum SKYBOXTYPE { DayTime, Sunset, Midnight_With_Moon, DayTime2, DayTime3, Noon };
+        [SerializeField] private enum SKYBOXTYPE { DayTime, Sunset, Midnight_With_Moon, DayTime2, DayTime3, Noon };
         [SerializeField] private SKYBOXTYPE skyboxType = SKYBOXTYPE.DayTime;
         private SKYBOXTYPE prevSkyboxType;
 
