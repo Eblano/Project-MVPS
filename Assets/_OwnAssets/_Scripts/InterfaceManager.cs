@@ -86,6 +86,7 @@ namespace SealTeam4
             GameObject.Find("MarkerUICamera(Clone)").transform.position = new Vector3(0, 0, 0);
             GameObject.Find("AdminCam").transform.rotation = Quaternion.identity;
             GameObject.Find("MarkerUICamera(Clone)").transform.SetParent(cam.gameObject.transform);
+            GameObject.Find("MarkerUICamera(Clone)").transform.localPosition = new Vector3(0, 0, 0);
         }
 
         // Update is called once per frame
@@ -145,7 +146,7 @@ namespace SealTeam4
         private void DrawObjectMarker()
         {
             Debug.Log("Draw Marker");
-            pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPoint();
+            pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPointPos();
             screenPos = cam.WorldToScreenPoint(pos);
             if (currSelectedGO)
             {
@@ -190,7 +191,7 @@ namespace SealTeam4
                 {
                     borderUI.SetActive(false);
                     markerList.First().gameObject.SetActive(true);
-                    pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPoint();
+                    pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPointPos();
                     screenPos = cam.WorldToScreenPoint(pos);
                     markerList.First().transform.position = screenPos;
                 }

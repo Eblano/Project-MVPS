@@ -47,9 +47,14 @@ public class Blackout : MonoBehaviour, IActions
         return gameObject.name;
     }
 
-    public Vector3 GetHighestPoint()
+    public Vector3 GetHighestPointPos()
     {
         return highestPoint.position;
+    }
+
+    public Transform GetHighestPointTransform()
+    {
+        return highestPoint;
     }
 
     public Collider GetCollider()

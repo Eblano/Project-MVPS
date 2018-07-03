@@ -13,8 +13,9 @@ namespace SealTeam4
         private AreaMarker ownedByArea;
         [SerializeField] private bool seatAvailable = true;
 
-        private void Start()
+        protected new void Start()
         {
+            base.Start();
             RegisterMarkerOnGameManager(this);
             Destroy(GetComponent<LineRenderer>());
         }

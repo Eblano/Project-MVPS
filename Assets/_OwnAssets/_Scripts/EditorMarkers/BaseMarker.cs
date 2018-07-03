@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Battlehub.RTGizmos;
 using UnityEngine.AI;
+using Battlehub.RTCommon;
 
 namespace SealTeam4
 {
@@ -13,38 +14,45 @@ namespace SealTeam4
     {
         protected float canvasVerticalOffset = 0;
         private string oldName;
+        private ExposeToEditor m_ExposedToEditor;
+
+        protected void Start()
+        {
+            m_ExposedToEditor = GetComponent<ExposeToEditor>();
+        }
 
         protected virtual void Update()
         {
-            //CheckMarkerNameChange();
+            CheckMarkerNameChange();
         }
 
         private void CheckMarkerNameChange()
         {
-            //if(oldName != gameObject.name && GameManager.instance.MarkerNameExists(gameObject.name))
-            //{
-            //    gameObject.name = oldName;
-            //}
+            if (oldName != gameObject.name && GameManager.instance.MarkerNameExists(gameObject.name))
+            {
+                gameObject.name = oldName;
+                m_ExposedToEditor.SetName(gameObject.name);
+            }
         }
 
         /// <summary>
         /// Register marker to current active GameManager
         /// </summary>
         /// <param name="markerType"></param>
-        protected string RegisterMarkerOnGameManager(BaseMarker marker)
+        protected void RegisterMarkerOnGameManager(BaseMarker marker)
         {
             if (GameManager.instance)
             {
                 string newMarkerName =
                     GameManager.instance.RegisterMarker(marker);
 
+                gameObject.name = newMarkerName;
                 oldName = newMarkerName;
-                return newMarkerName;
+                m_ExposedToEditor.SetName(gameObject.name);
             }
             else
             {
                 Debug.LogWarning("GameManager is not Running");
-                return "No Name";
             }
         }
 

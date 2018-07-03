@@ -245,9 +245,14 @@ namespace SealTeam4
             return npcName;
         }
 
-        public Vector3 GetHighestPoint()
+        public Vector3 GetHighestPointPos()
         {
             return highestPoint.position;
+        }
+
+        public Transform GetHighestPointTransform()
+        {
+            return highestPoint;
         }
 
         public Collider GetCollider()

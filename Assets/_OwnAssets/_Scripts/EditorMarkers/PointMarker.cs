@@ -30,8 +30,9 @@ namespace SealTeam4
 
         private bool setupMode = true;
 
-        protected void Start()
+        protected new void Start()
         {
+            base.Start();
             if (!GetComponent<MeshFilter>())
                 meshFilter = gameObject.AddComponent<MeshFilter>();
             else

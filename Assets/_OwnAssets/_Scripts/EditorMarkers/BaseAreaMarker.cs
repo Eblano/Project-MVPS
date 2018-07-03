@@ -17,9 +17,9 @@ namespace SealTeam4
 
         private bool initializedMeshCollider = false;
 
-        protected void Start()
+        protected new void Start()
         {
-            //gameObject.name = RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.AREA);
+            base.Start();
             RegisterMarkerOnGameManager(this);
             InitializeMeshAndMaterial();
         }

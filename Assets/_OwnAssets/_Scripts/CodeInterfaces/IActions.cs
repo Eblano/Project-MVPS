@@ -9,7 +9,9 @@ public interface IActions
 
     string GetName();
 
-    Vector3 GetHighestPoint();
+    Vector3 GetHighestPointPos();
+
+    Transform GetHighestPointTransform();
 
     Collider GetCollider();
 }

@@ -12,6 +12,7 @@ namespace SealTeam4
         private TextMeshProUGUI canvasText;
 
         protected GameObject camToTrack;
+        [SerializeField] private Transform billboardTransform;
 
         [Header("Canvas Scaling Parameters")]
         //At what distance do we want to start scaling the UI?
@@ -33,6 +34,14 @@ namespace SealTeam4
 
         protected void Start()
         {
+            if (GetComponents<IActions>().Length > 0)
+            {
+                billboardTransform = GetComponents<IActions>()[0].GetHighestPointTransform();
+            }
+            else
+            {
+                billboardTransform = transform;
+            }
         }
 
         protected void LateUpdate()
@@ -90,7 +99,7 @@ namespace SealTeam4
 
         private void MoveCanvas()
         {
-            canvas.transform.position = transform.position;
+            canvas.transform.position = billboardTransform.position;
         }
 
         private void RotateCanvasToFaceCamera()

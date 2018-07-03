@@ -14,7 +14,6 @@ namespace SealTeam4
         private new void Start()
         {
             base.Start();
-            //gameObject.name = RegisterMarkerOnGameManager(GameManager.MARKER_TYPE.NPCSPAWN);
             RegisterMarkerOnGameManager(this);
         }
     }

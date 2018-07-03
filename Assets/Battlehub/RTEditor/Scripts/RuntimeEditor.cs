@@ -274,7 +274,7 @@ namespace Battlehub.RTEditor
                     RuntimeEditorApplication.SceneCameras[i].transform.localScale = RuntimeEditorApplication.GameCameras[0].transform.localScale;
                     RuntimeEditorApplication.SceneCameras[i].tag = "Untagged";
                     RuntimeEditorApplication.SceneCameras[i].name = "Editor Camera";
-                    RuntimeEditorApplication.SceneCameras[i].cullingMask = ~(1 << LayerMask.NameToLayer("FloatingUI") | 1 << LayerMask.NameToLayer("Marker"));
+                    RuntimeEditorApplication.SceneCameras[i].cullingMask = ~(1 << LayerMask.NameToLayer("FloatingUI"));
                 }
 
                 if (!RuntimeEditorApplication.SceneCameras[i].GetComponent<GLCamera>())

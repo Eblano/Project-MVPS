@@ -246,7 +246,7 @@ namespace SealTeam4
 
         public bool MarkerNameExists(string markerName)
         {
-            return registeredMarkers.Exists(x => x.gameObject.name == markerName);
+            return registeredMarkers.FindAll(x => x.gameObject.name == markerName).Count > 1;
         }
 
         public string GetUniqueMarkerName(MARKER_TYPE markerType)
@@ -271,8 +271,11 @@ namespace SealTeam4
                 case MARKER_TYPE.PLAYER_SPAWN_MARKER:
                     baseMarkerName = "Player Spawn Marker ";
                     break;
+                case MARKER_TYPE.EXIT:
+                    baseMarkerName = "Exit Marker ";
+                    break;
                 default:
-                    baseMarkerName = "";
+                    baseMarkerName = "NOT SPECIFIED";
                     break;
             }
 
@@ -292,22 +295,24 @@ namespace SealTeam4
         public string RegisterMarker(BaseMarker marker)
         {
             registeredMarkers.Add(marker);
-            
-            if (marker is NPCSpawnMarker)
-                return GetUniqueMarkerName(MARKER_TYPE.NPCSPAWN);
-            if (marker is AreaMarker)
-                return GetUniqueMarkerName(MARKER_TYPE.AREA);
-            if (marker is PlayerSpawnMarker)
-                return GetUniqueMarkerName(MARKER_TYPE.PLAYER_SPAWN_MARKER);
-            if (marker is ExitMarker)
-                return GetUniqueMarkerName(MARKER_TYPE.EXIT);
-            if (marker is WaypointMarker)
-                return GetUniqueMarkerName(MARKER_TYPE.WAYPOINT);
-            if (marker is SeatMarker)
-                return GetUniqueMarkerName(MARKER_TYPE.SEAT);
 
-            Debug.Log("??");
-            return "error";
+            if(MarkerNameExists(marker.name))
+            {
+                if (marker is NPCSpawnMarker)
+                    return GetUniqueMarkerName(MARKER_TYPE.NPCSPAWN);
+                if (marker is AreaMarker)
+                    return GetUniqueMarkerName(MARKER_TYPE.AREA);
+                if (marker is PlayerSpawnMarker)
+                    return GetUniqueMarkerName(MARKER_TYPE.PLAYER_SPAWN_MARKER);
+                if (marker is ExitMarker)
+                    return GetUniqueMarkerName(MARKER_TYPE.EXIT);
+                if (marker is WaypointMarker)
+                    return GetUniqueMarkerName(MARKER_TYPE.WAYPOINT);
+                if (marker is SeatMarker)
+                    return GetUniqueMarkerName(MARKER_TYPE.SEAT);
+            }
+            
+            return marker.name;
         }
 
         /// <summary>

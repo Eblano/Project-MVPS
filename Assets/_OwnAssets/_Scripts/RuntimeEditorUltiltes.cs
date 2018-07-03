@@ -32,7 +32,6 @@ namespace SealTeam4
         [SerializeField] private KeyCode resetRuntimeAssetsAndRestartKey = KeyCode.Keypad4;
         [SerializeField] private KeyCode exportAssetsKey = KeyCode.Keypad5;
         [SerializeField] private KeyCode importAssetsKey = KeyCode.Keypad6;
-        [SerializeField] private KeyCode refreshRTEGameobjectName = KeyCode.Keypad7;
 
         [Header("List Excecuted by Order")]
         [SerializeField] private readonly KeyCode removeGameObjectsKey = KeyCode.Keypad3;
@@ -62,8 +61,9 @@ namespace SealTeam4
 
         [Header("MarkerUI Camera Properties")]
         [Battlehub.SerializeIgnore] [SerializeField] private GameObject markerUICamera_Prefab;
-        private GameObject markerUICameraGO;
-        private GameObject camToFollow;
+        private Camera markerUICamera;
+        private Camera camToFollow;
+        private bool fixedEditorCamViewport = false;
 
         private void Start()
         {
@@ -117,9 +117,6 @@ namespace SealTeam4
 
                 if (Input.GetKeyDown(importAssetsKey))
                     ImportAssets();
-
-                if (Input.GetKeyDown(refreshRTEGameobjectName))
-                    RefreshRTEGameobjectName();
             }
         }
 
@@ -127,29 +124,21 @@ namespace SealTeam4
         {
             if (!camToFollow)
             {
-                camToFollow = GameObject.Find("Editor Camera");
-                if (!camToFollow)
-                {
-                    camToFollow = GameObject.Find("AdminCamera");
-                }
+                camToFollow = GameObject.Find("Editor Camera").GetComponent<Camera>();
             }
             else
             {
-                if (!markerUICameraGO)
+                if (!markerUICamera)
                 {
-                    markerUICameraGO = Instantiate(markerUICamera_Prefab, Vector3.zero, Quaternion.identity);
+                    markerUICamera = Instantiate(markerUICamera_Prefab, Vector3.zero, Quaternion.identity).GetComponent<Camera>();
                 }
                 else
                 {
-                    markerUICameraGO.transform.position = camToFollow.transform.position;
-                    markerUICameraGO.transform.rotation = camToFollow.transform.rotation;
+                    camToFollow.rect = new Rect(0, 0, 1, 1);
+                    markerUICamera.transform.position = camToFollow.transform.position;
+                    markerUICamera.transform.rotation = camToFollow.transform.rotation;
                 }
             }
-        }
-
-        private void RefreshRTEGameobjectName()
-        {
-
         }
 
         /// <summary>
@@ -329,7 +318,7 @@ namespace SealTeam4
                 go.transform.SetParent(null);
             }
 
-            markerUICameraGO.SetActive(true);
+            markerUICamera.gameObject.SetActive(true);
         }
 
         /// <summary>
@@ -507,7 +496,7 @@ namespace SealTeam4
 
         public void ToggleMarkerVisibility()
         {
-            markerUICameraGO.SetActive(!markerUICameraGO.activeInHierarchy);
+            markerUICamera.gameObject.SetActive(!markerUICamera.gameObject.activeInHierarchy);
         }
     }
 }
