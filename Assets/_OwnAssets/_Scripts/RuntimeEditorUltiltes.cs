@@ -58,6 +58,7 @@ namespace SealTeam4
 
         [Header("GameObjects for RuntimeEditor Prefabs")]
         [SerializeField] private GameObject markerFloatingText_Prefab;
+        [SerializeField] private Material[] skyboxMats;
 
         [Header("MarkerUI Camera Properties")]
         [Battlehub.SerializeIgnore] [SerializeField] private GameObject markerUICamera_Prefab;
@@ -497,6 +498,11 @@ namespace SealTeam4
         public GameObject GetMarkerFloatingtTextPrefab()
         {
             return markerFloatingText_Prefab;
+        }
+
+        public Material[] GetSkyboxMats()
+        {
+            return skyboxMats;
         }
 
         public void ToggleMarkerVisibility()

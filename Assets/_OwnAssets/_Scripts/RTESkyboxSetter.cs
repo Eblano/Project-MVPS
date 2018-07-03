@@ -6,7 +6,7 @@ namespace SealTeam4
 {
     public class RTESkyboxSetter : MonoBehaviour
     {
-        [Battlehub.SerializeIgnore] [SerializeField] private Material[] skyboxMats;
+        private Material[] skyboxMats;
         private enum SKYBOXTYPE { DayTime, Sunset, Midnight_With_Moon, DayTime2, DayTime3, Noon };
         [SerializeField] private SKYBOXTYPE skyboxType = SKYBOXTYPE.DayTime;
         private SKYBOXTYPE prevSkyboxType;
@@ -14,18 +14,24 @@ namespace SealTeam4
         private void Start()
         {
             prevSkyboxType = skyboxType;
-            SetSkybox();
+            GetSkyboxes();
+            ApplySkybox();
         }
 
         private void Update()
         {
             if(skyboxType != prevSkyboxType)
             {
-                SetSkybox();
+                ApplySkybox();
             }
         }
 
-        private void SetSkybox()
+        private void GetSkyboxes()
+        {
+            skyboxMats = RuntimeEditorUltiltes.instance.GetSkyboxMats();
+        }
+
+        private void ApplySkybox()
         {
             prevSkyboxType = skyboxType;
 
