@@ -7,7 +7,8 @@ namespace SealTeam4
     /// <summary>
     /// Stores various states of the AI
     /// </summary>
-    public class AIState : MonoBehaviour
+    [System.Serializable]
+    public class AIState
     {
         // If NPC is allowed to function
         public bool active = false;
@@ -31,8 +32,10 @@ namespace SealTeam4
             public int currSubschedule = 0;
             // Current timer value, used for delay schedules
             public float currTimerValue = 0;
-            // Target NPC traverses to
-            public Transform currWaypointTarget = null;
+            // Waypoint position NPC traverses to
+            public Vector3 currWaypointPosition;
+            // Waypoint rotation NPC traverses to
+            public Quaternion currWaypointRotation;
 
             // Current Seat NPC is on
             public GameObject currSeatTarget = null;
@@ -46,7 +49,7 @@ namespace SealTeam4
             // Current conversation time passed
             public float timeInConvo = 0;
             // Reference to NPC that is in conversation with
-            public GameObject currConvoNPCTarget = null;
+            public AIController currConvoNPCTarget = null;
         }
         public General general = new General();
 
@@ -56,14 +59,13 @@ namespace SealTeam4
             [System.Serializable]
             public class UnderAttack
             {
-                public enum AI_Civilian_UnderAttack
+                public enum Mode
                 {
                     SETUP,
-                    BRACE_ON_SPOT,
-                    RUN_RANDOMLY,
-                    RUN_TO_EXIT
+                    FREEZE,
+                    RUNTOEXIT
                 }
-                public AI_Civilian_UnderAttack Civilian_UnderAttack = AI_Civilian_UnderAttack.SETUP;
+                public Mode mode = Mode.SETUP;
 
                 public bool bracing = false;
                 public float timeLeftBeforeFindingNewRandPosition = 0;

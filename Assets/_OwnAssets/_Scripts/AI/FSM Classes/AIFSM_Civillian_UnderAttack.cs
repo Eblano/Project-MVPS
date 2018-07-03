@@ -6,20 +6,22 @@ namespace SealTeam4
 {
     public class AIFSM_Civillian_UnderAttack : AIFSM_Base
     {
+        int actionStage = 0;
+
         public void FSM_Update()
         {
-            switch (aiState.civilian.underAttack.Civilian_UnderAttack)
+            switch (aiState.civilian.underAttack.mode)
             {
-                case AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.SETUP:
+                case AIState.Civilian.UnderAttack.Mode.SETUP:
                     CivilianUnderAttack_Setup();
                     break;
 
-                case AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.BRACE_ON_SPOT:
+                case AIState.Civilian.UnderAttack.Mode.FREEZE:
                     BraceOnSpot();
                     break;
 
-                case AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.RUN_RANDOMLY:
-                    RunRandomly();
+                case AIState.Civilian.UnderAttack.Mode.RUNTOEXIT:
+                    RunToExit();
                     break;
             }
         }
@@ -27,56 +29,77 @@ namespace SealTeam4
         {
             if (aiState.general.seated)
             {
-                aiController.LeaveIfSittingOnSeat();
+                bool leftSeat = aiController.LeaveSeat();
+
+                if (!leftSeat)
+                    return;
             }
             if (aiState.general.inConversation)
             {
                 aiAnimController.Anim_StopStandTalking();
                 aiState.general.inConversation = false;
             }
-            aiState.civilian.underAttack.Civilian_UnderAttack = AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.RUN_RANDOMLY;
+
+            switch (aiStats.threatResponseMode)
+            {
+                case AIStats.CivillianStressResponseMode.FREEZE:
+                    aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.FREEZE;
+                    break;
+                case AIStats.CivillianStressResponseMode.RUNTOEXIT:
+                    aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.RUNTOEXIT;
+                    break;
+                case AIStats.CivillianStressResponseMode.RANDOM:
+                    switch (Random.Range(0, 1))
+                    {
+                        case 0:
+                            aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.FREEZE;
+                            break;
+                        case 1:
+                            aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.RUNTOEXIT;
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void BraceOnSpot()
         {
-            if (GameManager.instance.LineOfSightAgainstHostileNPC(aiTransform))
-            {
-                aiState.civilian.underAttack.Civilian_UnderAttack = AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.RUN_RANDOMLY;
-                aiAnimController.Anim_UnBrace();
-                aiState.civilian.underAttack.bracing = false;
-                return;
-            }
-
             if (!aiState.civilian.underAttack.bracing)
             {
                 aiAnimController.Anim_Brace();
                 aiState.civilian.underAttack.bracing = true;
+                aiController.SetNMAgentDestination(aiController.transform.position);
             }
         }
 
-        private void RunRandomly()
+        private void RunToExit()
         {
-            if (!GameManager.instance.LineOfSightAgainstHostileNPC(aiTransform))
+            switch (actionStage)
             {
-                aiState.civilian.underAttack.Civilian_UnderAttack = AIState.Civilian.UnderAttack.AI_Civilian_UnderAttack.BRACE_ON_SPOT;
-                aiAnimController.Anim_Move(Vector3.zero, false, 3);
-                aiController.StopNMAgentMovement();
-                aiState.civilian.underAttack.timeLeftBeforeFindingNewRandPosition = 2;
-                return;
-            }
-            else
-            {
-                if (aiState.civilian.underAttack.timeLeftBeforeFindingNewRandPosition <= 0)
-                {
-                    aiState.civilian.underAttack.currMoveVector = aiController.GetRandNavmeshPos(10);
-                    aiState.civilian.underAttack.timeLeftBeforeFindingNewRandPosition = 2;
-                }
-                else
-                {
-                    aiState.civilian.underAttack.timeLeftBeforeFindingNewRandPosition -= Time.deltaTime;
-                    //nmAgent.SetDestination(nmAgent.desiredVelocity);
-                    aiController.MoveToPosition(aiState.civilian.underAttack.currMoveVector, 0);
-                }
+                case 0:
+                    aiState.civilian.underAttack.currMoveVector = 
+                        GameManager.instance.GetNearestExitMarkerVector(aiController.gameObject);
+
+                    if (aiState.civilian.underAttack.currMoveVector == aiController.gameObject.transform.position)
+                    {
+                        aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.FREEZE;
+                        break;
+                    }
+
+                    aiController.SetNMAgentDestination(aiState.civilian.underAttack.currMoveVector);
+                    actionStage++;
+                    break;
+                case 1:
+                    aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
+
+                    if (aiController.ReachedDestination(aiState.civilian.underAttack.currMoveVector, 0))
+                        actionStage++;
+                    break;
+                case 2:
+                    aiController.FadeAway();
+                    break;
             }
         }
     }

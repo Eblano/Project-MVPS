@@ -274,6 +274,7 @@ namespace Battlehub.RTEditor
                     RuntimeEditorApplication.SceneCameras[i].transform.localScale = RuntimeEditorApplication.GameCameras[0].transform.localScale;
                     RuntimeEditorApplication.SceneCameras[i].tag = "Untagged";
                     RuntimeEditorApplication.SceneCameras[i].name = "Editor Camera";
+                    RuntimeEditorApplication.SceneCameras[i].cullingMask = ~(1 << LayerMask.NameToLayer("UI") | 1 << LayerMask.NameToLayer("Marker"));
                 }
 
                 if (!RuntimeEditorApplication.SceneCameras[i].GetComponent<GLCamera>())
@@ -292,7 +293,7 @@ namespace Battlehub.RTEditor
         private void InitGameView()
         {
             GameCamera[] cameras = FindObjectsOfType<GameCamera>();
-            //GameView.SetActive(cameras.Length > 0);
+            GameView.SetActive(cameras.Length > 0);
 
             RuntimeEditorApplication.GameCameras = cameras.Select(g => g.GetComponent<Camera>()).ToArray();
             if (m_gameViewViewportFitter != null)

@@ -2,23 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
-[System.Serializable]
-public class AIStats
+namespace SealTeam4
 {
-    public enum NPCType { TERRORIST, VIP, CIVILLIAN };
-    public NPCType npcType = NPCType.CIVILLIAN;
+    [System.Serializable]
+    public class AIStats
+    {
+        public bool activateOnStart = true;
 
-    [Range(0, 100)] public float chanceEnterHostileMode = 0.0f;
+        public enum NPCType { TERRORIST, VIP, CIVILLIAN };
+        public enum CivillianStressResponseMode { FREEZE, RUNTOEXIT, RANDOM }
 
-    // Min angle to move to 
-    public float minAngleToFaceTarget = 5.0f;
-    // Extra Stopping distance for conversation
-    public float extraStoppingDistForConvo = 1.0f;
+        [Header("User Set-Able parameters")]
+        public NPCType npcType = NPCType.CIVILLIAN;
+        public CivillianStressResponseMode threatResponseMode = CivillianStressResponseMode.FREEZE;
 
-    // Collision avoidance ray legth
-    public float collisionAvoidanceRayLen = 0.7f;        // Multiplyer for avoidance vector length
-    public float collisionAvoidanceMultiplyer = 1.0f;
-    // Enable collision avoidance via raycast
-    public bool enableCollisionAvoidance = false;
+        [Header("Hidden Parameters")]
+        [Range(0, 100)] public float chanceEnterHostileMode = 0.0f;
+        public float minAngleToFaceTarget = 5.0f; // Min angle of error when rotating to face target
+        public float stopDist = 0.2f; // Stop distance to any target
+        public float stopDist_Convo = 1.0f; // Stop distance for conversation
+
+        public float turningSpeed = 2.0f;
+        public float normalMoveSpeed = 1.0f;
+        public float runningSpeed = 2.0f;
+    }
 }

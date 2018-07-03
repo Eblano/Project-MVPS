@@ -6,6 +6,26 @@ namespace SealTeam4
 {
     public class AIFSM_FollowSchedule : AIFSM_Base
     {
+        // Schedules this NPC has
+        protected List<NPCSchedule> npcSchedules;
+
+        public void InitializeFSM(
+            AIController aiController,
+            Transform aiTransform,
+            AIState aiState,
+            AIStats aiStats,
+            AIAnimationController aiAnimController,
+            List<NPCSchedule> npcSchedules
+            )
+        {
+            this.aiController = aiController;
+            this.aiTransform = aiTransform;
+            this.aiState = aiState;
+            this.aiStats = aiStats;
+            this.aiAnimController = aiAnimController;
+            this.npcSchedules = npcSchedules;
+        }
+
         public void FSM_Update()
         {
             // if all schedule is finished or NPC not active
@@ -15,11 +35,11 @@ namespace SealTeam4
             switch (npcSchedules[aiState.general.currSchedule].scheduleType)
             {
                 case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS:
-                    ScheduleProcess_MoveToPosition();
+                    ScheduleProcess_MoveToWaypoint();
                     break;
 
                 case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS_WITH_ROT:
-                    ScheduleProcess_MoveToPosition_And_Rotation();
+                    ScheduleProcess_MoveToWaypoint_And_Rotate();
                     break;
 
                 case NPCSchedule.SCHEDULE_TYPE.IDLE:
@@ -45,13 +65,13 @@ namespace SealTeam4
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    aiController.Idle_Setup();
+                    Idle_Setup();
                     break;
                 case 1:
-                    aiController.Idle();
+                    Idle();
                     break;
                 case 2:
-                    aiController.Idle_Term();
+                    Idle_Term();
                     break;
                 case 3:
                     aiState.general.currSubschedule = 0;
@@ -67,21 +87,21 @@ namespace SealTeam4
         /// <summary>
         /// Run move to position schedule
         /// </summary>
-        private void ScheduleProcess_MoveToPosition()
+        private void ScheduleProcess_MoveToWaypoint()
         {
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    aiController.LeaveIfSittingOnSeat();
+                    LeaveSeatIfSeated();
                     break;
                 case 1:
-                    aiController.MoveToWaypoint_ProcSetup();
+                    Setup_MoveToWaypoint();
                     break;
                 case 2:
-                    aiController.MoveToPosition(aiState.general.currWaypointTarget.position, 0);
+                    MoveToWaypoint(aiState.general.currWaypointPosition, aiStats.normalMoveSpeed, 0);
                     break;
                 case 3:
-                    aiController.MoveToWaypoint_ProcTerm();
+                    Terminate_MoveToWaypoint();
                     break;
                 case 4:
                     aiState.general.currSubschedule = 0;
@@ -97,24 +117,24 @@ namespace SealTeam4
         /// <summary>
         /// Run move to position with rotation schedule
         /// </summary>
-        private void ScheduleProcess_MoveToPosition_And_Rotation()
+        private void ScheduleProcess_MoveToWaypoint_And_Rotate()
         {
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    aiController.LeaveIfSittingOnSeat();
+                    LeaveSeatIfSeated();
                     break;
                 case 1:
-                    aiController.MoveToWaypoint_ProcSetup();
+                    Setup_MoveToWaypoint();
                     break;
                 case 2:
-                    aiController.MoveToPosition(aiState.general.currWaypointTarget.position, 0);
+                    MoveToWaypoint(aiState.general.currWaypointPosition, aiStats.normalMoveSpeed, 0);
                     break;
                 case 3:
-                    aiController.RotateToTargetRotation(aiState.general.currWaypointTarget, false);
+                    RotateToTargetRotation(aiState.general.currWaypointRotation);
                     break;
                 case 4:
-                    aiController.MoveToWaypoint_ProcTerm();
+                    Terminate_MoveToWaypoint();
                     break;
                 case 5:
                     aiState.general.currSubschedule = 0;
@@ -135,22 +155,22 @@ namespace SealTeam4
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    aiController.LeaveIfSittingOnSeat();
+                    LeaveSeatIfSeated();
                     break;
                 case 1:
-                    aiController.SitDownInArea_Setup();
+                    Setup_SitDownInArea();
                     break;
                 case 2:
-                    aiController.MoveToPosition(aiState.general.currSeatTarget.transform.position, 0);
+                    MoveToWaypoint(aiState.general.currSeatTarget.transform.position, aiStats.normalMoveSpeed, 0);
                     break;
                 case 3:
-                    aiController.RotateToTargetRotation(aiState.general.currSeatTarget.transform, false);
+                    RotateToTargetRotation(aiState.general.currSeatTarget.transform.rotation);
                     break;
                 case 4:
-                    aiController.SitDownOnSeat();
+                    SitDownOnSeat();
                     break;
                 case 5:
-                    aiController.SitDownInArea_Term();
+                    Terminate_SetDownInArea();
                     break;
                 case 6:
                     aiState.general.currSubschedule = 0;
@@ -171,21 +191,27 @@ namespace SealTeam4
             switch (aiState.general.currSubschedule)
             {
                 case 0:
-                    aiController.LeaveIfSittingOnSeat();
+                    LeaveSeatIfSeated();
                     break;
                 case 1:
-                    aiController.TalkToOtherNPC_Setup();
+                    TalkToOtherNPC_FindPartner();
                     break;
                 case 2:
-                    aiController.MoveToPosition(aiState.general.currConvoNPCTarget.transform.position, aiStats.extraStoppingDistForConvo);
+                    MoveToWaypoint(aiState.general.currConvoNPCTarget.transform.position, aiStats.normalMoveSpeed, aiStats.stopDist_Convo);
                     break;
                 case 3:
-                    aiController.MoveToWaypoint_ProcTerm();
+                    Terminate_MoveToWaypoint();
                     break;
                 case 4:
-                    aiController.ConvoProcess_TalkToOtherNPC();
+                    Setup_TalkToOtherNPC();
                     break;
                 case 5:
+                    TalkToOtherNPC();
+                    break;
+                case 6:
+                    Terminate_TalkToOtherNPC();
+                    break;
+                case 7:
                     aiState.general.currSubschedule = 0;
                     aiState.general.currSchedule++;
                     break;
@@ -196,6 +222,179 @@ namespace SealTeam4
             }
         }
         #endregion
-        
+
+        public void Setup_MoveToWaypoint()
+        {
+            aiState.general.currWaypointPosition = GetWaypointMarkerPosition();
+            aiState.general.currWaypointRotation = GetWaypointMarkerRotation();
+            aiController.SetNMAgentDestination(aiState.general.currWaypointPosition);
+            aiState.general.currSubschedule++;
+        }
+
+        public bool MoveToWaypoint(Vector3 waypointPos, float moveSpeed, float extraStoppingDistance)
+        {
+            if (!aiController.ReachedDestination(aiState.general.currWaypointPosition, extraStoppingDistance))
+            {
+                aiController.MoveAITowardsNMAgentDestination(moveSpeed);
+                return false;
+            }
+            else
+            {
+                aiState.general.currSubschedule++;
+                return true;
+            }
+        }
+
+        public Vector3 GetWaypointMarkerPosition()
+        {
+            string targetName = npcSchedules[aiState.general.currSchedule].argument;
+            return GameManager.instance.GetWaypointMarkerPosition(targetName);
+        }
+
+        public Quaternion GetWaypointMarkerRotation()
+        {
+            string targetName = npcSchedules[aiState.general.currSchedule].argument;
+            return GameManager.instance.GetWaypointMarkerRotation(targetName);
+        }
+
+        public void Terminate_MoveToWaypoint()
+        {
+            aiController.StopMovement();
+            aiState.general.currWaypointPosition = new Vector3();
+            aiState.general.currSubschedule++;
+        }
+
+        public void LeaveSeatIfSeated()
+        {
+            bool leftSeat = aiController.LeaveSeat();
+
+            if(leftSeat)
+                aiState.general.seated = false;
+                aiState.general.currSubschedule++;
+        }
+
+        public void RotateToTargetRotation(Quaternion targetRotation)
+        {
+            bool rotateComplete = aiController.RotateTowardsTargetRotation(targetRotation);
+
+            if (rotateComplete)
+            {
+                aiState.general.currSubschedule++;
+            }
+        }
+
+        public void Idle_Setup()
+        {
+            aiState.general.currTimerValue = float.Parse(npcSchedules[aiState.general.currSchedule].argument);
+            aiState.general.currSubschedule++;
+        }
+
+        public void Idle()
+        {
+            if (aiState.general.currTimerValue > 0)
+            {
+                aiState.general.currTimerValue -= Time.deltaTime;
+            }
+            else
+            {
+                aiState.general.currSubschedule++;
+            }
+        }
+
+        public void Idle_Term()
+        {
+            aiState.general.currTimerValue = 0;
+            aiState.general.currSubschedule++;
+        }
+
+        public void Setup_SitDownInArea()
+        {
+            // Get Area
+            AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument);
+            // Empty seat from selected Area
+            aiState.general.currSeatTarget = areaMarker.GetRandomEmptySeat();
+
+            if (aiState.general.currSeatTarget)
+            {
+                aiState.general.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(false);
+                aiController.SetNMAgentDestination(aiState.general.currSeatTarget.transform.position);
+                aiState.general.currSubschedule++;
+            }
+            else
+            {
+                Debug.Log("No Seat Found in " + areaMarker.name);
+                aiState.general.currSubschedule = -1;
+            }
+        }
+
+        public void Terminate_SetDownInArea()
+        {
+            bool notSitting = aiController.LeaveSeat();
+
+            if(notSitting)
+                aiState.general.currSubschedule++;
+        }
+
+        public void SitDownOnSeat()
+        {
+            bool seated = aiController.SitDown();
+
+            if(seated)
+            {
+                aiState.general.seated = true;
+                aiState.general.currSubschedule++;
+            }
+        }
+
+        public void TalkToOtherNPC_FindPartner()
+        {
+            // Get gameobject of nearest NPC
+            AIController otherNPC = GameManager.instance.GetNearestAvailableCivilianNPCForConvo(aiController);
+
+            if(otherNPC && otherNPC.AvailableForConversation()) // If found NPC & able to convo
+            {
+                // Request for conversation
+                bool reqResults = otherNPC.RequestStartConvo(aiController);
+
+                if (reqResults == true)
+                {
+                    aiState.general.currConvoNPCTarget = otherNPC;
+                    aiController.SetNMAgentDestination(aiState.general.currConvoNPCTarget.transform.position);
+                    aiState.general.currSubschedule++;
+                }
+                else
+                {
+                    Debug.Log("Failed to find available NPC");
+                    aiState.general.currSubschedule = -1;
+                }
+            }
+        }
+
+        public void Setup_TalkToOtherNPC()
+        {
+            aiState.general.currConvoNPCTarget.StartConvoWithConvoNPCTarget();
+            aiAnimController.Anim_StartStandTalking();
+            aiState.general.inConversation = true;
+            aiState.general.currSubschedule++;
+        }
+
+        public void TalkToOtherNPC()
+        {
+            float conversationDuration = float.Parse(npcSchedules[aiState.general.currSchedule].argument);
+
+            if (aiState.general.timeInConvo > conversationDuration)
+                aiState.general.currSubschedule++;
+            else
+                aiState.general.timeInConvo += Time.deltaTime;
+        }
+
+        public void Terminate_TalkToOtherNPC()
+        {
+            aiState.general.inConversation = false;
+            aiState.general.timeInConvo = 0;
+            aiAnimController.Anim_StopStandTalking();
+            aiState.general.currConvoNPCTarget.EndConvoWithConvoNPCTarget();
+            aiState.general.currSubschedule++;
+        }
     }
 }

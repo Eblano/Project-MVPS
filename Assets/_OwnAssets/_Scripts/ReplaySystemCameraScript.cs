@@ -1,45 +1,74 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ReplaySystemCameraScript : MonoBehaviour {
+/// <summary>
+/// User Instructions
+/// Apply script to empty Game Object, named Camera Container, containing Camera
+/// Create empty Game Object, name it "Origin"
+/// If you dont, shit dont work
+/// WASD / Arrow Keys for panning
+/// Mouse for rotation
+/// Scroll for zooming in and out
+/// ctrl to disable rotation and enable cursor (toggle)
+/// Backslash to reset camera position and rotation
+/// </summary>
 
-    /// <summary>
-    /// User Instructions
-    /// Apply script to empty Game Object, named Camera Container, containing Camera
-    /// Create empty Game Object, name it "Origin"
-    /// If you dont, shit dont work
-    /// WASD / Arrow Keys for panning
-    /// Mouse for rotation
-    /// Scroll for zooming in and out
-    /// ctrl to disable rotation and enable cursor
-    /// Backslash to reset camera position and rotation
-    /// </summary>
+public class ReplaySystemCameraScript : MonoBehaviour
+{
 
-    
+    [SerializeField] public static ReplaySystemCameraScript instance;
+
+    public bool MouseActive;
     private Transform cam;
+    public GraphicRaycaster grc;
+    [SerializeField] [Range(0.1f, 1.0f)] private float sens = 0.2f;
 
-    private void Start () {
-
+    private void Start()
+    {
+        if (!instance)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+        grc = FindObjectOfType<Canvas>().GetComponent<GraphicRaycaster>();
         cam = this.GetComponentInChildren<Camera>().transform;
-        
-	}
+    }
 
-    private void FixedUpdate (){
-        if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Mouse1))
         {
-            Cursor.visible = false;
+            MouseActive = true;
+        }
+        else
+        {
+            MouseActive = false;
+        }
+
+        if (!MouseActive)
+        {
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            grc.enabled = false;
+
             Rotate();
+            Zoom();
+            Pan();
         }
-        else if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+        else if (MouseActive)
         {
-            Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            grc.enabled = true;
         }
-        Pan();
-        Zoom();
-	}
+
+
+    }
 
     // I dont understand what this is but it solves all of life's problems
     private float ClampAngle(float angle, float from, float to)
@@ -56,7 +85,7 @@ public class ReplaySystemCameraScript : MonoBehaviour {
     {
         float xAxisValue = Input.GetAxis("Horizontal");
         float zAxisValue = Input.GetAxis("Vertical");
-        
+
         // Lerps the camera for smoother panning
         //Lerps from its own position to the next position given a vector3 which is defined by the input axes
         this.transform.position = Vector3.Lerp(this.transform.position, (this.transform.position + ((transform.forward * zAxisValue) + (transform.right * xAxisValue))), 0.5f);
@@ -66,18 +95,18 @@ public class ReplaySystemCameraScript : MonoBehaviour {
     {
         //if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         //{
-            float yRotValue = Input.GetAxis("Mouse X");
-            float xRotValue = Input.GetAxis("Mouse Y");
+        float yRotValue = Input.GetAxis("Mouse X");
+        float xRotValue = Input.GetAxis("Mouse Y");
 
-            // Rotates Camera
-            cam.localRotation *= Quaternion.Euler(-xRotValue, 0, 0);
+        // Rotates Camera
+        cam.localRotation *= Quaternion.Euler(-xRotValue, 0, 0);
 
-            // Rotates Camera Container
-            this.transform.Rotate( 0, yRotValue, 0);
+        // Rotates Camera Container
+        this.transform.Rotate(0, yRotValue, 0);
 
-            // Clamps Angles
-            float x = ClampAngle(cam.localRotation.eulerAngles.x, 10f, 89f);
-            cam.localRotation = Quaternion.Euler(x, 360,0);
+        // Clamps Angles
+        float x = ClampAngle(cam.localRotation.eulerAngles.x, 10f, 89f);
+        cam.localRotation = Quaternion.Euler(x, 360, 0);
         //}
     }
 
@@ -87,17 +116,17 @@ public class ReplaySystemCameraScript : MonoBehaviour {
 
         if (Input.mouseScrollDelta != Vector2.zero)
         {
-            if(Input.mouseScrollDelta.y < 0)
+            if (Input.mouseScrollDelta.y < 0)
             {
                 yTranslate += 2;
             }
-            else if(Input.mouseScrollDelta.y > 0)
+            else if (Input.mouseScrollDelta.y > 0)
             {
                 yTranslate -= 2;
             }
 
-            Vector3 destinationPos = (this.transform.position + new Vector3(0, yTranslate, 0));
-            this.transform.position = Vector3.Lerp(this.transform.position, destinationPos, 0.2f);
+            this.transform.position = Vector3.Slerp(this.transform.position, (this.transform.position + new Vector3(0, yTranslate, 0)), sens);
+            //this.transform.Translate(0, yTranslate * 50 * Time.deltaTime, 0);
         }
     }
 }

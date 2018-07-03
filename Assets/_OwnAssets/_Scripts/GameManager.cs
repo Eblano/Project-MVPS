@@ -4,6 +4,7 @@ using SealTeam4;
 using Battlehub.RTSaveLoad;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace SealTeam4
 {
@@ -13,6 +14,10 @@ namespace SealTeam4
     /// </summary>
     public class GameManager : MonoBehaviour
     {
+        // Scene Info for loaded scene
+        private string sceneName;
+        private string sceneHash;
+
         // Instance of the Game Manager
         public static GameManager instance;
 
@@ -37,16 +42,16 @@ namespace SealTeam4
         [SerializeField] private GameObject gameMasterCamera_Prefab;
         [SerializeField] private GameObject gameMasterUI_Prefab;
 
-        public enum MARKER_TYPE { AREA, TARGET, NPC_SPAWN, SEAT, PLAYER_SPAWN_MARKER };
+        public enum MARKER_TYPE { AREA, WAYPOINT, NPCSPAWN, SEAT, PLAYER_SPAWN_MARKER, EXIT };
 
         [Header("NPC Prefabs")]
         [SerializeField] private GameObject type0NPC_Prefab;
         [SerializeField] private GameObject type1NPC_Prefab;
 
         // List of markers GameManager keeps track of
-        private List<Marker> registeredMarkers = new List<Marker>();
         [Header("Registered Markers Counter")]
         [SerializeField] private int totalRegMarkers;
+        private List<BaseMarker> registeredMarkers = new List<BaseMarker>();
         [SerializeField] private float refreshRate = 3.0f;
         private float currRefreshRate;
 
@@ -58,10 +63,10 @@ namespace SealTeam4
         [Space(10)]
 
         // NPC List
-        [SerializeField] private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
-        private List<GameObject> spawnedCivilianNPCs = new List<GameObject>();
-        private List<GameObject> spawnedVIPNPC = new List<GameObject>();
-        private List<GameObject> spawnedHostileNPCs = new List<GameObject>();
+        private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
+        private List<AIController> spawnedCivilianNPCs = new List<AIController>();
+        private List<AIController> spawnedVIPNPC = new List<AIController>();
+        private List<AIController> spawnedHostileNPCs = new List<AIController>();
 
         //// For calibration of in game position from physical position
         //public bool calibrationMode = false;
@@ -106,10 +111,10 @@ namespace SealTeam4
                     break;
             }
 
-            if(Input.GetKeyDown(KeyCode.Z))
-            {
-                GameManagerAssistant.instance.CmdSetBool(networkTest);
-            }
+            //if(Input.GetKeyDown(KeyCode.Z))
+            //{
+            //    GameManagerAssistant.instance.CmdSetBool(networkTest);
+            //}
         }
 
         public void UpdateNetworkTestBool(bool value)
@@ -157,10 +162,14 @@ namespace SealTeam4
         {
             currGameManagerMode = GameManagerMode.HOST;
 
+            Destroy(Camera.main.gameObject);
+
+            // Set NPCSpawnData
+            SetNPCSpawnDataFromNPCScriptStorage();
+
             // Spawn and Build NavMesh
-            Instantiate(navMeshSurfaceInitator_Prefab, Vector3.zero, Quaternion.identity)
-                .GetComponent<NavMeshSurface>()
-                .BuildNavMesh();
+            NavMeshSurface nmSurface = Instantiate(navMeshSurfaceInitator_Prefab, Vector3.zero, Quaternion.identity).GetComponent<NavMeshSurface>();
+            nmSurface.BuildNavMesh();
 
             Host_SetupMarkers();
             isHost = true;
@@ -180,9 +189,7 @@ namespace SealTeam4
             {
                 // Find spawn marker
                 PlayerSpawnMarker playerSpawnMarker =
-                    registeredMarkers.Find(x => x.markerType == MARKER_TYPE.PLAYER_SPAWN_MARKER)
-                    .markerGO
-                    .GetComponent<PlayerSpawnMarker>();
+                    (PlayerSpawnMarker)registeredMarkers.Find(x => x is PlayerSpawnMarker);
 
                 // Spawn local player controller at spawn position
                 Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
@@ -202,13 +209,13 @@ namespace SealTeam4
         #region Host Methods
         private void Host_SetupMarkers()
         {
-            foreach (Marker marker in registeredMarkers)
-            {
-                if(marker is IMarkerBehaviours)
-                {
-                    marker.markerGO.GetComponent<IMarkerBehaviours>().CleanUpForSimulationStart();
-                }
-            }
+            //foreach (Marker marker in registeredMarkers)
+            //{
+            //    if (marker.markerGO.GetComponent<BaseMarker>() is IMarkerBehaviours)
+            //    {
+            //        //marker.markerGO.GetComponent<IMarkerBehaviours>().CleanUpForSimulationStart();
+            //    }
+            //}
         }
         #endregion
         
@@ -222,17 +229,12 @@ namespace SealTeam4
             {
                 totalRegMarkers = 0;
 
-                foreach (Marker marker in registeredMarkers)
+                foreach (BaseMarker marker in registeredMarkers)
                 {
-                    if (!marker.markerGO)
-                    {
+                    if (!marker.gameObject)
                         registeredMarkers.Remove(marker);
-                    }
                     else
-                    {
-                        marker.markerName = marker.markerGO.name;
                         totalRegMarkers++;
-                    }
                 }
                 currRefreshRate = refreshRate;
             }
@@ -242,14 +244,70 @@ namespace SealTeam4
             }
         }
 
+        public bool MarkerNameExists(string markerName)
+        {
+            return registeredMarkers.Exists(x => x.gameObject.name == markerName);
+        }
+
+        public string GetUniqueMarkerName(MARKER_TYPE markerType)
+        {
+            string baseMarkerName;
+            int nameModifier = 0;
+
+            switch (markerType)
+            {
+                case MARKER_TYPE.AREA:
+                    baseMarkerName = "Area Marker ";
+                    break;
+                case MARKER_TYPE.WAYPOINT:
+                    baseMarkerName = "Waypoint Marker ";
+                    break;
+                case MARKER_TYPE.NPCSPAWN:
+                    baseMarkerName = "NPC Spawn Marker ";
+                    break;
+                case MARKER_TYPE.SEAT:
+                    baseMarkerName = "Seat Marker ";
+                    break;
+                case MARKER_TYPE.PLAYER_SPAWN_MARKER:
+                    baseMarkerName = "Player Spawn Marker ";
+                    break;
+                default:
+                    baseMarkerName = "";
+                    break;
+            }
+
+            while (MarkerNameExists(baseMarkerName + nameModifier))
+            {
+                nameModifier++;
+            }
+
+            return baseMarkerName + nameModifier;
+        }
+
         /// <summary>
         /// Adds markers to the Registered Markers list
         /// </summary>
         /// <param name="gameObject"></param>
         /// <param name="markerType"></param>
-        public void RegisterMarker(GameObject gameObject, MARKER_TYPE markerType)
+        public string RegisterMarker(BaseMarker marker)
         {
-            registeredMarkers.Add(new Marker(gameObject, markerType));
+            registeredMarkers.Add(marker);
+            
+            if (marker is NPCSpawnMarker)
+                return GetUniqueMarkerName(MARKER_TYPE.NPCSPAWN);
+            if (marker is AreaMarker)
+                return GetUniqueMarkerName(MARKER_TYPE.AREA);
+            if (marker is PlayerSpawnMarker)
+                return GetUniqueMarkerName(MARKER_TYPE.PLAYER_SPAWN_MARKER);
+            if (marker is ExitMarker)
+                return GetUniqueMarkerName(MARKER_TYPE.EXIT);
+            if (marker is WaypointMarker)
+                return GetUniqueMarkerName(MARKER_TYPE.WAYPOINT);
+            if (marker is SeatMarker)
+                return GetUniqueMarkerName(MARKER_TYPE.SEAT);
+
+            Debug.Log("??");
+            return "error";
         }
 
         /// <summary>
@@ -258,7 +316,7 @@ namespace SealTeam4
         /// <param name="gameObject"></param>
         public void UnregisterMarker(GameObject gameObject)
         {
-            registeredMarkers.Remove(registeredMarkers.Find(x => x.markerGO == gameObject));
+            registeredMarkers.Remove(registeredMarkers.Find(x => x.gameObject == gameObject));
         }
         #endregion
 
@@ -282,6 +340,12 @@ namespace SealTeam4
             localPlayerName = name;
         }
 
+        private void SetNPCSpawnDataFromNPCScriptStorage()
+        {
+            if(NpcScriptStorage.instance)
+                npcSpawnDataList = NpcScriptStorage.instance.GetAllNPCSpawnData();
+        }
+
         private void SpawnAndSetupNPC()
         {
             foreach (NpcSpawnData npcSpawnData in npcSpawnDataList)
@@ -291,92 +355,113 @@ namespace SealTeam4
                 // Get NPC type to spawn
                 GameObject npcToSpawn = GetNPCPrefabByNPCType(npcSpawnData.npcOutfit);
 
-                SpawnMarker targetSpawnMarker = SpawnMarker.GetComponent<SpawnMarker>();
+                NPCSpawnMarker targetSpawnMarker = SpawnMarker.GetComponent<NPCSpawnMarker>();
                 
                 // Spawn NPC
                 GameObject npc = Instantiate(npcToSpawn, targetSpawnMarker.pointPosition, targetSpawnMarker.pointRotation);
-                
+                // Set name
+                npc.name = npcSpawnData.npcName;
+
                 // Spawn NPC on all clients
                 GameManagerAssistant.instance.CmdNetworkSpawnObject(npc);
 
                 // Setting NPC configurations
                 AIController npcGOAIController = npc.GetComponent<AIController>();
-                npcGOAIController.SetAIStats(npcSpawnData.aiStats);
-                npcGOAIController.SetSchedule(npcSpawnData.npcSchedules);
-
-                // Activate NPC
-                npcGOAIController.ActivateNPC();
+                npcGOAIController.Setup(npcSpawnData.npcName, npcSpawnData.aiStats, npcSpawnData.npcSchedules);
+                if (npcSpawnData.aiStats.activateOnStart)
+                    npcGOAIController.AISetActive();
 
                 // Adding NPC reference to list according to ai type
                 AIStats aiStats = npcSpawnData.aiStats;
                 switch(aiStats.npcType)
                 {
                     case AIStats.NPCType.CIVILLIAN:
-                        spawnedCivilianNPCs.Add(npc);
+                        spawnedCivilianNPCs.Add(npcGOAIController);
                         break;
 
                     case AIStats.NPCType.TERRORIST:
-                        spawnedHostileNPCs.Add(npc);
+                        spawnedHostileNPCs.Add(npcGOAIController);
                         break;
 
                     case AIStats.NPCType.VIP:
-                        spawnedVIPNPC.Add(npc);
+                        spawnedVIPNPC.Add(npcGOAIController);
                         break;
                 }
             }
         }
 
-        public GameObject GetNearestCivilianNPC(Transform transform, GameObject ownGameObject)
+        public AIController GetNearestAvailableCivilianNPCForConvo(AIController requester)
         {
-            GameObject closestNPC = null;
+            List<AIController> availableNPCs = new List<AIController>();
+            AIController availableClosestNPC = null;
+            float closestDist = Mathf.Infinity;
 
-            float distance = Mathf.Infinity;
-            Vector3 position = transform.position;
-            foreach (GameObject civilianNpc in spawnedCivilianNPCs)
+            Vector3 position = requester.transform.position;
+            foreach (AIController civilianNpc in spawnedCivilianNPCs)
             {
-                if (civilianNpc != ownGameObject)
+                if (civilianNpc != requester && civilianNpc.AvailableForConversation())
                 {
-                    Vector3 diff = civilianNpc.transform.position - position;
-                    float curDistance = diff.sqrMagnitude;
-                    if (curDistance < distance)
+                    availableNPCs.Add(civilianNpc);
+                }
+            }
+
+            foreach(AIController availableNPC in availableNPCs)
+            {
+                Vector3 diff = availableNPC.transform.position - position;
+                float curDistance = diff.sqrMagnitude;
+
+                if (curDistance < closestDist)
+                {
+                    availableClosestNPC = availableNPC;
+                    closestDist = curDistance;
+                }
+            }
+
+            return availableClosestNPC;
+        }
+
+        public Vector3 GetNearestExitMarkerVector(GameObject npcGO)
+        {
+            ExitMarker closetExitMarker = null;
+            float smallestDist = Mathf.Infinity;
+
+            Vector3 position = npcGO.transform.position;
+            foreach (BaseMarker marker in registeredMarkers)
+            {
+                if (marker is ExitMarker)
+                {
+                    float markerDist = (marker.transform.position - position).magnitude;
+                    if (markerDist < smallestDist)
                     {
-                        closestNPC = civilianNpc;
-                        distance = curDistance;
+                        closetExitMarker = (ExitMarker)marker;
+                        smallestDist = markerDist;
                     }
                 }
             }
-            return closestNPC;
+            if (closetExitMarker != null)
+                return closetExitMarker.pointPosition;
+            else
+                return npcGO.transform.position;
         }
 
-        public bool LineOfSightAgainstHostileNPC(Transform npcT)
+        public Vector3 GetWaypointMarkerPosition(string targetName)
         {
-            foreach (GameObject hostileNPC in spawnedHostileNPCs)
-            {
-                RaycastHit hitinfo;
-                if (Physics.Raycast(npcT.position, hostileNPC.transform.position - npcT.position, out hitinfo))
-                {
-                    if (hitinfo.transform.tag == "NPC")
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                    }
-                    Debug.DrawLine(npcT.position, hitinfo.point);
-                }
+            WaypointMarker waypointMarker = (WaypointMarker)registeredMarkers
+                .FindAll(x => x is WaypointMarker)
+                .Find(x => x.name == targetName);
 
-            }
-            return false;
+            return waypointMarker.pointPosition;
         }
-        
-        public Transform GetTargetMarkerTransform(string targetName)
+
+        public Quaternion GetWaypointMarkerRotation(string targetName)
         {
-            return registeredMarkers
-                .FindAll(x => x.markerType == MARKER_TYPE.TARGET)
-                .Find(x => x.markerName == targetName)
-                .markerGO.transform;
+            WaypointMarker waypointMarker = (WaypointMarker)registeredMarkers
+                .FindAll(x => x is WaypointMarker)
+                .Find(x => x.name == targetName);
+
+            return waypointMarker.pointRotation;
         }
-        
+
         public GameObject GetNPCPrefabByNPCType(NpcSpawnData.NPCOutfit npcType)
         {
             switch (npcType)
@@ -390,59 +475,53 @@ namespace SealTeam4
             return null;
         }
         
-        private GameObject GetSpawnMarkerByName(string name)
+        private GameObject GetSpawnMarkerByName(string markeName)
         {
-            return registeredMarkers
-                .FindAll(x => x.markerType == MARKER_TYPE.NPC_SPAWN)
-                .Find(x => x.markerName == name)
-                .markerGO;
+            return registeredMarkers.FindAll(x => x is NPCSpawnMarker).Find(x => x.name == markeName).gameObject;
         }
         
         public AreaMarker GetAreaMarkerByName(string areaName)
         {
-            return registeredMarkers
-                .FindAll(x => x.markerType == MARKER_TYPE.AREA)
-                .Find(x => x.markerName == areaName)
-                .markerGO.GetComponent<AreaMarker>();
+            return (AreaMarker)registeredMarkers.FindAll(x => x is AreaMarker).Find(x => x.name == areaName);
         }
         
-        public bool CheckIfObjectIsRegisteredArea(GameObject go)
+        public bool CheckIfObjectIsRegisteredArea(GameObject gameObject)
         {
-            return registeredMarkers.Exists(x => x.markerGO == go);
-        }
-        
-        public int GetTotalRegMarkers()
-        {
-            return totalRegMarkers;
+            return registeredMarkers.Exists(x => x.gameObject == gameObject);
         }
 
-        public List<Marker> GetAllSpecificMarker(MARKER_TYPE markerType)
+        public List<AreaMarker> GetAllAreaMarkers()
         {
-            List<Marker> markers = new List<Marker>();
+            List<BaseMarker> markers = registeredMarkers.FindAll(x => x is AreaMarker);
+            return markers.OfType<AreaMarker>().ToList();
+        }
 
-            switch (markerType)
-            {
-                case MARKER_TYPE.AREA:
-                    markers = registeredMarkers
-                        .FindAll(x => x.markerType == MARKER_TYPE.AREA);
-                    break;
-                case MARKER_TYPE.TARGET:
-                    markers = registeredMarkers
-                        .FindAll(x => x.markerType == MARKER_TYPE.TARGET);
-                    break;
-                case MARKER_TYPE.NPC_SPAWN:
-                    markers = registeredMarkers
-                        .FindAll(x => x.markerType == MARKER_TYPE.NPC_SPAWN);
-                    break;
-                case MARKER_TYPE.SEAT:
-                    markers = null;
-                    break;
-                case MARKER_TYPE.PLAYER_SPAWN_MARKER:
-                    markers = null;
-                    break;
-            }
+        public List<WaypointMarker> GetAllWaypointMarkers()
+        {
+            List<BaseMarker> markers = registeredMarkers.FindAll(x => x is WaypointMarker);
+            return markers.OfType<WaypointMarker>().ToList();
+        }
 
-            return markers;
+        public List<NPCSpawnMarker> GetAllNPCSpawnMarkers()
+        {
+            List<BaseMarker> markers = registeredMarkers.FindAll(x => x is NPCSpawnMarker);
+            return markers.OfType<NPCSpawnMarker>().ToList();
+        }
+
+        public void SetSceneInfo(string sceneName, string sceneHash)
+        {
+            this.sceneName = sceneName;
+            this.sceneHash = sceneHash;
+        }
+
+        public string GetSceneName()
+        {
+            return sceneName;
+        }
+
+        public string GetSceneHash()
+        {
+            return sceneHash;
         }
     }
 

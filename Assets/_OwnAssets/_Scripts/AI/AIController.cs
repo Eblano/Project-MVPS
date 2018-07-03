@@ -2,22 +2,25 @@
 using UnityEngine;
 using ProtoBuf;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 /// <summary>
 /// Manages AI thought process
 /// </summary>
 namespace SealTeam4
 {
-    public class AIController : MonoBehaviour
+    public class AIController : MonoBehaviour, IActions
     {
+        private string npcName;
+
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
-        private AIAnimEventReciever animEventReciever;
-        
+        private AIAnimEventReciever aiAnimEventReciever;
+
         // Stores various state of this AI
-        AIState aiState;
+        [SerializeField] private AIState aiState;
         // Stores various stats of this AI
-        AIStats aiStats;
+        [SerializeField] private AIStats aiStats;
 
         // FSM classes
         AIFSM_FollowSchedule aiFSM_FollowSchedule = new AIFSM_FollowSchedule();
@@ -27,22 +30,35 @@ namespace SealTeam4
         // Schedules this NPC has
         private List<NPCSchedule> npcSchedules;
 
-        private void Start()
+        [SerializeField] private List<string> actionableParameters = new List<string>();
+        [SerializeField] private Transform highestPoint;
+
+        public void Setup(string npcName, AIStats aiStats, List<NPCSchedule> npcSchedules)
         {
+            this.npcName = npcName;
+            this.aiStats = aiStats;
+            this.npcSchedules = npcSchedules;
+
             nmAgent = GetComponent<NavMeshAgent>();
             aiAnimController = GetComponent<AIAnimationController>();
-            animEventReciever = GetComponent<AIAnimEventReciever>();
-            
+            aiAnimEventReciever = GetComponent<AIAnimEventReciever>();
+            this.aiStats = aiStats;
+
             // Initializing FSM classes
             aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
-            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
-            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
+            aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
+            aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
         }
 
         private void Update()
         {
+            UpdateActionableParameters();
+
+            if (!aiState.active)
+                return;
+
             // if area under attack
-            if(GameManager.instance.areaUnderAttack)
+            if (GameManager.instance.areaUnderAttack)
             {
                 switch (aiStats.npcType)
                 {
@@ -74,40 +90,30 @@ namespace SealTeam4
             }
         }
         
-        public void ConvoProcess_TalkToOtherNPC()
+        public bool RequestStartConvo(AIController requester)
         {
-            AIController otherNPCAIController = aiState.general.currConvoNPCTarget.GetComponent<AIController>();
-
-            if (!aiState.general.inConversation)
+            if(AvailableForConversation())
             {
-                otherNPCAIController.ConvoProcess_StartConvo();
-                aiState.general.inConversation = true;
-            }
-            if (aiState.general.timeInConvo > float.Parse(npcSchedules[aiState.general.currSchedule].argument))
-            {
-                otherNPCAIController.ConvoProcess_EndConvo();
-                aiState.general.inConversation = false;
-                aiState.general.timeInConvo = 0;
-                aiAnimController.Anim_StopStandTalking();
-                aiState.general.currSubschedule++;
+                aiState.general.aIMode = AIState.General.AIMode.PARTICIPATE_CONVO;
+                aiState.general.waitingForConversationToStart = true;
+                StopMovement();
+                aiState.general.currConvoNPCTarget = requester;
+                return true;
             }
             else
             {
-                aiAnimController.Anim_StartStandTalking();
-                aiState.general.timeInConvo += Time.deltaTime;
+                Debug.Log(gameObject.name + " denied conversation request");
+                return false;
             }
         }
-        
-        public void ConvoProcess_StartConvo()
+
+        public void StartConvoWithConvoNPCTarget()
         {
             aiState.general.inConversation = true;
-            aiState.general.waitingForConversationToStart = false;
-            nmAgent.SetDestination(transform.position);
             aiAnimController.Anim_StartStandTalking();
-            aiState.general.timeInConvo = 0;
         }
         
-        public void ConvoProcess_EndConvo()
+        public void EndConvoWithConvoNPCTarget()
         {
             aiState.general.inConversation = false;
             aiState.general.aIMode = AIState.General.AIMode.FOLLOW_SCHEDULE;
@@ -116,242 +122,150 @@ namespace SealTeam4
             aiState.general.timeInConvo = 0;
         }
         
-        private bool ConvoProcess_ReqForConvo(GameObject conversationNPC)
+        public bool AvailableForConversation()
         {
-            if (!aiState.general.seated)
-            {
-                aiState.general.aIMode = AIState.General.AIMode.PARTICIPATE_CONVO;
-                aiState.general.waitingForConversationToStart = true;
-                aiAnimController.Anim_Move(Vector3.zero, false, 1);
-                nmAgent.SetDestination(transform.position);
-                aiState.general.currConvoNPCTarget = conversationNPC;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return !aiState.general.seated && aiState.active && !aiState.general.inConversation;
         }
         
-        public void MoveToPosition(Vector3 targetPos , float extraStoppingDistance)
+        public void SetNMAgentDestination(Vector3 position)
         {
-            nmAgent.SetDestination(targetPos);
-            if (nmAgent.remainingDistance > nmAgent.stoppingDistance + extraStoppingDistance)
-            {
-                if(aiStats.enableCollisionAvoidance)
-                {
-                    targetPos = GetCollisionAvoidanceVector(targetPos);
-                }
-
-                aiAnimController.Anim_Move(nmAgent.desiredVelocity, false, 1);
-            }
-            else
-            {
-                aiState.general.currSubschedule++;
-            }
-        }
-        
-        public void MoveToWaypoint_ProcSetup()
-        {
-            aiState.general.currWaypointTarget = GetTargetMarkerPosition();
-            nmAgent.SetDestination(aiState.general.currWaypointTarget.position);
-            aiState.general.currSubschedule++;
+            nmAgent.SetDestination(position);
         }
 
-        public void MoveToWaypoint_ProcTerm()
+        public bool ReachedDestination(Vector3 destination, float extraStoppingDistance)
         {
-            StopNMAgentMovement();
-            aiAnimController.Anim_Move(Vector3.zero, false, 1);
-            aiState.general.currSubschedule++;
-        }
-        
-        public void TalkToOtherNPC_Setup()
-        {
-            // Get gameobject of nearest NPC
-            GameObject otherNPC = GameManager.instance.GetNearestCivilianNPC(transform, gameObject);
-            if(otherNPC) // If found NPC
-            {
-                if(otherNPC.GetComponent<AIController>().ConvoProcess_ReqForConvo(gameObject))
-                {
-                    aiState.general.currConvoNPCTarget = otherNPC;
-                    nmAgent.SetDestination(aiState.general.currConvoNPCTarget.transform.position);
-                    aiState.general.currSubschedule++;
-                }
-            }
-            else
-            {
-                Debug.Log("Failed to find available NPC");
-                aiState.general.currSubschedule = -1;
-            }
-        }
-        
-        public void Idle()
-        {
-            if (aiState.general.currTimerValue <= 0)
-            {
-                aiState.general.currTimerValue -= Time.deltaTime;
-            }
-            else
-            {
-                aiState.general.currSubschedule++;
-            }
+            //return Vector3.Distance(transform.position, destination) < aiStats.stopDist + extraStoppingDistance;
+            return nmAgent.remainingDistance < aiStats.stopDist + extraStoppingDistance;
         }
 
-        public void Idle_Setup()
+        public void MoveAITowardsNMAgentDestination(float speed)
         {
-            aiState.general.currTimerValue = float.Parse(npcSchedules[aiState.general.currSchedule].argument);
-            aiState.general.currSubschedule++;
+            aiAnimController.Anim_Move(nmAgent.desiredVelocity, speed);
         }
 
-        public void Idle_Term()
+        public bool RotateTowardsTargetRotation(Quaternion targetRotation)
         {
-            aiState.general.currSubschedule++;
+            StopMovement();
+            aiAnimController.Anim_Turn(targetRotation);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * aiStats.turningSpeed);
+
+            return Quaternion.Angle(transform.rotation, targetRotation) < aiStats.minAngleToFaceTarget;
         }
-        
-        public void LeaveIfSittingOnSeat()
+
+        public bool RotateTowardsTargetDirection(Vector3 targetPosition)
         {
-            if(aiState.general.seated)
+            StopMovement();
+
+            Vector3 direction = targetPosition - transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            aiAnimController.Anim_Turn(lookRotation);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * aiStats.turningSpeed);
+            return Quaternion.Angle(transform.rotation, lookRotation) < aiStats.minAngleToFaceTarget;
+        }
+
+        public void StopMovement()
+        {
+            SetNMAgentDestination(transform.position);
+            aiAnimController.Anim_Move(Vector3.zero, 1);
+        }
+
+        public void StopRotation()
+        {
+            aiAnimController.Anim_StopTurn();
+        }
+
+        public void StopStandTalking()
+        {
+            aiAnimController.Anim_StopStandTalking();
+        }
+
+        public bool LeaveSeat()
+        {
+            if (aiState.general.seated)
             {
                 aiAnimController.Anim_Stand();
             }
 
-            if (animEventReciever.standing_Completed || !aiState.general.seated)
+            if (aiAnimEventReciever.standing_Completed || !aiState.general.seated)
             {
-                if(aiState.general.currSeatTarget)
+                if (aiState.general.currSeatTarget)
                 {
                     aiState.general.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(true);
                     aiState.general.currSeatTarget = null;
                 }
-                aiState.general.seated = false;
-                aiState.general.currSubschedule++;
-            }
-        }
-
-        public void RotateToTargetRotation(Transform targetRotation, bool reversedDirection)
-        {
-            if (!RotationIsInLine(targetRotation))
-            {
-                if(reversedDirection)
-                    aiAnimController.Anim_Move(-targetRotation.forward, true, 1);
-                else
-                    aiAnimController.Anim_Move(targetRotation.forward, true, 1);
+                return true;
             }
             else
-            {
-                aiState.general.currSubschedule++;
-            }
-        }
-        
-        public void SitDownInArea_Setup()
-        {
-            // Get Area
-            AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument);
-            // Empty seat from selected Area
-            aiState.general.currSeatTarget = areaMarker.GetRandomEmptySeat();
-
-            if (aiState.general.currSeatTarget)
-            {
-                aiState.general.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(false);
-                nmAgent.SetDestination(aiState.general.currSeatTarget.transform.position);
-                aiState.general.currSubschedule++;
-            }
-            else
-            {
-                Debug.Log("No Seat Found in " + areaMarker.name);
-                aiState.general.currSubschedule = -1;
-            }
+                return false;
         }
 
-        public void SitDownInArea_Term()
-        {
-            nmAgent.SetDestination(transform.position);
-            aiAnimController.Anim_Move(Vector3.zero, false, 1);
-            aiState.general.currSubschedule++;
-        }
-        
-        public void SitDownOnSeat()
+        public bool SitDown()
         {
             aiAnimController.Anim_Sit();
-
-            if (animEventReciever.sitting_Completed)
-            {
-                aiState.general.seated = true;
-                aiState.general.currSubschedule++;
-            }
+            return aiAnimEventReciever.sitting_Completed;
         }
-        
-        public void StopNMAgentMovement()
+                 
+        public void FadeAway()
         {
-            nmAgent.SetDestination(transform.position);
-        }
-        
-        private Vector3 GetCollisionAvoidanceVector(Vector3 direction)
-        {
-            RaycastHit centerHitInfo;
-            RaycastHit leftHitInfo;
-            RaycastHit rightHitInfo;
-            Ray centerRay = new Ray(transform.position, transform.forward);
-            Ray leftRay = new Ray(transform.position, ((transform.forward - transform.right) / 1).normalized);
-            Ray rightRay = new Ray(transform.position, ((transform.forward + transform.right) / 1).normalized);
-
-            // Create 3 raycasts and calculate avoidance vector
-            if(Physics.Raycast(centerRay, out centerHitInfo, aiStats.collisionAvoidanceRayLen, 1 << LayerMask.NameToLayer("NPC")))
-            {
-                Debug.Log("Collision Avoidance");
-                return direction + (centerHitInfo.normal * aiStats.collisionAvoidanceMultiplyer);
-            }
-            if (Physics.Raycast(leftRay, out leftHitInfo, aiStats.collisionAvoidanceRayLen, 1 << LayerMask.NameToLayer("NPC")))
-            {
-                Debug.Log("Collision Avoidance");
-                return direction + (leftHitInfo.normal * aiStats.collisionAvoidanceMultiplyer);
-            }
-            if (Physics.Raycast(rightRay, out rightHitInfo, aiStats.collisionAvoidanceRayLen, 1 << LayerMask.NameToLayer("NPC")))
-            {
-                Debug.Log("Collision Avoidance");
-                return direction + (rightHitInfo.normal * aiStats.collisionAvoidanceMultiplyer);
-            }
-            return direction;
-        }
-        
-        public bool RotationIsInLine(Transform t)
-        {
-            return Vector3.Angle(transform.forward, t.forward) < aiStats.minAngleToFaceTarget;
-        }
-        
-        public Transform GetTargetMarkerPosition()
-        {
-            string targetName = npcSchedules[aiState.general.currSchedule].argument;
-            return GameManager.instance.GetTargetMarkerTransform(targetName);
-        }
-        
-        public void SetSchedule(List<NPCSchedule> npcSchedules)
-        {
-            this.npcSchedules = npcSchedules;
+            gameObject.SetActive(false);
         }
 
-        public void SetAIStats(AIStats aiStats)
+        public void AISetActive()
         {
-            this.aiStats = aiStats;
-        }
-
-        public void ActivateNPC()
-        {
-            aiState = GetComponent<AIState>();
             aiState.active = true;
         }
-
-        public Vector3 GetRandNavmeshPos(float radius)
+        
+        #region IActions methods & Actionable related Methods
+        public List<string> GetActions()
         {
-            Vector3 randomDirection = Random.insideUnitSphere * radius;
-            randomDirection += transform.position;
-            NavMeshHit hit;
-            Vector3 finalPosition = Vector3.zero;
-            if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
-            {
-                finalPosition = hit.position;
-            }
-            return finalPosition;
+            return actionableParameters;
         }
+
+        public void SetAction(string action)
+        {
+            switch (action)
+            {
+                case "Activate NPC":
+                    SetAction_ActivateNPC();
+                    break;
+
+                case "Fade Away(Debug)":
+                    SetAction_KillNPC();
+                    break;
+            }
+        }
+
+        public string GetName()
+        {
+            return npcName;
+        }
+
+        public Vector3 GetHighestPoint()
+        {
+            return highestPoint.position;
+        }
+
+        private void UpdateActionableParameters()
+        {
+            if (!aiState.active && !actionableParameters.Contains("Activate NPC"))
+                actionableParameters.Add("Activate NPC");
+
+            if(aiState.active && !actionableParameters.Contains("Fade Away(Debug)"))
+                actionableParameters.Add("Fade Away(Debug)");
+        }
+
+        private void SetAction_ActivateNPC()
+        {
+            aiState.active = true;
+            actionableParameters.Remove("Activate NPC");
+        }
+
+        private void SetAction_KillNPC()
+        {
+            actionableParameters.Remove("Fade Away(Debug)");
+            FadeAway();
+        }
+        #endregion
     }
 }
-

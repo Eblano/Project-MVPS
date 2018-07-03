@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224144245875841044}
-  - component: {fileID: 114582889021567278}
+  - component: {fileID: 114309983135863948}
   m_Layer: 5
   m_Name: Name and coord Btn prefab
   m_TagString: Untagged
@@ -174,6 +174,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Button
+--- !u!114 &114309983135863948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1189795424798420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 419111064403f4d4aac936daddfd48a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  b1: {fileID: 1211026188390144}
+  b2: {fileID: 1686228264655378}
 --- !u!114 &114357509324826094
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -215,19 +228,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114582889021567278
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1189795424798420}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 677836c447366264da974643ea7caa5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  b1: {fileID: 1211026188390144}
-  b2: {fileID: 1686228264655378}
 --- !u!114 &114588997130145622
 MonoBehaviour:
   m_ObjectHideFlags: 1

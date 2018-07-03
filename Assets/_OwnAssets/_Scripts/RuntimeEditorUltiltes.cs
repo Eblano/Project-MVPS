@@ -27,15 +27,15 @@ namespace SealTeam4
         // If functions of the script can be triggered via keypresses
         [SerializeField] private bool acceptKeyInput = false;
 
-        [SerializeField] private KeyCode OpenAssetsFolderKey = KeyCode.Keypad1;
-        [SerializeField] private KeyCode AddFilesToRTEKey = KeyCode.Keypad2;
+        [SerializeField] private KeyCode openAssetsFolderKey = KeyCode.Keypad1;
+        [SerializeField] private KeyCode addFilesToRTEKey = KeyCode.Keypad2;
         [SerializeField] private KeyCode resetRuntimeAssetsAndRestartKey = KeyCode.Keypad4;
         [SerializeField] private KeyCode exportAssetsKey = KeyCode.Keypad5;
         [SerializeField] private KeyCode importAssetsKey = KeyCode.Keypad6;
-        [SerializeField] private KeyCode calcSceneHash = KeyCode.Keypad7;
+        [SerializeField] private KeyCode refreshRTEGameobjectName = KeyCode.Keypad7;
 
         [Header("List Excecuted by Order")]
-        [SerializeField] private KeyCode removeGameObjectsKey = KeyCode.Keypad3;
+        [SerializeField] private readonly KeyCode removeGameObjectsKey = KeyCode.Keypad3;
         [SerializeField] private List<string> gameObjectsToDestroyByName;
         [SerializeField] private List<GameObject> gameObjectsToSpawn;
 
@@ -49,14 +49,24 @@ namespace SealTeam4
 
         [Space(5)]
 
-        [SerializeField] private Button startSceneButton;
+        [Header("SceneMask")]
         [SerializeField] private GameObject mask;
         [SerializeField] private TextMeshProUGUI maskSceneNameTxt;
         [SerializeField] private TextMeshProUGUI maskSceneHashTxt;
 
+        [Space(5)]
+
+        [Header("GameObjects for RuntimeEditor Prefabs")]
+        [SerializeField] private GameObject markerFloatingText_Prefab;
+
+        [Header("MarkerUI Camera Properties")]
+        [Battlehub.SerializeIgnore] [SerializeField] private GameObject markerUICamera_Prefab;
+        private GameObject markerUICameraGO;
+        private GameObject camToFollow;
+
         private void Start()
         {
-            if(!instance)
+            if (!instance)
             {
                 instance = this;
             }
@@ -65,40 +75,49 @@ namespace SealTeam4
                 Debug.Log("There is already runtime editor utilities in this scene");
                 Destroy(this);
             }
-            
+
             m_projectManager = Dependencies.ProjectManager;
             assetsFolderPath = Application.persistentDataPath + "/Assets";
+
+            markerUICameraGO = Instantiate(markerUICamera_Prefab, Vector3.zero, Quaternion.identity);
+        }
+
+        private void UpdateMarkerUICameraTransform()
+        {
+            if (!camToFollow)
+            {
+                camToFollow = GameObject.Find("Editor Camera");
+            }
+            else
+            {
+                markerUICameraGO.transform.position = camToFollow.transform.position;
+                markerUICameraGO.transform.rotation = camToFollow.transform.rotation;
+            }
         }
 
         private void Update()
         {
-            if(sceneHash_timeLeftToRefresh <= 0)
+            UpdateMarkerUICameraTransform();
+
+            if (sceneHash_timeLeftToRefresh <= 0)
             {
                 sceneHash_timeLeftToRefresh = sceneHash_refreshRate;
                 string hash = GetActiveSceneHash();
 
                 if (hash != null)
-                {
                     sceneHashText.text = hash;
-                    startSceneButton.interactable = true;
-                }
                 else
-                {
                     sceneHashText.text = " - ";
-                    startSceneButton.interactable = false;
-                }
             }
             else
-            {
                 sceneHash_timeLeftToRefresh -= Time.deltaTime;
-            }
 
             if (acceptKeyInput)
             {
-                if (InputController.GetKeyDown(OpenAssetsFolderKey))
+                if (InputController.GetKeyDown(openAssetsFolderKey))
                     OpenRuntimeAssetsFolder();
 
-                if (InputController.GetKeyDown(AddFilesToRTEKey))
+                if (InputController.GetKeyDown(addFilesToRTEKey))
                     AddFilesToRTE();
 
                 if (Input.GetKeyDown(removeGameObjectsKey))
@@ -113,9 +132,14 @@ namespace SealTeam4
                 if (Input.GetKeyDown(importAssetsKey))
                     ImportAssets();
 
-                if (Input.GetKeyDown(calcSceneHash))
-                    GetActiveSceneHash();
+                if (Input.GetKeyDown(refreshRTEGameobjectName))
+                    RefreshRTEGameobjectName();
             }
+        }
+
+        private void RefreshRTEGameobjectName()
+        {
+
         }
 
         /// <summary>
@@ -133,11 +157,11 @@ namespace SealTeam4
                 new[] {
             new ExtensionFilter("RTA File", "rta")
                 };
-            
+
             string savePath = StandaloneFileBrowser.SaveFilePanel(
-                                "Export Assets", 
-                                "", 
-                                "ProjectExport_" + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss"), 
+                                "Export Assets",
+                                "",
+                                "ProjectExport_" + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss"),
                                 extensions);
 
             if (savePath == "")
@@ -174,7 +198,7 @@ namespace SealTeam4
 
             string filePath = StandaloneFileBrowser.OpenFilePanel("Import Assets", "", extensions, false)[0];
 
-            if(!File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
                 return;
             }
@@ -220,26 +244,64 @@ namespace SealTeam4
         /// <summary>
         /// Popup cofirmation dialog for Method "SwitchRTSceneToUnityScene"
         /// </summary>
+        public void OpenNPCScriptEditorPopup()
+        {
+            if (!NpcScriptStorage.instance)
+            {
+                PopupWindow.Show("Error", "Please add NPCScriptStorage onto the Scene", "Ok");
+            }
+            else
+            {
+                NpcScripting.instance.ShowNPCScriptingUI();
+            }
+        }
+
+        /// <summary>
+        /// Popup cofirmation dialog for Method "SwitchRTSceneToUnityScene"
+        /// </summary>
         public void SwitchRTSceneToUnityScenePopup()
         {
-            PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
-                "Yes",
-                args =>
+            if (!saveSceneButton.IsInteractable())
+            {
+                if(NpcScriptStorage.instance)
                 {
-                    if (!args.Cancel)
-                    {
-                        SwitchRTSceneToUnityScene();
-                    }
-                },
-                "Cancel"
-                );
+                    NpcScripting.instance.ShowNPCScriptingUI();
+                    NpcScripting.instance.HideNPCScriptingUI();
+                }
+                else
+                {
+                    PopupWindow.Show("Error", "Please add NPCScriptStorage onto the Scene", "Ok");
+                    return;
+                }
+
+                if (NpcScripting.instance.DataIsComplete())
+                {
+                    PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
+                        "Yes",
+                        args =>
+                        {
+                            if (!args.Cancel)
+                            {
+                                SwitchRTSceneToUnityScene();
+                            }
+                        },
+                        "Cancel"
+                        );
+                }
+                else
+                    PopupWindow.Show("Error", "NPC Script Editor has missing links, please resolve.", "Ok");
+            }
+            else
+                PopupWindow.Show("Error", "Cannot start scene because scene is not saved.", "Ok");
         }
 
         /// <summary>
         /// Remove and Add nessesary objects to exit the runtime editor and start the scene properly
         /// </summary>
-        private void SwitchRTSceneToUnityScene()
+        public void SwitchRTSceneToUnityScene()
         {
+            GameManager.instance.SetSceneInfo(m_projectManager.ActiveScene.Name, GetActiveSceneHash());
+
             // Destroy selected GameObjects by name in hierarchy
             for (int i = 0; i < gameObjectsToDestroyByName.Count; i++)
             {
@@ -256,6 +318,8 @@ namespace SealTeam4
                 GameObject go = Instantiate(gameObjectsToSpawn[i], Vector3.zero, Quaternion.identity);
                 go.transform.SetParent(null);
             }
+
+            markerUICameraGO.SetActive(true);
         }
 
         /// <summary>
@@ -419,6 +483,16 @@ namespace SealTeam4
             {
                 return null;
             }
+        }
+
+        public GameObject GetMarkerFloatingtTextPrefab()
+        {
+            return markerFloatingText_Prefab;
+        }
+
+        public void ToggleMarkerVisibility()
+        {
+            markerUICameraGO.SetActive(!markerUICameraGO.activeInHierarchy);
         }
     }
 }
