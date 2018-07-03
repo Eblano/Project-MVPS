@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1550403834457356}
+  m_IsPrefabParent: 1
+--- !u!1 &1550403834457356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4827748747010814}
+  - component: {fileID: 114687612637093644}
+  m_Layer: 0
+  m_Name: CustomSkySetter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4827748747010814
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1550403834457356}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 912.3192, y: 838.9627, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114687612637093644
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1550403834457356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48b0b908f7072864f8cb2b86f186e9d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skyboxMats:
+  - {fileID: 2100000, guid: 8a3c60bf799b5454fb232e93cc76ca77, type: 2}
+  - {fileID: 2100000, guid: 21f28c8c85e288b419729b10c7f750df, type: 2}
+  - {fileID: 2100000, guid: fbf4f387c562e8940b9fe41b38b982bf, type: 2}
+  - {fileID: 2100000, guid: 8fbc545de05dd8340a8033a89a532bc2, type: 2}
+  - {fileID: 2100000, guid: 6d3a3fce6acc4f44eb2264898bfbd519, type: 2}
+  - {fileID: 2100000, guid: 79e94c78115088b48b39b011725bc01f, type: 2}
+  skyboxType: 0
