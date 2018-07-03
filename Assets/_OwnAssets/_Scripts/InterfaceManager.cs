@@ -64,6 +64,10 @@ namespace SealTeam4
 
         private Plane[] planes;
         private Collider col;
+
+        [Header("MarkerUI Camera Properties")]
+        private GameObject markerUICameraGO;
+        private GameObject camToFollow;
         #endregion
 
         // Use this for initialization
@@ -84,6 +88,9 @@ namespace SealTeam4
             outlineShader = Shader.Find("Outlined/Uniform");
             borderUI = Instantiate(borderUiPrefab, this.GetComponent<Canvas>().transform);
             borderUI.SetActive(false);
+
+            // Setup MarkerUICamera
+            GameObject.Find("MarkerUICamera(Clone)").transform.SetParent(GameObject.Find("AdminCam").transform);
         }
 
         // Update is called once per frame

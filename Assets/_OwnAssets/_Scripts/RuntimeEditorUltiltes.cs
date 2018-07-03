@@ -81,30 +81,6 @@ namespace SealTeam4
             assetsFolderPath = Application.persistentDataPath + "/Assets";
         }
 
-        private void UpdateMarkerUICameraTransform()
-        {
-            if (!camToFollow)
-            {
-                camToFollow = GameObject.Find("Editor Camera");
-                if(!camToFollow)
-                {
-                    camToFollow = GameObject.Find("AdminCamera");
-                }
-            }
-            else
-            {
-                if(!markerUICameraGO)
-                {
-                    markerUICameraGO = Instantiate(markerUICamera_Prefab, Vector3.zero, Quaternion.identity);
-                }
-                else
-                {
-                    markerUICameraGO.transform.position = camToFollow.transform.position;
-                    markerUICameraGO.transform.rotation = camToFollow.transform.rotation;
-                }
-            }
-        }
-
         private void Update()
         {
             UpdateMarkerUICameraTransform();
@@ -144,6 +120,30 @@ namespace SealTeam4
 
                 if (Input.GetKeyDown(refreshRTEGameobjectName))
                     RefreshRTEGameobjectName();
+            }
+        }
+
+        private void UpdateMarkerUICameraTransform()
+        {
+            if (!camToFollow)
+            {
+                camToFollow = GameObject.Find("Editor Camera");
+                if (!camToFollow)
+                {
+                    camToFollow = GameObject.Find("AdminCamera");
+                }
+            }
+            else
+            {
+                if (!markerUICameraGO)
+                {
+                    markerUICameraGO = Instantiate(markerUICamera_Prefab, Vector3.zero, Quaternion.identity);
+                }
+                else
+                {
+                    markerUICameraGO.transform.position = camToFollow.transform.position;
+                    markerUICameraGO.transform.rotation = camToFollow.transform.rotation;
+                }
             }
         }
 

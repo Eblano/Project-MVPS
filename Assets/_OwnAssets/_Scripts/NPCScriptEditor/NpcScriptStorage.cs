@@ -77,7 +77,7 @@ namespace SealTeam4
 
         public string GetUniqueNPCName()
         {
-            int increment = 0;
+            int increment = 1;
 
             if (npcSpawnDataList_RTEStorage.Count >= 1)
             {
