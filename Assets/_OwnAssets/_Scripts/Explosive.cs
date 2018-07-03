@@ -8,6 +8,7 @@ public class Explosive : MonoBehaviour, IActions
     private List<string> action = new List<string>();
     [SerializeField] private ParticleSystem explosionParticles;
     [SerializeField] private Transform highestPoint;
+    [SerializeField] private Collider col;
 
     void Start()
     {
@@ -47,5 +48,10 @@ public class Explosive : MonoBehaviour, IActions
     public Vector3 GetHighestPoint()
     {
         return highestPoint.position;
+    }
+
+    public Collider GetCollider()
+    {
+        return col;
     }
 }

@@ -31,7 +31,11 @@ namespace SealTeam4
         private List<NPCSchedule> npcSchedules;
 
         [SerializeField] private List<string> actionableParameters = new List<string>();
+
+        // Exposed Variables for InterfaceManager
+        [Header("Exposed for InterfaceManager")]
         [SerializeField] private Transform highestPoint;
+        [SerializeField] private Collider col;
 
         public void Setup(string npcName, AIStats aiStats, List<NPCSchedule> npcSchedules)
         {
@@ -244,6 +248,11 @@ namespace SealTeam4
         public Vector3 GetHighestPoint()
         {
             return highestPoint.position;
+        }
+
+        public Collider GetCollider()
+        {
+            return col;
         }
 
         private void UpdateActionableParameters()

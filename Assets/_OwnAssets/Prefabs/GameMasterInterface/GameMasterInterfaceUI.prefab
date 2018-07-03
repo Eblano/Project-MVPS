@@ -776,6 +776,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9119c746630ea994c834bc2dac17d5ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camPrefab: {fileID: 1175345499955892, guid: 27ace2c748868fa479268bdaad3a4fb2, type: 2}
+  cam: {fileID: 0}
   currSelectedGO: {fileID: 0}
   selectedGOTxt: {fileID: 114777651742239166}
   prefab: {fileID: 1189795424798420, guid: 2515f44c145f7d64b8ac4f727afbb6c5, type: 2}
@@ -788,6 +790,7 @@ MonoBehaviour:
     type: 2}
   borderUiPrefab: {fileID: 1671742490601060, guid: 1af48f55178435447ad5fab7f6e85101,
     type: 2}
+  markerLineAnchor: {fileID: 224262934932164032}
 --- !u!114 &114246318600906384
 MonoBehaviour:
   m_ObjectHideFlags: 1

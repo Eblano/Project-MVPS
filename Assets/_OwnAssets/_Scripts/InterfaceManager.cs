@@ -22,7 +22,7 @@ namespace SealTeam4
         #region Variables
 
         [SerializeField] private GameObject camPrefab;
-        private Camera cam;
+        [SerializeField] private Camera cam;
 
         // Calibration Button variables
         private bool calibrationModeOn;
@@ -58,12 +58,22 @@ namespace SealTeam4
         [SerializeField] private GameObject borderUiPrefab;
         private GameObject borderUI;
         private List<GameObject> markerList = new List<GameObject>();
+        private bool inView;
+        private LineRenderer lr;
+        [SerializeField] private RectTransform markerLineAnchor;
+
+        private Plane[] planes;
+        private Collider col;
         #endregion
 
         // Use this for initialization
         void Start()
         {
             cam = Instantiate(camPrefab).GetComponentInChildren<Camera>();
+
+            lr = new LineRenderer();
+            lr.positionCount = 2;
+            lr.SetPosition(0, markerLineAnchor.position);
 
             // Calibration Button Setup
             calibrationModeOn = false;
@@ -93,12 +103,113 @@ namespace SealTeam4
                 }
             }
             UpdateMarker();
+            UpdateMarkerLine();
             UpdateActionList();
             ListenForKeys();
-            
+
             //if(selectedObject) UpdateMarker();
         }
 
+        private void SelectGameObject()
+        {
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                // Raycasts to find object for selection
+                ray = cam.ScreenPointToRay(Input.mousePosition);
+
+                int ignoreLayer = ~(1 << LayerMask.NameToLayer("UI"));
+
+                Physics.Raycast(ray, out hit, Mathf.Infinity, ignoreLayer);
+
+                if (hit.transform && hit.transform.GetComponents<IActions>().Length != 0)
+                {
+                    currSelectedGO = hit.transform.gameObject;
+                    col = currSelectedGO.GetComponent<IActions>().GetCollider();
+                    MarkSelectedObject();
+                }
+                else
+                {
+                    currSelectedGO = null;
+                }
+            }
+        }
+
+        private void MarkSelectedObject()
+        {
+            Debug.Log("Mark Selected Object");
+
+            DrawObjectMarker();
+        }
+
+        private void DrawObjectMarker()
+        {
+            Debug.Log("Draw Marker");
+            pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPoint();
+            screenPos = cam.WorldToScreenPoint(pos);
+            if (currSelectedGO)
+            {
+                if (markerList.Count != 0)
+                {
+                    foreach (GameObject g in markerList)
+                    {
+                        Destroy(g.gameObject);
+                    }
+                    markerList.Clear();
+                }
+                borderUI.SetActive(false);
+                GameObject m = Instantiate(markerPrefab, screenPos, Quaternion.identity, this.GetComponent<Canvas>().transform);
+                markerList.Add(m);
+            }
+        }
+
+
+
+        private void UpdateMarker()
+        {
+            Debug.Log("Update Marker");
+
+            if (markerList.Count == 0)
+            {
+                return;
+            }
+
+            if (currSelectedGO)
+            {
+                planes = GeometryUtility.CalculateFrustumPlanes(cam);
+                inView = GeometryUtility.TestPlanesAABB(planes, col.bounds);
+
+                Debug.Log(inView);
+
+                if (!inView /*screenPos.z < 0*/)
+                {
+                    borderUI.SetActive(true);
+                    markerList.First().SetActive(false);
+                }
+                else
+                {
+                    borderUI.SetActive(false);
+                    pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPoint();
+                    screenPos = cam.WorldToScreenPoint(pos);
+                    markerList.First().transform.position = screenPos;
+                }
+            }
+            else
+            {
+                Destroy(markerList.First().gameObject);
+                markerList.Clear();
+            }
+        }
+        private void UpdateMarkerLine()
+        {
+            if (currSelectedGO && inView)
+            {
+                lr.SetPosition(1, marker.transform.position);
+            }
+            else
+            {
+                lr.SetPosition(1, markerLineAnchor.position);
+            }
+        }
         private void ListenForKeys()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1) && actionBtnList.Count > 0)
@@ -115,68 +226,6 @@ namespace SealTeam4
 
             if (Input.GetKeyDown(KeyCode.Alpha5) && actionBtnList.Count > 4)
                 actionBtnList[4].onClick.Invoke();
-        }
-
-
-        private void MarkSelectedObject()
-        {
-            Debug.Log("Mark Selected Object");
-
-            DrawObjectMarker();
-            //DrawMarkerLine();
-        }
-
-        private void DrawObjectMarker()
-        {
-            Debug.Log("Draw Marker");
-            pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPoint();
-            screenPos = cam.WorldToScreenPoint(pos);
-            if (currSelectedGO && screenPos.z <= 0)
-            {
-                if (markerList.Count != 0)
-                {
-                    foreach (GameObject g in markerList)
-                    {
-                        Destroy(g.gameObject);
-                    }
-                    markerList.Clear();
-                }
-                borderUI.SetActive(false);
-                GameObject m = Instantiate(markerPrefab, screenPos, Quaternion.identity, this.GetComponent<Canvas>().transform);
-                markerList.Add(m);
-            }
-            else if (currSelectedGO && screenPos.z < 0)
-            {
-                borderUI.SetActive(true);
-            }
-        }
-
-        //private void DrawMarkerLine()
-        //{
-        //    GL.Begin(GL.LINES);
-        //    GL.Vertex3(pos.x, pos.y, pos.z);
-        //    GL.Vertex3(selectedGOTxt.bounds.center.x, selectedGOTxt.bounds.center.y, selectedGOTxt.bounds.center.z);
-        //    GL.End();
-        //}
-
-        private void UpdateMarker()
-        {
-            Debug.Log("Update Marker");
-            if (markerList.Count == 0)
-            {
-                return;
-            }
-
-            if (screenPos.z <0)
-            {
-                borderUI.SetActive(true);
-            }
-            else
-            {
-                borderUI.SetActive(false);
-                pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPoint();
-                screenPos = cam.WorldToScreenPoint(pos);
-                markerList.First().transform.position = screenPos;            }
         }
 
         // Toggles the position Buttons on and off
@@ -201,28 +250,6 @@ namespace SealTeam4
         }
 
         // Gets an object and puts it in focus
-        private void SelectGameObject()
-        {
-            if (!EventSystem.current.IsPointerOverGameObject())
-            {
-                // Raycasts to find object for selection
-                ray = cam.ScreenPointToRay(Input.mousePosition);
-
-                int ignoreLayer = ~(1 << LayerMask.NameToLayer("UI"));
-
-                Physics.Raycast(ray, out hit, Mathf.Infinity, ignoreLayer);
-
-                if (hit.transform && hit.transform.GetComponents<IActions>().Length != 0)
-                {
-                    currSelectedGO = hit.transform.gameObject;
-                    MarkSelectedObject();
-                }
-                else
-                {
-                    currSelectedGO = null;
-                }
-            }
-        }
 
         private void UpdateActionList()
         {

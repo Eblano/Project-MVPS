@@ -39,7 +39,7 @@ namespace SealTeam4
         [SerializeField] private GameObject gameManagerAssistant_Prefab;
 
         [Header("Admin Components")]
-        [SerializeField] private GameObject gameMasterCamera_Prefab;
+        //[SerializeField] private GameObject gameMasterCamera_Prefab;
         [SerializeField] private GameObject gameMasterUI_Prefab;
 
         public enum MARKER_TYPE { AREA, WAYPOINT, NPCSPAWN, SEAT, PLAYER_SPAWN_MARKER, EXIT };
@@ -175,7 +175,7 @@ namespace SealTeam4
             isHost = true;
 
             // Instantiate admin cam
-            Instantiate(gameMasterCamera_Prefab, transform.position, transform.rotation);
+            // Instantiate(gameMasterCamera_Prefab, transform.position, transform.rotation);
 
             // Instantiate admin interface
             Instantiate(gameMasterUI_Prefab, Vector3.zero, Quaternion.identity);

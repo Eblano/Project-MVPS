@@ -10,4 +10,6 @@ public interface IActions
     string GetName();
 
     Vector3 GetHighestPoint();
+
+    Collider GetCollider();
 }

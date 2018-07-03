@@ -7,6 +7,10 @@ public class Blackout : MonoBehaviour, IActions
     [SerializeField] private List<Light> lamps;
     List<string> action = new List<string>();
 
+    [Header("Exposed for InterfaceManager")]
+    [SerializeField] Transform highestPoint;
+    [SerializeField] Collider col;
+
     private void Start()
     {
         action.Add("Activate Blackout");
@@ -45,6 +49,11 @@ public class Blackout : MonoBehaviour, IActions
 
     public Vector3 GetHighestPoint()
     {
-        throw new System.NotImplementedException();
+        return highestPoint.position;
+    }
+
+    public Collider GetCollider()
+    {
+        return col;
     }
 }
