@@ -90,7 +90,9 @@ namespace SealTeam4
             borderUI.SetActive(false);
 
             // Setup MarkerUICamera
-            GameObject.Find("MarkerUICamera(Clone)").transform.SetParent(GameObject.Find("AdminCam").transform);
+            GameObject.Find("MarkerUICamera(Clone)").transform.position = new Vector3(0, 0, 0);
+            GameObject.Find("AdminCam").transform.rotation = Quaternion.identity;
+            GameObject.Find("MarkerUICamera(Clone)").transform.SetParent(cam.gameObject.transform);
         }
 
         // Update is called once per frame
