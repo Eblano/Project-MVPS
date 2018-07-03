@@ -59,9 +59,6 @@ namespace SealTeam4
         private GameObject borderUI;
         private List<GameObject> markerList = new List<GameObject>();
         private bool inView;
-        private LineRenderer lr;
-        [SerializeField] private RectTransform markerLineAnchor;
-
         private Plane[] planes;
         private Collider col;
 
@@ -75,10 +72,6 @@ namespace SealTeam4
         {
             cam = Instantiate(camPrefab).GetComponentInChildren<Camera>();
 
-            lr = new LineRenderer();
-            lr.positionCount = 2;
-            lr.SetPosition(0, markerLineAnchor.position);
-
             // Calibration Button Setup
             calibrationModeOn = false;
             calibrationBtnColor = GameObject.Find("PlayerPosCalibrationBtn").GetComponent<Image>();
@@ -90,7 +83,9 @@ namespace SealTeam4
             borderUI.SetActive(false);
 
             // Setup MarkerUICamera
-            GameObject.Find("MarkerUICamera(Clone)").transform.SetParent(GameObject.Find("AdminCam").transform);
+            GameObject.Find("MarkerUICamera(Clone)").transform.position = new Vector3(0, 0, 0);
+            GameObject.Find("AdminCam").transform.rotation = Quaternion.identity;
+            GameObject.Find("MarkerUICamera(Clone)").transform.SetParent(cam.gameObject.transform);
         }
 
         // Update is called once per frame
@@ -110,7 +105,6 @@ namespace SealTeam4
                 }
             }
             UpdateMarker();
-            UpdateMarkerLine();
             UpdateActionList();
             ListenForKeys();
 
@@ -195,6 +189,7 @@ namespace SealTeam4
                 else
                 {
                     borderUI.SetActive(false);
+                    markerList.First().gameObject.SetActive(true);
                     pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPoint();
                     screenPos = cam.WorldToScreenPoint(pos);
                     markerList.First().transform.position = screenPos;
@@ -206,17 +201,7 @@ namespace SealTeam4
                 markerList.Clear();
             }
         }
-        private void UpdateMarkerLine()
-        {
-            if (currSelectedGO && inView)
-            {
-                lr.SetPosition(1, marker.transform.position);
-            }
-            else
-            {
-                lr.SetPosition(1, markerLineAnchor.position);
-            }
-        }
+
         private void ListenForKeys()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1) && actionBtnList.Count > 0)
