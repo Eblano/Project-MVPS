@@ -122,11 +122,10 @@ namespace SealTeam4
             else
                 return false;
         }
-
-
+        
         public void MoveScheduleOrder(string npcName, NPCSchedule_RTEStorage scheduleToMove, SCHEDULE_MOVE_DIRECTION moveDir)
         {
-            List<NPCSchedule_RTEStorage> targetNPCScheduleList_Copy = npcScheduleList_RTEStorage.FindAll(x => x.npcName == "NPC 0");
+            List<NPCSchedule_RTEStorage> targetNPCScheduleList_Copy = npcScheduleList_RTEStorage.FindAll(x => x.npcName == npcName);
             NPCSchedule_RTEStorage targetScheduleToMove = targetNPCScheduleList_Copy.Find(x => x == npcScheduleList_RTEStorage.Find(y => y == scheduleToMove));
 
             foreach (NPCSchedule_RTEStorage item in targetNPCScheduleList_Copy)
