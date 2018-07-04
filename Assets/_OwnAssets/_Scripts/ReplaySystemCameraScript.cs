@@ -23,7 +23,19 @@ public class ReplaySystemCameraScript : MonoBehaviour
     public bool MouseActive;
     private Transform cam;
     public GraphicRaycaster grc;
-    [SerializeField] [Range(0.1f, 1.0f)] private float sens = 0.2f;
+
+    [Header("XZ Movement")]
+    [SerializeField] private float xzSens = 5f;
+    [SerializeField] private float xzAmtToMove = 2f;
+
+    [Header("Y Movement")]
+    [SerializeField] private float ySens = 1f;
+    [SerializeField] private float targetYvalue = 0f;
+    [SerializeField] private float yAmtToMove = 1f;
+
+    [Header("Pan Movement")]
+    [SerializeField] private float panAmt = 2f;
+    [SerializeField] private float panBounceSpd = 1f;
 
     private void Start()
     {
@@ -66,8 +78,6 @@ public class ReplaySystemCameraScript : MonoBehaviour
             Cursor.visible = true;
             grc.enabled = true;
         }
-
-
     }
 
     // I dont understand what this is but it solves all of life's problems
@@ -83,50 +93,50 @@ public class ReplaySystemCameraScript : MonoBehaviour
 
     private void Pan()
     {
-        float xAxisValue = Input.GetAxis("Horizontal");
-        float zAxisValue = Input.GetAxis("Vertical");
+        float targetXvalue = Input.GetAxis("Horizontal") * xzAmtToMove;
+        float targetZvalue = Input.GetAxis("Vertical") * xzAmtToMove;
 
         // Lerps the camera for smoother panning
         //Lerps from its own position to the next position given a vector3 which is defined by the input axes
-        this.transform.position = Vector3.Lerp(this.transform.position, (this.transform.position + ((transform.forward * zAxisValue) + (transform.right * xAxisValue))), 0.5f);
+
+        this.transform.position =
+            Vector3.Lerp(this.transform.position, (this.transform.position + ((transform.forward * targetZvalue) + (transform.right * targetXvalue))), xzSens * Time.deltaTime);
     }
 
     private void Rotate()
     {
-        //if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-        //{
-        float yRotValue = Input.GetAxis("Mouse X");
-        float xRotValue = Input.GetAxis("Mouse Y");
-
-        // Rotates Camera
-        cam.localRotation *= Quaternion.Euler(-xRotValue, 0, 0);
+        float yRotValue = Input.GetAxis("Mouse X") * panAmt;
+        float xRotValue = Input.GetAxis("Mouse Y") * panAmt;
 
         // Rotates Camera Container
-        this.transform.Rotate(0, yRotValue, 0);
+        transform.Rotate(0, yRotValue, 0);
 
-        // Clamps Angles
-        float x = ClampAngle(cam.localRotation.eulerAngles.x, 10f, 89f);
-        cam.localRotation = Quaternion.Euler(x, 360, 0);
-        //}
+        Debug.Log(cam.localRotation.eulerAngles);
+        
+        // Rotates Camera
+        cam.localRotation *= Quaternion.Euler(-xRotValue, 0, 0);
+        if (cam.localRotation.eulerAngles.x > 70 && cam.localRotation.eulerAngles.x < 300)
+        {
+            cam.localRotation = Quaternion.Slerp(cam.localRotation, Quaternion.Euler(0, 0, 0), panBounceSpd * Time.deltaTime);
+        }
+
+        if (cam.localRotation.eulerAngles.y == 180)
+        {
+            cam.localRotation = Quaternion.Euler(cam.localRotation.eulerAngles.x, 0, 0);
+        }
     }
 
     private void Zoom()
     {
-        float yTranslate = 0.0f;
-
-        if (Input.mouseScrollDelta != Vector2.zero)
+        if (Input.mouseScrollDelta.y < 0)
         {
-            if (Input.mouseScrollDelta.y < 0)
-            {
-                yTranslate += 2;
-            }
-            else if (Input.mouseScrollDelta.y > 0)
-            {
-                yTranslate -= 2;
-            }
-
-            this.transform.position = Vector3.Slerp(this.transform.position, (this.transform.position + new Vector3(0, yTranslate, 0)), sens);
-            //this.transform.Translate(0, yTranslate * 50 * Time.deltaTime, 0);
+            targetYvalue += yAmtToMove;
         }
+        else if (Input.mouseScrollDelta.y > 0)
+        {
+            targetYvalue -= yAmtToMove;
+        }
+
+        this.transform.position = Vector3.Slerp(transform.position, new Vector3(transform.position.x, targetYvalue, transform.position.z), ySens * Time.deltaTime);
     }
 }
