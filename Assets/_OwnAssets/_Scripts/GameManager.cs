@@ -231,7 +231,7 @@ namespace SealTeam4
 
                 foreach (BaseMarker marker in registeredMarkers)
                 {
-                    if (!marker.gameObject)
+                    if (!marker)
                         registeredMarkers.Remove(marker);
                     else
                         totalRegMarkers++;
