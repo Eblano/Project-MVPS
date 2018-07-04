@@ -33,6 +33,11 @@ public class AccessoriesHandler : MonoBehaviour
         setupDone = true;
     }
 
+    public List<Accessory> GetPlayerAccessories()
+    {
+        return accessories;
+    }
+
     public void ProcessSavedData()
     {
         if (!PlayerPrefs.HasKey("NumOfEntries"))
@@ -76,7 +81,6 @@ public class AccessoriesHandler : MonoBehaviour
         accessoryPanel.Initialise(ref accessory, ref accessorySpawnPositions, ref items, savedData);
         accessories.Add(accessory);
         accessoryPanels.Add(accessoryPanel);
-        //SaveData();
     }
 
     public void RefreshAllDropdown()

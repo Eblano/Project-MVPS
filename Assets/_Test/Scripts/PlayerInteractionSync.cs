@@ -27,10 +27,12 @@ public class PlayerInteractionSync : NetworkBehaviour
 
         gameManager = GameManager.instance;
 
-        foreach(HolsterItem item in holsterItems)
-        {
-            item.SpawnItem();
-        }
+        //foreach(HolsterItem item in holsterItems)
+        //{
+        //    item.SpawnItem();
+        //}
+
+        GetComponent<PlayerItemSetup>().ProcessAccessories(AccessoriesHandler.instance.GetPlayerAccessories());
     }
 
     #region ServerMethods
