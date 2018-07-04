@@ -87,6 +87,7 @@ namespace SealTeam4
             GameObject.Find("AdminCam").transform.rotation = Quaternion.identity;
             GameObject.Find("MarkerUICamera(Clone)").transform.SetParent(cam.gameObject.transform);
             GameObject.Find("MarkerUICamera(Clone)").transform.localPosition = new Vector3(0, 0, 0);
+            GameObject.Find("MarkerUICamera(Clone)").transform.rotation = Quaternion.identity;
         }
 
         // Update is called once per frame
