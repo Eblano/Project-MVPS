@@ -251,7 +251,7 @@ namespace SealTeam4
             }
             else
             {
-                NpcScripting.instance.ShowNPCScriptingUI();
+                RTEScriptEditor.instance.ShowNPCScriptingUI();
             }
         }
 
@@ -264,8 +264,8 @@ namespace SealTeam4
             {
                 if(NpcScriptStorage.instance)
                 {
-                    NpcScripting.instance.ShowNPCScriptingUI();
-                    NpcScripting.instance.HideNPCScriptingUI();
+                    RTEScriptEditor.instance.ShowNPCScriptingUI();
+                    RTEScriptEditor.instance.HideNPCScriptingUI();
                 }
                 else
                 {
@@ -273,7 +273,7 @@ namespace SealTeam4
                     return;
                 }
 
-                if (NpcScripting.instance.DataIsComplete())
+                if (RTEScriptEditor.instance.DataIsComplete())
                 {
                     PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
                         "Yes",

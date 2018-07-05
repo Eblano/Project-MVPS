@@ -318,7 +318,7 @@ namespace SealTeam4
 
         public void AddNewNPCSchedule()
         {
-            NpcScripting.instance.AddNewNPCSchedule(this);
+            RTEScriptEditor.instance.AddNewNPCSchedule(this);
         }
 
         public void DeleteScheduleSlot(NPCScheduleSlot sourceNPCScheduleSlot, NPCSchedule_RTEStorage targetSchedule)
@@ -326,7 +326,7 @@ namespace SealTeam4
             npcScheduleSlotList.Remove(sourceNPCScheduleSlot);
             Destroy(sourceNPCScheduleSlot.gameObject);
 
-            NpcScripting.instance.DeleteSchedule(targetSchedule);
+            RTEScriptEditor.instance.DeleteSchedule(targetSchedule);
         }
 
         public void MoveScheduleOrder(NPCSchedule_RTEStorage scheduleToMove, NpcScriptStorage.SCHEDULE_MOVE_DIRECTION moveDir)

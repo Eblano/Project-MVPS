@@ -22,12 +22,12 @@ namespace SealTeam4
 
         public void ShowPropertiesPanel()
         {
-            NpcScripting.instance.ShowPropertiesPanel(this);
+            RTEScriptEditor.instance.ShowPropertiesPanel(this);
         }
 
         public void DeleteNPC()
         {
-            NpcScripting.instance.DeleteNPCEntry(this);
+            RTEScriptEditor.instance.DeleteNPCEntry(this);
         }
 
         public void ChangeName()

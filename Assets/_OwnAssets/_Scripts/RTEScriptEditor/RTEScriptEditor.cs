@@ -7,12 +7,18 @@ using UnityEngine.UI;
 
 namespace SealTeam4
 {
-    public class NpcScripting : MonoBehaviour
+    public class RTEScriptEditor : MonoBehaviour
     {
-        public static NpcScripting instance;
-        
+        public static RTEScriptEditor instance;
+
+        [Header("Editor Components")]
+        [SerializeField] private GameObject NPCScriptEditor;
+        [SerializeField] private GameObject AccessoriesSetupEditor;
+        [SerializeField] private Button NPCScriptEditor_TabBtn;
+        [SerializeField] private Button AccessoriesSetupEditor_TabBtn;
+
         [Header("Existing UI Components")]
-        [SerializeField] private GameObject npcScriptingUIroot;
+        [SerializeField] private GameObject scriptEditorRoot;
         [SerializeField] private GameObject npcList;
         [SerializeField] private GameObject rightPanel;
 
@@ -51,7 +57,10 @@ namespace SealTeam4
                 Destroy(gameObject);
             }
 
-            npcScriptingUIroot.SetActive(false);
+            scriptEditorRoot.SetActive(false);
+
+            NPCScriptEditor_TabBtn.onClick.AddListener(delegate { OnNPCScriptEditor_TabBtnClick(); });
+            AccessoriesSetupEditor_TabBtn.onClick.AddListener(delegate { OnAccessoriesSetupEditor_TabBtnClick(); });
         }
 
         private void Update()
@@ -84,7 +93,7 @@ namespace SealTeam4
             waypointMarkers = GameManager.instance.GetAllWaypointMarkers();
             areaMarkers = GameManager.instance.GetAllAreaMarkers();
 
-            npcScriptingUIroot.SetActive(true);
+            scriptEditorRoot.SetActive(true);
             
             PopulateData
                 (
@@ -106,7 +115,7 @@ namespace SealTeam4
 
             currActivePropertiesPanel = null;
             npcScriptingUIDataList.Clear();
-            npcScriptingUIroot.SetActive(false);
+            scriptEditorRoot.SetActive(false);
         }
 
         public void UpdateChanges()
@@ -217,6 +226,16 @@ namespace SealTeam4
         public bool DataIsComplete()
         {
             return allDataIsComplete;
+        }
+
+        public void OnNPCScriptEditor_TabBtnClick()
+        {
+            NPCScriptEditor.transform.SetAsLastSibling();
+        }
+
+        public void OnAccessoriesSetupEditor_TabBtnClick()
+        {
+            AccessoriesSetupEditor.transform.SetAsLastSibling();
         }
     }
 }
