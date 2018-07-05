@@ -9,18 +9,18 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1220156998436070}
+  m_RootGameObject: {fileID: 1004279792769412}
   m_IsPrefabParent: 1
---- !u!1 &1220156998436070
+--- !u!1 &1004279792769412
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4461739490103898}
-  - component: {fileID: 114133327292873000}
-  - component: {fileID: 114536371352198012}
+  - component: {fileID: 4218823912003132}
+  - component: {fileID: 114352267178622866}
+  - component: {fileID: 114595039382045240}
   m_Layer: 17
   m_Name: ExitMarker
   m_TagString: Untagged
@@ -28,12 +28,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4461739490103898
+--- !u!4 &4218823912003132
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1220156998436070}
+  m_GameObject: {fileID: 1004279792769412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -41,31 +41,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114133327292873000
+--- !u!114 &114352267178622866
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1220156998436070}
+  m_GameObject: {fileID: 1004279792769412}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fee2839c2efa7f40850a05a41c9fd00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  markerColor: {r: 0.97170395, g: 0, b: 0.9852941, a: 0}
   billboardTransform: {fileID: 0}
   scaleRate: 35
---- !u!114 &114536371352198012
+--- !u!114 &114595039382045240
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1220156998436070}
+  m_GameObject: {fileID: 1004279792769412}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c60fa43e770e92542a4d235938b12e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  markerMat: {fileID: 2100000, guid: 487a492dda4e5974ba9569d6e1c02681, type: 2}
+  markerMat: {fileID: 2100000, guid: 65e6d61d39ae6c1499b2d48fe163074d, type: 2}
   lineRendererWidth: 0.05
   pointPosition: {x: 0, y: 0, z: 0}
   pointRotation: {x: 0, y: 0, z: 0, w: 1}

@@ -8,12 +8,16 @@ using Battlehub.RTSaveLoad;
 
 namespace SealTeam4
 {
+    [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
     public class DynamicBillboard : MonoBehaviour
     {
         private WorldSpaceText markerFloatingText;
 
+        [SerializeField] private Color markerColor;
+        private Color oldMarkerColor;
+
         protected Camera camToTrack;
-        [SerializeField] private Transform billboardTransform;
+        [Battlehub.SerializeIgnore] [SerializeField] private Transform billboardTransform;
 
         [Header("Canvas Scaling Parameters")]
         //At what distance do we want to start scaling the UI?
@@ -43,13 +47,15 @@ namespace SealTeam4
             {
                 billboardTransform = transform;
             }
+
+            oldMarkerColor = markerColor;
         }
 
         protected void LateUpdate()
         {
-            if(markerFloatingText && camToTrack)
+            if (markerFloatingText && camToTrack)
             {
-                if(!setupDone)
+                if (!setupDone)
                 {
                     uiElementScaleModifier = markerFloatingText.transform.localScale.x / 1;
                     setupDone = true;
@@ -64,8 +70,8 @@ namespace SealTeam4
             {
                 camToTrack = GameObject.Find("MarkerUICamera(Clone)").GetComponent<Camera>();
             }
-            
-            if(RuntimeEditorUltiltes.instance)
+
+            if (RuntimeEditorUltiltes.instance)
             {
                 if (RuntimeSelection.activeObject == gameObject)
                 {
@@ -79,6 +85,13 @@ namespace SealTeam4
             else
             {
                 markerFloatingText.gameObject.SetActive(true);
+            }
+
+            markerFloatingText.SetBGColor(markerColor);
+            if (oldMarkerColor != markerColor)
+            {
+                markerFloatingText.SetBGColor(markerColor);
+                oldMarkerColor = markerColor;
             }
         }
 

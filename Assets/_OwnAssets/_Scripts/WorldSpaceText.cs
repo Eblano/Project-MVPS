@@ -13,6 +13,7 @@ namespace SealTeam4
 
         [SerializeField] private Canvas canvas;
         [SerializeField] private Button btn;
+        [SerializeField] private Image textBg;
         [SerializeField] private TextMeshProUGUI text;
 
         private void Start()
@@ -50,6 +51,12 @@ namespace SealTeam4
         public GameObject GetObject()
         {
             return parentDBillboard.gameObject;
+        }
+
+        public void SetBGColor(Color color)
+        {
+            float transparency = textBg.color.a;
+            textBg.color = new Color(color.r, color.g, color.b, transparency);
         }
     }
 }

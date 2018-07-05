@@ -33,28 +33,16 @@ namespace SealTeam4
         protected new void Start()
         {
             base.Start();
-            //if (!GetComponent<MeshFilter>())
-            //    meshFilter = gameObject.AddComponent<MeshFilter>();
-            //else
-            //    meshFilter = GetComponent<MeshFilter>();
-
-            //if (!GetComponent<MeshRenderer>())
-            //    meshRenderer = gameObject.AddComponent<MeshRenderer>();
-            //else
-            //    meshRenderer = GetComponent<MeshRenderer>();
 
             if (!GetComponent<LineRenderer>())
                 lineRenderer = gameObject.AddComponent<LineRenderer>();
             else
                 lineRenderer = GetComponent<LineRenderer>();
 
-            //meshFilter.mesh = markerMesh;
-            //transform.localScale = new Vector3(markerScale, markerScale, markerScale);
-            //meshRenderer.material = markerMat;
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.material = markerMat;
             lineRenderer.widthMultiplier = lineRendererWidth;
-            lineRenderer.positionCount = 3;
+            lineRenderer.positionCount = 2;
         }
 
         public new virtual void Update()
@@ -73,14 +61,12 @@ namespace SealTeam4
                 if (Physics.Raycast(transform.position, -transform.up, out hitInfo, 100, layer))
                 {
                     lineRenderer.SetPosition(1, hitInfo.point);
-                    lineRenderer.SetPosition(2, hitInfo.point + transform.forward * directionLineLength);
                     pointPosition = hitInfo.point;
                     pointRotation = transform.rotation;
                 }
                 else
                 {
                     lineRenderer.SetPosition(1, transform.position);
-                    lineRenderer.SetPosition(2, transform.position);
 
                     pointPosition = Vector3.zero;
                     pointRotation = Quaternion.identity;
