@@ -10,15 +10,15 @@ namespace SealTeam4
     /// </summary>
     public class PointMarker : BaseMarker
     {
-        private MeshFilter meshFilter;
-        private MeshRenderer meshRenderer;
+        //private MeshFilter meshFilter;
+        //private MeshRenderer meshRenderer;
         private LineRenderer lineRenderer;
 
         [SerializeField] private Material markerMat;
 
-        [Header("Marker Indicator Parameters")]
-        [SerializeField] private Mesh markerMesh;
-        [SerializeField] private float markerScale = 2;
+        //[Header("Marker Indicator Parameters")]
+        //[SerializeField] private Mesh markerMesh;
+        //[SerializeField] private float markerScale = 2;
 
         [Header("Line Renderer Parameters")]
         [SerializeField] private float lineRendererWidth = 0.03f;
@@ -33,24 +33,24 @@ namespace SealTeam4
         protected new void Start()
         {
             base.Start();
-            if (!GetComponent<MeshFilter>())
-                meshFilter = gameObject.AddComponent<MeshFilter>();
-            else
-                meshFilter = GetComponent<MeshFilter>();
+            //if (!GetComponent<MeshFilter>())
+            //    meshFilter = gameObject.AddComponent<MeshFilter>();
+            //else
+            //    meshFilter = GetComponent<MeshFilter>();
 
-            if (!GetComponent<MeshRenderer>())
-                meshRenderer = gameObject.AddComponent<MeshRenderer>();
-            else
-                meshRenderer = GetComponent<MeshRenderer>();
+            //if (!GetComponent<MeshRenderer>())
+            //    meshRenderer = gameObject.AddComponent<MeshRenderer>();
+            //else
+            //    meshRenderer = GetComponent<MeshRenderer>();
 
             if (!GetComponent<LineRenderer>())
                 lineRenderer = gameObject.AddComponent<LineRenderer>();
             else
                 lineRenderer = GetComponent<LineRenderer>();
 
-            meshFilter.mesh = markerMesh;
-            transform.localScale = new Vector3(markerScale, markerScale, markerScale);
-            meshRenderer.material = markerMat;
+            //meshFilter.mesh = markerMesh;
+            //transform.localScale = new Vector3(markerScale, markerScale, markerScale);
+            //meshRenderer.material = markerMat;
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.material = markerMat;
             lineRenderer.widthMultiplier = lineRendererWidth;

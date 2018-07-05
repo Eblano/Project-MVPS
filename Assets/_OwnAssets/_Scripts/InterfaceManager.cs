@@ -20,6 +20,7 @@ namespace SealTeam4
     public class InterfaceManager : MonoBehaviour
     {
         #region Variables
+        public static InterfaceManager instance;
 
         [SerializeField] private GameObject camPrefab;
         [SerializeField] private Camera cam;
@@ -70,6 +71,13 @@ namespace SealTeam4
         // Use this for initialization
         void Start()
         {
+            if (!instance)
+                instance = this;
+            else
+            {
+                Debug.Log("Interface Manager already exists");
+            }
+
             cam = Instantiate(camPrefab).GetComponentInChildren<Camera>();
 
             // Calibration Button Setup
@@ -82,30 +90,32 @@ namespace SealTeam4
             borderUI = Instantiate(borderUiPrefab, this.GetComponent<Canvas>().transform);
             borderUI.SetActive(false);
 
-            // Setup MarkerUICamera
-            GameObject.Find("MarkerUICamera(Clone)").transform.position = new Vector3(0, 0, 0);
             GameObject.Find("AdminCam").transform.rotation = Quaternion.identity;
-            GameObject.Find("MarkerUICamera(Clone)").transform.SetParent(cam.gameObject.transform);
-            GameObject.Find("MarkerUICamera(Clone)").transform.localPosition = new Vector3(0, 0, 0);
-            GameObject.Find("MarkerUICamera(Clone)").transform.rotation = Quaternion.identity;
+
+            // Setup MarkerUICamera
+            GameObject markerUICamera = GameObject.Find("MarkerUICamera(Clone)");
+            markerUICamera.transform.SetParent(cam.gameObject.transform);
+            markerUICamera.transform.localPosition = new Vector3(0, 0, 0);
+            markerUICamera.transform.rotation = Quaternion.identity;
         }
 
         // Update is called once per frame
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && (ReplaySystemCameraScript.instance.MouseActive) && !EventSystem.current.IsPointerOverGameObject())
+            if (
+                Input.GetKeyDown(KeyCode.Mouse0) && 
+                (ReplaySystemCameraScript.instance.MouseActive) && 
+                !EventSystem.current.IsPointerOverGameObject()
+                )
             {
-                SelectGameObject();
-
-                if (currSelectedGO)
-                {
-                    selectedGOTxt.text = currSelectedGO.GetComponent<IActions>().GetName();
-                }
-                else
-                {
-                    selectedGOTxt.text = "Nothing Selected";
-                }
+                TryToSelectGameObject();
             }
+
+            if (currSelectedGO)
+                selectedGOTxt.text = currSelectedGO.GetComponent<IActions>().GetName();
+            else
+                selectedGOTxt.text = "Nothing Selected";
+
             UpdateMarker();
             UpdateActionList();
             ListenForKeys();
@@ -113,7 +123,7 @@ namespace SealTeam4
             //if(selectedObject) UpdateMarker();
         }
 
-        private void SelectGameObject()
+        private void TryToSelectGameObject()
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
@@ -124,11 +134,14 @@ namespace SealTeam4
 
                 Physics.Raycast(ray, out hit, Mathf.Infinity, ignoreLayer);
 
-                if (hit.transform && hit.transform.GetComponents<IActions>().Length != 0)
+                if (hit.transform)
                 {
-                    currSelectedGO = hit.transform.gameObject;
-                    col = currSelectedGO.GetComponent<IActions>().GetCollider();
-                    MarkSelectedObject();
+                    if(hit.transform.GetComponents<IActions>().Length != 0)
+                    {
+                        currSelectedGO = hit.transform.gameObject;
+                        col = currSelectedGO.GetComponent<IActions>().GetCollider();
+                        DrawObjectMarker();
+                    }
                 }
                 else
                 {
@@ -137,16 +150,19 @@ namespace SealTeam4
             }
         }
 
-        private void MarkSelectedObject()
+        public void SelectGameObject(GameObject go)
         {
-            Debug.Log("Mark Selected Object");
+            currSelectedGO = go;
 
-            DrawObjectMarker();
+            if(currSelectedGO)
+            {
+                col = currSelectedGO.GetComponent<IActions>().GetCollider();
+                DrawObjectMarker();
+            }
         }
 
         private void DrawObjectMarker()
         {
-            Debug.Log("Draw Marker");
             pos = currSelectedGO.GetComponentInChildren<IActions>().GetHighestPointPos();
             screenPos = cam.WorldToScreenPoint(pos);
             if (currSelectedGO)
@@ -165,12 +181,8 @@ namespace SealTeam4
             }
         }
 
-
-
         private void UpdateMarker()
         {
-            Debug.Log("Update Marker");
-
             if (markerList.Count == 0)
             {
                 return;
@@ -180,8 +192,6 @@ namespace SealTeam4
             {
                 planes = GeometryUtility.CalculateFrustumPlanes(cam);
                 inView = GeometryUtility.TestPlanesAABB(planes, col.bounds);
-
-                Debug.Log(inView);
 
                 if (!inView /*screenPos.z < 0*/)
                 {

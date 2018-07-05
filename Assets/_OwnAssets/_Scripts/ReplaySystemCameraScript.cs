@@ -110,8 +110,6 @@ public class ReplaySystemCameraScript : MonoBehaviour
 
         // Rotates Camera Container
         transform.Rotate(0, yRotValue, 0);
-
-        Debug.Log(cam.localRotation.eulerAngles);
         
         // Rotates Camera
         cam.localRotation *= Quaternion.Euler(-xRotValue, 0, 0);

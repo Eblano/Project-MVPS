@@ -62,7 +62,7 @@ namespace SealTeam4
         /// </summary>
         public virtual void CleanUpForSimulationStart()
         {
-            Destroy(GetComponent<DynamicBillboard>().GetCanvas());
+            //Destroy(GetComponent<DynamicBillboard>().GetCanvas());
         }
 
         private void OnDisable()

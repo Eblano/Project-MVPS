@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Battlehub.RTCommon;
+using Battlehub.RTSaveLoad;
 
 namespace SealTeam4
 {
     public class DynamicBillboard : MonoBehaviour
     {
-        private GameObject canvas;
-        private TextMeshProUGUI canvasText;
+        private WorldSpaceText markerFloatingText;
 
-        protected GameObject camToTrack;
+        protected Camera camToTrack;
         [SerializeField] private Transform billboardTransform;
 
         [Header("Canvas Scaling Parameters")]
@@ -46,40 +47,49 @@ namespace SealTeam4
 
         protected void LateUpdate()
         {
-            if(canvas && camToTrack)
+            if(markerFloatingText && camToTrack)
             {
                 if(!setupDone)
                 {
-                    uiElementScaleModifier = canvas.transform.localScale.x / 1;
+                    uiElementScaleModifier = markerFloatingText.transform.localScale.x / 1;
                     setupDone = true;
                 }
-                
-                if (!canvasText)
-                    canvasText = canvas.GetComponentInChildren<TextMeshProUGUI>();
-                else
-                    UpdateCanvasText();
 
+                UpdateCanvasText();
                 RotateCanvasToFaceCamera();
                 ScaleCanvas();
                 MoveCanvas();
             }
             else
             {
-                camToTrack = GameObject.Find("Editor Camera");
-
-                if(!camToTrack)
-                    camToTrack = GameObject.Find("AdminCam");
+                camToTrack = GameObject.Find("MarkerUICamera(Clone)").GetComponent<Camera>();
+            }
+            
+            if(RuntimeEditorUltiltes.instance)
+            {
+                if (RuntimeSelection.activeObject == gameObject)
+                {
+                    markerFloatingText.gameObject.SetActive(false);
+                }
+                else
+                {
+                    markerFloatingText.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                markerFloatingText.gameObject.SetActive(true);
             }
         }
 
         private void UpdateCanvasText()
         {
-            canvasText.text = gameObject.name;
+            markerFloatingText.SetText(gameObject.name);
         }
 
         private void ScaleCanvas()
         {
-            distanceFromCamera = (canvas.transform.position - camToTrack.transform.position).magnitude;
+            distanceFromCamera = (markerFloatingText.transform.position - camToTrack.transform.position).magnitude;
 
             if (distanceFromCamera >= uiScaleStartDist)
             {
@@ -88,48 +98,62 @@ namespace SealTeam4
                 //Limit our scale so it doesn't continue growing infinitely.
                 scaleModifier = Mathf.Clamp(scaleModifier, minUiScale, maxUiScale);
 
-                canvas.transform.localScale = Vector3.one * scaleModifier;
+                markerFloatingText.transform.localScale = Vector3.one * scaleModifier;
             }
             else
             {
                 //Reset our UI element size.
-                canvas.transform.localScale = Vector3.one * uiElementScaleModifier;
+                markerFloatingText.transform.localScale = Vector3.one * uiElementScaleModifier;
             }
         }
 
         private void MoveCanvas()
         {
-            canvas.transform.position = billboardTransform.position;
+            markerFloatingText.transform.position = billboardTransform.position;
         }
 
         private void RotateCanvasToFaceCamera()
         {
-            Vector3 lookPos = canvas.transform.position - camToTrack.transform.position;
+            Vector3 lookPos = markerFloatingText.transform.position - camToTrack.transform.position;
             Quaternion rotation = Quaternion.LookRotation(lookPos);
 
-            canvas.transform.rotation = rotation;
+            markerFloatingText.transform.rotation = rotation;
         }
 
-        public GameObject GetCanvas()
-        {
-            return canvas;
-        }
+        //public GameObject GetCanvas()
+        //{
+        //    return markerFloatingText;
+        //}
 
         private void OnDestroy()
         {
-            Destroy(canvas.gameObject);
+            //Destroy(markerFloatingText.gameObject);
         }
 
         private void OnDisable()
         {
-            if (canvas)
-                Destroy(canvas.gameObject);
+            if (markerFloatingText)
+                Destroy(markerFloatingText.gameObject);
         }
 
         private void OnEnable()
         {
-            if(!canvas)
-                canvas = Instantiate(RuntimeEditorUltiltes.instance.GetMarkerFloatingtTextPrefab(), transform.position, transform.rotation);
+            if(!markerFloatingText)
+                markerFloatingText = 
+                    Instantiate(RuntimeEditorUltiltes.instance.GetMarkerFloatingtTextPrefab(), transform.position, transform.rotation)
+                    .GetComponent<WorldSpaceText>();
+
+            markerFloatingText.SetParentDynamicBillboard(this);
+        }
+
+        public void SelectThis()
+        {
+            if(RuntimeEditorUltiltes.instance)
+                RuntimeSelection.activeObject = gameObject;
+            else if(GetComponents<IActions>().Length != 0)
+                InterfaceManager.instance.SelectGameObject(gameObject);
+            else
+                InterfaceManager.instance.SelectGameObject(null);
         }
     }
 }
