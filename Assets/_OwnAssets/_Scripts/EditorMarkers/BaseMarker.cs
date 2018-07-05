@@ -33,6 +33,7 @@ namespace SealTeam4
                 gameObject.name = oldName;
                 m_ExposedToEditor.SetName(gameObject.name);
             }
+            oldName = gameObject.name;
         }
 
         /// <summary>
