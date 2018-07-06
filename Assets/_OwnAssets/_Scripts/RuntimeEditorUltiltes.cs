@@ -247,7 +247,7 @@ namespace SealTeam4
         {
             if (!ScriptStorage.instance)
             {
-                PopupWindow.Show("Error", "Please add NPCScriptStorage onto the Scene", "Ok");
+                PopupWindow.Show("Error", "Please add ScriptStorage onto the Scene", "Ok");
             }
             else
             {

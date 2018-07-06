@@ -77,7 +77,7 @@ namespace SealTeam4
         {
             int prefNum = 0;
             //base.OnClientConnect(conn);
-            if (!GameManager.instance.isHost)
+            if (!GameManager.instance.IsHost())
             {
                 GameManager.instance.GM_SwitchToClientMode();
                 prefNum = 1;

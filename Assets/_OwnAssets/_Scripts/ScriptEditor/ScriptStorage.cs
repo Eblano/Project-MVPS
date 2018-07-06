@@ -14,7 +14,7 @@ namespace SealTeam4
         
         [SerializeField] private List<NPCSpawnData_SStorage> npcSpawnDataList_SStorage;
         [SerializeField] private List<NPCSchedule_SStorage> npcScheduleList_SStorage;
-        [SerializeField] private List<AccessoryData_SStorage> AccessoryDataList_SStorage;
+        [SerializeField] private List<AccessoryData_SStorage> accessoryDataList_SStorage;
 
         private void OnEnable()
         {
@@ -51,7 +51,7 @@ namespace SealTeam4
 
         public List<AccessoryData_SStorage> GetAllAccessory_SStorage()
         {
-            return AccessoryDataList_SStorage;
+            return accessoryDataList_SStorage;
         }
 
         public List<NPCSchedule_SStorage> GetSpecificNPCScheduleData_SStorage(string npcName)
@@ -73,7 +73,7 @@ namespace SealTeam4
         public AccessoryData_SStorage AddNewAccessoryData_SStorage()
         {
             AccessoryData_SStorage newData = new AccessoryData_SStorage();
-            AccessoryDataList_SStorage.Add(newData);
+            accessoryDataList_SStorage.Add(newData);
 
             return newData;
         }
@@ -117,7 +117,7 @@ namespace SealTeam4
 
         public void DeleteAccessoryData_SStorage(AccessoryData_SStorage targetAccessoryData)
         {
-            AccessoryDataList_SStorage.Remove(targetAccessoryData);
+            accessoryDataList_SStorage.Remove(targetAccessoryData);
         }
 
         public void DeleteNPCScheduleData_SStorage(NPCSchedule_SStorage targetNPCSchedule)
@@ -159,6 +159,11 @@ namespace SealTeam4
                 targetNPCScheduleList_Copy.Insert(itemIndex + 1, targetScheduleToMove);
 
             npcScheduleList_SStorage.AddRange(targetNPCScheduleList_Copy);
+        }
+
+        public List<AccessoryData_SStorage> GetAllAccessoryData_SStorage()
+        {
+            return accessoryDataList_SStorage;
         }
 
         public List<NpcSpawnData> GetAllNPCSpawnData()
@@ -326,7 +331,7 @@ public class NPCSchedule_SStorage
 public class AccessoryData_SStorage
 {
     private readonly string[] allAccessoryTypes =
-        { "Pistol", "Torchlight", "Rifle", "Bag"};
+        { "Pistol", "Rifle", "Bag", "Magazine"};
     public string accessoryItem = "Pistol";
     public string accessoryMarker;
 

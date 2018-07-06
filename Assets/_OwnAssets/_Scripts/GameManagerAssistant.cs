@@ -17,17 +17,18 @@ namespace SealTeam4
                 return;
         }
 
-        [Command]
-        public void CmdSetBool(bool state)
-        {
-            RpcSetBool(state);
-        }
+        // Example of sending data
+        //[Command]
+        //public void CmdSetBool(bool state)
+        //{
+        //    RpcSetBool(state);
+        //}
 
-        [ClientRpc]
-        public void RpcSetBool(bool state)
-        {
-            GameManager.instance.UpdateNetworkTestBool(state);
-        }
+        //[ClientRpc]
+        //public void RpcSetBool(bool state)
+        //{
+        //    GameManager.instance.UpdateNetworkTestBool(state);
+        //}
 
         [Command]
         public void CmdNetworkSpawnObject(GameObject GO)

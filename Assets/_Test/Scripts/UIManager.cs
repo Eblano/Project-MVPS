@@ -92,7 +92,7 @@ public class UIManager : MonoBehaviour
         txtConnectedPlayer.text = txt;
     }
 
-    public void BtnStartToBroadcast()
+    public void BtnHost()
     {
         CustomNetworkDiscovery.instance.StartToBroadcast();
     }

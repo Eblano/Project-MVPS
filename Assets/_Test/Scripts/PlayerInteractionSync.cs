@@ -20,11 +20,6 @@ public class PlayerInteractionSync : NetworkBehaviour
 
     public override void OnStartServer()
     {
-        if (isServer)
-        {
-            GameManager.instance.isHost = true;
-        }
-
         gameManager = GameManager.instance;
     }
 

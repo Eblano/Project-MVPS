@@ -39,7 +39,6 @@ namespace SealTeam4
         [SerializeField] private GameObject gameManagerAssistant_Prefab;
 
         [Header("Admin Components")]
-        //[SerializeField] private GameObject gameMasterCamera_Prefab;
         [SerializeField] private GameObject gameMasterUI_Prefab;
 
         public enum MARKER_TYPE { AREA, WAYPOINT, NPCSPAWN, SEAT, PLAYER_SPAWN_MARKER, EXIT, ACCESSORY };
@@ -57,24 +56,22 @@ namespace SealTeam4
 
         [Header("Game Condition")]
         public bool areaUnderAttack;
-        
-        public bool isHost = false;
 
-        [Space(10)]
+        [Header("Accessory Item Prefabs")]
+        [SerializeField] private GameObject pistol_Prefab;
+        [SerializeField] private GameObject rifle_Prefab;
+        [SerializeField] private GameObject bag_Prefab;
+        [SerializeField] private GameObject magazine_Prefab;
+
 
         // NPC List
-        private List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
         private List<AIController> spawnedCivilianNPCs = new List<AIController>();
         private List<AIController> spawnedVIPNPC = new List<AIController>();
         private List<AIController> spawnedHostileNPCs = new List<AIController>();
 
         [Space(10)]
-
+       
         public string localPlayerName;
-
-        [Space(10)]
-
-        public bool networkTest = false;
 
         private void Start()
         {
@@ -105,17 +102,6 @@ namespace SealTeam4
                     Client_Update();
                     break;
             }
-
-            //if(Input.GetKeyDown(KeyCode.Z))
-            //{
-            //    GameManagerAssistant.instance.CmdSetBool(networkTest);
-            //}
-        }
-
-        public void UpdateNetworkTestBool(bool value)
-        {
-            networkTest = value;
-            Debug.Log(networkTest);
         }
 
         private void Host_Update()
@@ -138,10 +124,6 @@ namespace SealTeam4
 
         private void Host_Run_Update()
         {
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                //NetworkPlayerPosManager.localInstance.RpcCalibratePlayerVector();
-            }
             if (Input.GetKeyDown(KeyCode.P))
             {
                 areaUnderAttack = true;
@@ -159,19 +141,10 @@ namespace SealTeam4
 
             Destroy(Camera.main.gameObject);
 
-            // Set NPCSpawnData
-            SetNPCSpawnDataFromNPCScriptStorage();
-
             // Spawn and Build NavMesh
             NavMeshSurface nmSurface = Instantiate(navMeshSurfaceInitator_Prefab, Vector3.zero, Quaternion.identity).GetComponent<NavMeshSurface>();
             nmSurface.BuildNavMesh();
-
-            Host_SetupMarkers();
-            isHost = true;
-
-            // Instantiate admin cam
-            //Instantiate(gameMasterCamera_Prefab, transform.position, transform.rotation);
-
+            
             // Instantiate admin interface
             Instantiate(gameMasterUI_Prefab, Vector3.zero, Quaternion.identity);
         }
@@ -195,22 +168,6 @@ namespace SealTeam4
         {
             SpawnAndSetupNPC();
             currGameManagerHostMode = GameManagerHostMode.RUN;
-        }
-        #endregion
-        
-        // ************
-        // Host Methods
-        // ************
-        #region Host Methods
-        private void Host_SetupMarkers()
-        {
-            //foreach (Marker marker in registeredMarkers)
-            //{
-            //    if (marker.markerGO.GetComponent<BaseMarker>() is IMarkerBehaviours)
-            //    {
-            //        //marker.markerGO.GetComponent<IMarkerBehaviours>().CleanUpForSimulationStart();
-            //    }
-            //}
         }
         #endregion
         
@@ -325,6 +282,7 @@ namespace SealTeam4
         }
         #endregion
 
+
         // ************
         // General Methods
         // ************
@@ -345,25 +303,32 @@ namespace SealTeam4
             localPlayerName = name;
         }
 
-        private void SetNPCSpawnDataFromNPCScriptStorage()
-        {
-            if(ScriptStorage.instance)
-                npcSpawnDataList = ScriptStorage.instance.GetAllNPCSpawnData();
-        }
-
         private void SpawnAndSetupNPC()
         {
+            if(!ScriptStorage.instance)
+            {
+                Debug.Log("Cant find Script Storage");
+                return;
+            }
+
+            List<NpcSpawnData> npcSpawnDataList = ScriptStorage.instance.GetAllNPCSpawnData();
+
+            if (npcSpawnDataList == null)
+            {
+                Debug.Log("Cant get npcSpawnDataList");
+                return;
+            }
+
             foreach (NpcSpawnData npcSpawnData in npcSpawnDataList)
             {
                 // Get spawn marker
-                GameObject SpawnMarker = GetSpawnMarkerByName(npcSpawnData.spawnMarkerName);
+                NPCSpawnMarker npcSpawnMarker = GetSpawnMarkerByName(npcSpawnData.spawnMarkerName);
+
                 // Get NPC type to spawn
                 GameObject npcToSpawn = GetNPCPrefabByNPCType(npcSpawnData.npcOutfit);
 
-                NPCSpawnMarker targetSpawnMarker = SpawnMarker.GetComponent<NPCSpawnMarker>();
-                
                 // Spawn NPC
-                GameObject npc = Instantiate(npcToSpawn, targetSpawnMarker.pointPosition, targetSpawnMarker.pointRotation);
+                GameObject npc = Instantiate(npcToSpawn, npcSpawnMarker.pointPosition, npcSpawnMarker.pointRotation);
                 // Set name
                 npc.name = npcSpawnData.npcName;
 
@@ -378,7 +343,7 @@ namespace SealTeam4
 
                 // Adding NPC reference to list according to ai type
                 AIStats aiStats = npcSpawnData.aiStats;
-                switch(aiStats.npcType)
+                switch (aiStats.npcType)
                 {
                     case AIStats.NPCType.CIVILLIAN:
                         spawnedCivilianNPCs.Add(npcGOAIController);
@@ -392,6 +357,60 @@ namespace SealTeam4
                         spawnedVIPNPC.Add(npcGOAIController);
                         break;
                 }
+            }
+        }
+
+        public void SpawnAccessories()
+        {
+            if (!ScriptStorage.instance)
+            {
+                Debug.Log("Cant find Script Storage");
+                return;
+            }
+
+            List<AccessoryData_SStorage> accessoryList = ScriptStorage.instance.GetAllAccessoryData_SStorage();
+
+            if (accessoryList == null)
+            {
+                Debug.Log("Cant get npcSpawnDataList");
+                return;
+            }
+
+            foreach (AccessoryData_SStorage accessoryData in accessoryList)
+            {
+                // Get accessory spawn marker
+                AccessoryMarker accessorySpawnMarker = GetAccessoryMarkerByName(accessoryData.accessoryMarker);
+
+                GameObject accessoryItemPrefab = null;
+
+                switch(accessoryData.accessoryItem)
+                {
+                    case "Pistol":
+                        accessoryItemPrefab = pistol_Prefab;
+                        break;
+                    case "Rifle":
+                        accessoryItemPrefab = pistol_Prefab;
+                        break;
+                    case "Bag":
+                        accessoryItemPrefab = pistol_Prefab;
+                        break;
+                    case "Magazine":
+                        accessoryItemPrefab = pistol_Prefab;
+                        break;
+                }
+
+                if(!accessoryItemPrefab)
+                {
+                    Debug.Log("Cant find item to spawn");
+                    return;
+                }
+
+                GameObject accessoryItem = Instantiate(accessoryItemPrefab, accessorySpawnMarker.pointPosition, accessorySpawnMarker.pointRotation);
+
+                if (GameManagerAssistant.instance)
+                    GameManagerAssistant.instance.CmdNetworkSpawnObject(accessoryItem);
+                else
+                    Debug.Log("GameManageAssistant not found");
             }
         }
 
@@ -480,11 +499,16 @@ namespace SealTeam4
             return null;
         }
         
-        private GameObject GetSpawnMarkerByName(string markeName)
+        private NPCSpawnMarker GetSpawnMarkerByName(string markeName)
         {
-            return registeredMarkers.FindAll(x => x is NPCSpawnMarker).Find(x => x.name == markeName).gameObject;
+            return (NPCSpawnMarker)registeredMarkers.FindAll(x => x is NPCSpawnMarker).Find(x => x.name == markeName);
         }
-        
+
+        private AccessoryMarker GetAccessoryMarkerByName(string markeName)
+        {
+            return (AccessoryMarker)registeredMarkers.FindAll(x => x is AccessoryMarker).Find(x => x.name == markeName);
+        }
+
         public AreaMarker GetAreaMarkerByName(string areaName)
         {
             return (AreaMarker)registeredMarkers.FindAll(x => x is AreaMarker).Find(x => x.name == areaName);
@@ -523,6 +547,14 @@ namespace SealTeam4
         {
             this.sceneName = sceneName;
             this.sceneHash = sceneHash;
+        }
+
+        public bool IsHost()
+        {
+            if (currGameManagerMode == GameManagerMode.HOST)
+                return true;
+            else
+                return false;
         }
 
         public string GetSceneName()

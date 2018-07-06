@@ -347,6 +347,11 @@ namespace SealTeam4
         {
             GameManager.instance.GM_Host_SwitchToRun();
         }
+
+        public void OnSpawnAccessoriesButtonClick()
+        {
+            GameManager.instance.SpawnAccessories();
+        }
     }
 
 }
