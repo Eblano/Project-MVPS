@@ -84,7 +84,12 @@ namespace SealTeam4
         private void Update()
         {
             UpdateMarkerUICameraTransform();
+            ProcessSceneHash();
+            ProcessKeyInput();
+        }
 
+        private void ProcessSceneHash()
+        {
             if (sceneHash_timeLeftToRefresh <= 0)
             {
                 sceneHash_timeLeftToRefresh = sceneHash_refreshRate;
@@ -97,7 +102,10 @@ namespace SealTeam4
             }
             else
                 sceneHash_timeLeftToRefresh -= Time.deltaTime;
+        }
 
+        private void ProcessKeyInput()
+        {
             if (acceptKeyInput)
             {
                 if (InputController.GetKeyDown(openAssetsFolderKey))

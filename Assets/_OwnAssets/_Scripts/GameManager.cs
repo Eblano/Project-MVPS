@@ -289,7 +289,8 @@ namespace SealTeam4
         #region General Methods
         public void RestartScene()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            PlayerPrefs.SetString("SceneToLoad", "_MainScene");
+            SceneManager.LoadScene("_LoadingScene");
         }
 
         public void LoadScene(string sceneName)
