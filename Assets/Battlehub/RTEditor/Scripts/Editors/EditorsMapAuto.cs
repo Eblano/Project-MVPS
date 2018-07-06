@@ -38,7 +38,7 @@ namespace Battlehub.RTEditor
 				{ typeof(Battlehub.Cubeman.CubemanUserControl), new EditorDescriptor(17, true, false) },
 				{ typeof(SealTeam4.AreaMarker), new EditorDescriptor(17, true, false) },
 				{ typeof(SealTeam4.DynamicBillboard), new EditorDescriptor(17, true, false) },
-				{ typeof(SealTeam4.NpcScriptStorage), new EditorDescriptor(17, true, false) },
+				{ typeof(SealTeam4.ScriptStorage), new EditorDescriptor(17, true, false) },
 				{ typeof(SealTeam4.RTESkyboxSetter), new EditorDescriptor(17, true, false) },
 			};
 		}

@@ -245,13 +245,13 @@ namespace SealTeam4
         /// </summary>
         public void OpenNPCScriptEditorPopup()
         {
-            if (!NpcScriptStorage.instance)
+            if (!ScriptStorage.instance)
             {
                 PopupWindow.Show("Error", "Please add NPCScriptStorage onto the Scene", "Ok");
             }
             else
             {
-                RTEScriptEditor.instance.ShowNPCScriptingUI();
+                RTEScriptEditor.instance.ShowScriptEditorUI();
             }
         }
 
@@ -262,10 +262,10 @@ namespace SealTeam4
         {
             if (!saveSceneButton.IsInteractable())
             {
-                if(NpcScriptStorage.instance)
+                if(ScriptStorage.instance)
                 {
-                    RTEScriptEditor.instance.ShowNPCScriptingUI();
-                    RTEScriptEditor.instance.HideNPCScriptingUI();
+                    RTEScriptEditor.instance.ShowScriptEditorUI();
+                    RTEScriptEditor.instance.HideScriptEditorUI();
                 }
                 else
                 {

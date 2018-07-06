@@ -42,7 +42,7 @@ namespace SealTeam4
         //[SerializeField] private GameObject gameMasterCamera_Prefab;
         [SerializeField] private GameObject gameMasterUI_Prefab;
 
-        public enum MARKER_TYPE { AREA, WAYPOINT, NPCSPAWN, SEAT, PLAYER_SPAWN_MARKER, EXIT };
+        public enum MARKER_TYPE { AREA, WAYPOINT, NPCSPAWN, SEAT, PLAYER_SPAWN_MARKER, EXIT, ACCESSORY };
 
         [Header("NPC Prefabs")]
         [SerializeField] private GameObject type0NPC_Prefab;
@@ -68,9 +68,6 @@ namespace SealTeam4
         private List<AIController> spawnedVIPNPC = new List<AIController>();
         private List<AIController> spawnedHostileNPCs = new List<AIController>();
 
-        //// For calibration of in game position from physical position
-        //public bool calibrationMode = false;
-
         [Space(10)]
 
         public string localPlayerName;
@@ -78,8 +75,6 @@ namespace SealTeam4
         [Space(10)]
 
         public bool networkTest = false;
-
-        //public List<PlayerVectorCalibData> playerVectorCalibDataList = new List<PlayerVectorCalibData>();
 
         private void Start()
         {
@@ -274,6 +269,9 @@ namespace SealTeam4
                 case MARKER_TYPE.EXIT:
                     baseMarkerName = "Exit Marker ";
                     break;
+                case MARKER_TYPE.ACCESSORY:
+                    baseMarkerName = "Accessory Marker ";
+                    break;
                 default:
                     baseMarkerName = "NOT SPECIFIED";
                     break;
@@ -308,6 +306,8 @@ namespace SealTeam4
                     return GetUniqueMarkerName(MARKER_TYPE.EXIT);
                 if (marker is WaypointMarker)
                     return GetUniqueMarkerName(MARKER_TYPE.WAYPOINT);
+                if (marker is AccessoryMarker)
+                    return GetUniqueMarkerName(MARKER_TYPE.ACCESSORY);
                 if (marker is SeatMarker)
                     return GetUniqueMarkerName(MARKER_TYPE.SEAT);
             }
@@ -347,8 +347,8 @@ namespace SealTeam4
 
         private void SetNPCSpawnDataFromNPCScriptStorage()
         {
-            if(NpcScriptStorage.instance)
-                npcSpawnDataList = NpcScriptStorage.instance.GetAllNPCSpawnData();
+            if(ScriptStorage.instance)
+                npcSpawnDataList = ScriptStorage.instance.GetAllNPCSpawnData();
         }
 
         private void SpawnAndSetupNPC()
@@ -495,6 +495,12 @@ namespace SealTeam4
             return registeredMarkers.Exists(x => x.gameObject == gameObject);
         }
 
+        public List<AccessoryMarker> GetAllAccessoryMarkers()
+        {
+            List<BaseMarker> markers = registeredMarkers.FindAll(x => x is AccessoryMarker);
+            return markers.OfType<AccessoryMarker>().ToList();
+        }
+
         public List<AreaMarker> GetAllAreaMarkers()
         {
             List<BaseMarker> markers = registeredMarkers.FindAll(x => x is AreaMarker);
@@ -529,18 +535,4 @@ namespace SealTeam4
             return sceneHash;
         }
     }
-
-    //[System.Serializable]
-    //public class PlayerVectorCalibData
-    //{
-    //    public string playerName = string.Empty;
-    //    public Vector3 point1 = Vector3.zero;
-    //    public Vector3 point2 = Vector3.zero;
-
-    //    public PlayerVectorCalibData() { }
-
-    //    public PlayerVectorCalibData(string playerName)
-    //    {
-    //        this.playerName = playerName;
-    //    }
 }

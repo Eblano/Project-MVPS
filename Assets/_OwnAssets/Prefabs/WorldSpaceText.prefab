@@ -55,7 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4628765621508712}
   - component: {fileID: 114784779005269650}
-  - component: {fileID: 114830546567377606}
+  - component: {fileID: 114564173600374550}
   m_Layer: 16
   m_Name: WorldSpaceText
   m_TagString: Untagged
@@ -364,6 +364,19 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114564173600374550
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1442591681505686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_guid: 
+  m_isRuntime: 0
 --- !u!114 &114643535611694160
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -423,19 +436,6 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
---- !u!114 &114830546567377606
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1442591681505686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_guid: 
-  m_isRuntime: 0
 --- !u!222 &222589313165206728
 CanvasRenderer:
   m_ObjectHideFlags: 1

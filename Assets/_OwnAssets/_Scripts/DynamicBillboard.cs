@@ -128,15 +128,13 @@ namespace SealTeam4
         private void RotateCanvasToFaceCamera()
         {
             Vector3 lookPos = markerFloatingText.transform.position - camToTrack.transform.position;
-            Quaternion rotation = Quaternion.LookRotation(lookPos);
 
-            markerFloatingText.transform.rotation = rotation;
+            if(lookPos != Vector3.zero)
+            {
+                Quaternion rotation = Quaternion.LookRotation(lookPos);
+                markerFloatingText.transform.rotation = rotation;
+            }
         }
-
-        //public GameObject GetCanvas()
-        //{
-        //    return markerFloatingText;
-        //}
 
         private void OnDestroy()
         {
