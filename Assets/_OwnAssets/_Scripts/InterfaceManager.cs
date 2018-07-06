@@ -66,6 +66,14 @@ namespace SealTeam4
         [Header("MarkerUI Camera Properties")]
         private GameObject markerUICameraGO;
         private GameObject camToFollow;
+
+        [Header("Buttons")]
+        [SerializeField] private Button startButton;
+        [SerializeField] private Button spawnNPCsButton;
+        [SerializeField] private Button spawnAccessoriesButton;
+
+        private bool spawnedNPC = false;
+        private bool spawnedAccessories = false;
         #endregion
 
         // Use this for initialization
@@ -97,6 +105,12 @@ namespace SealTeam4
             markerUICamera.transform.SetParent(cam.gameObject.transform);
             markerUICamera.transform.localPosition = new Vector3(0, 0, 0);
             markerUICamera.transform.rotation = Quaternion.identity;
+
+            //Suscribe buttons to listerners
+            startButton.onClick.AddListener(delegate { OnStartGameButtonClick(); });
+            spawnNPCsButton.onClick.AddListener(delegate { OnSpawnNPCsButtonClick(); });
+            spawnAccessoriesButton.onClick.AddListener(delegate { OnSpawnAccessoriesButtonClick(); });
+
         }
 
         // Update is called once per frame
@@ -343,14 +357,40 @@ namespace SealTeam4
             rt.sizeDelta = new Vector2(rt.sizeDelta.x, rt.sizeDelta.y - 60);
         }
 
-        public void OnStartButtonClick()
+        private void OnStartGameButtonClick()
         {
+            if (!spawnedNPC)
+            {
+                GameManager.instance.SpawnAndSetupNPC();
+                Destroy(spawnNPCsButton.gameObject);
+                spawnedNPC = true;
+            }
+
+            if (!spawnedAccessories)
+            {
+                GameManager.instance.SpawnAccessories();
+                Destroy(spawnAccessoriesButton.gameObject);
+                spawnedAccessories = true;
+            }
+
             GameManager.instance.GM_Host_SwitchToRun();
+            Destroy(startButton.gameObject);
         }
 
-        public void OnSpawnAccessoriesButtonClick()
+        private void OnSpawnNPCsButtonClick()
+        {
+            GameManager.instance.SpawnAndSetupNPC();
+            Destroy(spawnNPCsButton.gameObject);
+
+            spawnedNPC = true;
+        }
+
+        private void OnSpawnAccessoriesButtonClick()
         {
             GameManager.instance.SpawnAccessories();
+            Destroy(spawnAccessoriesButton.gameObject);
+
+            spawnedAccessories = true;
         }
     }
 

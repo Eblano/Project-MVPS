@@ -7,7 +7,7 @@ namespace SealTeam4
     [System.Serializable]
     public class AIStats
     {
-        public bool activateOnStart = true;
+        public bool activateOnSpawn = true;
 
         public enum NPCType { TERRORIST, VIP, CIVILLIAN };
         public enum CivillianStressResponseMode { FREEZE, RUNTOEXIT, RANDOM }

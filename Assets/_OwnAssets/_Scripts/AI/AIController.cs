@@ -212,7 +212,7 @@ namespace SealTeam4
                  
         public void FadeAway()
         {
-            gameObject.SetActive(false);
+            Destroy(this.gameObject);
         }
 
         public void AISetActive()
@@ -258,6 +258,11 @@ namespace SealTeam4
         public Collider GetCollider()
         {
             return col;
+        }
+
+        public bool IsActivateFromSpawn()
+        {
+            return aiStats.activateOnSpawn;
         }
 
         private void UpdateActionableParameters()

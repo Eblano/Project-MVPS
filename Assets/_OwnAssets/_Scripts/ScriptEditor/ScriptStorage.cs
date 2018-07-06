@@ -243,7 +243,7 @@ namespace SealTeam4
                     npcSchedules = npcSchedule
                 };
                 npcSpawnData.aiStats.npcType = npcType;
-                npcSpawnData.aiStats.activateOnStart = npcSpawnData_RTEStorage.activateOnStart;
+                npcSpawnData.aiStats.activateOnSpawn = npcSpawnData_RTEStorage.activateOnStart;
                 
                 // Setting Civillian Stress Respond Mode
                 AIStats.CivillianStressResponseMode civillianThreatResponseMode;

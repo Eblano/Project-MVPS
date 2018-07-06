@@ -166,8 +166,8 @@ namespace SealTeam4
 
         public void GM_Host_SwitchToRun()
         {
-            SpawnAndSetupNPC();
             currGameManagerHostMode = GameManagerHostMode.RUN;
+            ActivateNPCs();
         }
         #endregion
         
@@ -303,7 +303,7 @@ namespace SealTeam4
             localPlayerName = name;
         }
 
-        private void SpawnAndSetupNPC()
+        public void SpawnAndSetupNPC()
         {
             if(!ScriptStorage.instance)
             {
@@ -332,14 +332,9 @@ namespace SealTeam4
                 // Set name
                 npc.name = npcSpawnData.npcName;
 
-                // Spawn NPC on all clients
-                GameManagerAssistant.instance.CmdNetworkSpawnObject(npc);
-
                 // Setting NPC configurations
                 AIController npcGOAIController = npc.GetComponent<AIController>();
                 npcGOAIController.Setup(npcSpawnData.npcName, npcSpawnData.aiStats, npcSpawnData.npcSchedules);
-                if (npcSpawnData.aiStats.activateOnStart)
-                    npcGOAIController.AISetActive();
 
                 // Adding NPC reference to list according to ai type
                 AIStats aiStats = npcSpawnData.aiStats;
@@ -357,6 +352,28 @@ namespace SealTeam4
                         spawnedVIPNPC.Add(npcGOAIController);
                         break;
                 }
+
+                // Spawn NPC on all clients
+                GameManagerAssistant.instance.CmdNetworkSpawnObject(npc);
+            }
+        }
+
+        public void ActivateNPCs()
+        {
+            foreach(AIController npc in spawnedCivilianNPCs)
+            {
+                if (npc.IsActivateFromSpawn())
+                    npc.AISetActive();
+            }
+            foreach (AIController npc in spawnedHostileNPCs)
+            {
+                if (npc.IsActivateFromSpawn())
+                    npc.AISetActive();
+            }
+            foreach (AIController npc in spawnedVIPNPC)
+            {
+                if (npc.IsActivateFromSpawn())
+                    npc.AISetActive();
             }
         }
 
