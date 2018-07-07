@@ -20,6 +20,7 @@ namespace SealTeam4
         [SerializeField] private TMP_InputField idleInputField;
         [SerializeField] private TMP_InputField talkToNPCInputField;
         [SerializeField] private TMP_Dropdown sitInAreaDropdown;
+        [SerializeField] private TMP_InputField sitInAreaDurationInputField;
 
         [Space(10)]
 
@@ -38,7 +39,7 @@ namespace SealTeam4
 
         private void Update()
         {
-            UpdateOrderText();
+            UpdateScheduleOrder();
         }
 
         public void Setup
@@ -49,6 +50,7 @@ namespace SealTeam4
             PropertiesPanel parentPropertiesPanel
             )
         {
+            this.parentPropertiesPanel = parentPropertiesPanel;
             this.ref_schedule = ref_schedule;
 
             // Add listeners
@@ -57,49 +59,51 @@ namespace SealTeam4
             idleInputField.onValueChanged.AddListener(delegate { OnValueChanged_IdleInputField(); });
             talkToNPCInputField.onValueChanged.AddListener(delegate { OnValueChanged_TalkToNPCInputField(); });
             sitInAreaDropdown.onValueChanged.AddListener(delegate { OnValueChanged_SitInAreaDropdown(); });
+            sitInAreaDurationInputField.onValueChanged.AddListener(delegate { OnValueChanged_SitInAreaDurationInputField(); });
             moveUpButton.onClick.AddListener(delegate { OnButtonClick_MoveUpButton(); });
             moveDownButton.onClick.AddListener(delegate { OnButtonClick_MoveDownButton(); });
             
+            // Setup dropdowns
             Setup_ScheduleTypeDropdown(ref_schedule.scheduleType, ref_schedule.GetAllScheduleTypes());
             Setup_WaypointMarkerDropdown(waypointMarkers);
             Setup_SitInAreaDropdown(areaMarkers);
 
+            // Set panel visibility
             waypointMarkerPanel.gameObject.SetActive(false);
             idlePanel.gameObject.SetActive(false);
             talkToNPCPanel.gameObject.SetActive(false);
             sitInAreaPanel.gameObject.SetActive(false);
-            
             switch (ref_schedule.scheduleType)
             {
                 case "Idle":
-                    idleInputField.text = ref_schedule.argument;
+                    idleInputField.text = ref_schedule.argument_1;
                     idlePanel.gameObject.SetActive(true);
                     break;
                 case "Move to Waypoint":
-                    SetValue_MoveToPosDropdown(ref_schedule.argument);
+                    SetValue_MoveToPosDropdown(ref_schedule.argument_1);
                     waypointMarkerPanel.gameObject.SetActive(true);
                     break;
                 case "Move to Waypoint + Rotate":
-                    SetValue_MoveToPosDropdown(ref_schedule.argument);
+                    SetValue_MoveToPosDropdown(ref_schedule.argument_1);
                     waypointMarkerPanel.gameObject.SetActive(true);
                     break;
                 case "Sit in Area":
-                    SetValue_SitInAreaDropdown(ref_schedule.argument);
+                    SetValue_SitInAreaDropdown(ref_schedule.argument_1);
+                    sitInAreaDurationInputField.text = ref_schedule.argument_2;
                     sitInAreaPanel.gameObject.SetActive(true);
                     break;
                 case "Talk to other NPC":
-                    talkToNPCInputField.text = ref_schedule.argument;
+                    talkToNPCInputField.text = ref_schedule.argument_1;
                     talkToNPCPanel.gameObject.SetActive(true);
                     break;
             }
 
+            // Backup original bg color
             scheduleSlotBGImg = GetComponent<Image>();
             origColor = scheduleSlotBGImg.color;
-
-            this.parentPropertiesPanel = parentPropertiesPanel;
         }
 
-        private void UpdateOrderText()
+        private void UpdateScheduleOrder()
         {
             scheduleOrderTxt.text = (transform.GetSiblingIndex() + 1).ToString();
         }
@@ -136,9 +140,14 @@ namespace SealTeam4
         {
             // Checking argument
             if (
-                ref_schedule.argument == "" || 
-                ref_schedule.argument == "None" ||
-                ref_schedule.argument.StartsWith("-")
+                ref_schedule.argument_1 == string.Empty ||
+                ref_schedule.argument_2 == string.Empty ||
+                ref_schedule.argument_1 == "" ||
+                ref_schedule.argument_2 == "" ||
+                ref_schedule.argument_1 == "None" ||
+                ref_schedule.argument_2 == "None" ||
+                ref_schedule.argument_1.StartsWith("-") ||
+                ref_schedule.argument_2.StartsWith("-")
                 )
             {
                 scheduleSlotBGImg.color = errorColor;
@@ -260,19 +269,26 @@ namespace SealTeam4
             idleInputField.text = "";
             talkToNPCInputField.text = "";
             sitInAreaDropdown.value = 0;
+            sitInAreaDurationInputField.text = "";
             WaypointMarkerDropdown.value = 0;
         }
 
         public void OnValueChanged_IdleInputField()
         {
             string inputFieldText = idleInputField.text;
-            ref_schedule.argument = inputFieldText;
+            ref_schedule.argument_1 = inputFieldText;
+        }
+
+        public void OnValueChanged_SitInAreaDurationInputField()
+        {
+            string inputFieldText = sitInAreaDurationInputField.text;
+            ref_schedule.argument_2 = inputFieldText;
         }
 
         public void OnValueChanged_TalkToNPCInputField()
         {
             string inputFieldText = talkToNPCInputField.text;
-            ref_schedule.argument = inputFieldText;
+            ref_schedule.argument_1 = inputFieldText;
         }
 
         public void OnValueChanged_WaypointMarkerDropdown()
@@ -280,7 +296,7 @@ namespace SealTeam4
             int dropdownValue = WaypointMarkerDropdown.value;
             
             string targetMarkerName = WaypointMarkerDropdown.options[dropdownValue].text;
-            ref_schedule.argument = targetMarkerName;
+            ref_schedule.argument_1 = targetMarkerName;
         }
 
         public void OnValueChanged_SitInAreaDropdown()
@@ -288,7 +304,7 @@ namespace SealTeam4
             int dropdownValue = sitInAreaDropdown.value;
 
             string newAreaMarkerName = sitInAreaDropdown.options[dropdownValue].text;
-            ref_schedule.argument = newAreaMarkerName;
+            ref_schedule.argument_1 = newAreaMarkerName;
         }
 
         public void DeleteSchedule()

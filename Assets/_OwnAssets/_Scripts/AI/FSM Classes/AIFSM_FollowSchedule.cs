@@ -247,13 +247,13 @@ namespace SealTeam4
 
         public Vector3 GetWaypointMarkerPosition()
         {
-            string targetName = npcSchedules[aiState.general.currSchedule].argument;
+            string targetName = npcSchedules[aiState.general.currSchedule].argument_1;
             return GameManager.instance.GetWaypointMarkerPosition(targetName);
         }
 
         public Quaternion GetWaypointMarkerRotation()
         {
-            string targetName = npcSchedules[aiState.general.currSchedule].argument;
+            string targetName = npcSchedules[aiState.general.currSchedule].argument_1;
             return GameManager.instance.GetWaypointMarkerRotation(targetName);
         }
 
@@ -285,7 +285,7 @@ namespace SealTeam4
 
         public void Idle_Setup()
         {
-            aiState.general.currTimerValue = float.Parse(npcSchedules[aiState.general.currSchedule].argument);
+            aiState.general.currTimerValue = float.Parse(npcSchedules[aiState.general.currSchedule].argument_1);
             aiState.general.currSubschedule++;
         }
 
@@ -310,7 +310,7 @@ namespace SealTeam4
         public void Setup_SitDownInArea()
         {
             // Get Area
-            AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument);
+            AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument_1);
             // Empty seat from selected Area
             aiState.general.currSeatTarget = areaMarker.GetRandomEmptySeat();
 
@@ -380,7 +380,7 @@ namespace SealTeam4
 
         public void TalkToOtherNPC()
         {
-            float conversationDuration = float.Parse(npcSchedules[aiState.general.currSchedule].argument);
+            float conversationDuration = float.Parse(npcSchedules[aiState.general.currSchedule].argument_1);
 
             if (aiState.general.timeInConvo > conversationDuration)
                 aiState.general.currSubschedule++;

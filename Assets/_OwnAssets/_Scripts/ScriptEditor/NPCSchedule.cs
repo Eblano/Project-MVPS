@@ -15,5 +15,7 @@ public class NPCSchedule
     [ProtoMember(1)]
     public SCHEDULE_TYPE scheduleType;
     [ProtoMember(2)]
-    public string argument;
+    public string argument_1;
+    [ProtoMember(3)]
+    public string argument_2;
 }

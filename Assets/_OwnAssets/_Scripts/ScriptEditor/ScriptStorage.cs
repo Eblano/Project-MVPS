@@ -233,7 +233,8 @@ namespace SealTeam4
                             break;
                     }
                     schedule.scheduleType = scheduleType;
-                    schedule.argument = npcSchedule_RTEStorage.argument;
+                    schedule.argument_1 = npcSchedule_RTEStorage.argument_1;
+                    schedule.argument_2 = npcSchedule_RTEStorage.argument_2;
                     npcSchedule.Add(schedule);
                 }
 
@@ -318,7 +319,8 @@ public class NPCSchedule_SStorage
     private readonly string[] allScheduleTypes = 
         { "Idle", "Move to Waypoint", "Move to Waypoint + Rotate", "Sit in Area", "Talk to other NPC" };
     public string scheduleType = "Idle";
-    public string argument;
+    public string argument_1;
+    public string argument_2;
 
     public string[] GetAllScheduleTypes()
     {
