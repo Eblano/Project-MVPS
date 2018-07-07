@@ -9,17 +9,17 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1550403834457356}
+  m_RootGameObject: {fileID: 1808297513149442}
   m_IsPrefabParent: 1
---- !u!1 &1550403834457356
+--- !u!1 &1808297513149442
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4827748747010814}
-  - component: {fileID: 114687612637093644}
+  - component: {fileID: 4273535342386414}
+  - component: {fileID: 114407709705265830}
   m_Layer: 0
   m_Name: CustomSkySetter
   m_TagString: Untagged
@@ -27,12 +27,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4827748747010814
+--- !u!4 &4273535342386414
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1550403834457356}
+  m_GameObject: {fileID: 1808297513149442}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 912.3192, y: 838.9627, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,12 +40,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114687612637093644
+--- !u!114 &114407709705265830
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1550403834457356}
+  m_GameObject: {fileID: 1808297513149442}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48b0b908f7072864f8cb2b86f186e9d4, type: 3}

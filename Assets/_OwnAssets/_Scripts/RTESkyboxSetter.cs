@@ -64,6 +64,7 @@ namespace SealTeam4
             }
 
             RenderSettings.skybox = skyboxMat;
+            DynamicGI.UpdateEnvironment();
         }
     }
 }

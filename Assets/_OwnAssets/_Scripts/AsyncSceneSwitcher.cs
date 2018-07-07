@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 namespace SealTeam4
 {
@@ -31,10 +32,7 @@ namespace SealTeam4
 
             while (!asyncOperation.isDone)
             {
-                //loadingIndicator.fillAmount = asyncOperation.progress;
-                if (loadingIndicator.fillAmount >= 1)
-                    loadingIndicator.fillAmount = 0;
-                loadingIndicator.fillAmount += 1 * Time.deltaTime;
+                loadingIndicator.fillAmount = asyncOperation.progress;
                 yield return null;
             }
         }

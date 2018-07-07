@@ -9,18 +9,18 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1790009062326340}
+  m_RootGameObject: {fileID: 1348187701413888}
   m_IsPrefabParent: 1
---- !u!1 &1790009062326340
+--- !u!1 &1348187701413888
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4770129538319304}
-  - component: {fileID: 108280836073068860}
-  - component: {fileID: 114122980439917640}
+  - component: {fileID: 4099738982170202}
+  - component: {fileID: 108521211672529510}
+  - component: {fileID: 114925516999476562}
   m_Layer: 0
   m_Name: Spotlight
   m_TagString: Untagged
@@ -28,12 +28,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4770129538319304
+--- !u!4 &4099738982170202
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1790009062326340}
+  m_GameObject: {fileID: 1348187701413888}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -11.839798, y: 1.5042152, z: -12.12088}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -41,12 +41,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!108 &108280836073068860
+--- !u!108 &108521211672529510
 Light:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1790009062326340}
+  m_GameObject: {fileID: 1348187701413888}
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 0
@@ -77,12 +77,12 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114122980439917640
+--- !u!114 &114925516999476562
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1790009062326340}
+  m_GameObject: {fileID: 1348187701413888}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec9cef1aa648e7e4089041e05f1126c3, type: 3}
