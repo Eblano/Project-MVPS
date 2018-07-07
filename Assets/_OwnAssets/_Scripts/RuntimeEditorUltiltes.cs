@@ -268,38 +268,48 @@ namespace SealTeam4
         /// </summary>
         public void SwitchRTSceneToUnityScenePopup()
         {
-            if (!saveSceneButton.IsInteractable())
+            // If scene is not saved
+            if (saveSceneButton.IsInteractable())
             {
-                if(ScriptStorage.instance)
-                {
-                    RTEScriptEditor.instance.ShowScriptEditorUI();
-                    RTEScriptEditor.instance.HideScriptEditorUI();
-                }
-                else
-                {
-                    PopupWindow.Show("Error", "Please add NPCScriptStorage onto the Scene", "Ok");
-                    return;
-                }
-
-                if (RTEScriptEditor.instance.DataIsComplete())
-                {
-                    PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
-                        "Yes",
-                        args =>
-                        {
-                            if (!args.Cancel)
-                            {
-                                SwitchRTSceneToUnityScene();
-                            }
-                        },
-                        "Cancel"
-                        );
-                }
-                else
-                    PopupWindow.Show("Error", "NPC Script Editor has missing links, please resolve.", "Ok");
-            }
-            else
                 PopupWindow.Show("Error", "Cannot start scene because scene is not saved.", "Ok");
+                return;
+            }
+
+            // If there is no Script Storage on scene
+            if (!ScriptStorage.instance)
+            {
+                PopupWindow.Show("Error", "Please add NPCScriptStorage onto the Scene", "Ok");
+                return;
+            }
+
+            // Open and close ScriptEditorUI to run checks
+            RTEScriptEditor.instance.ShowScriptEditorUI();
+            RTEScriptEditor.instance.HideScriptEditorUI();
+
+            // If Script editor data is complete
+            if (!RTEScriptEditor.instance.DataIsComplete())
+            {
+                PopupWindow.Show("Error", "NPC Script Editor has missing links, please resolve.", "Ok");
+                return;
+            }
+
+            if(!GameManager.instance.AllPointMarkersOnPoint())
+            {
+                PopupWindow.Show("Error", "One or more Markers are not pointing on any Ground, please resolve.", "Ok");
+                return;
+            }
+            
+            PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
+                "Yes",
+                args =>
+                {
+                    if (!args.Cancel)
+                    {
+                        SwitchRTSceneToUnityScene();
+                    }
+                },
+                "Cancel"
+                );
         }
 
         /// <summary>

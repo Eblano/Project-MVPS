@@ -280,6 +280,19 @@ namespace SealTeam4
         {
             registeredMarkers.Remove(registeredMarkers.Find(x => x.gameObject == gameObject));
         }
+
+        public bool AllPointMarkersOnPoint()
+        {
+            foreach(BaseMarker marker in registeredMarkers)
+            {
+                if(marker is PointMarker)
+                {
+                    if (marker.GetComponent<PointMarker>().validPoint == false)
+                        return false;
+                }
+            }
+            return true;
+        }
         #endregion
 
 

@@ -27,6 +27,7 @@ namespace SealTeam4
         [Header("Read Only")]
         public Vector3 pointPosition;
         public Quaternion pointRotation;
+        public bool validPoint;
 
         private bool setupMode = true;
 
@@ -63,6 +64,7 @@ namespace SealTeam4
                     lineRenderer.SetPosition(1, hitInfo.point);
                     pointPosition = hitInfo.point;
                     pointRotation = transform.rotation;
+                    validPoint = true;
                 }
                 else
                 {
@@ -70,6 +72,7 @@ namespace SealTeam4
 
                     pointPosition = Vector3.zero;
                     pointRotation = Quaternion.identity;
+                    validPoint = false;
                 }
             }
         }
