@@ -237,6 +237,10 @@ namespace SealTeam4
                 case "Fade Away(Debug)":
                     SetAction_KillNPC();
                     break;
+
+                case "Leave Seat (Next Sch)":
+                    aiFSM_FollowSchedule.End_SitAndWaitForTime();
+                    break;
             }
         }
 
@@ -263,6 +267,20 @@ namespace SealTeam4
         public bool IsActivateFromSpawn()
         {
             return aiStats.activateOnSpawn;
+        }
+
+
+        public void AddAction(string action)
+        {
+            actionableParameters.Add(action);
+        }
+
+        public void RemoveAction(string action)
+        {
+            if(actionableParameters.Exists(x => x == action))
+            {
+                actionableParameters.Remove(action);
+            }
         }
 
         private void UpdateActionableParameters()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace SealTeam4
 {
@@ -138,26 +139,68 @@ namespace SealTeam4
 
         public bool CheckData()
         {
-            // Checking argument
-            if (
-                ref_schedule.argument_1 == string.Empty ||
-                ref_schedule.argument_2 == string.Empty ||
-                ref_schedule.argument_1 == "" ||
-                ref_schedule.argument_2 == "" ||
-                ref_schedule.argument_1 == "None" ||
-                ref_schedule.argument_2 == "None" ||
-                ref_schedule.argument_1.StartsWith("-") ||
-                ref_schedule.argument_2.StartsWith("-")
-                )
+            if(ref_schedule.scheduleType == "Idle")
             {
-                scheduleSlotBGImg.color = errorColor;
-                return false;
+                // Checking argument
+                if (ref_schedule.argument_1 == null ||
+                    ref_schedule.argument_1 == "" ||
+                    ref_schedule.argument_1 == "None" ||
+                    ref_schedule.argument_1.StartsWith("-") ||
+                    float.Parse(ref_schedule.argument_1) > float.MaxValue - 1)
+                {
+                    scheduleSlotBGImg.color = errorColor;
+                    return false;
+                }
+                else
+                {
+                    scheduleSlotBGImg.color = origColor;
+                    return true;
+                }
             }
-            else
+            else if (ref_schedule.scheduleType == "Move to Waypoint" ||
+                ref_schedule.scheduleType == "Move to Waypoint + Rotate" ||
+                ref_schedule.scheduleType == "Talk to other NPC")
             {
-                scheduleSlotBGImg.color = origColor;
-                return true;
+                // Checking argument
+                if (ref_schedule.argument_1 == null ||
+                    ref_schedule.argument_1 == "" ||
+                    ref_schedule.argument_1 == "None")
+                {
+                    scheduleSlotBGImg.color = errorColor;
+                    return false;
+                }
+                else
+                {
+                    scheduleSlotBGImg.color = origColor;
+                    return true;
+                }
             }
+            else if(ref_schedule.scheduleType == "Sit in Area")
+            {
+                // Checking argument
+                if (ref_schedule.argument_1 == null ||
+                    ref_schedule.argument_2 == null ||
+
+                    ref_schedule.argument_1 == "" ||
+                    ref_schedule.argument_2 == "" ||
+
+                    ref_schedule.argument_1 == "None" ||
+                    ref_schedule.argument_2 == "None" ||
+
+                    ref_schedule.argument_2.StartsWith("-") ||
+                    float.Parse(ref_schedule.argument_2) > float.MaxValue - 1)
+
+                {
+                    scheduleSlotBGImg.color = errorColor;
+                    return false;
+                }
+                else
+                {
+                    scheduleSlotBGImg.color = origColor;
+                    return true;
+                }
+            }
+            return true;
         }
 
         private void Setup_WaypointMarkerDropdown(List<WaypointMarker> markers)
@@ -276,12 +319,26 @@ namespace SealTeam4
         public void OnValueChanged_IdleInputField()
         {
             string inputFieldText = idleInputField.text;
+
+            if (inputFieldText.Length > 4)
+            {
+                inputFieldText = new string(inputFieldText.Take(4).ToArray());
+                idleInputField.text = inputFieldText;
+            }
+
             ref_schedule.argument_1 = inputFieldText;
         }
 
         public void OnValueChanged_SitInAreaDurationInputField()
         {
             string inputFieldText = sitInAreaDurationInputField.text;
+            
+            if(inputFieldText.Length > 4)
+            {
+                inputFieldText = new string(inputFieldText.Take(4).ToArray());
+                sitInAreaDurationInputField.text = inputFieldText;
+            }
+
             ref_schedule.argument_2 = inputFieldText;
         }
 

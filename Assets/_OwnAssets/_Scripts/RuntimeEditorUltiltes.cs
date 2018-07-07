@@ -143,6 +143,8 @@ namespace SealTeam4
                 else
                 {
                     camToFollow.rect = new Rect(0, 0, 1, 1);
+                    markerUICamera.orthographicSize = camToFollow.orthographicSize;
+                    markerUICamera.orthographic = camToFollow.orthographic;
                     markerUICamera.transform.position = camToFollow.transform.position;
                     markerUICamera.transform.rotation = camToFollow.transform.rotation;
                 }
@@ -293,6 +295,7 @@ namespace SealTeam4
                 return;
             }
 
+            // If all point markers are pointing on ground
             if(!GameManager.instance.AllPointMarkersOnPoint())
             {
                 PopupWindow.Show("Error", "One or more Markers are not pointing on any Ground, please resolve.", "Ok");

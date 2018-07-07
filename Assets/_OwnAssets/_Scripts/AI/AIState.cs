@@ -41,6 +41,8 @@ namespace SealTeam4
             public GameObject currSeatTarget = null;
             // If NPC is curently seated
             public bool seated = false;
+            // Duration npc is seated for
+            public float seatedTimePassed = 0;
 
             // if NPC is waiting for conversation to start
             public bool waitingForConversationToStart = true;

@@ -170,9 +170,12 @@ namespace SealTeam4
                     SitDownOnSeat();
                     break;
                 case 5:
-                    Terminate_SetDownInArea();
+                    SitAndWaitForTime();
                     break;
                 case 6:
+                    Terminate_SetDownInArea();
+                    break;
+                case 7:
                     aiState.general.currSubschedule = 0;
                     aiState.general.currSchedule++;
                     break;
@@ -330,9 +333,13 @@ namespace SealTeam4
         public void Terminate_SetDownInArea()
         {
             bool notSitting = aiController.LeaveSeat();
+            aiState.general.seated = false;
 
-            if(notSitting)
+            if (notSitting)
+            {
+                aiController.StopMovement();
                 aiState.general.currSubschedule++;
+            }
         }
 
         public void SitDownOnSeat()
@@ -342,6 +349,28 @@ namespace SealTeam4
             if(seated)
             {
                 aiState.general.seated = true;
+                aiController.AddAction("Leave Seat (Next Sch)");
+                aiState.general.currSubschedule++;
+            }
+        }
+
+        public void End_SitAndWaitForTime()
+        {
+            aiState.general.seatedTimePassed = float.Parse(npcSchedules[aiState.general.currSchedule].argument_2);
+        }
+
+        public void SitAndWaitForTime()
+        {
+            float totalTimeAllocated = float.Parse(npcSchedules[aiState.general.currSchedule].argument_2);
+
+            if (aiState.general.seatedTimePassed < totalTimeAllocated)
+            {
+                aiState.general.seatedTimePassed += Time.deltaTime;
+            }
+            else
+            {
+                aiState.general.seatedTimePassed = 0;
+                aiController.RemoveAction("Leave Seat (Next Sch)");
                 aiState.general.currSubschedule++;
             }
         }
