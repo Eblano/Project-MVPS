@@ -31,7 +31,10 @@ namespace SealTeam4
 
             while (!asyncOperation.isDone)
             {
-                loadingIndicator.fillAmount = asyncOperation.progress;
+                //loadingIndicator.fillAmount = asyncOperation.progress;
+                if (loadingIndicator.fillAmount >= 1)
+                    loadingIndicator.fillAmount = 0;
+                loadingIndicator.fillAmount += 1 * Time.deltaTime;
                 yield return null;
             }
         }
