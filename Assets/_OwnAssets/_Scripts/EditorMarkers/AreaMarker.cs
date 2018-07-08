@@ -7,12 +7,21 @@ using Battlehub;
 
 namespace SealTeam4
 {
-    public class AreaMarker : BaseAreaMarker//, IActions
+    public class AreaMarker : BaseAreaMarker, IActions
     {
         private List<GameObject> registeredSeats = new List<GameObject>();
         [SerializeField] private int numRegisteredSeats = 0;
         [SerializeIgnore] private float refreshRate = 3.0f;
         private float currRefreshRate;
+
+        private List<string> actionList = new List<string>();
+        private List<AIController> npcsSeatedInArea = new List<AIController>();
+
+        private new void Start()
+        {
+            base.Start();
+            actionList.Add("Dismiss all seated NPCs");
+        }
 
         private new void Update()
         {
@@ -38,6 +47,17 @@ namespace SealTeam4
             }
         }
 
+        public void RegisterNPCSitInArea(AIController npc)
+        {
+            npcsSeatedInArea.Add(npc);
+        }
+
+        public void UnregisterNPCSitInArea(AIController npc)
+        {
+            if (npcsSeatedInArea.Exists(x => x == npc))
+                npcsSeatedInArea.Remove(npc);
+        }
+
         private void OnTriggerExit(Collider other)
         {
             if (other.GetComponent<SeatMarker>())
@@ -61,13 +81,13 @@ namespace SealTeam4
             registeredSeats.Add(seat);
         }
 
-        public GameObject GetRandomEmptySeat()
+        public SeatMarker GetRandomEmptySeat()
         {
             foreach(GameObject seat in registeredSeats)
             {
                 if(seat.GetComponent<SeatMarker>().SeatAvailable())
                 {
-                    return seat;
+                    return seat.GetComponent<SeatMarker>();
                 }
             }
             Debug.Log("No Seats found in " + gameObject.name);
@@ -76,12 +96,20 @@ namespace SealTeam4
 
         public List<string> GetActions()
         {
-            throw new NotImplementedException();
+            return actionList;
         }
 
         public void SetAction(string action)
         {
-            throw new NotImplementedException();
+            switch (action)
+            {
+                case "Dismiss all seated NPCs":
+                    foreach(AIController npc in npcsSeatedInArea)
+                    {
+                        npc.SetAction("Leave Seat (Next Sch)");
+                    }
+                    break;
+            }
         }
 
         public string GetName()
@@ -91,17 +119,17 @@ namespace SealTeam4
 
         public Vector3 GetHighestPointPos()
         {
-            throw new NotImplementedException();
+            return highestPoint.position;
         }
 
         public Transform GetHighestPointTransform()
         {
-            throw new NotImplementedException();
+            return highestPoint;
         }
 
         public Collider GetCollider()
         {
-            throw new NotImplementedException();
+            return mCollider;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace SealTeam4
             public Quaternion currWaypointRotation;
 
             // Current Seat NPC is on
-            public GameObject currSeatTarget = null;
+            public SeatMarker currSeatTarget = null;
             // If NPC is curently seated
             public bool seated = false;
             // Duration npc is seated for

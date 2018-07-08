@@ -238,7 +238,7 @@ namespace SealTeam4
                     SetAction_KillNPC();
                     break;
 
-                case "Leave Seat (Next Sch)":
+                case "Dismiss from Seat":
                     aiFSM_FollowSchedule.End_SitAndWaitForTime();
                     break;
             }
@@ -287,9 +287,15 @@ namespace SealTeam4
         {
             if (!aiState.active && !actionableParameters.Contains("Activate NPC"))
                 actionableParameters.Add("Activate NPC");
+            
+            if (aiState.active && actionableParameters.Exists(x => x == "Activate NPC"))
+                actionableParameters.Add("Activate NPC");
 
-            if(aiState.active && !actionableParameters.Contains("Fade Away(Debug)"))
+            if (aiState.active && !actionableParameters.Contains("Fade Away(Debug)"))
+            {
+
                 actionableParameters.Add("Fade Away(Debug)");
+            }
         }
 
         private void SetAction_ActivateNPC()

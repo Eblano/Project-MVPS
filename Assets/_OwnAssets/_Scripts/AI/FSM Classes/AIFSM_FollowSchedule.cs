@@ -333,7 +333,6 @@ namespace SealTeam4
         public void Terminate_SetDownInArea()
         {
             bool notSitting = aiController.LeaveSeat();
-            aiState.general.seated = false;
 
             if (notSitting)
             {
@@ -348,8 +347,11 @@ namespace SealTeam4
 
             if(seated)
             {
+                AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument_1);
+                areaMarker.RegisterNPCSitInArea(aiController);
+
                 aiState.general.seated = true;
-                aiController.AddAction("Leave Seat (Next Sch)");
+                aiController.AddAction("Dismiss from Seat");
                 aiState.general.currSubschedule++;
             }
         }
@@ -369,8 +371,11 @@ namespace SealTeam4
             }
             else
             {
+                AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument_1);
+                areaMarker.RegisterNPCSitInArea(aiController);
+
                 aiState.general.seatedTimePassed = 0;
-                aiController.RemoveAction("Leave Seat (Next Sch)");
+                aiController.RemoveAction("Dismiss from Seat");
                 aiState.general.currSubschedule++;
             }
         }

@@ -10,12 +10,13 @@ namespace SealTeam4
     /// <summary>
     /// Base class for Area Markers
     /// </summary>
-    public class BaseAreaMarker : BaseMarker, IActions
+    public class BaseAreaMarker : BaseMarker
     {
         [SerializeField] private Mesh mesh;
         [SerializeField] private Material meshMat;
 
-        private Transform highestPoint;
+        protected Transform highestPoint;
+        protected MeshCollider mCollider;
 
         private bool initializedMeshCollider = false;
 
@@ -38,14 +39,14 @@ namespace SealTeam4
             {
                 initializedMeshCollider = true;
 
-                MeshCollider collider = GetComponent<MeshCollider>();
-                if(!collider)
-                    collider = gameObject.AddComponent<MeshCollider>();
+                mCollider = GetComponent<MeshCollider>();
+                if(!mCollider)
+                    mCollider = gameObject.AddComponent<MeshCollider>();
 
-                collider = GetComponent<MeshCollider>();
-                collider.sharedMesh = mesh;
-                collider.convex = true;
-                collider.isTrigger = true;
+                mCollider = GetComponent<MeshCollider>();
+                mCollider.sharedMesh = mesh;
+                mCollider.convex = true;
+                mCollider.isTrigger = true;
             }
         }
 
@@ -57,7 +58,10 @@ namespace SealTeam4
 
             if (!GetComponent<MeshRenderer>())
                 gameObject.AddComponent<MeshRenderer>();
-            GetComponent<MeshRenderer>().material = meshMat;
+
+            MeshRenderer mr = GetComponent<MeshRenderer>();
+            mr.material = meshMat;
+            mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         }
 
         public override void CleanUpForSimulationStart()
@@ -65,36 +69,6 @@ namespace SealTeam4
             base.CleanUpForSimulationStart();
             Destroy(GetComponent<MeshFilter>());
             Destroy(GetComponent<MeshRenderer>());
-        }
-
-        public List<string> GetActions()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetAction(string action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetName()
-        {
-            return gameObject.name;
-        }
-
-        public Vector3 GetHighestPointPos()
-        {
-            return highestPoint.position;
-        }
-
-        public Transform GetHighestPointTransform()
-        {
-            return highestPoint;
-        }
-
-        public Collider GetCollider()
-        {
-            throw new NotImplementedException();
         }
     }
 }

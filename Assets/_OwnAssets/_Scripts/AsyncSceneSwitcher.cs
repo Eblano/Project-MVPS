@@ -12,6 +12,7 @@ namespace SealTeam4
 
         private void Start()
         {
+            loadingIndicator.fillAmount = 0;
             StartCoroutine(LoadNextScene());
         }
 
@@ -32,7 +33,7 @@ namespace SealTeam4
 
             while (!asyncOperation.isDone)
             {
-                loadingIndicator.fillAmount = asyncOperation.progress;
+                loadingIndicator.fillAmount = Mathf.Lerp(loadingIndicator.fillAmount, asyncOperation.progress * 1.11111f, 5 * Time.deltaTime);
                 yield return null;
             }
         }
