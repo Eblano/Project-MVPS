@@ -296,6 +296,20 @@ namespace SealTeam4
 
                 actionableParameters.Add("Fade Away(Debug)");
             }
+
+            if(
+                !aiState.general.inConversation &&
+                !aiState.general.seated &&
+                aiState.general.aIMode == AIState.General.AIMode.FOLLOW_SCHEDULE
+                )
+            {
+                actionableParameters.Add("Talk to nearest NPC");
+            }
+            else
+            {
+                if(actionableParameters.Exists(x => x == "Talk to nearest NPC"))
+                    actionableParameters.Remove("Talk to nearest NPC");
+            }
         }
 
         private void SetAction_ActivateNPC()
