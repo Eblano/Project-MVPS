@@ -10,15 +10,9 @@ namespace SealTeam4
     /// </summary>
     public class PointMarker : BaseMarker
     {
-        //private MeshFilter meshFilter;
-        //private MeshRenderer meshRenderer;
         private LineRenderer lineRenderer;
 
         [SerializeField] private Material markerMat;
-
-        //[Header("Marker Indicator Parameters")]
-        //[SerializeField] private Mesh markerMesh;
-        //[SerializeField] private float markerScale = 2;
 
         [Header("Line Renderer Parameters")]
         [SerializeField] private float lineRendererWidth = 0.03f;

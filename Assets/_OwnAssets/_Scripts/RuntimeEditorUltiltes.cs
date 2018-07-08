@@ -24,17 +24,6 @@ namespace SealTeam4
         private IProjectManager m_projectManager;
         private string assetsFolderPath;
 
-        // If functions of the script can be triggered via keypresses
-        [SerializeField] private bool acceptKeyInput = false;
-
-        [SerializeField] private KeyCode openAssetsFolderKey = KeyCode.Keypad1;
-        [SerializeField] private KeyCode addFilesToRTEKey = KeyCode.Keypad2;
-        [SerializeField] private KeyCode resetRuntimeAssetsAndRestartKey = KeyCode.Keypad4;
-        [SerializeField] private KeyCode exportAssetsKey = KeyCode.Keypad5;
-        [SerializeField] private KeyCode importAssetsKey = KeyCode.Keypad6;
-
-        [Header("List Excecuted by Order")]
-        [SerializeField] private readonly KeyCode removeGameObjectsKey = KeyCode.Keypad3;
         [SerializeField] private List<string> gameObjectsToDestroyByName;
         [SerializeField] private List<GameObject> gameObjectsToSpawn;
 
@@ -85,7 +74,6 @@ namespace SealTeam4
         {
             UpdateMarkerUICameraTransform();
             ProcessSceneHash();
-            ProcessKeyInput();
         }
 
         private void ProcessSceneHash()
@@ -102,30 +90,6 @@ namespace SealTeam4
             }
             else
                 sceneHash_timeLeftToRefresh -= Time.deltaTime;
-        }
-
-        private void ProcessKeyInput()
-        {
-            if (acceptKeyInput)
-            {
-                if (InputController.GetKeyDown(openAssetsFolderKey))
-                    OpenRuntimeAssetsFolder();
-
-                if (InputController.GetKeyDown(addFilesToRTEKey))
-                    AddFilesToRTE();
-
-                if (Input.GetKeyDown(removeGameObjectsKey))
-                    SwitchRTSceneToUnityScenePopup();
-
-                if (Input.GetKeyDown(resetRuntimeAssetsAndRestartKey))
-                    ResetRuntimeAssetsAndRestartPopup();
-
-                if (Input.GetKeyDown(exportAssetsKey))
-                    ExportAssets();
-
-                if (Input.GetKeyDown(importAssetsKey))
-                    ImportAssets();
-            }
         }
 
         private void UpdateMarkerUICameraTransform()
@@ -217,7 +181,7 @@ namespace SealTeam4
             Directory.CreateDirectory(@Application.persistentDataPath + "/Assets");
 
             zip.ExtractZip(filePath, assetsFolderPath, "");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            GameManager.instance.RestartScene();
         }
 
         /// <summary>
@@ -247,7 +211,7 @@ namespace SealTeam4
                 Directory.Delete(@Application.persistentDataPath + "/Assets", true);
             Directory.CreateDirectory(@Application.persistentDataPath + "/Assets");
 
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            GameManager.instance.RestartScene();
         }
 
         /// <summary>

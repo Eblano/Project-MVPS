@@ -10,10 +10,12 @@ namespace SealTeam4
     /// <summary>
     /// Base class for Area Markers
     /// </summary>
-    public class BaseAreaMarker : BaseMarker
+    public class BaseAreaMarker : BaseMarker, IActions
     {
         [SerializeField] private Mesh mesh;
         [SerializeField] private Material meshMat;
+
+        private Transform highestPoint;
 
         private bool initializedMeshCollider = false;
 
@@ -22,6 +24,10 @@ namespace SealTeam4
             base.Start();
             RegisterMarkerOnGameManager(this);
             InitializeMeshAndMaterial();
+
+            highestPoint = new GameObject().transform;
+            highestPoint.SetParent(gameObject.transform);
+            highestPoint.localPosition = new Vector3(0, 0.5f, 0);
         }
 
         public new virtual void Update()
@@ -59,6 +65,36 @@ namespace SealTeam4
             base.CleanUpForSimulationStart();
             Destroy(GetComponent<MeshFilter>());
             Destroy(GetComponent<MeshRenderer>());
+        }
+
+        public List<string> GetActions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetAction(string action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName()
+        {
+            return gameObject.name;
+        }
+
+        public Vector3 GetHighestPointPos()
+        {
+            return highestPoint.position;
+        }
+
+        public Transform GetHighestPointTransform()
+        {
+            return highestPoint;
+        }
+
+        public Collider GetCollider()
+        {
+            throw new NotImplementedException();
         }
     }
 }

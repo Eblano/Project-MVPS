@@ -29,7 +29,7 @@ namespace SealTeam4
         //The largest the UI element can get.
         private readonly float maxUiScale = 10f;
         //How slowly you want the UI element to grow. This may be a bit counter-intuitive, but higher is slower.
-        [SerializeField] private float scaleRate = 35f;
+        private float scaleRate = 35f;
         // For Canvas scaling
         private float distanceFromCamera = 0;
         //The modifier of our UI scale.

@@ -7,7 +7,7 @@ using Battlehub;
 
 namespace SealTeam4
 {
-    public class AreaMarker : BaseAreaMarker
+    public class AreaMarker : BaseAreaMarker//, IActions
     {
         private List<GameObject> registeredSeats = new List<GameObject>();
         [SerializeField] private int numRegisteredSeats = 0;
@@ -72,6 +72,36 @@ namespace SealTeam4
             }
             Debug.Log("No Seats found in " + gameObject.name);
             return null;
+        }
+
+        public List<string> GetActions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetAction(string action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName()
+        {
+            return gameObject.name;
+        }
+
+        public Vector3 GetHighestPointPos()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Transform GetHighestPointTransform()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Collider GetCollider()
+        {
+            throw new NotImplementedException();
         }
     }
 }
