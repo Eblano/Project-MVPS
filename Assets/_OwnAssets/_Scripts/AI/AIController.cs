@@ -298,6 +298,7 @@ namespace SealTeam4
             }
 
             if(
+                !actionableParameters.Exists(x => x == "Talk to nearest NPC") &&
                 !aiState.general.inConversation &&
                 !aiState.general.seated &&
                 aiState.general.aIMode == AIState.General.AIMode.FOLLOW_SCHEDULE

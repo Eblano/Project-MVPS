@@ -68,6 +68,8 @@ namespace SealTeam4
 
             m_projectManager = Dependencies.ProjectManager;
             assetsFolderPath = Application.persistentDataPath + "/Assets";
+
+            DynamicGI.UpdateEnvironment();
         }
 
         private void Update()
