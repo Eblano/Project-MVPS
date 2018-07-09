@@ -289,27 +289,11 @@ namespace SealTeam4
                 actionableParameters.Add("Activate NPC");
             
             if (aiState.active && actionableParameters.Exists(x => x == "Activate NPC"))
-                actionableParameters.Add("Activate NPC");
+                actionableParameters.Remove("Activate NPC");
 
             if (aiState.active && !actionableParameters.Contains("Fade Away(Debug)"))
             {
-
                 actionableParameters.Add("Fade Away(Debug)");
-            }
-
-            if(
-                !actionableParameters.Exists(x => x == "Talk to nearest NPC") &&
-                !aiState.general.inConversation &&
-                !aiState.general.seated &&
-                aiState.general.aIMode == AIState.General.AIMode.FOLLOW_SCHEDULE
-                )
-            {
-                actionableParameters.Add("Talk to nearest NPC");
-            }
-            else
-            {
-                if(actionableParameters.Exists(x => x == "Talk to nearest NPC"))
-                    actionableParameters.Remove("Talk to nearest NPC");
             }
         }
 
