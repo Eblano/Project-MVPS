@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System.Linq;
 using TMPro;
@@ -26,15 +25,14 @@ namespace SealTeam4
         [SerializeField] private Camera cam;
 
         // Calibration Button variables
-        private bool calibrationModeOn;
-        private Image calibrationBtnColor;
+        //private bool calibrationModeOn;
+        //private Image calibrationBtnColor;
 
         [Header("Selected Game Object Panel variables")]
         [SerializeField] private GameObject currSelectedGO;
         [SerializeField] private TextMeshProUGUI selectedGOTxt;
         private RaycastHit hit;
         private Ray ray;
-        private Shader outlineShader;
         private Renderer rend;
 
         [Header("Player container list spawning variables")]
@@ -69,21 +67,25 @@ namespace SealTeam4
 
         [Header("Buttons")]
         [SerializeField] private Button startButton;
-        [SerializeField] private Button spawnNPCsButton;
-        [SerializeField] private Button spawnAccessoriesButton;
+        [SerializeField] private Button spawnNPCAccessoriesButton;
 
         [Header("More Info Panel Properties")]
-        [SerializeField] private GameObject MIP_Main;
-        [SerializeField] private GameObject MIP_Label;
-        [SerializeField] private TextMeshProUGUI MIP_title_1;
-        [SerializeField] private TextMeshProUGUI MIP_title_1_sub;
-        [SerializeField] private TextMeshProUGUI MIP_title_2;
-        [SerializeField] private TextMeshProUGUI MIP_content;
+        [SerializeField] private GameObject mip_Main;
+        [SerializeField] private GameObject mip_Label;
+        [SerializeField] private TextMeshProUGUI mip_title_1;
+        [SerializeField] private TextMeshProUGUI mip_title_1_sub;
+        [SerializeField] private TextMeshProUGUI mip_title_2;
+        [SerializeField] private TextMeshProUGUI mip_content;
         private IObjectInfo currSelObjInfo;
-        private int currHighlightedContent = -1;
+        private readonly float mipRefreshRate = 1f;
+        private float mipTimeLeftTillRefresh = 0;
 
-        private bool spawnedNPC = false;
-        private bool spawnedAccessories = false;
+        [Space(10)]
+        [SerializeField] private TextMeshProUGUI gameTime;
+        private float currGameTime = 0;
+
+        private bool spawnedNPCAndAcc = false;
+        private bool gameStarted = false;
         #endregion
 
         // Use this for initialization
@@ -99,12 +101,11 @@ namespace SealTeam4
             cam = Instantiate(camPrefab).GetComponentInChildren<Camera>();
 
             // Calibration Button Setup
-            calibrationModeOn = false;
-            calibrationBtnColor = GameObject.Find("PlayerPosCalibrationBtn").GetComponent<Image>();
-            calibrationBtnColor.color = Color.grey;
+            //calibrationModeOn = false;
+            //calibrationBtnColor = GameObject.Find("PlayerPosCalibrationBtn").GetComponent<Image>();
+            //calibrationBtnColor.color = Color.grey;
 
             // Selection Setup
-            outlineShader = Shader.Find("Outlined/Uniform");
             borderUI = Instantiate(borderUiPrefab, this.GetComponent<Canvas>().transform);
             borderUI.SetActive(false);
 
@@ -118,8 +119,7 @@ namespace SealTeam4
 
             //Suscribe buttons to listerners
             startButton.onClick.AddListener(delegate { OnStartGameButtonClick(); });
-            spawnNPCsButton.onClick.AddListener(delegate { OnSpawnNPCsButtonClick(); });
-            spawnAccessoriesButton.onClick.AddListener(delegate { OnSpawnAccessoriesButtonClick(); });
+            spawnNPCAccessoriesButton.onClick.AddListener(delegate { OnSpawnNPCsAccButtonClick(); });
 
         }
 
@@ -135,6 +135,8 @@ namespace SealTeam4
                 TryToSelectGameObject();
             }
 
+            if (gameStarted)
+                UpdateGameTime();
 
             if (currSelectedGO)
             {
@@ -143,28 +145,35 @@ namespace SealTeam4
 
                 if (currSelObjInfo != null)
                 {
-                    MIP_Label.SetActive(true);
-                    if (Input.GetKeyDown(KeyCode.I))
-                        UpdateMoreInfoPanel(currSelObjInfo.GetObjectInfo());
+                    mip_Label.SetActive(true);
 
-                    if (Input.GetKey(KeyCode.I))
+                    bool condition = false;
+
+                    #if UNITY_EDITOR
+                    condition = Input.GetKey(KeyCode.V);
+                    #else
+                    condition = Input.GetKey(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt)
+                    #endif
+                    if (condition)
                     {
-                        MIP_Main.SetActive(true);
-                        if(currHighlightedContent != currSelObjInfo.GetContentIndexToHighlight())
+                        mip_Main.SetActive(true);
+                        if (mipTimeLeftTillRefresh < 0)
                         {
-                            currHighlightedContent = currSelObjInfo.GetContentIndexToHighlight();
-                            UpdateMoreInfoPanel(currSelObjInfo.GetObjectInfo());
+                            UpdateMoreInfoPanel(currSelObjInfo.GetObjectInfo(), currSelObjInfo.GetContentIndexToHighlight());
+                            mipTimeLeftTillRefresh = mipRefreshRate;
                         }
+                        else
+                            mipTimeLeftTillRefresh -= Time.deltaTime;
                     }
                     else
                     {
-                        MIP_Main.SetActive(false);
+                        mip_Main.SetActive(false);
                     }
                 }
                 else
                 {
                     currSelObjInfo = null;
-                    MIP_Label.SetActive(false);
+                    mip_Label.SetActive(false);
                 }
             }
             else
@@ -175,23 +184,29 @@ namespace SealTeam4
             ListenForKeys();
         }
 
-        private void UpdateMoreInfoPanel(ObjectInfo objInfo)
+        private void UpdateGameTime()
         {
-            MIP_title_1.text = "";
-            MIP_title_1_sub.text = "";
-            MIP_title_2.text = "";
-            MIP_content.text = "";
+            currGameTime += Time.deltaTime;
+            gameTime.text = string.Format("{0:00}:{1:00}", (currGameTime / 60) % 60, currGameTime % 60);
+        }
 
-            MIP_title_1.text = objInfo.title_1;
-            MIP_title_1_sub.text = objInfo.title_1_sub;
-            MIP_title_2.text = objInfo.title_2;
+        private void UpdateMoreInfoPanel(ObjectInfo objInfo, int highlightedContentIndex)
+        {
+            mip_title_1.text = "";
+            mip_title_1_sub.text = "";
+            mip_title_2.text = "";
+            mip_content.text = "";
+
+            mip_title_1.text = objInfo.title_1;
+            mip_title_1_sub.text = objInfo.title_1_sub;
+            mip_title_2.text = objInfo.title_2;
 
             for (int i = 0; i < objInfo.content.Count; i++)
             {
-                if(i != currHighlightedContent)
-                    MIP_content.text += objInfo.content[i] + "\n";
+                if(i != highlightedContentIndex)
+                    mip_content.text += objInfo.content[i] + "\n";
                 else
-                    MIP_content.text += "<color=red>" + objInfo.content[i] + "</color>\n";
+                    mip_content.text += "<#<#90CAF9>>" + objInfo.content[i] + "</color>\n";
             }
         }
 
@@ -305,25 +320,25 @@ namespace SealTeam4
         }
 
         // Toggles the position Buttons on and off
-        public void ToggleCalibration()
-        {
-            if (!calibrationModeOn)
-            {
-                calibrationModeOn = true;
-                calibrationBtnColor.color = Color.cyan;
+        //public void ToggleCalibration()
+        //{
+        //    if (!calibrationModeOn)
+        //    {
+        //        calibrationModeOn = true;
+        //        calibrationBtnColor.color = Color.cyan;
 
-            }
-            else
-            {
-                calibrationModeOn = false;
-                calibrationBtnColor.color = Color.grey;
-            }
+        //    }
+        //    else
+        //    {
+        //        calibrationModeOn = false;
+        //        calibrationBtnColor.color = Color.grey;
+        //    }
 
-            foreach (GameObject playerContainer in playerContainerList)
-            {
-                playerContainer.GetComponent<playerUIContainer>().SetButtonStates(calibrationModeOn);
-            }
-        }
+        //    foreach (GameObject playerContainer in playerContainerList)
+        //    {
+        //        playerContainer.GetComponent<playerUIContainer>().SetButtonStates(calibrationModeOn);
+        //    }
+        //}
 
         // Gets an object and puts it in focus
 
@@ -404,7 +419,7 @@ namespace SealTeam4
                 playerList_GO.transform);
 
             // Checks if calibration mode is on, then sets visibility accordingly
-            go.GetComponent<playerUIContainer>().SetButtonStates(calibrationModeOn);
+            //go.GetComponent<playerUIContainer>().SetButtonStates(calibrationModeOn);
             playerContainerList.Add(go);
         }
 
@@ -417,39 +432,24 @@ namespace SealTeam4
 
         private void OnStartGameButtonClick()
         {
-            if (!spawnedNPC)
-            {
-                GameManager.instance.SpawnAndSetupNPC();
-                Destroy(spawnNPCsButton.gameObject);
-                spawnedNPC = true;
-            }
-
-            if (!spawnedAccessories)
-            {
-                GameManager.instance.SpawnAccessories();
-                Destroy(spawnAccessoriesButton.gameObject);
-                spawnedAccessories = true;
-            }
+            if(!spawnedNPCAndAcc)
+                OnSpawnNPCsAccButtonClick();
 
             GameManager.instance.GM_Host_SwitchToRun();
             Destroy(startButton.gameObject);
+
+            gameStarted = true;
         }
 
-        private void OnSpawnNPCsButtonClick()
+        private void OnSpawnNPCsAccButtonClick()
         {
             GameManager.instance.SpawnAndSetupNPC();
-            Destroy(spawnNPCsButton.gameObject);
-
-            spawnedNPC = true;
-        }
-
-        private void OnSpawnAccessoriesButtonClick()
-        {
             GameManager.instance.SpawnAccessories();
-            Destroy(spawnAccessoriesButton.gameObject);
+            Destroy(spawnNPCAccessoriesButton.gameObject);
 
-            spawnedAccessories = true;
+            spawnedNPCAndAcc = true;
         }
+        
     }
 
 }

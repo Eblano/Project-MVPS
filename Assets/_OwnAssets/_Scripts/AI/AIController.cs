@@ -338,28 +338,27 @@ namespace SealTeam4
             }
 
             objInfo.title_2 = "Upcoming schedules";
-
-            foreach (NPCSchedule schedule in npcSchedules)
+            for(int i = 0; i < npcSchedules.Count; i++)
             {
-                switch (schedule.scheduleType)
+                switch (npcSchedules[i].scheduleType)
                 {
                     case NPCSchedule.SCHEDULE_TYPE.IDLE:
-                        objInfo.content.Add("Idle for " + schedule.argument_1 + "s");
+                        objInfo.content.Add((i + 1) + " - Idle for " + npcSchedules[i].argument_1 + "s");
                         break;
                     case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS_WITH_ROT:
-                        objInfo.content.Add("Move to waypoint " + schedule.argument_1 + " and rotate");
+                        objInfo.content.Add((i + 1) + " - Move to waypoint " + npcSchedules[i].argument_1 + " and rotate");
                         break;
                     case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS:
-                        objInfo.content.Add("Move to waypoint " + schedule.argument_1);
+                        objInfo.content.Add((i + 1) + " - Move to waypoint " + npcSchedules[i].argument_1);
                         break;
                     case NPCSchedule.SCHEDULE_TYPE.SIT_IN_AREA:
-                        objInfo.content.Add("Sit in empty seat in " + schedule.argument_1 + " for " + schedule.argument_2 + "s");
+                        objInfo.content.Add((i + 1) + " - Sit in empty seat in " + npcSchedules[i].argument_1 + " for " + npcSchedules[i].argument_2 + "s");
                         break;
                     case NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC:
-                        objInfo.content.Add("Talk to nearest NPC");
+                        objInfo.content.Add((i + 1) + " - Talk to nearest NPC");
                         break;
                     default:
-                        objInfo.content.Add("-");
+                        objInfo.content.Add("???");
                         break;
                 }
             }
