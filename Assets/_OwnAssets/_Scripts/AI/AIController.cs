@@ -309,65 +309,82 @@ namespace SealTeam4
             FadeAway();
         }
 
-        public ObjectInfo GetObjectInfo()
+        public List<ObjectInfo> GetObjectInfos()
         {
-            ObjectInfo objInfo = new ObjectInfo();
-            objInfo.title_1 = gameObject.name;
-            objInfo.title_1_sub = "NPC Mode: ";
-
+            ObjectInfo objInfo1 = new ObjectInfo();
+            objInfo1.contentIndexToHighlight = -1;
+            objInfo1.title = "NPC Info";
             switch (aiState.general.aIMode)
             {
                 case AIState.General.AIMode.FOLLOW_SCHEDULE:
-                    objInfo.title_1_sub += "Follow Schedule";
+                    objInfo1.content.Add("Follow Schedule");
                     break;
                 case AIState.General.AIMode.HOSTILE:
-                    objInfo.title_1_sub += "Hostile Schedule";
+                    objInfo1.content.Add("Hostile Schedule");
                     break;
                 case AIState.General.AIMode.CIVILIAN_UNDER_ATTACK:
-                    objInfo.title_1_sub += "Civillian Under Attack";
+                    objInfo1.content.Add("Civillian Under Attack");
                     break;
                 case AIState.General.AIMode.VIP_UNDER_ATTACK:
-                    objInfo.title_1_sub += "VIP Under Attack";
+                    objInfo1.content.Add("VIP Under Attack");
                     break;
                 case AIState.General.AIMode.PARTICIPATE_CONVO:
-                    objInfo.title_1_sub += "Talking to other NPC";
+                    objInfo1.content.Add("Talking to other NPC");
                     break;
                 default:
-                    objInfo.title_1_sub += "-";
+                    objInfo1.content.Add("-");
+                    break;
+            }
+            switch (aiStats.npcType)
+            {
+                case AIStats.NPCType.TERRORIST:
+                    objInfo1.content.Add("Type: Terrorist");
+                    break;
+                case AIStats.NPCType.VIP:
+                    objInfo1.content.Add("Type: VIP");
+                    break;
+                case AIStats.NPCType.CIVILLIAN:
+                    objInfo1.content.Add("Type: Civillian");
+                    break;
+                default:
                     break;
             }
 
-            objInfo.title_2 = "Upcoming schedules";
-            for(int i = 0; i < npcSchedules.Count; i++)
+            ObjectInfo objInfo2 = new ObjectInfo();
+            objInfo2.title = "Schedules";
+            objInfo2.contentIndexToHighlight = aiState.general.currSchedule;
+
+            foreach(NPCSchedule schedule in npcSchedules)
             {
-                switch (npcSchedules[i].scheduleType)
+                switch(schedule.scheduleType)
                 {
                     case NPCSchedule.SCHEDULE_TYPE.IDLE:
-                        objInfo.content.Add((i + 1) + " - Idle for " + npcSchedules[i].argument_1 + "s");
+                        objInfo2.content.Add( "Idle for " + schedule.argument_1 + "s");
                         break;
                     case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS_WITH_ROT:
-                        objInfo.content.Add((i + 1) + " - Move to waypoint " + npcSchedules[i].argument_1 + " and rotate");
+                        objInfo2.content.Add("Move to waypoint " + schedule.argument_1 + " and rotate");
                         break;
                     case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS:
-                        objInfo.content.Add((i + 1) + " - Move to waypoint " + npcSchedules[i].argument_1);
+                        objInfo2.content.Add("Move to waypoint " + schedule.argument_1);
                         break;
                     case NPCSchedule.SCHEDULE_TYPE.SIT_IN_AREA:
-                        objInfo.content.Add((i + 1) + " - Sit in empty seat in " + npcSchedules[i].argument_1 + " for " + npcSchedules[i].argument_2 + "s");
+                        objInfo2.content.Add("Sit in empty seat in " + schedule.argument_1 + " for " + schedule.argument_2 + "s");
                         break;
                     case NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC:
-                        objInfo.content.Add((i + 1) + " - Talk to nearest NPC");
+                        objInfo2.content.Add("Talk to nearest NPC");
                         break;
                     default:
-                        objInfo.content.Add("???");
+                        objInfo2.content.Add("???");
                         break;
                 }
             }
-            return objInfo;
-        }
 
-        public int GetContentIndexToHighlight()
-        {
-            return aiState.general.currSchedule;
+            List<ObjectInfo> objInfos = new List<ObjectInfo>
+            {
+                objInfo1,
+                objInfo2
+            };
+            return objInfos;
         }
         #endregion
     }

@@ -9,19 +9,19 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1736380641001670}
+  m_RootGameObject: {fileID: 1825456754047018}
   m_IsPrefabParent: 1
---- !u!1 &1736380641001670
+--- !u!1 &1825456754047018
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4561189525696722}
-  - component: {fileID: 114420173829321184}
-  - component: {fileID: 114497985679564888}
-  - component: {fileID: 65463686066390120}
+  - component: {fileID: 4420140325869472}
+  - component: {fileID: 114315737449356896}
+  - component: {fileID: 114699574229894770}
+  - component: {fileID: 65361381113154822}
   m_Layer: 0
   m_Name: TestChair
   m_TagString: Untagged
@@ -29,12 +29,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4561189525696722
+--- !u!4 &4420140325869472
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1736380641001670}
+  m_GameObject: {fileID: 1825456754047018}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -42,38 +42,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &65463686066390120
+--- !u!65 &65361381113154822
 BoxCollider:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1736380641001670}
+  m_GameObject: {fileID: 1825456754047018}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114420173829321184
+--- !u!114 &114315737449356896
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1736380641001670}
+  m_GameObject: {fileID: 1825456754047018}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3aa51cc7553e7444db73e5d0369719f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   boxCollidersToCopy:
-  - {fileID: 65463686066390120}
+  - {fileID: 65361381113154822}
   forceAddNavMeshObstacles: 0
---- !u!114 &114497985679564888
+--- !u!114 &114699574229894770
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1736380641001670}
+  m_GameObject: {fileID: 1825456754047018}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10ab5ff127f6e9e40a183b7a7b54f16a, type: 3}

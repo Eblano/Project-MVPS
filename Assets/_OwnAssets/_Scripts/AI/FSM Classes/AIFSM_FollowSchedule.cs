@@ -315,7 +315,7 @@ namespace SealTeam4
             // Get Area
             AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument_1);
             // Empty seat from selected Area
-            aiState.general.currSeatTarget = areaMarker.GetRandomEmptySeat();
+            aiState.general.currSeatTarget = areaMarker.GetRandomEmptySeat(aiController);
 
             if (aiState.general.currSeatTarget)
             {
@@ -348,7 +348,6 @@ namespace SealTeam4
             if(seated)
             {
                 AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument_1);
-                areaMarker.RegisterNPCSitInArea(aiController);
 
                 aiState.general.seated = true;
                 aiController.AddAction("Dismiss from Seat");
@@ -372,7 +371,7 @@ namespace SealTeam4
             else
             {
                 AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument_1);
-                areaMarker.RegisterNPCSitInArea(aiController);
+                areaMarker.UnregisterNPCSitInArea(aiController);
 
                 aiState.general.seatedTimePassed = 0;
                 aiController.RemoveAction("Dismiss from Seat");

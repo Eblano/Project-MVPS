@@ -70,17 +70,16 @@ namespace SealTeam4
         [SerializeField] private Button spawnNPCAccessoriesButton;
 
         [Header("More Info Panel Properties")]
-        [SerializeField] private GameObject mip_Main;
-        [SerializeField] private GameObject mip_Label;
-        [SerializeField] private TextMeshProUGUI mip_title_1;
-        [SerializeField] private TextMeshProUGUI mip_title_1_sub;
-        [SerializeField] private TextMeshProUGUI mip_title_2;
-        [SerializeField] private TextMeshProUGUI mip_content;
+        [SerializeField] private GameObject objectInfoPanel;
+        [SerializeField] private GameObject objectInfoSlot_Prefab;
+        [SerializeField] private GameObject objectInfoScrollPlane;
+        [SerializeField] private List<GameObject> currActiveObjectInfoSlots = new List<GameObject>();
         private IObjectInfo currSelObjInfo;
-        private readonly float mipRefreshRate = 1f;
-        private float mipTimeLeftTillRefresh = 0;
+        private readonly float objectInfoRefRate = 1f;
+        private float objectInfoTimeToRefresh = 0;
 
         [Space(10)]
+
         [SerializeField] private TextMeshProUGUI gameTime;
         private float currGameTime = 0;
 
@@ -97,7 +96,7 @@ namespace SealTeam4
             {
                 Debug.Log("Interface Manager already exists");
             }
-
+            
             cam = Instantiate(camPrefab).GetComponentInChildren<Camera>();
 
             // Calibration Button Setup
@@ -145,35 +144,32 @@ namespace SealTeam4
 
                 if (currSelObjInfo != null)
                 {
-                    mip_Label.SetActive(true);
-
-                    bool condition = false;
-
-                    #if UNITY_EDITOR
-                    condition = Input.GetKey(KeyCode.V);
-                    #else
-                    condition = Input.GetKey(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt)
-                    #endif
-                    if (condition)
+                    if(Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt) || Input.GetKeyDown(KeyCode.V))
                     {
-                        mip_Main.SetActive(true);
-                        if (mipTimeLeftTillRefresh < 0)
+                        objectInfoPanel.SetActive(true);
+                        RefreshObjectInfoPanels(currSelObjInfo.GetObjectInfos());
+                    }
+
+                    if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt) || Input.GetKey(KeyCode.V))
+                    {
+                        if (objectInfoTimeToRefresh < 0)
                         {
-                            UpdateMoreInfoPanel(currSelObjInfo.GetObjectInfo(), currSelObjInfo.GetContentIndexToHighlight());
-                            mipTimeLeftTillRefresh = mipRefreshRate;
+                            objectInfoPanel.SetActive(true);
+                            RefreshObjectInfoPanels(currSelObjInfo.GetObjectInfos());
+                            objectInfoTimeToRefresh = objectInfoRefRate;
                         }
                         else
-                            mipTimeLeftTillRefresh -= Time.deltaTime;
+                            objectInfoTimeToRefresh -= Time.deltaTime;
                     }
                     else
                     {
-                        mip_Main.SetActive(false);
+                        objectInfoPanel.SetActive(false);
                     }
                 }
                 else
                 {
                     currSelObjInfo = null;
-                    mip_Label.SetActive(false);
+                    objectInfoPanel.SetActive(false);
                 }
             }
             else
@@ -190,24 +186,33 @@ namespace SealTeam4
             gameTime.text = string.Format("{0:00}:{1:00}", (currGameTime / 60) % 60, currGameTime % 60);
         }
 
-        private void UpdateMoreInfoPanel(ObjectInfo objInfo, int highlightedContentIndex)
+        private void RefreshObjectInfoPanels(List<ObjectInfo> objInfos)
         {
-            mip_title_1.text = "";
-            mip_title_1_sub.text = "";
-            mip_title_2.text = "";
-            mip_content.text = "";
-
-            mip_title_1.text = objInfo.title_1;
-            mip_title_1_sub.text = objInfo.title_1_sub;
-            mip_title_2.text = objInfo.title_2;
-
-            for (int i = 0; i < objInfo.content.Count; i++)
+            foreach (GameObject slot in currActiveObjectInfoSlots)
             {
-                if(i != highlightedContentIndex)
-                    mip_content.text += objInfo.content[i] + "\n";
-                else
-                    mip_content.text += "<#<#90CAF9>>" + objInfo.content[i] + "</color>\n";
+                Destroy(slot);
             }
+            currActiveObjectInfoSlots.Clear();
+
+            foreach (ObjectInfo objInfo in objInfos)
+            {
+                ObjectInfoSlot objectInfoSlot = 
+                    Instantiate(objectInfoSlot_Prefab, objectInfoScrollPlane.transform).GetComponent<ObjectInfoSlot>();
+
+                string content = "";
+                for (int i = 0; i < objInfo.content.Count; i++)
+                {
+                    if (i != objInfo.contentIndexToHighlight)
+                        content += objInfo.content[i] + "\n";
+                    else
+                        content += "<#90CAF9>" + objInfo.content[i] + "</color>\n";
+                }
+
+                objectInfoSlot.UpdateContent(objInfo.title, content);
+                currActiveObjectInfoSlots.Add(objectInfoSlot.gameObject);
+            }
+
+            Canvas.ForceUpdateCanvases();
         }
 
         private void TryToSelectGameObject()
@@ -451,5 +456,4 @@ namespace SealTeam4
         }
         
     }
-
 }

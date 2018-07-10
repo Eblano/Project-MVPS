@@ -1,5 +1,6 @@
-﻿public interface IObjectInfo
+﻿using System.Collections.Generic;
+
+public interface IObjectInfo
 {
-    ObjectInfo GetObjectInfo();
-    int GetContentIndexToHighlight();
+    List<ObjectInfo> GetObjectInfos();
 }

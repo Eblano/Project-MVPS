@@ -7,7 +7,7 @@ using Battlehub;
 
 namespace SealTeam4
 {
-    public class AreaMarker : BaseAreaMarker, IActions
+    public class AreaMarker : BaseAreaMarker, IActions, IObjectInfo
     {
         private List<GameObject> registeredSeats = new List<GameObject>();
         [SerializeField] private int numRegisteredSeats = 0;
@@ -47,11 +47,6 @@ namespace SealTeam4
             }
         }
 
-        public void RegisterNPCSitInArea(AIController npc)
-        {
-            npcsSeatedInArea.Add(npc);
-        }
-
         public void UnregisterNPCSitInArea(AIController npc)
         {
             if (npcsSeatedInArea.Exists(x => x == npc))
@@ -81,12 +76,13 @@ namespace SealTeam4
             registeredSeats.Add(seat);
         }
 
-        public SeatMarker GetRandomEmptySeat()
+        public SeatMarker GetRandomEmptySeat(AIController npc)
         {
             foreach(GameObject seat in registeredSeats)
             {
                 if(seat.GetComponent<SeatMarker>().SeatAvailable())
                 {
+                    npcsSeatedInArea.Add(npc);
                     return seat.GetComponent<SeatMarker>();
                 }
             }
@@ -130,6 +126,27 @@ namespace SealTeam4
         public Collider GetCollider()
         {
             return mCollider;
+        }
+
+        public List<ObjectInfo> GetObjectInfos()
+        {
+            ObjectInfo objInfo1 = new ObjectInfo();
+            objInfo1.title = "NPCs Seated";
+            
+            foreach(AIController npc in npcsSeatedInArea)
+            {
+                objInfo1.content.Add(npc.GetName());
+            }
+
+            List<ObjectInfo> objInfos = new List<ObjectInfo>();
+            objInfos.Add(objInfo1);
+
+            return objInfos;
+        }
+
+        public int GetContentIndexToHighlight()
+        {
+            return -1;
         }
     }
 }
