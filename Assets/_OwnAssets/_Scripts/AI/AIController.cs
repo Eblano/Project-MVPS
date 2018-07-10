@@ -9,7 +9,7 @@ using UnityEngine.Events;
 /// </summary>
 namespace SealTeam4
 {
-    public class AIController : MonoBehaviour, IActions
+    public class AIController : MonoBehaviour, IActions, IObjectInfo
     {
         private string npcName;
 
@@ -220,7 +220,7 @@ namespace SealTeam4
             aiState.active = true;
         }
         
-        #region IActions methods & Actionable related Methods
+        #region Interface methods
         public List<string> GetActions()
         {
             return actionableParameters;
@@ -307,6 +307,68 @@ namespace SealTeam4
         {
             actionableParameters.Remove("Fade Away(Debug)");
             FadeAway();
+        }
+
+        public ObjectInfo GetObjectInfo()
+        {
+            ObjectInfo objInfo = new ObjectInfo();
+            objInfo.title_1 = gameObject.name;
+            objInfo.title_1_sub = "NPC Mode: ";
+
+            switch (aiState.general.aIMode)
+            {
+                case AIState.General.AIMode.FOLLOW_SCHEDULE:
+                    objInfo.title_1_sub += "Follow Schedule";
+                    break;
+                case AIState.General.AIMode.HOSTILE:
+                    objInfo.title_1_sub += "Hostile Schedule";
+                    break;
+                case AIState.General.AIMode.CIVILIAN_UNDER_ATTACK:
+                    objInfo.title_1_sub += "Civillian Under Attack";
+                    break;
+                case AIState.General.AIMode.VIP_UNDER_ATTACK:
+                    objInfo.title_1_sub += "VIP Under Attack";
+                    break;
+                case AIState.General.AIMode.PARTICIPATE_CONVO:
+                    objInfo.title_1_sub += "Talking to other NPC";
+                    break;
+                default:
+                    objInfo.title_1_sub += "-";
+                    break;
+            }
+
+            objInfo.title_2 = "Upcoming schedules";
+
+            foreach (NPCSchedule schedule in npcSchedules)
+            {
+                switch (schedule.scheduleType)
+                {
+                    case NPCSchedule.SCHEDULE_TYPE.IDLE:
+                        objInfo.content.Add("Idle for " + schedule.argument_1 + "s");
+                        break;
+                    case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS_WITH_ROT:
+                        objInfo.content.Add("Move to waypoint " + schedule.argument_1 + " and rotate");
+                        break;
+                    case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS:
+                        objInfo.content.Add("Move to waypoint " + schedule.argument_1);
+                        break;
+                    case NPCSchedule.SCHEDULE_TYPE.SIT_IN_AREA:
+                        objInfo.content.Add("Sit in empty seat in " + schedule.argument_1 + " for " + schedule.argument_2 + "s");
+                        break;
+                    case NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC:
+                        objInfo.content.Add("Talk to nearest NPC");
+                        break;
+                    default:
+                        objInfo.content.Add("-");
+                        break;
+                }
+            }
+            return objInfo;
+        }
+
+        public int GetContentIndexToHighlight()
+        {
+            return aiState.general.currSchedule;
         }
         #endregion
     }

@@ -72,6 +72,16 @@ namespace SealTeam4
         [SerializeField] private Button spawnNPCsButton;
         [SerializeField] private Button spawnAccessoriesButton;
 
+        [Header("More Info Panel Properties")]
+        [SerializeField] private GameObject MIP_Main;
+        [SerializeField] private GameObject MIP_Label;
+        [SerializeField] private TextMeshProUGUI MIP_title_1;
+        [SerializeField] private TextMeshProUGUI MIP_title_1_sub;
+        [SerializeField] private TextMeshProUGUI MIP_title_2;
+        [SerializeField] private TextMeshProUGUI MIP_content;
+        private IObjectInfo currSelObjInfo;
+        private int currHighlightedContent = -1;
+
         private bool spawnedNPC = false;
         private bool spawnedAccessories = false;
         #endregion
@@ -125,16 +135,64 @@ namespace SealTeam4
                 TryToSelectGameObject();
             }
 
+
             if (currSelectedGO)
+            {
                 selectedGOTxt.text = currSelectedGO.GetComponent<IActions>().GetName();
+                currSelObjInfo = currSelectedGO.GetComponent<IObjectInfo>();
+
+                if (currSelObjInfo != null)
+                {
+                    MIP_Label.SetActive(true);
+                    if (Input.GetKeyDown(KeyCode.I))
+                        UpdateMoreInfoPanel(currSelObjInfo.GetObjectInfo());
+
+                    if (Input.GetKey(KeyCode.I))
+                    {
+                        MIP_Main.SetActive(true);
+                        if(currHighlightedContent != currSelObjInfo.GetContentIndexToHighlight())
+                        {
+                            currHighlightedContent = currSelObjInfo.GetContentIndexToHighlight();
+                            UpdateMoreInfoPanel(currSelObjInfo.GetObjectInfo());
+                        }
+                    }
+                    else
+                    {
+                        MIP_Main.SetActive(false);
+                    }
+                }
+                else
+                {
+                    currSelObjInfo = null;
+                    MIP_Label.SetActive(false);
+                }
+            }
             else
                 selectedGOTxt.text = "Nothing Selected";
 
             UpdateMarker();
             UpdateActionList();
             ListenForKeys();
+        }
 
-            //if(selectedObject) UpdateMarker();
+        private void UpdateMoreInfoPanel(ObjectInfo objInfo)
+        {
+            MIP_title_1.text = "";
+            MIP_title_1_sub.text = "";
+            MIP_title_2.text = "";
+            MIP_content.text = "";
+
+            MIP_title_1.text = objInfo.title_1;
+            MIP_title_1_sub.text = objInfo.title_1_sub;
+            MIP_title_2.text = objInfo.title_2;
+
+            for (int i = 0; i < objInfo.content.Count; i++)
+            {
+                if(i != currHighlightedContent)
+                    MIP_content.text += objInfo.content[i] + "\n";
+                else
+                    MIP_content.text += "<color=red>" + objInfo.content[i] + "</color>\n";
+            }
         }
 
         private void TryToSelectGameObject()
