@@ -164,6 +164,8 @@ namespace SealTeam4
 
                 // Spawn local player controller at spawn position
                 Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
+
+                Destroy(Camera.main.gameObject);
             }
         }
 
