@@ -34,11 +34,11 @@ namespace SealTeam4
 
             switch (npcSchedules[aiState.general.currSchedule].scheduleType)
             {
-                case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS:
+                case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT:
                     ScheduleProcess_MoveToWaypoint();
                     break;
 
-                case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS_WITH_ROT:
+                case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT_ROT:
                     ScheduleProcess_MoveToWaypoint_And_Rotate();
                     break;
 
@@ -231,6 +231,7 @@ namespace SealTeam4
             aiState.general.currWaypointPosition = GetWaypointMarkerPosition();
             aiState.general.currWaypointRotation = GetWaypointMarkerRotation();
             aiController.SetNMAgentDestination(aiState.general.currWaypointPosition);
+            aiController.AddAction("Skip Waypoint (Next)");
             aiState.general.currSubschedule++;
         }
 
@@ -248,6 +249,16 @@ namespace SealTeam4
             }
         }
 
+        public void End_MoveToWaypoint()
+        {
+            aiState.general.currSubschedule++;
+        }
+
+        public void End_MoveToWaypointAndRotate()
+        {
+            aiState.general.currSubschedule += 2;
+        }
+
         public Vector3 GetWaypointMarkerPosition()
         {
             string targetName = npcSchedules[aiState.general.currSchedule].argument_1;
@@ -262,6 +273,7 @@ namespace SealTeam4
 
         public void Terminate_MoveToWaypoint()
         {
+            aiController.RemoveAction("Skip Waypoint (Next)");
             aiController.StopMovement();
             aiState.general.currWaypointPosition = new Vector3();
             aiState.general.currSubschedule++;
@@ -289,6 +301,7 @@ namespace SealTeam4
         public void Idle_Setup()
         {
             aiState.general.currTimerValue = float.Parse(npcSchedules[aiState.general.currSchedule].argument_1);
+            aiController.AddAction("End Idle (Next)");
             aiState.general.currSubschedule++;
         }
 
@@ -304,9 +317,15 @@ namespace SealTeam4
             }
         }
 
+        public void End_Idle()
+        {
+            aiState.general.currTimerValue = 0;
+        }
+
         public void Idle_Term()
         {
             aiState.general.currTimerValue = 0;
+            aiController.RemoveAction("End Idle (Next)");
             aiState.general.currSubschedule++;
         }
 
@@ -350,7 +369,7 @@ namespace SealTeam4
                 AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument_1);
 
                 aiState.general.seated = true;
-                aiController.AddAction("Dismiss from Seat");
+                aiController.AddAction("Dismiss from Seat (Next)");
                 aiState.general.currSubschedule++;
             }
         }
@@ -374,7 +393,7 @@ namespace SealTeam4
                 areaMarker.UnregisterNPCSitInArea(aiController);
 
                 aiState.general.seatedTimePassed = 0;
-                aiController.RemoveAction("Dismiss from Seat");
+                aiController.RemoveAction("Dismiss from Seat (Next)");
                 aiState.general.currSubschedule++;
             }
         }
@@ -408,6 +427,7 @@ namespace SealTeam4
             aiState.general.currConvoNPCTarget.StartConvoWithConvoNPCTarget();
             aiAnimController.Anim_StartStandTalking();
             aiState.general.inConversation = true;
+            aiController.AddAction("End Conversation (Next)");
             aiState.general.currSubschedule++;
         }
 
@@ -415,10 +435,15 @@ namespace SealTeam4
         {
             float conversationDuration = float.Parse(npcSchedules[aiState.general.currSchedule].argument_1);
 
-            if (aiState.general.timeInConvo > conversationDuration)
+            if (aiState.general.timeInConvo >= conversationDuration)
                 aiState.general.currSubschedule++;
             else
                 aiState.general.timeInConvo += Time.deltaTime;
+        }
+
+        public void End_TalkToOtherNPC()
+        {
+            aiState.general.timeInConvo = float.Parse(npcSchedules[aiState.general.currSchedule].argument_1);
         }
 
         public void Terminate_TalkToOtherNPC()
@@ -427,6 +452,7 @@ namespace SealTeam4
             aiState.general.timeInConvo = 0;
             aiAnimController.Anim_StopStandTalking();
             aiState.general.currConvoNPCTarget.EndConvoWithConvoNPCTarget();
+            aiController.RemoveAction("End Conversation (Next)");
             aiState.general.currSubschedule++;
         }
     }

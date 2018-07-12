@@ -76,5 +76,11 @@ namespace SealTeam4
             public UnderAttack underAttack = new UnderAttack();
         }
         public Civilian civilian = new Civilian();
+
+        [System.Serializable]
+        public class Terrorist
+        {
+        }
+        public Terrorist terrorist = new Terrorist();
     }
 }
