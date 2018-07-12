@@ -152,72 +152,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114937303008238198, guid: af6b4b6ce3a27e4458d36ac4393d2307,
-        type: 2}
-      propertyPath: pistol_Prefab
-      value: 
-      objectReference: {fileID: 1204052518656774, guid: db304195fe8590f4c97ae688a17900d4,
-        type: 2}
-    - target: {fileID: 114937303008238198, guid: af6b4b6ce3a27e4458d36ac4393d2307,
-        type: 2}
-      propertyPath: rifle_Prefab
-      value: 
-      objectReference: {fileID: 1601459416775754, guid: 9758797495bc4a84f97c17118c73f227,
-        type: 2}
-    - target: {fileID: 114937303008238198, guid: af6b4b6ce3a27e4458d36ac4393d2307,
-        type: 2}
-      propertyPath: bag_Prefab
-      value: 
-      objectReference: {fileID: 1111392491584690, guid: 03579f68a970dfe488673c4d4646840c,
-        type: 2}
-    - target: {fileID: 114937303008238198, guid: af6b4b6ce3a27e4458d36ac4393d2307,
-        type: 2}
-      propertyPath: magazine_Prefab
-      value: 
-      objectReference: {fileID: 1321048922941224, guid: d44b695f7ad7a7849a51b8c4956b2067,
-        type: 2}
-    m_RemovedComponents:
-    - {fileID: 114929264871542918, guid: af6b4b6ce3a27e4458d36ac4393d2307, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: af6b4b6ce3a27e4458d36ac4393d2307, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &689773934 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1044430686693050, guid: af6b4b6ce3a27e4458d36ac4393d2307,
-    type: 2}
-  m_PrefabInternal: {fileID: 350121405}
---- !u!114 &689773935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 689773934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid: cdfb1a12-1d10-4141-a785-08c65454666a
-  Mapping:
-  - Name: GameManager
-    Object: {fileID: 689773936}
-    Id: 20946
-  - Name: GameManager
-    Object: {fileID: 689773934}
-    Id: 20947
-  - Name: GameManager
-    Object: {fileID: 689773938}
-    Id: 20965
---- !u!114 &689773936 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114767845761546020, guid: af6b4b6ce3a27e4458d36ac4393d2307,
-    type: 2}
-  m_PrefabInternal: {fileID: 350121405}
-  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
---- !u!4 &689773938 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4455132867978186, guid: af6b4b6ce3a27e4458d36ac4393d2307,
-    type: 2}
-  m_PrefabInternal: {fileID: 350121405}
 --- !u!1 &1123077317
 GameObject:
   m_ObjectHideFlags: 0
