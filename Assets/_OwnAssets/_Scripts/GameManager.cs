@@ -3,6 +3,7 @@ using UnityEngine;
 using SealTeam4;
 using Battlehub.RTSaveLoad;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
@@ -72,6 +73,8 @@ namespace SealTeam4
         [Space(10)]
        
         public string localPlayerName;
+
+        [SerializeField] private Image panelOverlay;
 
         private void Start()
         {
@@ -596,6 +599,11 @@ namespace SealTeam4
         public string GetSceneHash()
         {
             return sceneHash;
+        }
+
+        public void SetOverlayTransparency(int percent)
+        {
+            //panelOverlay.color.a = percent / 100.0f;
         }
     }
 }

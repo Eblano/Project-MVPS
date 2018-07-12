@@ -30,6 +30,13 @@ namespace SealTeam4
         //    GameManager.instance.UpdateNetworkTestBool(state);
         //}
 
+        [TargetRpc]
+        public void TargetUpdatePanelTransparency(NetworkConnection networkConnection, int percent)
+        {
+            // percent/100 update panel transparency
+            //GameManager.instance.updatePanel
+        }
+
         [Command]
         public void CmdNetworkSpawnObject(GameObject GO)
         {
