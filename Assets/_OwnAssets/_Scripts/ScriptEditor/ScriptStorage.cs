@@ -217,10 +217,10 @@ namespace SealTeam4
                             scheduleType = NPCSchedule.SCHEDULE_TYPE.IDLE;
                             break;
                         case "Move to Waypoint":
-                            scheduleType = NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS;
+                            scheduleType = NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT;
                             break;
                         case "Move to Waypoint + Rotate":
-                            scheduleType = NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS_WITH_ROT;
+                            scheduleType = NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT_ROT;
                             break;
                         case "Sit in Area":
                             scheduleType = NPCSchedule.SCHEDULE_TYPE.SIT_IN_AREA;

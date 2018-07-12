@@ -26,6 +26,7 @@ namespace SealTeam4
         AIFSM_FollowSchedule aiFSM_FollowSchedule = new AIFSM_FollowSchedule();
         AIFSM_Schedule_ParticipateConvo aiFSM_ParticipateConvo = new AIFSM_Schedule_ParticipateConvo();
         AIFSM_Civillian_UnderAttack aiFSM_Civillian_UnderAttack = new AIFSM_Civillian_UnderAttack();
+        //AIFSM_HostileTerrorist 
 
         // Schedules this NPC has
         private List<NPCSchedule> npcSchedules;
@@ -244,6 +245,13 @@ namespace SealTeam4
                 case "End Idle (Next)":
                     aiFSM_FollowSchedule.End_Idle();
                     break;
+
+                case "Skip Waypoint (Next)":
+                    if (npcSchedules[aiState.general.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT)
+                        aiFSM_FollowSchedule.End_MoveToWaypoint();
+                    else if (npcSchedules[aiState.general.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT_ROT)
+                        aiFSM_FollowSchedule.End_MoveToWaypointAndRotate();
+                    break;
             }
         }
 
@@ -368,16 +376,16 @@ namespace SealTeam4
                 switch(schedule.scheduleType)
                 {
                     case NPCSchedule.SCHEDULE_TYPE.IDLE:
-                        objInfo2.content.Add( "Idle for " + schedule.argument_1 + "s");
+                        objInfo2.content.Add("Idle for " + schedule.argument_1 + "s");
                         break;
-                    case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS_WITH_ROT:
-                        objInfo2.content.Add("Move to waypoint " + schedule.argument_1 + " and rotate");
+                    case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT_ROT:
+                        objInfo2.content.Add("Move to waypoint \"" + schedule.argument_1 + "\" and rotate");
                         break;
-                    case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS:
-                        objInfo2.content.Add("Move to waypoint " + schedule.argument_1);
+                    case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT:
+                        objInfo2.content.Add("Move to waypoint \"" + schedule.argument_1 + "\"");
                         break;
                     case NPCSchedule.SCHEDULE_TYPE.SIT_IN_AREA:
-                        objInfo2.content.Add("Sit in empty seat in " + schedule.argument_1 + " for " + schedule.argument_2 + "s");
+                        objInfo2.content.Add("Sit in empty seat in \"" + schedule.argument_1 + "\" for " + schedule.argument_2 + "s");
                         break;
                     case NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC:
                         objInfo2.content.Add("Talk to nearest NPC");

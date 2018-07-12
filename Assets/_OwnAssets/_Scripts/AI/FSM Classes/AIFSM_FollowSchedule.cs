@@ -34,11 +34,11 @@ namespace SealTeam4
 
             switch (npcSchedules[aiState.general.currSchedule].scheduleType)
             {
-                case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS:
+                case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT:
                     ScheduleProcess_MoveToWaypoint();
                     break;
 
-                case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS_WITH_ROT:
+                case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT_ROT:
                     ScheduleProcess_MoveToWaypoint_And_Rotate();
                     break;
 
@@ -231,6 +231,7 @@ namespace SealTeam4
             aiState.general.currWaypointPosition = GetWaypointMarkerPosition();
             aiState.general.currWaypointRotation = GetWaypointMarkerRotation();
             aiController.SetNMAgentDestination(aiState.general.currWaypointPosition);
+            aiController.AddAction("Skip Waypoint (Next)");
             aiState.general.currSubschedule++;
         }
 
@@ -248,6 +249,16 @@ namespace SealTeam4
             }
         }
 
+        public void End_MoveToWaypoint()
+        {
+            aiState.general.currSubschedule++;
+        }
+
+        public void End_MoveToWaypointAndRotate()
+        {
+            aiState.general.currSubschedule += 2;
+        }
+
         public Vector3 GetWaypointMarkerPosition()
         {
             string targetName = npcSchedules[aiState.general.currSchedule].argument_1;
@@ -262,6 +273,7 @@ namespace SealTeam4
 
         public void Terminate_MoveToWaypoint()
         {
+            aiController.RemoveAction("Skip Waypoint (Next)");
             aiController.StopMovement();
             aiState.general.currWaypointPosition = new Vector3();
             aiState.general.currSubschedule++;
