@@ -1,16 +1,17 @@
-﻿using System.Collections;
+﻿using Battlehub.RTSaveLoad;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace SealTeam4
 {
+    [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
     public class CiellingLight : MonoBehaviour, IActions
     {
-        [Battlehub.SerializeIgnore] [SerializeField] private Light light;
+        private Light light;
         private BoxCollider collider;
         private List<string> actionableList = new List<string>();
 
-        [Battlehub.SerializeIgnore] [SerializeField] private Transform highestPoint;
         [SerializeField] private bool lightsOn = true;
         [SerializeField] private float range = 10f;
         [SerializeField] private float intensity = 1f;
@@ -20,6 +21,14 @@ namespace SealTeam4
         private void Start()
         {
             collider = GetComponent<BoxCollider>();
+
+            GameObject lightGo = new GameObject();
+            lightGo.transform.SetParent(gameObject.transform);
+            lightGo.transform.localPosition = Vector3.zero;
+            lightGo.transform.localRotation = Quaternion.Euler(90, 0, 0);
+            lightGo.AddComponent<PersistentIgnore>();
+            light = lightGo.AddComponent<Light>();
+            light.type = LightType.Spot;
         }
 
         private void Update()
@@ -72,12 +81,12 @@ namespace SealTeam4
 
         public Vector3 GetHighestPointPos()
         {
-            return highestPoint.position;
+            return transform.position;
         }
 
         public Transform GetHighestPointTransform()
         {
-            return highestPoint;
+            return transform;
         }
 
         public string GetName()
