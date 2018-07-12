@@ -216,7 +216,12 @@ public class PlayerInteractionSync : NetworkBehaviour
         {
             ITwoHandedObject twoHandedObject;
             twoHandedObject = grabbedObjParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
-            twoHandedObject.SecondHandInactive();
+
+            if(twoHandedObject != null)
+            {
+                twoHandedObject.SecondHandInactive();
+            }
+
             currGrabbedObj.transform.SetParent(grabbedObjParent);
 
             if (currGrabbedObj.GetComponent<SlideHandler>())

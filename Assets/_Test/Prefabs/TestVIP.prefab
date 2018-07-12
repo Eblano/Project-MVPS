@@ -172,6 +172,7 @@ GameObject:
   - component: {fileID: 95433572023504664}
   - component: {fileID: 114906115578106884}
   - component: {fileID: 114121564841466016}
+  - component: {fileID: 114305114943270498}
   m_Layer: 0
   m_Name: TestVIP
   m_TagString: Untagged
@@ -267,7 +268,7 @@ GameObject:
   - component: {fileID: 23440376418870388}
   - component: {fileID: 114222706564435240}
   - component: {fileID: 114936154954662624}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: GrabNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,7 +679,7 @@ GameObject:
   - component: {fileID: 23051912903034818}
   - component: {fileID: 114527173668818870}
   - component: {fileID: 114058721089519502}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: GrabNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -788,7 +789,7 @@ GameObject:
   - component: {fileID: 23219047585479422}
   - component: {fileID: 114388810903409340}
   - component: {fileID: 114733436574370452}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: GrabNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2078,6 +2079,38 @@ MonoBehaviour:
     i15: 5
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114305114943270498
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1189771968061436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 2
+    i1: 201
+    i2: 103
+    i3: 8
+    i4: 4
+    i5: 251
+    i6: 52
+    i7: 196
+    i8: 10
+    i9: 246
+    i10: 220
+    i11: 4
+    i12: 207
+    i13: 47
+    i14: 231
+    i15: 5
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114388810903409340
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2574,7 +2607,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1834233549339532}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -2586,7 +2619,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1706345127144580}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -2598,7 +2631,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1261401904685700}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
