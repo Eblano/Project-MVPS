@@ -9,7 +9,7 @@ using UnityEngine.Events;
 /// </summary>
 namespace SealTeam4
 {
-    public class AIController : MonoBehaviour, IActions
+    public class AIController : MonoBehaviour, IActions, IObjectInfo
     {
         private string npcName;
 
@@ -220,7 +220,7 @@ namespace SealTeam4
             aiState.active = true;
         }
         
-        #region IActions methods & Actionable related Methods
+        #region Interface methods
         public List<string> GetActions()
         {
             return actionableParameters;
@@ -307,6 +307,84 @@ namespace SealTeam4
         {
             actionableParameters.Remove("Fade Away(Debug)");
             FadeAway();
+        }
+
+        public List<ObjectInfo> GetObjectInfos()
+        {
+            ObjectInfo objInfo1 = new ObjectInfo();
+            objInfo1.contentIndexToHighlight = -1;
+            objInfo1.title = "NPC Info";
+            switch (aiState.general.aIMode)
+            {
+                case AIState.General.AIMode.FOLLOW_SCHEDULE:
+                    objInfo1.content.Add("Follow Schedule");
+                    break;
+                case AIState.General.AIMode.HOSTILE:
+                    objInfo1.content.Add("Hostile Schedule");
+                    break;
+                case AIState.General.AIMode.CIVILIAN_UNDER_ATTACK:
+                    objInfo1.content.Add("Civillian Under Attack");
+                    break;
+                case AIState.General.AIMode.VIP_UNDER_ATTACK:
+                    objInfo1.content.Add("VIP Under Attack");
+                    break;
+                case AIState.General.AIMode.PARTICIPATE_CONVO:
+                    objInfo1.content.Add("Talking to other NPC");
+                    break;
+                default:
+                    objInfo1.content.Add("-");
+                    break;
+            }
+            switch (aiStats.npcType)
+            {
+                case AIStats.NPCType.TERRORIST:
+                    objInfo1.content.Add("Type: Terrorist");
+                    break;
+                case AIStats.NPCType.VIP:
+                    objInfo1.content.Add("Type: VIP");
+                    break;
+                case AIStats.NPCType.CIVILLIAN:
+                    objInfo1.content.Add("Type: Civillian");
+                    break;
+                default:
+                    break;
+            }
+
+            ObjectInfo objInfo2 = new ObjectInfo();
+            objInfo2.title = "Schedules";
+            objInfo2.contentIndexToHighlight = aiState.general.currSchedule;
+
+            foreach(NPCSchedule schedule in npcSchedules)
+            {
+                switch(schedule.scheduleType)
+                {
+                    case NPCSchedule.SCHEDULE_TYPE.IDLE:
+                        objInfo2.content.Add( "Idle for " + schedule.argument_1 + "s");
+                        break;
+                    case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS_WITH_ROT:
+                        objInfo2.content.Add("Move to waypoint " + schedule.argument_1 + " and rotate");
+                        break;
+                    case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_POS:
+                        objInfo2.content.Add("Move to waypoint " + schedule.argument_1);
+                        break;
+                    case NPCSchedule.SCHEDULE_TYPE.SIT_IN_AREA:
+                        objInfo2.content.Add("Sit in empty seat in " + schedule.argument_1 + " for " + schedule.argument_2 + "s");
+                        break;
+                    case NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC:
+                        objInfo2.content.Add("Talk to nearest NPC");
+                        break;
+                    default:
+                        objInfo2.content.Add("???");
+                        break;
+                }
+            }
+
+            List<ObjectInfo> objInfos = new List<ObjectInfo>
+            {
+                objInfo1,
+                objInfo2
+            };
+            return objInfos;
         }
         #endregion
     }

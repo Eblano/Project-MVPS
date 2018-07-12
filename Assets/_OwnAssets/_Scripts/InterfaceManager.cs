@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System.Linq;
 using TMPro;
@@ -26,15 +25,14 @@ namespace SealTeam4
         [SerializeField] private Camera cam;
 
         // Calibration Button variables
-        private bool calibrationModeOn;
-        private Image calibrationBtnColor;
+        //private bool calibrationModeOn;
+        //private Image calibrationBtnColor;
 
         [Header("Selected Game Object Panel variables")]
         [SerializeField] private GameObject currSelectedGO;
         [SerializeField] private TextMeshProUGUI selectedGOTxt;
         private RaycastHit hit;
         private Ray ray;
-        private Shader outlineShader;
         private Renderer rend;
 
         [Header("Player container list spawning variables")]
@@ -69,11 +67,24 @@ namespace SealTeam4
 
         [Header("Buttons")]
         [SerializeField] private Button startButton;
-        [SerializeField] private Button spawnNPCsButton;
-        [SerializeField] private Button spawnAccessoriesButton;
+        [SerializeField] private Button spawnNPCAccessoriesButton;
 
-        private bool spawnedNPC = false;
-        private bool spawnedAccessories = false;
+        [Header("More Info Panel Properties")]
+        [SerializeField] private GameObject objectInfoPanel;
+        [SerializeField] private GameObject objectInfoSlot_Prefab;
+        [SerializeField] private GameObject objectInfoScrollPlane;
+        [SerializeField] private List<GameObject> currActiveObjectInfoSlots = new List<GameObject>();
+        private IObjectInfo currSelObjInfo;
+        private readonly float objectInfoRefRate = 1f;
+        private float objectInfoTimeToRefresh = 0;
+
+        [Space(10)]
+
+        [SerializeField] private TextMeshProUGUI gameTime;
+        private float currGameTime = 0;
+
+        private bool spawnedNPCAndAcc = false;
+        private bool gameStarted = false;
         #endregion
 
         // Use this for initialization
@@ -85,16 +96,15 @@ namespace SealTeam4
             {
                 Debug.Log("Interface Manager already exists");
             }
-
+            
             cam = Instantiate(camPrefab).GetComponentInChildren<Camera>();
 
             // Calibration Button Setup
-            calibrationModeOn = false;
-            calibrationBtnColor = GameObject.Find("PlayerPosCalibrationBtn").GetComponent<Image>();
-            calibrationBtnColor.color = Color.grey;
+            //calibrationModeOn = false;
+            //calibrationBtnColor = GameObject.Find("PlayerPosCalibrationBtn").GetComponent<Image>();
+            //calibrationBtnColor.color = Color.grey;
 
             // Selection Setup
-            outlineShader = Shader.Find("Outlined/Uniform");
             borderUI = Instantiate(borderUiPrefab, this.GetComponent<Canvas>().transform);
             borderUI.SetActive(false);
 
@@ -108,8 +118,7 @@ namespace SealTeam4
 
             //Suscribe buttons to listerners
             startButton.onClick.AddListener(delegate { OnStartGameButtonClick(); });
-            spawnNPCsButton.onClick.AddListener(delegate { OnSpawnNPCsButtonClick(); });
-            spawnAccessoriesButton.onClick.AddListener(delegate { OnSpawnAccessoriesButtonClick(); });
+            spawnNPCAccessoriesButton.onClick.AddListener(delegate { OnSpawnNPCsAccButtonClick(); });
 
         }
 
@@ -125,16 +134,85 @@ namespace SealTeam4
                 TryToSelectGameObject();
             }
 
+            if (gameStarted)
+                UpdateGameTime();
+
             if (currSelectedGO)
+            {
                 selectedGOTxt.text = currSelectedGO.GetComponent<IActions>().GetName();
+                currSelObjInfo = currSelectedGO.GetComponent<IObjectInfo>();
+
+                if (currSelObjInfo != null)
+                {
+                    if(Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt) || Input.GetKeyDown(KeyCode.V))
+                    {
+                        objectInfoPanel.SetActive(true);
+                        RefreshObjectInfoPanels(currSelObjInfo.GetObjectInfos());
+                    }
+
+                    if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt) || Input.GetKey(KeyCode.V))
+                    {
+                        if (objectInfoTimeToRefresh < 0)
+                        {
+                            objectInfoPanel.SetActive(true);
+                            RefreshObjectInfoPanels(currSelObjInfo.GetObjectInfos());
+                            objectInfoTimeToRefresh = objectInfoRefRate;
+                        }
+                        else
+                            objectInfoTimeToRefresh -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        objectInfoPanel.SetActive(false);
+                    }
+                }
+                else
+                {
+                    currSelObjInfo = null;
+                    objectInfoPanel.SetActive(false);
+                }
+            }
             else
                 selectedGOTxt.text = "Nothing Selected";
 
             UpdateMarker();
             UpdateActionList();
             ListenForKeys();
+        }
 
-            //if(selectedObject) UpdateMarker();
+        private void UpdateGameTime()
+        {
+            currGameTime += Time.deltaTime;
+            gameTime.text = string.Format("{0:00}:{1:00}", (currGameTime / 60) % 60, currGameTime % 60);
+        }
+
+        private void RefreshObjectInfoPanels(List<ObjectInfo> objInfos)
+        {
+            foreach (GameObject slot in currActiveObjectInfoSlots)
+            {
+                Destroy(slot);
+            }
+            currActiveObjectInfoSlots.Clear();
+
+            foreach (ObjectInfo objInfo in objInfos)
+            {
+                ObjectInfoSlot objectInfoSlot = 
+                    Instantiate(objectInfoSlot_Prefab, objectInfoScrollPlane.transform).GetComponent<ObjectInfoSlot>();
+
+                string content = "";
+                for (int i = 0; i < objInfo.content.Count; i++)
+                {
+                    if (i != objInfo.contentIndexToHighlight)
+                        content += objInfo.content[i] + "\n";
+                    else
+                        content += "<#90CAF9>" + objInfo.content[i] + "</color>\n";
+                }
+
+                objectInfoSlot.UpdateContent(objInfo.title, content);
+                currActiveObjectInfoSlots.Add(objectInfoSlot.gameObject);
+            }
+
+            Canvas.ForceUpdateCanvases();
         }
 
         private void TryToSelectGameObject()
@@ -247,25 +325,25 @@ namespace SealTeam4
         }
 
         // Toggles the position Buttons on and off
-        public void ToggleCalibration()
-        {
-            if (!calibrationModeOn)
-            {
-                calibrationModeOn = true;
-                calibrationBtnColor.color = Color.cyan;
+        //public void ToggleCalibration()
+        //{
+        //    if (!calibrationModeOn)
+        //    {
+        //        calibrationModeOn = true;
+        //        calibrationBtnColor.color = Color.cyan;
 
-            }
-            else
-            {
-                calibrationModeOn = false;
-                calibrationBtnColor.color = Color.grey;
-            }
+        //    }
+        //    else
+        //    {
+        //        calibrationModeOn = false;
+        //        calibrationBtnColor.color = Color.grey;
+        //    }
 
-            foreach (GameObject playerContainer in playerContainerList)
-            {
-                playerContainer.GetComponent<playerUIContainer>().SetButtonStates(calibrationModeOn);
-            }
-        }
+        //    foreach (GameObject playerContainer in playerContainerList)
+        //    {
+        //        playerContainer.GetComponent<playerUIContainer>().SetButtonStates(calibrationModeOn);
+        //    }
+        //}
 
         // Gets an object and puts it in focus
 
@@ -346,7 +424,7 @@ namespace SealTeam4
                 playerList_GO.transform);
 
             // Checks if calibration mode is on, then sets visibility accordingly
-            go.GetComponent<playerUIContainer>().SetButtonStates(calibrationModeOn);
+            //go.GetComponent<playerUIContainer>().SetButtonStates(calibrationModeOn);
             playerContainerList.Add(go);
         }
 
@@ -359,39 +437,23 @@ namespace SealTeam4
 
         private void OnStartGameButtonClick()
         {
-            if (!spawnedNPC)
-            {
-                GameManager.instance.SpawnAndSetupNPC();
-                Destroy(spawnNPCsButton.gameObject);
-                spawnedNPC = true;
-            }
-
-            if (!spawnedAccessories)
-            {
-                GameManager.instance.SpawnAccessories();
-                Destroy(spawnAccessoriesButton.gameObject);
-                spawnedAccessories = true;
-            }
+            if(!spawnedNPCAndAcc)
+                OnSpawnNPCsAccButtonClick();
 
             GameManager.instance.GM_Host_SwitchToRun();
             Destroy(startButton.gameObject);
+
+            gameStarted = true;
         }
 
-        private void OnSpawnNPCsButtonClick()
+        private void OnSpawnNPCsAccButtonClick()
         {
             GameManager.instance.SpawnAndSetupNPC();
-            Destroy(spawnNPCsButton.gameObject);
-
-            spawnedNPC = true;
-        }
-
-        private void OnSpawnAccessoriesButtonClick()
-        {
             GameManager.instance.SpawnAccessories();
-            Destroy(spawnAccessoriesButton.gameObject);
+            Destroy(spawnNPCAccessoriesButton.gameObject);
 
-            spawnedAccessories = true;
+            spawnedNPCAndAcc = true;
         }
+        
     }
-
 }
