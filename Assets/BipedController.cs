@@ -5,47 +5,62 @@ using RootMotion.FinalIK;
 
 public class BipedController : MonoBehaviour
 {
-    private BipedIK bipedIK;
-    public enum BipedPosition { SPINE, LHAND, RHAND };
+    private FullBodyBipedIK fbBipedIK;
+    public enum BipedPosition { LHAND, RHAND, LSHOULD, RSHOULD };
 
     private void Start()
     {
-        bipedIK = GetComponent<BipedIK>();
+        fbBipedIK = GetComponent<FullBodyBipedIK>();
     }
 
     public void SetBiped(BipedPosition bipedPosition, Transform target, float weight)
     {
         switch (bipedPosition)
         {
-            case BipedPosition.SPINE:
-                SetSpineBiped(target, weight);
-                break;
             case BipedPosition.LHAND:
                 SetLeftHandBiped(target, weight);
                 break;
             case BipedPosition.RHAND:
                 SetRightHandBiped(target, weight);
                 break;
+            case BipedPosition.LSHOULD:
+                SetLeftShouldersBiped(target, weight);
+                break;
+            case BipedPosition.RSHOULD:
+                SetRightShouldersBiped(target, weight);
+                break;
             default:
                 break;
         }
     }
 
+    private void SetLeftShouldersBiped(Transform target, float weight)
+    {
+        fbBipedIK.solver.leftShoulderEffector.target = target;
+        fbBipedIK.solver.leftShoulderEffector.positionWeight = weight;
+    }
+
     private void SetLeftHandBiped(Transform target, float weight)
     {
-        bipedIK.solvers.leftHand.target = target;
-        bipedIK.solvers.leftHand.IKPositionWeight = weight;
+        fbBipedIK.solver.leftHandEffector.target = target;
+        fbBipedIK.solver.leftHandEffector.positionWeight = weight;
+    }
+
+    private void SetRightShouldersBiped(Transform target, float weight)
+    {
+        fbBipedIK.solver.rightShoulderEffector.target = target;
+        fbBipedIK.solver.rightShoulderEffector.positionWeight = weight;
     }
 
     private void SetRightHandBiped(Transform target, float weight)
     {
-        bipedIK.solvers.rightHand.target = target;
-        bipedIK.solvers.rightHand.IKPositionWeight = weight;
+        fbBipedIK.solver.rightHandEffector.target = target;
+        fbBipedIK.solver.rightHandEffector.positionWeight = weight;
     }
 
-    private void SetSpineBiped(Transform target, float weight)
-    {
-        bipedIK.solvers.spine.target = target;
-        bipedIK.solvers.spine.IKPositionWeight = weight;
-    }
+    //private void SetHeadBiped(Transform target, float weight)
+    //{
+    //    fbBipedIK.solver.headMapping.bone = target;
+    //    fbBipedIK.solver.headMapping.maintainRotationWeight = weight;
+    //}
 }
