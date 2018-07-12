@@ -66,9 +66,7 @@ namespace SealTeam4
 
 
         // NPC List
-        private List<AIController> spawnedCivilianNPCs = new List<AIController>();
-        private List<AIController> spawnedVIPNPC = new List<AIController>();
-        private List<AIController> spawnedHostileNPCs = new List<AIController>();
+        private List<AIController> spawnedNPCs = new List<AIController>();
 
         [Space(10)]
        
@@ -355,22 +353,8 @@ namespace SealTeam4
                 AIController npcGOAIController = npc.GetComponent<AIController>();
                 npcGOAIController.Setup(npcSpawnData.npcName, npcSpawnData.aiStats, npcSpawnData.npcSchedules);
 
-                // Adding NPC reference to list according to ai type
-                AIStats aiStats = npcSpawnData.aiStats;
-                switch (aiStats.npcType)
-                {
-                    case AIStats.NPCType.CIVILLIAN:
-                        spawnedCivilianNPCs.Add(npcGOAIController);
-                        break;
-
-                    case AIStats.NPCType.TERRORIST:
-                        spawnedHostileNPCs.Add(npcGOAIController);
-                        break;
-
-                    case AIStats.NPCType.VIP:
-                        spawnedVIPNPC.Add(npcGOAIController);
-                        break;
-                }
+                // Adding NPC reference to list
+                spawnedNPCs.Add(npcGOAIController);
 
                 // Spawn NPC on all clients
                 GameManagerAssistant.instance.CmdNetworkSpawnObject(npc);
@@ -379,17 +363,7 @@ namespace SealTeam4
 
         public void ActivateNPCs()
         {
-            foreach(AIController npc in spawnedCivilianNPCs)
-            {
-                if (npc.IsActivateFromSpawn())
-                    npc.AISetActive();
-            }
-            foreach (AIController npc in spawnedHostileNPCs)
-            {
-                if (npc.IsActivateFromSpawn())
-                    npc.AISetActive();
-            }
-            foreach (AIController npc in spawnedVIPNPC)
+            foreach (AIController npc in spawnedNPCs)
             {
                 if (npc.IsActivateFromSpawn())
                     npc.AISetActive();
@@ -457,11 +431,11 @@ namespace SealTeam4
             float closestDist = Mathf.Infinity;
 
             Vector3 position = requester.transform.position;
-            foreach (AIController civilianNpc in spawnedCivilianNPCs)
+            foreach (AIController npc in spawnedNPCs)
             {
-                if (civilianNpc != requester && civilianNpc.AvailableForConversation())
+                if (npc.GetNPCType() == AIStats.NPCType.CIVILLIAN && npc != requester && npc.AvailableForConversation())
                 {
-                    availableNPCs.Add(civilianNpc);
+                    availableNPCs.Add(npc);
                 }
             }
 

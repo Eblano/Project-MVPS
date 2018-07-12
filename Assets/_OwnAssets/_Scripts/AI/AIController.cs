@@ -23,10 +23,10 @@ namespace SealTeam4
         [SerializeField] private AIStats aiStats;
 
         // FSM classes
-        AIFSM_FollowSchedule aiFSM_FollowSchedule = new AIFSM_FollowSchedule();
-        AIFSM_Schedule_ParticipateConvo aiFSM_ParticipateConvo = new AIFSM_Schedule_ParticipateConvo();
-        AIFSM_Civillian_UnderAttack aiFSM_Civillian_UnderAttack = new AIFSM_Civillian_UnderAttack();
-        AIFSM_HostileHuman aiFSM_HostileHuman = new AIFSM_HostileHuman();
+        private AIFSM_FollowSchedule aiFSM_FollowSchedule = new AIFSM_FollowSchedule();
+        private AIFSM_Schedule_ParticipateConvo aiFSM_ParticipateConvo = new AIFSM_Schedule_ParticipateConvo();
+        private AIFSM_Civillian_UnderAttack aiFSM_Civillian_UnderAttack = new AIFSM_Civillian_UnderAttack();
+        private AIFSM_HostileHuman aiFSM_HostileHuman = new AIFSM_HostileHuman();
 
         // Schedules this NPC has
         private List<NPCSchedule> npcSchedules;
@@ -234,6 +234,11 @@ namespace SealTeam4
         {
             aiState.active = true;
         }
+
+        public AIStats.NPCType GetNPCType()
+        {
+            return aiStats.npcType;
+        }
         
         #region Interface methods
         public List<string> GetActions()
@@ -243,6 +248,8 @@ namespace SealTeam4
 
         public void SetAction(string action)
         {
+            Debug.Log("Setting action: " + action);
+
             switch (action)
             {
                 case "Activate NPC":
@@ -280,7 +287,7 @@ namespace SealTeam4
                         SetAction("Dismiss from Seat (Next)");
 
                     else if (actionableParameters.Exists(x => x == "End Idle (Next)"))
-                        SetAction("End Idle (Next))");
+                        SetAction("End Idle (Next)");
 
                     else if (actionableParameters.Exists(x => x == "Skip Waypoint (Next)"))
                         SetAction("Skip Waypoint (Next)");
@@ -288,8 +295,13 @@ namespace SealTeam4
                     else if (actionableParameters.Exists(x => x == "End Conversation (Next)"))
                         SetAction("End Conversation (Next)");
 
-                    aiState.hostileHuman.schBeforeEnteringHostileMode = aiState.currSchedule;
-                    aiState.prepareEnterHostile = true;
+                    if(aiState.currSchedule > npcSchedules.Count - 1)
+                        aiState.aIMode = AIState.AIMode.HOSTILE;
+                    else
+                    {
+                        aiState.hostileHuman.schBeforeEnteringHostileMode = aiState.currSchedule;
+                        aiState.prepareEnterHostile = true;
+                    }
                     break;
             }
         }
@@ -340,17 +352,20 @@ namespace SealTeam4
             //    actionableParameters.Add("Fade Away(Debug)");
             //}
 
-            if (!aiState.active && !actionableParameters.Contains("Activate NPC"))
-                actionableParameters.Add("Activate NPC");
-            
-            if (aiState.active && actionableParameters.Exists(x => x == "Activate NPC"))
-                actionableParameters.Remove("Activate NPC");
-
-            if (aiStats.npcType == AIStats.NPCType.TERRORIST && aiState.aIMode != AIState.AIMode.HOSTILE)
+            if (aiStats.npcType == AIStats.NPCType.TERRORIST && !actionableParameters.Contains("Enter Hostile Mode") && aiState.aIMode != AIState.AIMode.HOSTILE)
                 actionableParameters.Add("Enter Hostile Mode");
 
-            if (aiState.aIMode == AIState.AIMode.HOSTILE && !aiState.prepareEnterHostile && actionableParameters.Exists(x => x == "Enter Hostile Mode"))
+            if (aiState.aIMode == AIState.AIMode.HOSTILE && !aiState.prepareEnterHostile && actionableParameters.Contains("Enter Hostile Mode"))
                 actionableParameters.Remove("Enter Hostile Mode");
+
+            if (aiState.active && actionableParameters.Contains("Activate NPC"))
+                actionableParameters.Remove("Activate NPC");
+
+            if (!aiState.active && !actionableParameters.Contains("Activate NPC"))
+            {
+                actionableParameters.Clear();
+                actionableParameters.Add("Activate NPC");
+            }
         }
 
         private void SetAction_ActivateNPC()
@@ -408,9 +423,13 @@ namespace SealTeam4
 
             ObjectInfo objInfo2 = new ObjectInfo();
             objInfo2.title = "Schedules";
-            objInfo2.contentIndexToHighlight = aiState.currSchedule;
 
-            foreach(NPCSchedule schedule in npcSchedules)
+            if(aiState.aIMode == AIState.AIMode.FOLLOW_SCHEDULE)
+                objInfo2.contentIndexToHighlight = aiState.currSchedule;
+            else
+                objInfo2.contentIndexToHighlight = -1;
+
+            foreach (NPCSchedule schedule in npcSchedules)
             {
                 switch(schedule.scheduleType)
                 {
@@ -434,11 +453,10 @@ namespace SealTeam4
                         break;
                 }
             }
-
             List<ObjectInfo> objInfos = new List<ObjectInfo>
             {
                 objInfo1,
-                objInfo2
+                objInfo2,
             };
             return objInfos;
         }

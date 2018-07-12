@@ -144,13 +144,13 @@ namespace SealTeam4
 
                 if (currSelObjInfo != null)
                 {
-                    if(Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt) || Input.GetKeyDown(KeyCode.V))
+                    if(Input.GetKeyDown(KeyCode.LeftShift))
                     {
                         objectInfoPanel.SetActive(true);
                         RefreshObjectInfoPanels(currSelObjInfo.GetObjectInfos());
                     }
 
-                    if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt) || Input.GetKey(KeyCode.V))
+                    if (Input.GetKey(KeyCode.LeftShift))
                     {
                         if (objectInfoTimeToRefresh < 0)
                         {
