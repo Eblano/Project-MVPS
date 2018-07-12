@@ -35,8 +35,8 @@ public class PlayerStats : MonoBehaviour
     {
         if (hitPoints <= 0)
         {
-            // Change overlay transparency with gma
-
+            // Stop game when dead
+            Time.timeScale = 0;
         }
     }
 }

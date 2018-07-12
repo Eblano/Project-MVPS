@@ -33,8 +33,7 @@ namespace SealTeam4
         [TargetRpc]
         public void TargetUpdatePanelTransparency(NetworkConnection networkConnection, int percent)
         {
-            // percent/100 update panel transparency
-            //GameManager.instance.updatePanel
+            GameManager.instance.SetOverlayTransparency(percent);
         }
 
         [Command]
