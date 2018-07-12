@@ -427,6 +427,7 @@ namespace SealTeam4
             aiState.general.currConvoNPCTarget.StartConvoWithConvoNPCTarget();
             aiAnimController.Anim_StartStandTalking();
             aiState.general.inConversation = true;
+            aiController.AddAction("End Conversation (Next)");
             aiState.general.currSubschedule++;
         }
 
@@ -434,10 +435,15 @@ namespace SealTeam4
         {
             float conversationDuration = float.Parse(npcSchedules[aiState.general.currSchedule].argument_1);
 
-            if (aiState.general.timeInConvo > conversationDuration)
+            if (aiState.general.timeInConvo >= conversationDuration)
                 aiState.general.currSubschedule++;
             else
                 aiState.general.timeInConvo += Time.deltaTime;
+        }
+
+        public void End_TalkToOtherNPC()
+        {
+            aiState.general.timeInConvo = float.Parse(npcSchedules[aiState.general.currSchedule].argument_1);
         }
 
         public void Terminate_TalkToOtherNPC()
@@ -446,6 +452,7 @@ namespace SealTeam4
             aiState.general.timeInConvo = 0;
             aiAnimController.Anim_StopStandTalking();
             aiState.general.currConvoNPCTarget.EndConvoWithConvoNPCTarget();
+            aiController.RemoveAction("End Conversation (Next)");
             aiState.general.currSubschedule++;
         }
     }

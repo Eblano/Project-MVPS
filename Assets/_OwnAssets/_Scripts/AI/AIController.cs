@@ -103,6 +103,7 @@ namespace SealTeam4
                 aiState.general.waitingForConversationToStart = true;
                 StopMovement();
                 aiState.general.currConvoNPCTarget = requester;
+                AddAction("End Conversation (Next)");
                 return true;
             }
             else
@@ -110,6 +111,11 @@ namespace SealTeam4
                 Debug.Log(gameObject.name + " denied conversation request");
                 return false;
             }
+        }
+
+        public void End_RecivingConvo()
+        {
+            EndConvoWithConvoNPCTarget();
         }
 
         public void StartConvoWithConvoNPCTarget()
@@ -124,6 +130,7 @@ namespace SealTeam4
             aiState.general.aIMode = AIState.General.AIMode.FOLLOW_SCHEDULE;
             aiState.general.currConvoNPCTarget = null;
             aiAnimController.Anim_StopStandTalking();
+            RemoveAction("End Conversation (Next)");
             aiState.general.timeInConvo = 0;
         }
         
@@ -252,6 +259,13 @@ namespace SealTeam4
                     else if (npcSchedules[aiState.general.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT_ROT)
                         aiFSM_FollowSchedule.End_MoveToWaypointAndRotate();
                     break;
+
+                case "End Conversation (Next)":
+                    if (npcSchedules[aiState.general.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC)
+                        aiFSM_FollowSchedule.End_TalkToOtherNPC();
+                    else if (npcSchedules[aiState.general.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC)
+                        End_RecivingConvo();
+                    break;
             }
         }
 
@@ -334,19 +348,19 @@ namespace SealTeam4
             switch (aiState.general.aIMode)
             {
                 case AIState.General.AIMode.FOLLOW_SCHEDULE:
-                    objInfo1.content.Add("Follow Schedule");
+                    objInfo1.content.Add("Mode: Following Schedule");
                     break;
                 case AIState.General.AIMode.HOSTILE:
-                    objInfo1.content.Add("Hostile Schedule");
+                    objInfo1.content.Add("Mode: Hostile");
                     break;
                 case AIState.General.AIMode.CIVILIAN_UNDER_ATTACK:
-                    objInfo1.content.Add("Civillian Under Attack");
+                    objInfo1.content.Add("Mode: Civillian Under Attack");
                     break;
                 case AIState.General.AIMode.VIP_UNDER_ATTACK:
-                    objInfo1.content.Add("VIP Under Attack");
+                    objInfo1.content.Add("Mode: VIP Under Attack");
                     break;
                 case AIState.General.AIMode.PARTICIPATE_CONVO:
-                    objInfo1.content.Add("Talking to other NPC");
+                    objInfo1.content.Add("Mode: Talking to other NPC");
                     break;
                 default:
                     objInfo1.content.Add("-");
