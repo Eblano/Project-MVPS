@@ -18,14 +18,14 @@ public class BipedGrabNode : InteractableObject
 
     private void CheckGrabState()
     {
-        //if (GetOwner() != null)
-        //{
-        //    isBeingGrabbed = true;
-        //}
-        //else
-        //{
-        //    isBeingGrabbed = false;
-        //}
+        if (GetOwner() != null)
+        {
+            isBeingGrabbed = true;
+        }
+        else
+        {
+            isBeingGrabbed = false;
+        }
 
         if (grabStateChanged != isBeingGrabbed)
         {

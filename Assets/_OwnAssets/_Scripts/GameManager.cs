@@ -603,7 +603,9 @@ namespace SealTeam4
 
         public void SetOverlayTransparency(int percent)
         {
-            //panelOverlay.color.a = percent / 100.0f;
+            Color c = panelOverlay.color;
+            c.a = percent / 100.0f;
+            panelOverlay.color = c; 
         }
     }
 }
