@@ -102,7 +102,7 @@ namespace SealTeam4
                 case "Dismiss all seated NPCs":
                     foreach(AIController npc in npcsSeatedInArea)
                     {
-                        npc.SetAction("Dismiss from Seat");
+                        npc.SetAction("Dismiss from Seat (Next)");
                     }
                     break;
             }

@@ -138,7 +138,6 @@ namespace SealTeam4
 
         public bool ReachedDestination(Vector3 destination, float extraStoppingDistance)
         {
-            //return Vector3.Distance(transform.position, destination) < aiStats.stopDist + extraStoppingDistance;
             return nmAgent.remainingDistance < aiStats.stopDist + extraStoppingDistance;
         }
 
@@ -238,8 +237,12 @@ namespace SealTeam4
                     SetAction_KillNPC();
                     break;
 
-                case "Dismiss from Seat":
+                case "Dismiss from Seat (Next)":
                     aiFSM_FollowSchedule.End_SitAndWaitForTime();
+                    break;
+
+                case "End Idle (Next)":
+                    aiFSM_FollowSchedule.End_Idle();
                     break;
             }
         }
@@ -291,10 +294,16 @@ namespace SealTeam4
             if (aiState.active && actionableParameters.Exists(x => x == "Activate NPC"))
                 actionableParameters.Remove("Activate NPC");
 
-            if (aiState.active && !actionableParameters.Contains("Fade Away(Debug)"))
-            {
-                actionableParameters.Add("Fade Away(Debug)");
-            }
+            //if (aiState.active && !actionableParameters.Contains("Fade Away(Debug)"))
+            //{
+            //    actionableParameters.Add("Fade Away(Debug)");
+            //}
+
+            if (aiStats.npcType == AIStats.NPCType.TERRORIST && aiState.general.aIMode != AIState.General.AIMode.HOSTILE)
+                actionableParameters.Add("Enter Hostile Mode");
+
+            if (aiState.general.aIMode == AIState.General.AIMode.HOSTILE && actionableParameters.Exists(x => x == "Enter Hostile Mode"))
+                actionableParameters.Remove("Enter Hostile Mode");
         }
 
         private void SetAction_ActivateNPC()

@@ -289,6 +289,7 @@ namespace SealTeam4
         public void Idle_Setup()
         {
             aiState.general.currTimerValue = float.Parse(npcSchedules[aiState.general.currSchedule].argument_1);
+            aiController.AddAction("End Idle (Next)");
             aiState.general.currSubschedule++;
         }
 
@@ -304,9 +305,15 @@ namespace SealTeam4
             }
         }
 
+        public void End_Idle()
+        {
+            aiState.general.currTimerValue = 0;
+        }
+
         public void Idle_Term()
         {
             aiState.general.currTimerValue = 0;
+            aiController.RemoveAction("End Idle (Next)");
             aiState.general.currSubschedule++;
         }
 
@@ -350,7 +357,7 @@ namespace SealTeam4
                 AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument_1);
 
                 aiState.general.seated = true;
-                aiController.AddAction("Dismiss from Seat");
+                aiController.AddAction("Dismiss from Seat (Next)");
                 aiState.general.currSubschedule++;
             }
         }
@@ -374,7 +381,7 @@ namespace SealTeam4
                 areaMarker.UnregisterNPCSitInArea(aiController);
 
                 aiState.general.seatedTimePassed = 0;
-                aiController.RemoveAction("Dismiss from Seat");
+                aiController.RemoveAction("Dismiss from Seat (Next)");
                 aiState.general.currSubschedule++;
             }
         }
