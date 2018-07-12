@@ -27,17 +27,17 @@ namespace SealTeam4
         }
         private void CivilianUnderAttack_Setup()
         {
-            if (aiState.general.seated)
+            if (aiState.seated)
             {
                 bool leftSeat = aiController.LeaveSeat();
 
                 if (!leftSeat)
                     return;
             }
-            if (aiState.general.inConversation)
+            if (aiState.inConversation)
             {
                 aiAnimController.Anim_StopStandTalking();
-                aiState.general.inConversation = false;
+                aiState.inConversation = false;
             }
 
             switch (aiStats.threatResponseMode)

@@ -26,7 +26,7 @@ namespace SealTeam4
         AIFSM_FollowSchedule aiFSM_FollowSchedule = new AIFSM_FollowSchedule();
         AIFSM_Schedule_ParticipateConvo aiFSM_ParticipateConvo = new AIFSM_Schedule_ParticipateConvo();
         AIFSM_Civillian_UnderAttack aiFSM_Civillian_UnderAttack = new AIFSM_Civillian_UnderAttack();
-        //AIFSM_HostileTerrorist 
+        AIFSM_HostileHuman aiFSM_HostileHuman = new AIFSM_HostileHuman();
 
         // Schedules this NPC has
         private List<NPCSchedule> npcSchedules;
@@ -53,11 +53,18 @@ namespace SealTeam4
             aiFSM_FollowSchedule.InitializeFSM(this, transform, aiState, aiStats, aiAnimController, npcSchedules);
             aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
             aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
+            aiFSM_HostileHuman.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
         }
 
         private void Update()
         {
             UpdateActionableParameters();
+
+            if (aiState.prepareEnterHostile && aiState.hostileHuman.schBeforeEnteringHostileMode < aiState.currSchedule)
+            {
+                aiState.prepareEnterHostile = false;
+                aiState.aIMode = AIState.AIMode.HOSTILE;
+            }
 
             if (!aiState.active)
                 return;
@@ -68,26 +75,27 @@ namespace SealTeam4
                 switch (aiStats.npcType)
                 {
                     case AIStats.NPCType.VIP:
-                        aiState.general.aIMode = AIState.General.AIMode.VIP_UNDER_ATTACK;
+                        aiState.aIMode = AIState.AIMode.VIP_UNDER_ATTACK;
                         break;
                         
                     case AIStats.NPCType.CIVILLIAN:
-                        aiState.general.aIMode = AIState.General.AIMode.CIVILIAN_UNDER_ATTACK;
+                        aiState.aIMode = AIState.AIMode.CIVILIAN_UNDER_ATTACK;
                         break;
                 }
             }
 
-            switch (aiState.general.aIMode)
+            switch (aiState.aIMode)
             {
-                case AIState.General.AIMode.FOLLOW_SCHEDULE:
+                case AIState.AIMode.FOLLOW_SCHEDULE:
                     aiFSM_FollowSchedule.FSM_Update();
                     break;
-                case AIState.General.AIMode.HOSTILE:
+                case AIState.AIMode.HOSTILE:
+                    aiFSM_HostileHuman.FSM_Update();
                     break;
-                case AIState.General.AIMode.CIVILIAN_UNDER_ATTACK:
+                case AIState.AIMode.CIVILIAN_UNDER_ATTACK:
                     aiFSM_Civillian_UnderAttack.FSM_Update();
                     break;
-                case AIState.General.AIMode.PARTICIPATE_CONVO:
+                case AIState.AIMode.PARTICIPATE_CONVO:
                     aiFSM_ParticipateConvo.FSM_Update();
                     break;
                 default:
@@ -99,10 +107,10 @@ namespace SealTeam4
         {
             if(AvailableForConversation())
             {
-                aiState.general.aIMode = AIState.General.AIMode.PARTICIPATE_CONVO;
-                aiState.general.waitingForConversationToStart = true;
+                aiState.aIMode = AIState.AIMode.PARTICIPATE_CONVO;
+                aiState.waitingForConversationToStart = true;
                 StopMovement();
-                aiState.general.currConvoNPCTarget = requester;
+                aiState.currConvoNPCTarget = requester;
                 AddAction("End Conversation (Next)");
                 return true;
             }
@@ -113,30 +121,30 @@ namespace SealTeam4
             }
         }
 
-        public void End_RecivingConvo()
+        public void SetAction_End_RecivingConvo()
         {
             EndConvoWithConvoNPCTarget();
         }
 
         public void StartConvoWithConvoNPCTarget()
         {
-            aiState.general.inConversation = true;
+            aiState.inConversation = true;
             aiAnimController.Anim_StartStandTalking();
         }
         
         public void EndConvoWithConvoNPCTarget()
         {
-            aiState.general.inConversation = false;
-            aiState.general.aIMode = AIState.General.AIMode.FOLLOW_SCHEDULE;
-            aiState.general.currConvoNPCTarget = null;
+            aiState.inConversation = false;
+            aiState.aIMode = AIState.AIMode.FOLLOW_SCHEDULE;
+            aiState.currConvoNPCTarget = null;
             aiAnimController.Anim_StopStandTalking();
             RemoveAction("End Conversation (Next)");
-            aiState.general.timeInConvo = 0;
+            aiState.timeInConvo = 0;
         }
         
         public bool AvailableForConversation()
         {
-            return !aiState.general.seated && aiState.active && !aiState.general.inConversation;
+            return !aiState.seated && aiState.active && !aiState.inConversation;
         }
         
         public void SetNMAgentDestination(Vector3 position)
@@ -193,17 +201,17 @@ namespace SealTeam4
 
         public bool LeaveSeat()
         {
-            if (aiState.general.seated)
+            if (aiState.seated)
             {
                 aiAnimController.Anim_Stand();
             }
 
-            if (aiAnimEventReciever.standing_Completed || !aiState.general.seated)
+            if (aiAnimEventReciever.standing_Completed || !aiState.seated)
             {
-                if (aiState.general.currSeatTarget)
+                if (aiState.currSeatTarget)
                 {
-                    aiState.general.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(true);
-                    aiState.general.currSeatTarget = null;
+                    aiState.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(true);
+                    aiState.currSeatTarget = null;
                 }
                 return true;
             }
@@ -254,17 +262,34 @@ namespace SealTeam4
                     break;
 
                 case "Skip Waypoint (Next)":
-                    if (npcSchedules[aiState.general.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT)
-                        aiFSM_FollowSchedule.End_MoveToWaypoint();
-                    else if (npcSchedules[aiState.general.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT_ROT)
-                        aiFSM_FollowSchedule.End_MoveToWaypointAndRotate();
+                    if (npcSchedules[aiState.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT)
+                        aiFSM_FollowSchedule.SetAction_End_MoveToWaypoint();
+                    else if (npcSchedules[aiState.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT_ROT)
+                        aiFSM_FollowSchedule.SetAction_End_MoveToWaypointAndRotate();
                     break;
 
                 case "End Conversation (Next)":
-                    if (npcSchedules[aiState.general.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC)
-                        aiFSM_FollowSchedule.End_TalkToOtherNPC();
-                    else if (npcSchedules[aiState.general.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC)
-                        End_RecivingConvo();
+                    if (npcSchedules[aiState.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC)
+                        aiFSM_FollowSchedule.SetAction_End_TalkToOtherNPC();
+                    else if (npcSchedules[aiState.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC)
+                        SetAction_End_RecivingConvo();
+                    break;
+
+                case "Enter Hostile Mode":
+                    if(actionableParameters.Exists(x => x == "Dismiss from Seat (Next)"))
+                        SetAction("Dismiss from Seat (Next)");
+
+                    else if (actionableParameters.Exists(x => x == "End Idle (Next)"))
+                        SetAction("End Idle (Next))");
+
+                    else if (actionableParameters.Exists(x => x == "Skip Waypoint (Next)"))
+                        SetAction("Skip Waypoint (Next)");
+
+                    else if (actionableParameters.Exists(x => x == "End Conversation (Next)"))
+                        SetAction("End Conversation (Next)");
+
+                    aiState.hostileHuman.schBeforeEnteringHostileMode = aiState.currSchedule;
+                    aiState.prepareEnterHostile = true;
                     break;
             }
         }
@@ -310,21 +335,21 @@ namespace SealTeam4
 
         private void UpdateActionableParameters()
         {
+            //if (aiState.active && !actionableParameters.Contains("Fade Away(Debug)"))
+            //{
+            //    actionableParameters.Add("Fade Away(Debug)");
+            //}
+
             if (!aiState.active && !actionableParameters.Contains("Activate NPC"))
                 actionableParameters.Add("Activate NPC");
             
             if (aiState.active && actionableParameters.Exists(x => x == "Activate NPC"))
                 actionableParameters.Remove("Activate NPC");
 
-            //if (aiState.active && !actionableParameters.Contains("Fade Away(Debug)"))
-            //{
-            //    actionableParameters.Add("Fade Away(Debug)");
-            //}
-
-            if (aiStats.npcType == AIStats.NPCType.TERRORIST && aiState.general.aIMode != AIState.General.AIMode.HOSTILE)
+            if (aiStats.npcType == AIStats.NPCType.TERRORIST && aiState.aIMode != AIState.AIMode.HOSTILE)
                 actionableParameters.Add("Enter Hostile Mode");
 
-            if (aiState.general.aIMode == AIState.General.AIMode.HOSTILE && actionableParameters.Exists(x => x == "Enter Hostile Mode"))
+            if (aiState.aIMode == AIState.AIMode.HOSTILE && !aiState.prepareEnterHostile && actionableParameters.Exists(x => x == "Enter Hostile Mode"))
                 actionableParameters.Remove("Enter Hostile Mode");
         }
 
@@ -345,21 +370,21 @@ namespace SealTeam4
             ObjectInfo objInfo1 = new ObjectInfo();
             objInfo1.contentIndexToHighlight = -1;
             objInfo1.title = "NPC Info";
-            switch (aiState.general.aIMode)
+            switch (aiState.aIMode)
             {
-                case AIState.General.AIMode.FOLLOW_SCHEDULE:
+                case AIState.AIMode.FOLLOW_SCHEDULE:
                     objInfo1.content.Add("Mode: Following Schedule");
                     break;
-                case AIState.General.AIMode.HOSTILE:
+                case AIState.AIMode.HOSTILE:
                     objInfo1.content.Add("Mode: Hostile");
                     break;
-                case AIState.General.AIMode.CIVILIAN_UNDER_ATTACK:
+                case AIState.AIMode.CIVILIAN_UNDER_ATTACK:
                     objInfo1.content.Add("Mode: Civillian Under Attack");
                     break;
-                case AIState.General.AIMode.VIP_UNDER_ATTACK:
+                case AIState.AIMode.VIP_UNDER_ATTACK:
                     objInfo1.content.Add("Mode: VIP Under Attack");
                     break;
-                case AIState.General.AIMode.PARTICIPATE_CONVO:
+                case AIState.AIMode.PARTICIPATE_CONVO:
                     objInfo1.content.Add("Mode: Talking to other NPC");
                     break;
                 default:
@@ -383,7 +408,7 @@ namespace SealTeam4
 
             ObjectInfo objInfo2 = new ObjectInfo();
             objInfo2.title = "Schedules";
-            objInfo2.contentIndexToHighlight = aiState.general.currSchedule;
+            objInfo2.contentIndexToHighlight = aiState.currSchedule;
 
             foreach(NPCSchedule schedule in npcSchedules)
             {

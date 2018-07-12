@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace SealTeam4
 {
-    public class AIFSM_HostileTerrorist : AIFSM_Base
+    public class AIFSM_HostileHuman : AIFSM_Base
     {
+        public void FSM_Update()
+        {
 
+        }
     }
 }

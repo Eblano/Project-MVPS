@@ -29,10 +29,10 @@ namespace SealTeam4
         public void FSM_Update()
         {
             // if all schedule is finished or NPC not active
-            if (aiState.general.currSchedule >= npcSchedules.Count)
+            if (aiState.currSchedule >= npcSchedules.Count)
                 return;
 
-            switch (npcSchedules[aiState.general.currSchedule].scheduleType)
+            switch (npcSchedules[aiState.currSchedule].scheduleType)
             {
                 case NPCSchedule.SCHEDULE_TYPE.MOVE_TO_WAYPT:
                     ScheduleProcess_MoveToWaypoint();
@@ -62,7 +62,7 @@ namespace SealTeam4
         /// </summary>
         private void ScheduleProcess_Idle()
         {
-            switch (aiState.general.currSubschedule)
+            switch (aiState.currSubschedule)
             {
                 case 0:
                     Idle_Setup();
@@ -74,12 +74,12 @@ namespace SealTeam4
                     Idle_Term();
                     break;
                 case 3:
-                    aiState.general.currSubschedule = 0;
-                    aiState.general.currSchedule++;
+                    aiState.currSubschedule = 0;
+                    aiState.currSchedule++;
                     break;
                 default:
-                    aiState.general.currSubschedule = 0;
-                    aiState.general.currSchedule++;
+                    aiState.currSubschedule = 0;
+                    aiState.currSchedule++;
                     break;
             }
         }
@@ -89,7 +89,7 @@ namespace SealTeam4
         /// </summary>
         private void ScheduleProcess_MoveToWaypoint()
         {
-            switch (aiState.general.currSubschedule)
+            switch (aiState.currSubschedule)
             {
                 case 0:
                     LeaveSeatIfSeated();
@@ -98,18 +98,18 @@ namespace SealTeam4
                     Setup_MoveToWaypoint();
                     break;
                 case 2:
-                    MoveToWaypoint(aiState.general.currWaypointPosition, aiStats.normalMoveSpeed, 0);
+                    MoveToWaypoint(aiState.currWaypointPosition, aiStats.normalMoveSpeed, 0);
                     break;
                 case 3:
                     Terminate_MoveToWaypoint();
                     break;
                 case 4:
-                    aiState.general.currSubschedule = 0;
-                    aiState.general.currSchedule++;
+                    aiState.currSubschedule = 0;
+                    aiState.currSchedule++;
                     break;
                 default:
-                    aiState.general.currSubschedule = 0;
-                    aiState.general.currSchedule++;
+                    aiState.currSubschedule = 0;
+                    aiState.currSchedule++;
                     break;
             }
         }
@@ -119,7 +119,7 @@ namespace SealTeam4
         /// </summary>
         private void ScheduleProcess_MoveToWaypoint_And_Rotate()
         {
-            switch (aiState.general.currSubschedule)
+            switch (aiState.currSubschedule)
             {
                 case 0:
                     LeaveSeatIfSeated();
@@ -128,21 +128,21 @@ namespace SealTeam4
                     Setup_MoveToWaypoint();
                     break;
                 case 2:
-                    MoveToWaypoint(aiState.general.currWaypointPosition, aiStats.normalMoveSpeed, 0);
+                    MoveToWaypoint(aiState.currWaypointPosition, aiStats.normalMoveSpeed, 0);
                     break;
                 case 3:
-                    RotateToTargetRotation(aiState.general.currWaypointRotation);
+                    RotateToTargetRotation(aiState.currWaypointRotation);
                     break;
                 case 4:
                     Terminate_MoveToWaypoint();
                     break;
                 case 5:
-                    aiState.general.currSubschedule = 0;
-                    aiState.general.currSchedule++;
+                    aiState.currSubschedule = 0;
+                    aiState.currSchedule++;
                     break;
                 default:
-                    aiState.general.currSubschedule = 0;
-                    aiState.general.currSchedule++;
+                    aiState.currSubschedule = 0;
+                    aiState.currSchedule++;
                     break;
             }
         }
@@ -152,7 +152,7 @@ namespace SealTeam4
         /// </summary>
         private void ScheduleProcess_SitDownInArea()
         {
-            switch (aiState.general.currSubschedule)
+            switch (aiState.currSubschedule)
             {
                 case 0:
                     LeaveSeatIfSeated();
@@ -161,10 +161,10 @@ namespace SealTeam4
                     Setup_SitDownInArea();
                     break;
                 case 2:
-                    MoveToWaypoint(aiState.general.currSeatTarget.transform.position, aiStats.normalMoveSpeed, 0);
+                    MoveToWaypoint(aiState.currSeatTarget.transform.position, aiStats.normalMoveSpeed, 0);
                     break;
                 case 3:
-                    RotateToTargetRotation(aiState.general.currSeatTarget.transform.rotation);
+                    RotateToTargetRotation(aiState.currSeatTarget.transform.rotation);
                     break;
                 case 4:
                     SitDownOnSeat();
@@ -176,12 +176,12 @@ namespace SealTeam4
                     Terminate_SetDownInArea();
                     break;
                 case 7:
-                    aiState.general.currSubschedule = 0;
-                    aiState.general.currSchedule++;
+                    aiState.currSubschedule = 0;
+                    aiState.currSchedule++;
                     break;
                 default:
-                    aiState.general.currSubschedule = 0;
-                    aiState.general.currSchedule++;
+                    aiState.currSubschedule = 0;
+                    aiState.currSchedule++;
                     break;
             }
         }
@@ -191,7 +191,7 @@ namespace SealTeam4
         /// </summary>
         private void ScheduleProcess_TalkToOtherNPCs()
         {
-            switch (aiState.general.currSubschedule)
+            switch (aiState.currSubschedule)
             {
                 case 0:
                     LeaveSeatIfSeated();
@@ -200,7 +200,7 @@ namespace SealTeam4
                     TalkToOtherNPC_FindPartner();
                     break;
                 case 2:
-                    MoveToWaypoint(aiState.general.currConvoNPCTarget.transform.position, aiStats.normalMoveSpeed, aiStats.stopDist_Convo);
+                    MoveToWaypoint(aiState.currConvoNPCTarget.transform.position, aiStats.normalMoveSpeed, aiStats.stopDist_Convo);
                     break;
                 case 3:
                     Terminate_MoveToWaypoint();
@@ -215,12 +215,12 @@ namespace SealTeam4
                     Terminate_TalkToOtherNPC();
                     break;
                 case 7:
-                    aiState.general.currSubschedule = 0;
-                    aiState.general.currSchedule++;
+                    aiState.currSubschedule = 0;
+                    aiState.currSchedule++;
                     break;
                 default:
-                    aiState.general.currSubschedule = 0;
-                    aiState.general.currSchedule++;
+                    aiState.currSubschedule = 0;
+                    aiState.currSchedule++;
                     break;
             }
         }
@@ -228,46 +228,46 @@ namespace SealTeam4
 
         public void Setup_MoveToWaypoint()
         {
-            aiState.general.currWaypointPosition = GetWaypointMarkerPosition();
-            aiState.general.currWaypointRotation = GetWaypointMarkerRotation();
-            aiController.SetNMAgentDestination(aiState.general.currWaypointPosition);
+            aiState.currWaypointPosition = GetWaypointMarkerPosition();
+            aiState.currWaypointRotation = GetWaypointMarkerRotation();
+            aiController.SetNMAgentDestination(aiState.currWaypointPosition);
             aiController.AddAction("Skip Waypoint (Next)");
-            aiState.general.currSubschedule++;
+            aiState.currSubschedule++;
         }
 
         public bool MoveToWaypoint(Vector3 waypointPos, float moveSpeed, float extraStoppingDistance)
         {
-            if (!aiController.ReachedDestination(aiState.general.currWaypointPosition, extraStoppingDistance))
+            if (!aiController.ReachedDestination(aiState.currWaypointPosition, extraStoppingDistance))
             {
                 aiController.MoveAITowardsNMAgentDestination(moveSpeed);
                 return false;
             }
             else
             {
-                aiState.general.currSubschedule++;
+                aiState.currSubschedule++;
                 return true;
             }
         }
 
-        public void End_MoveToWaypoint()
+        public void SetAction_End_MoveToWaypoint()
         {
-            aiState.general.currSubschedule++;
+            aiState.currSubschedule++;
         }
 
-        public void End_MoveToWaypointAndRotate()
+        public void SetAction_End_MoveToWaypointAndRotate()
         {
-            aiState.general.currSubschedule += 2;
+            aiState.currSubschedule += 2;
         }
 
         public Vector3 GetWaypointMarkerPosition()
         {
-            string targetName = npcSchedules[aiState.general.currSchedule].argument_1;
+            string targetName = npcSchedules[aiState.currSchedule].argument_1;
             return GameManager.instance.GetWaypointMarkerPosition(targetName);
         }
 
         public Quaternion GetWaypointMarkerRotation()
         {
-            string targetName = npcSchedules[aiState.general.currSchedule].argument_1;
+            string targetName = npcSchedules[aiState.currSchedule].argument_1;
             return GameManager.instance.GetWaypointMarkerRotation(targetName);
         }
 
@@ -275,8 +275,8 @@ namespace SealTeam4
         {
             aiController.RemoveAction("Skip Waypoint (Next)");
             aiController.StopMovement();
-            aiState.general.currWaypointPosition = new Vector3();
-            aiState.general.currSubschedule++;
+            aiState.currWaypointPosition = new Vector3();
+            aiState.currSubschedule++;
         }
 
         public void LeaveSeatIfSeated()
@@ -284,8 +284,8 @@ namespace SealTeam4
             bool leftSeat = aiController.LeaveSeat();
 
             if(leftSeat)
-                aiState.general.seated = false;
-                aiState.general.currSubschedule++;
+                aiState.seated = false;
+                aiState.currSubschedule++;
         }
 
         public void RotateToTargetRotation(Quaternion targetRotation)
@@ -294,58 +294,58 @@ namespace SealTeam4
 
             if (rotateComplete)
             {
-                aiState.general.currSubschedule++;
+                aiState.currSubschedule++;
             }
         }
 
         public void Idle_Setup()
         {
-            aiState.general.currTimerValue = float.Parse(npcSchedules[aiState.general.currSchedule].argument_1);
+            aiState.currTimerValue = float.Parse(npcSchedules[aiState.currSchedule].argument_1);
             aiController.AddAction("End Idle (Next)");
-            aiState.general.currSubschedule++;
+            aiState.currSubschedule++;
         }
 
         public void Idle()
         {
-            if (aiState.general.currTimerValue > 0)
+            if (aiState.currTimerValue > 0)
             {
-                aiState.general.currTimerValue -= Time.deltaTime;
+                aiState.currTimerValue -= Time.deltaTime;
             }
             else
             {
-                aiState.general.currSubschedule++;
+                aiState.currSubschedule++;
             }
         }
 
         public void End_Idle()
         {
-            aiState.general.currTimerValue = 0;
+            aiState.currTimerValue = 0;
         }
 
         public void Idle_Term()
         {
-            aiState.general.currTimerValue = 0;
+            aiState.currTimerValue = 0;
             aiController.RemoveAction("End Idle (Next)");
-            aiState.general.currSubschedule++;
+            aiState.currSubschedule++;
         }
 
         public void Setup_SitDownInArea()
         {
             // Get Area
-            AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument_1);
+            AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.currSchedule].argument_1);
             // Empty seat from selected Area
-            aiState.general.currSeatTarget = areaMarker.GetRandomEmptySeat(aiController);
+            aiState.currSeatTarget = areaMarker.GetRandomEmptySeat(aiController);
 
-            if (aiState.general.currSeatTarget)
+            if (aiState.currSeatTarget)
             {
-                aiState.general.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(false);
-                aiController.SetNMAgentDestination(aiState.general.currSeatTarget.transform.position);
-                aiState.general.currSubschedule++;
+                aiState.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(false);
+                aiController.SetNMAgentDestination(aiState.currSeatTarget.transform.position);
+                aiState.currSubschedule++;
             }
             else
             {
                 Debug.Log("No Seat Found in " + areaMarker.name);
-                aiState.general.currSubschedule = -1;
+                aiState.currSubschedule = -1;
             }
         }
 
@@ -356,7 +356,7 @@ namespace SealTeam4
             if (notSitting)
             {
                 aiController.StopMovement();
-                aiState.general.currSubschedule++;
+                aiState.currSubschedule++;
             }
         }
 
@@ -366,35 +366,35 @@ namespace SealTeam4
 
             if(seated)
             {
-                AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument_1);
+                AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.currSchedule].argument_1);
 
-                aiState.general.seated = true;
+                aiState.seated = true;
                 aiController.AddAction("Dismiss from Seat (Next)");
-                aiState.general.currSubschedule++;
+                aiState.currSubschedule++;
             }
         }
 
         public void End_SitAndWaitForTime()
         {
-            aiState.general.seatedTimePassed = float.Parse(npcSchedules[aiState.general.currSchedule].argument_2);
+            aiState.seatedTimePassed = float.Parse(npcSchedules[aiState.currSchedule].argument_2);
         }
 
         public void SitAndWaitForTime()
         {
-            float totalTimeAllocated = float.Parse(npcSchedules[aiState.general.currSchedule].argument_2);
+            float totalTimeAllocated = float.Parse(npcSchedules[aiState.currSchedule].argument_2);
 
-            if (aiState.general.seatedTimePassed < totalTimeAllocated)
+            if (aiState.seatedTimePassed < totalTimeAllocated)
             {
-                aiState.general.seatedTimePassed += Time.deltaTime;
+                aiState.seatedTimePassed += Time.deltaTime;
             }
             else
             {
-                AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.general.currSchedule].argument_1);
+                AreaMarker areaMarker = GameManager.instance.GetAreaMarkerByName(npcSchedules[aiState.currSchedule].argument_1);
                 areaMarker.UnregisterNPCSitInArea(aiController);
 
-                aiState.general.seatedTimePassed = 0;
+                aiState.seatedTimePassed = 0;
                 aiController.RemoveAction("Dismiss from Seat (Next)");
-                aiState.general.currSubschedule++;
+                aiState.currSubschedule++;
             }
         }
 
@@ -410,50 +410,50 @@ namespace SealTeam4
 
                 if (reqResults == true)
                 {
-                    aiState.general.currConvoNPCTarget = otherNPC;
-                    aiController.SetNMAgentDestination(aiState.general.currConvoNPCTarget.transform.position);
-                    aiState.general.currSubschedule++;
+                    aiState.currConvoNPCTarget = otherNPC;
+                    aiController.SetNMAgentDestination(aiState.currConvoNPCTarget.transform.position);
+                    aiState.currSubschedule++;
                 }
                 else
                 {
                     Debug.Log("Failed to find available NPC");
-                    aiState.general.currSubschedule = -1;
+                    aiState.currSubschedule = -1;
                 }
             }
         }
 
         public void Setup_TalkToOtherNPC()
         {
-            aiState.general.currConvoNPCTarget.StartConvoWithConvoNPCTarget();
+            aiState.currConvoNPCTarget.StartConvoWithConvoNPCTarget();
             aiAnimController.Anim_StartStandTalking();
-            aiState.general.inConversation = true;
+            aiState.inConversation = true;
             aiController.AddAction("End Conversation (Next)");
-            aiState.general.currSubschedule++;
+            aiState.currSubschedule++;
         }
 
         public void TalkToOtherNPC()
         {
-            float conversationDuration = float.Parse(npcSchedules[aiState.general.currSchedule].argument_1);
+            float conversationDuration = float.Parse(npcSchedules[aiState.currSchedule].argument_1);
 
-            if (aiState.general.timeInConvo >= conversationDuration)
-                aiState.general.currSubschedule++;
+            if (aiState.timeInConvo >= conversationDuration)
+                aiState.currSubschedule++;
             else
-                aiState.general.timeInConvo += Time.deltaTime;
+                aiState.timeInConvo += Time.deltaTime;
         }
 
-        public void End_TalkToOtherNPC()
+        public void SetAction_End_TalkToOtherNPC()
         {
-            aiState.general.timeInConvo = float.Parse(npcSchedules[aiState.general.currSchedule].argument_1);
+            aiState.timeInConvo = float.Parse(npcSchedules[aiState.currSchedule].argument_1);
         }
 
         public void Terminate_TalkToOtherNPC()
         {
-            aiState.general.inConversation = false;
-            aiState.general.timeInConvo = 0;
+            aiState.inConversation = false;
+            aiState.timeInConvo = 0;
             aiAnimController.Anim_StopStandTalking();
-            aiState.general.currConvoNPCTarget.EndConvoWithConvoNPCTarget();
+            aiState.currConvoNPCTarget.EndConvoWithConvoNPCTarget();
             aiController.RemoveAction("End Conversation (Next)");
-            aiState.general.currSubschedule++;
+            aiState.currSubschedule++;
         }
     }
 }
