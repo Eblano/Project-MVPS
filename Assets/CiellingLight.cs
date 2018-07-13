@@ -26,9 +26,7 @@ namespace SealTeam4
         private void CreateLightOBJ()
         {
             GameObject lightGo = new GameObject();
-            lightGo.transform.SetParent(gameObject.transform);
-            lightGo.transform.localPosition = Vector3.zero;
-            lightGo.transform.localRotation = Quaternion.Euler(90, 0, 0);
+            lightGo.name = "CeillingLight";
             lightGo.AddComponent<PersistentIgnore>();
             light = lightGo.AddComponent<Light>();
             light.type = LightType.Spot;
@@ -57,6 +55,8 @@ namespace SealTeam4
                 light.intensity = intensity;
                 light.spotAngle = angle;
                 light.color = lightColor;
+                light.transform.position = transform.position;
+                light.transform.rotation = transform.rotation * Quaternion.Euler(90, 0, 0);
             }
         }
 
