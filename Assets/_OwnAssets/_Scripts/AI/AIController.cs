@@ -224,6 +224,12 @@ namespace SealTeam4
             aiAnimController.Anim_Sit();
             return aiAnimEventReciever.sitting_Completed;
         }
+
+        public bool DrawGun()
+        {
+            aiAnimController.Aim_DrawGun();
+            return aiAnimEventReciever.gunDraw_Completed;
+        }
                  
         public void FadeAway()
         {
@@ -303,6 +309,10 @@ namespace SealTeam4
                         aiState.prepareEnterHostile = true;
                     }
                     break;
+
+                case "Shoot VIP":
+                    aiFSM_HostileHuman.SetAction_SwitchToShootVIP();
+                    break;
             }
         }
 
@@ -365,6 +375,24 @@ namespace SealTeam4
             {
                 actionableParameters.Clear();
                 actionableParameters.Add("Activate NPC");
+            }
+
+            if(aiState.hostileHuman.currState == AIState.HostileHuman.State.IDLE ||
+               aiState.hostileHuman.currState == AIState.HostileHuman.State.MOVE_TO_WAYPOINT)
+            {
+                if (!actionableParameters.Contains("Shoot VIP"))
+                    actionableParameters.Add("Shoot VIP");
+
+                if (!actionableParameters.Contains("Shoot Player"))
+                    actionableParameters.Add("Shoot Player");
+            }
+            else
+            {
+                if (actionableParameters.Contains("Shoot VIP"))
+                    actionableParameters.Remove("Shoot VIP");
+
+                if (actionableParameters.Contains("Shoot Player"))
+                    actionableParameters.Remove("Shoot Player");
             }
         }
 

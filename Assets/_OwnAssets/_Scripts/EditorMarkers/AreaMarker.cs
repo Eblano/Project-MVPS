@@ -132,6 +132,7 @@ namespace SealTeam4
         {
             ObjectInfo objInfo1 = new ObjectInfo();
             objInfo1.title = "NPCs Seated";
+            objInfo1.contentIndexToHighlight = -1;
             
             foreach(AIController npc in npcsSeatedInArea)
             {

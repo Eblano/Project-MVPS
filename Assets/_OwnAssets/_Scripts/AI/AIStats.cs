@@ -26,6 +26,5 @@ namespace SealTeam4
 
         public float minGunRange = 2.0f;
         public float maxGunRange = 5.0f;
-        //public float accuracy
     }
 }

@@ -113,6 +113,16 @@ namespace SealTeam4
             m_Animator.SetBool("Brace", true);
         }
 
+        public void Aim_DrawGun()
+        {
+            m_Animator.SetBool("GunsOut", true);
+        }
+
+        public void Aim_KeepGun()
+        {
+            m_Animator.SetBool("GunsOut", false);
+        }
+
         /// <summary>
         /// Help the character turn faster 
         /// (this is in addition to root rotation in the animation)

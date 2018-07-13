@@ -10,12 +10,14 @@ namespace SealTeam4
     /// </summary>
     public class AIAnimEventReciever : MonoBehaviour
     {
-        [SerializeField] private float resetEventBoolFreq;
+        private float resetEventBoolFreq = 0.1f;
         private float currResetCD;
 
         [Header("Event Booleans")]
         [HideInInspector] public bool sitting_Completed;
         [HideInInspector] public bool standing_Completed;
+        [HideInInspector] public bool gunDraw_Completed;
+        [HideInInspector] public bool gunKeep_Completed;
 
         private void Start()
         {
@@ -40,6 +42,8 @@ namespace SealTeam4
         {
             sitting_Completed = false;
             standing_Completed = false;
+            gunDraw_Completed = false;
+            gunKeep_Completed = false;
         }
 
         public void AnimEvent_Sitting_Completed()
@@ -50,6 +54,16 @@ namespace SealTeam4
         public void AnimEvent_StandingFromSeat()
         {
             standing_Completed = true;
+        }
+
+        public void AnimEvent_GunDrawn()
+        {
+            gunDraw_Completed = true;
+        }
+
+        public void AnimEvent_GunKept()
+        {
+            gunKeep_Completed = true;
         }
         #endregion
     }

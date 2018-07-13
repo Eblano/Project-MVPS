@@ -454,6 +454,11 @@ namespace SealTeam4
             return availableClosestNPC;
         }
 
+        public Transform GetFirstVIPTransform()
+        {
+            return spawnedNPCs.Where(x => x.GetNPCType() == AIStats.NPCType.VIP).First().transform;
+        }
+
         public Vector3 GetNearestExitMarkerVector(GameObject npcGO)
         {
             ExitMarker closetExitMarker = null;

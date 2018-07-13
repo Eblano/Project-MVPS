@@ -235,18 +235,12 @@ namespace SealTeam4
             aiState.currSubschedule++;
         }
 
-        public bool MoveToWaypoint(Vector3 waypointPos, float moveSpeed, float extraStoppingDistance)
+        public void MoveToWaypoint(Vector3 waypointPos, float moveSpeed, float extraStoppingDistance)
         {
             if (!aiController.ReachedDestination(aiState.currWaypointPosition, extraStoppingDistance))
-            {
                 aiController.MoveAITowardsNMAgentDestination(moveSpeed);
-                return false;
-            }
             else
-            {
                 aiState.currSubschedule++;
-                return true;
-            }
         }
 
         public void SetAction_End_MoveToWaypoint()
