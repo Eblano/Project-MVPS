@@ -13,15 +13,18 @@ namespace SealTeam4
         private List<string> actionableList = new List<string>();
 
         [SerializeField] private bool lightsOn = true;
-        [SerializeField] private float range = 10f;
+        [SerializeField] private float range = 20f;
         [SerializeField] private float intensity = 1f;
-        [Range(10, 130)] [SerializeField] private float angle = 50f;
+        [Range(10, 150)] [SerializeField] private float angle = 100f;
         [SerializeField] private Color lightColor = Color.white;
         
         private void Start()
         {
             collider = GetComponent<BoxCollider>();
+        }
 
+        private void CreateLightOBJ()
+        {
             GameObject lightGo = new GameObject();
             lightGo.transform.SetParent(gameObject.transform);
             lightGo.transform.localPosition = Vector3.zero;
@@ -29,6 +32,7 @@ namespace SealTeam4
             lightGo.AddComponent<PersistentIgnore>();
             light = lightGo.AddComponent<Light>();
             light.type = LightType.Spot;
+            light.cullingMask = ~(1 << LayerMask.NameToLayer("AreaMarker"));
         }
 
         private void Update()
@@ -47,10 +51,13 @@ namespace SealTeam4
             else
                 light.enabled = false;
 
-            light.range = range;
-            light.intensity = intensity;
-            light.spotAngle = angle;
-            light.color = lightColor;
+            if(light)
+            {
+                light.range = range;
+                light.intensity = intensity;
+                light.spotAngle = angle;
+                light.color = lightColor;
+            }
         }
 
         private void UpdateActionables()
@@ -67,6 +74,16 @@ namespace SealTeam4
                 if (actionableList.Contains("On"))
                     actionableList.Remove("On");
             }
+        }
+
+        private void OnDisable()
+        {
+            Destroy(light.gameObject);
+        }
+
+        private void OnEnable()
+        {
+            CreateLightOBJ();
         }
 
         public List<string> GetActions()
