@@ -41,12 +41,15 @@ namespace SealTeam4
             switch(aiState.hostileHuman.currSubprocess)
             {
                 case 0:
-                    DrawGun();
+                    SpawnGun();
                     break;
                 case 1:
-                    MoveTowardsShootTarget();
+                    DrawGun();
                     break;
                 case 2:
+                    MoveTowardsShootTarget();
+                    break;
+                case 3:
                     break;
             }
         }
@@ -61,10 +64,16 @@ namespace SealTeam4
 
         }
 
+        private void SpawnGun()
+        {
+            Debug.LogWarning("SpawnGun not implemented");
+            aiState.hostileHuman.currSubprocess++;
+        }
+
         private void MoveTowardsShootTarget()
         {
-            if (!aiController.ReachedDestination(aiState.hostileHuman.shootTarget.position, (aiStats.maxGunRange + aiStats.minGunRange)/2) //&&
-                // In LOS
+            if (!aiController.ReachedDestination(aiState.hostileHuman.shootTarget.position, (aiStats.maxGunRange + aiStats.minGunRange) / 2) &&
+                !aiController.InLOS(aiController.headPos.position, aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name)
                 )
                 aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
             else

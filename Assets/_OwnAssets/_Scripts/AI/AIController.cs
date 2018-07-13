@@ -13,6 +13,8 @@ namespace SealTeam4
     {
         private string npcName;
 
+        public Transform headPos;
+
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
         private AIAnimEventReciever aiAnimEventReciever;
@@ -225,6 +227,25 @@ namespace SealTeam4
             return aiAnimEventReciever.sitting_Completed;
         }
 
+        public bool InLOS(Vector3 source, Vector3 target, string targetGameObjectName)
+        {
+            RaycastHit hitInfo;
+            Ray ray = new Ray(source, target);
+
+            int layerMask = ~(
+                1 << LayerMask.NameToLayer("FloatingUI") |
+                1 << LayerMask.NameToLayer("UI") |
+                1 << LayerMask.NameToLayer("AreaMarker") |
+                1 << LayerMask.NameToLayer("Marker"));
+
+            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, layerMask))
+            {
+                if (hitInfo.transform.name == targetGameObjectName)
+                    return true;
+            }
+            return false;
+        }
+
         public bool DrawGun()
         {
             aiAnimController.Aim_DrawGun();
@@ -377,8 +398,9 @@ namespace SealTeam4
                 actionableParameters.Add("Activate NPC");
             }
 
-            if(aiState.hostileHuman.currState == AIState.HostileHuman.State.IDLE ||
-               aiState.hostileHuman.currState == AIState.HostileHuman.State.MOVE_TO_WAYPOINT)
+            if(aiState.aIMode == AIState.AIMode.HOSTILE &&
+                (aiState.hostileHuman.currState == AIState.HostileHuman.State.IDLE ||
+                 aiState.hostileHuman.currState == AIState.HostileHuman.State.MOVE_TO_WAYPOINT))
             {
                 if (!actionableParameters.Contains("Shoot VIP"))
                     actionableParameters.Add("Shoot VIP");

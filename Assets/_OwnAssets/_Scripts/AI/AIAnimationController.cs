@@ -11,7 +11,6 @@ namespace SealTeam4
         // Config parameters
 		[SerializeField] private float m_MovingTurnSpeed = 360;
 		[SerializeField] private float m_StationaryTurnSpeed = 180;
-		[SerializeField] private float m_MoveSpeed = 1f;
 		[SerializeField] private float m_GroundCheckDistance = 0.2f;
 
         private Rigidbody m_Rigidbody;
@@ -115,12 +114,7 @@ namespace SealTeam4
 
         public void Aim_DrawGun()
         {
-            m_Animator.SetBool("GunsOut", true);
-        }
-
-        public void Aim_KeepGun()
-        {
-            m_Animator.SetBool("GunsOut", false);
+            m_Animator.SetTrigger("DrawGun");
         }
 
         /// <summary>

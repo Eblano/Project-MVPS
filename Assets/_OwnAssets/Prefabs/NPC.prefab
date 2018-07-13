@@ -1055,38 +1055,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7c6f744d051c6841a810e2dfec1c9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  headPos: {fileID: 4304147626054922}
   aiState:
     active: 0
-    general:
-      aIMode: 0
-      currSchedule: 0
-      currSubschedule: 0
-      currTimerValue: 0
-      currWaypointPosition: {x: 0, y: 0, z: 0}
-      currWaypointRotation: {x: 0, y: 0, z: 0, w: 0}
-      currSeatTarget: {fileID: 0}
-      seated: 0
-      waitingForConversationToStart: 1
-      inConversation: 0
-      timeInConvo: 0
-      currConvoNPCTarget: {fileID: 0}
+    aIMode: 0
+    currSchedule: 0
+    currSubschedule: 0
+    currTimerValue: 0
+    currWaypointPosition: {x: 0, y: 0, z: 0}
+    currWaypointRotation: {x: 0, y: 0, z: 0, w: 0}
+    currSeatTarget: {fileID: 0}
+    seated: 0
+    seatedTimePassed: 0
+    waitingForConversationToStart: 1
+    inConversation: 0
+    timeInConvo: 0
+    currConvoNPCTarget: {fileID: 0}
+    prepareEnterHostile: 0
     civilian:
       underAttack:
         mode: 0
         bracing: 0
         timeLeftBeforeFindingNewRandPosition: 0
         currMoveVector: {x: 0, y: 0, z: 0}
+    hostileHuman:
+      currSubprocess: 0
+      schBeforeEnteringHostileMode: 0
+      currState: 0
+      shootTarget: {fileID: 0}
   aiStats:
-    activateOnStart: 1
+    activateOnSpawn: 1
     npcType: 2
     threatResponseMode: 0
-    chanceEnterHostileMode: 0
     minAngleToFaceTarget: 5
     stopDist: 0.2
     stopDist_Convo: 1
     turningSpeed: 2
     normalMoveSpeed: 1
     runningSpeed: 2
+    minGunRange: 2
+    maxGunRange: 5
   actionableParameters: []
   highestPoint: {fileID: 4652597901801500}
   col: {fileID: 136557490539008946}
@@ -1103,7 +1111,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MovingTurnSpeed: 360
   m_StationaryTurnSpeed: 180
-  m_MoveSpeed: 2
   m_GroundCheckDistance: 0.2
 --- !u!114 &114420444214848926
 MonoBehaviour:
@@ -1146,6 +1153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fee2839c2efa7f40850a05a41c9fd00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  markerColor: {r: 0, g: 0, b: 0, a: 0}
+  billboardTransform: {fileID: 0}
 --- !u!114 &114826955351541836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1174,9 +1183,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be00efce038e374caa29b6d9f28c08b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resetEventBoolFreq: 1
   sitting_Completed: 0
   standing_Completed: 0
+  gunDraw_Completed: 0
 --- !u!136 &136557490539008946
 CapsuleCollider:
   m_ObjectHideFlags: 1
