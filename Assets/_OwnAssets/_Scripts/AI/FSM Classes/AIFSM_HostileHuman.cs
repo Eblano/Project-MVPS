@@ -50,6 +50,10 @@ namespace SealTeam4
                     MoveTowardsShootTarget();
                     break;
                 case 3:
+                    TrackTarget();
+                    break;
+                case 4:
+                    ShootTarget();
                     break;
             }
         }
@@ -75,12 +79,34 @@ namespace SealTeam4
             if (!aiController.ReachedDestination(aiState.hostileHuman.shootTarget.position, (aiStats.maxGunRange + aiStats.minGunRange) / 2) &&
                 !aiController.InLOS(aiController.headPos.position, aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name)
                 )
+            {
+                aiController.SetNMAgentDestination(aiState.hostileHuman.shootTarget.position);
                 aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
+            }
             else
             {
                 aiController.StopMovement();
                 aiState.hostileHuman.currSubprocess++;
             }
+        }
+
+        private void TrackTarget()
+        {
+            bool facingTarget = aiController.RotateTowardsTargetDirection(aiState.hostileHuman.shootTarget.position);
+            if (facingTarget)
+                aiState.hostileHuman.currSubprocess++;
+        }
+
+        private void ShootTarget()
+        {
+            if(!aiController.InLOS(aiController.headPos.position, aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name))
+            {
+                aiState.hostileHuman.currSubprocess = 2;
+                return;
+            }
+
+            // Shoot
+            Debug.Log("Shooting " + aiState.hostileHuman.shootTarget.name);
         }
 
         private void DrawGun()

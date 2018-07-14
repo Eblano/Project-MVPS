@@ -241,7 +241,10 @@ namespace SealTeam4
             if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, layerMask))
             {
                 if (hitInfo.transform.name == targetGameObjectName)
+                {
+                    Debug.Log("Source is in LOS with " + targetGameObjectName);
                     return true;
+                }
             }
             return false;
         }
