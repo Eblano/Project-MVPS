@@ -78,7 +78,8 @@ namespace SealTeam4
 
         private void OnDisable()
         {
-            Destroy(light.gameObject);
+            if(light)
+                Destroy(light.gameObject);
         }
 
         private void OnEnable()

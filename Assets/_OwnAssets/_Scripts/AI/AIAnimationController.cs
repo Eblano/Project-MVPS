@@ -15,6 +15,7 @@ namespace SealTeam4
 
         private Rigidbody m_Rigidbody;
         private Animator m_Animator;
+
         private float m_OrigGroundCheckDistance;
         private const float k_Half = 0.5f;
         private float m_TurnAmount;
@@ -27,7 +28,6 @@ namespace SealTeam4
 			m_Animator = GetComponent<Animator>();
 			m_Rigidbody = GetComponent<Rigidbody>();
             nmAgent = GetComponent<NavMeshAgent>();
-
 
             m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
@@ -112,9 +112,14 @@ namespace SealTeam4
             m_Animator.SetBool("Brace", true);
         }
 
-        public void Aim_DrawGun()
+        public void Anim_DrawGun()
         {
-            m_Animator.SetTrigger("DrawGun");
+            m_Animator.SetBool("DrawGun", true);
+        }
+
+        public void Anim_DrawGunEnd()
+        {
+            m_Animator.SetBool("DrawGun", false);
         }
 
         /// <summary>

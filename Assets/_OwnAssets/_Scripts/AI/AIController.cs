@@ -248,7 +248,10 @@ namespace SealTeam4
 
         public bool DrawGun()
         {
-            aiAnimController.Aim_DrawGun();
+            aiAnimController.Anim_DrawGun();
+            if (aiAnimEventReciever.gunDraw_Completed)
+                aiAnimController.Anim_DrawGunEnd();
+
             return aiAnimEventReciever.gunDraw_Completed;
         }
                  

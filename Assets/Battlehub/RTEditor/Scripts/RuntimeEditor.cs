@@ -49,7 +49,7 @@ namespace Battlehub.RTEditor
         }
         public KeyCode DuplicateKey = KeyCode.D;
         public KeyCode DeleteKey = KeyCode.Delete;
-        public KeyCode EnterPlayModeKey = KeyCode.P;
+        //public KeyCode EnterPlayModeKey = KeyCode.P;
 
         public GameObject GamePrefab;
         private GameObject m_game;
@@ -199,10 +199,10 @@ namespace Battlehub.RTEditor
                 SwitchSceneCamera();
             }
 
-            if (InputController.GetKeyDown(EnterPlayModeKey) && InputController.GetKey(ModifierKey))
-            {
-                RuntimeEditorApplication.IsPlaying = !RuntimeEditorApplication.IsPlaying;
-            }
+            //if (InputController.GetKeyDown(EnterPlayModeKey) && InputController.GetKey(ModifierKey))
+            //{
+            //    RuntimeEditorApplication.IsPlaying = !RuntimeEditorApplication.IsPlaying;
+            //}
             if (InputController.GetKeyDown(DuplicateKey) && InputController.GetKey(ModifierKey))
             {
                 Duplicate();
@@ -318,32 +318,33 @@ namespace Battlehub.RTEditor
 
         private void OnPlaymodeStateChanging()
         {
-            if (RuntimeEditorApplication.IsPlaying)
-            {
-                if (IsOn)
-                {
-                    if (GamePrefab != null)
-                    {
-                        m_game = Instantiate(GamePrefab);
-                    }
-                    else
-                    {
-                        Debug.Log("GamePrefab is not set");
-                    }
-                    Play.Invoke();
-                }   
-            }
-            else
-            {
-                if(IsOn)
-                {
-                    if (m_game != null)
-                    {
-                        DestroyImmediate(m_game);
-                    }
-                    Stop.Invoke();
-                }
-            }
+            Stop.Invoke();
+            //if (RuntimeEditorApplication.IsPlaying)
+            //{
+            //    if (IsOn)
+            //    {
+            //        if (GamePrefab != null)
+            //        {
+            //            m_game = Instantiate(GamePrefab);
+            //        }
+            //        else
+            //        {
+            //            Debug.Log("GamePrefab is not set");
+            //        }
+            //        Play.Invoke();
+            //    }   
+            //}
+            //else
+            //{
+            //    if(IsOn)
+            //    {
+            //        if (m_game != null)
+            //        {
+            //            DestroyImmediate(m_game);
+            //        }
+            //        Stop.Invoke();
+            //    }
+            //}
         }
 
         private void OnGameCameraDestroyed()

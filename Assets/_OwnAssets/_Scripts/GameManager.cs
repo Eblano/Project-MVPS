@@ -201,7 +201,7 @@ namespace SealTeam4
 
         public bool MarkerNameExists(string markerName)
         {
-            return registeredMarkers.FindAll(x => x.gameObject.name == markerName).Count > 1;
+            return registeredMarkers.FindAll(x => x.gameObject.name == markerName).Count > 0;
         }
 
         public string GetUniqueMarkerName(MARKER_TYPE markerType)
