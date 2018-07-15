@@ -13,8 +13,8 @@ namespace SealTeam4
             switch(actionStage)
             {
                 case 0:
-                    bool facingTarget = aiController.RotateTowardsTargetDirection(aiState.currConvoNPCTarget.transform.position);
-                    if (facingTarget)
+                    aiController.RotateTowardsTargetDirection(aiState.currConvoNPCTarget.transform.position);
+                    if (aiController.LookingAtTarget(aiState.currConvoNPCTarget.transform.position, aiStats.lookAngleMarginOfError))
                     {
                         aiController.StopRotation();
                         actionStage++;

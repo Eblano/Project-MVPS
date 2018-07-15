@@ -16,14 +16,16 @@ namespace SealTeam4
         public CivillianStressResponseMode threatResponseMode = CivillianStressResponseMode.FREEZE;
 
         [Header("Hidden Parameters")]
-        public float minAngleToFaceTarget = 5.0f; // Min angle of error when rotating to face target
+        public float lookAngleMarginOfError = 5.0f; // Min angle of error when rotating to face target
         public float stopDist = 0.2f; // Stop distance to any target
         public float stopDist_Convo = 1.0f; // Stop distance for conversation
 
-        public float turningSpeed = 2.0f;
+        public float turningSpeed = 10.0f;
         public float normalMoveSpeed = 1.0f;
         public float runningSpeed = 2.0f;
-        
+
+        public float shootTargetDir_AngleMarginOfError = 20.0f;
+        public float losMarginSize = 0.3f;
         public float maxGunRange = 5.0f;
     }
 }

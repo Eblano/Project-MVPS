@@ -170,10 +170,10 @@ namespace SealTeam4
             aiAnimController.Anim_Turn(targetRotation);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * aiStats.turningSpeed);
 
-            return Quaternion.Angle(transform.rotation, targetRotation) < aiStats.minAngleToFaceTarget;
+            return Quaternion.Angle(transform.rotation, targetRotation) < aiStats.lookAngleMarginOfError;
         }
 
-        public bool RotateTowardsTargetDirection(Vector3 targetPosition)
+        public void RotateTowardsTargetDirection(Vector3 targetPosition)
         {
             StopMovement();
 
@@ -182,7 +182,14 @@ namespace SealTeam4
             aiAnimController.Anim_Turn(lookRotation);
 
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * aiStats.turningSpeed);
-            return Quaternion.Angle(transform.rotation, lookRotation) < aiStats.minAngleToFaceTarget;
+        }
+
+        public bool LookingAtTarget(Vector3 targetPosition, float angleOfError)
+        {
+            Vector3 direction = targetPosition - transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+            return Quaternion.Angle(transform.rotation, lookRotation) < angleOfError;
         }
 
         public void StopMovement()
@@ -227,11 +234,43 @@ namespace SealTeam4
             return aiAnimEventReciever.sitting_Completed;
         }
 
-        public bool InLOS(Vector3 target, string targetGameObjectName)
+        //public bool InLOS(Vector3 target, string targetGameObjectName)
+        //{
+        //    RaycastHit hitInfo;
+        //    Ray ray = new Ray(headT.position, target - headT.position);
+        //    //Debug.DrawRay(headT.position, target - headT.position);
+
+        //    int layerMask = ~(
+        //        1 << LayerMask.NameToLayer("FloatingUI") |
+        //        1 << LayerMask.NameToLayer("UI") |
+        //        1 << LayerMask.NameToLayer("AreaMarker") |
+        //        1 << LayerMask.NameToLayer("Marker"));
+
+        //    if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, layerMask))
+        //    {
+        //        if (hitInfo.transform.name == targetGameObjectName)
+        //        {
+        //            Debug.Log("Head is in LOS with " + targetGameObjectName);
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
+
+        public bool InLOS3PT(Vector3 target, string targetGameObjectName)
         {
             RaycastHit hitInfo;
-            Ray ray = new Ray(headT.position, target - headT.position);
-            //Debug.DrawRay(headT.position, target - headT.position);
+
+            Vector3 headLeftPos = headT.position - transform.right * aiStats.losMarginSize;
+            Vector3 headRightPos = headT.position + transform.right * aiStats.losMarginSize;
+
+            Ray rayCenter = new Ray(headT.position, target - headT.position);
+            Ray rayLeft = new Ray(headLeftPos, target - headLeftPos);
+            Ray rayRight = new Ray(headRightPos, target - headRightPos);
+
+            Debug.DrawRay(headT.position, target - headT.position);
+            Debug.DrawRay(headLeftPos, target - headLeftPos);
+            Debug.DrawRay(headRightPos, target - headRightPos);
 
             int layerMask = ~(
                 1 << LayerMask.NameToLayer("FloatingUI") |
@@ -239,15 +278,32 @@ namespace SealTeam4
                 1 << LayerMask.NameToLayer("AreaMarker") |
                 1 << LayerMask.NameToLayer("Marker"));
 
-            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, layerMask))
+            if (Physics.Raycast(rayCenter, out hitInfo, Mathf.Infinity, layerMask))
             {
-                if (hitInfo.transform.name == targetGameObjectName)
+                if (hitInfo.transform.name != targetGameObjectName)
                 {
-                    Debug.Log("Head is in LOS with " + targetGameObjectName);
-                    return true;
+                    return false;
                 }
             }
-            return false;
+
+            if (Physics.Raycast(rayLeft, out hitInfo, Mathf.Infinity, layerMask))
+            {
+                if (hitInfo.transform.name != targetGameObjectName)
+                {
+                    return false;
+                }
+            }
+
+            if (Physics.Raycast(rayRight, out hitInfo, Mathf.Infinity, layerMask))
+            {
+                if (hitInfo.transform.name != targetGameObjectName)
+                {
+                    return false;
+                }
+            }
+
+            Debug.Log("Head is in LOS with " + targetGameObjectName);
+            return true;
         }
 
         public bool DrawGun()
