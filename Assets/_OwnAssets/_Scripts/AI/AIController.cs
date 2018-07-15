@@ -445,7 +445,7 @@ namespace SealTeam4
             //    actionableParameters.Add("Fade Away(Debug)");
             //}
 
-            if (aiStats.npcType == AIStats.NPCType.TERRORIST && !actionableParameters.Contains("Enter Hostile Mode") && aiState.aIMode != AIState.AIMode.HOSTILE)
+            if (aiState.active && aiStats.npcType == AIStats.NPCType.TERRORIST && !actionableParameters.Contains("Enter Hostile Mode") && aiState.aIMode != AIState.AIMode.HOSTILE)
                 actionableParameters.Add("Enter Hostile Mode");
 
             if (aiState.aIMode == AIState.AIMode.HOSTILE && !aiState.prepareEnterHostile && actionableParameters.Contains("Enter Hostile Mode"))
@@ -460,7 +460,7 @@ namespace SealTeam4
                 actionableParameters.Add("Activate NPC");
             }
 
-            if(aiState.aIMode == AIState.AIMode.HOSTILE &&
+            if(aiState.active && aiState.aIMode == AIState.AIMode.HOSTILE &&
                 (aiState.hostileHuman.currState == AIState.HostileHuman.State.IDLE ||
                  aiState.hostileHuman.currState == AIState.HostileHuman.State.MOVE_TO_WAYPOINT))
             {
@@ -469,6 +469,12 @@ namespace SealTeam4
 
                 if (!actionableParameters.Contains("Shoot Player"))
                     actionableParameters.Add("Shoot Player");
+
+                foreach(string dynWPMarkerName in aiStats.allDynamicWaypoints)
+                {
+                    if(!actionableParameters.Contains("Move To " + dynWPMarkerName))
+                        actionableParameters.Add("Move To " + dynWPMarkerName);
+                }
             }
             else
             {
@@ -477,6 +483,12 @@ namespace SealTeam4
 
                 if (actionableParameters.Contains("Shoot Player"))
                     actionableParameters.Remove("Shoot Player");
+
+                foreach (string dynWPMarkerName in aiStats.allDynamicWaypoints)
+                {
+                    if (!actionableParameters.Contains("Move To " + dynWPMarkerName))
+                        actionableParameters.Remove("Move To " + dynWPMarkerName);
+                }
             }
         }
 

@@ -322,6 +322,21 @@ namespace SealTeam4
 
             if (Input.GetKeyDown(KeyCode.Alpha5) && actionBtnList.Count > 4)
                 actionBtnList[4].onClick.Invoke();
+
+            if (Input.GetKeyDown(KeyCode.Alpha6) && actionBtnList.Count > 5)
+                actionBtnList[5].onClick.Invoke();
+
+            if (Input.GetKeyDown(KeyCode.Alpha7) && actionBtnList.Count > 6)
+                actionBtnList[6].onClick.Invoke();
+
+            if (Input.GetKeyDown(KeyCode.Alpha8) && actionBtnList.Count > 7)
+                actionBtnList[7].onClick.Invoke();
+
+            if (Input.GetKeyDown(KeyCode.Alpha9) && actionBtnList.Count > 8)
+                actionBtnList[8].onClick.Invoke();
+
+            if (Input.GetKeyDown(KeyCode.Alpha0) && actionBtnList.Count > 9)
+                actionBtnList[9].onClick.Invoke();
         }
 
         // Toggles the position Buttons on and off
