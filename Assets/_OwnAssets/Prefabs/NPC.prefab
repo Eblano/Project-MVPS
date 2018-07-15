@@ -818,7 +818,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1601331633119506}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.071495, y: 2.3234935, z: 0.8917904}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4652597901801500}
@@ -1055,7 +1055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7c6f744d051c6841a810e2dfec1c9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headPos: {fileID: 4304147626054922}
+  headT: {fileID: 4304147626054922}
   aiState:
     active: 0
     aIMode: 0
@@ -1087,13 +1087,12 @@ MonoBehaviour:
     activateOnSpawn: 1
     npcType: 2
     threatResponseMode: 0
-    minAngleToFaceTarget: 5
+    minAngleToFaceTarget: 10
     stopDist: 0.2
     stopDist_Convo: 1
-    turningSpeed: 2
+    turningSpeed: 6
     normalMoveSpeed: 1
     runningSpeed: 2
-    minGunRange: 2
     maxGunRange: 5
   actionableParameters: []
   highestPoint: {fileID: 4652597901801500}

@@ -13,7 +13,7 @@ namespace SealTeam4
     {
         private string npcName;
 
-        public Transform headPos;
+        public Transform headT;
 
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
@@ -227,10 +227,11 @@ namespace SealTeam4
             return aiAnimEventReciever.sitting_Completed;
         }
 
-        public bool InLOS(Vector3 source, Vector3 target, string targetGameObjectName)
+        public bool InLOS(Vector3 target, string targetGameObjectName)
         {
             RaycastHit hitInfo;
-            Ray ray = new Ray(source, target);
+            Ray ray = new Ray(headT.position, target - headT.position);
+            //Debug.DrawRay(headT.position, target - headT.position);
 
             int layerMask = ~(
                 1 << LayerMask.NameToLayer("FloatingUI") |
@@ -242,7 +243,7 @@ namespace SealTeam4
             {
                 if (hitInfo.transform.name == targetGameObjectName)
                 {
-                    Debug.Log("Source is in LOS with " + targetGameObjectName);
+                    Debug.Log("Head is in LOS with " + targetGameObjectName);
                     return true;
                 }
             }

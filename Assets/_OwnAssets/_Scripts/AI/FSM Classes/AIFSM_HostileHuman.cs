@@ -76,8 +76,8 @@ namespace SealTeam4
 
         private void MoveTowardsShootTarget()
         {
-            if (!aiController.ReachedDestination(aiState.hostileHuman.shootTarget.position, (aiStats.maxGunRange + aiStats.minGunRange) / 2) &&
-                !aiController.InLOS(aiController.headPos.position, aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name)
+            if (!aiController.ReachedDestination(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange / 2) &&
+                !aiController.InLOS(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name)
                 )
             {
                 aiController.SetNMAgentDestination(aiState.hostileHuman.shootTarget.position);
@@ -99,7 +99,15 @@ namespace SealTeam4
 
         private void ShootTarget()
         {
-            if(!aiController.InLOS(aiController.headPos.position, aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name))
+            bool facingTarget = aiController.RotateTowardsTargetDirection(aiState.hostileHuman.shootTarget.position);
+            if (!facingTarget)
+            {
+                aiState.hostileHuman.currSubprocess = 3;
+                return;
+            }
+            aiController.StopMovement();
+
+            if (!aiController.InLOS(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name))
             {
                 aiState.hostileHuman.currSubprocess = 2;
                 return;

@@ -23,8 +23,7 @@ namespace SealTeam4
         public float turningSpeed = 2.0f;
         public float normalMoveSpeed = 1.0f;
         public float runningSpeed = 2.0f;
-
-        public float minGunRange = 2.0f;
+        
         public float maxGunRange = 5.0f;
     }
 }

@@ -198,10 +198,23 @@ namespace SealTeam4
                 currRefreshRate -= Time.deltaTime;
             }
         }
-
-        public bool MarkerNameExists(string markerName)
+        public bool MarkerNameIsNotUsedByOtherMarkers(BaseMarker marker)
         {
-            return registeredMarkers.FindAll(x => x.gameObject.name == markerName).Count > 0;
+            string markerName = marker.name;
+            List<BaseMarker> markersWithSameName = registeredMarkers.FindAll(x => x.gameObject.name == markerName);
+
+            foreach(BaseMarker markerWithSameName in markersWithSameName)
+            {
+                if (markerWithSameName != marker)
+                    return false;
+            }
+
+            return true;
+        }
+
+        public bool MarkerNameIsUnique(string name)
+        {
+            return registeredMarkers.FindAll(x => x.gameObject.name == name).Count > 0;
         }
 
         public string GetUniqueMarkerName(MARKER_TYPE markerType)
@@ -237,7 +250,7 @@ namespace SealTeam4
                     break;
             }
 
-            while (MarkerNameExists(baseMarkerName + nameModifier))
+            while (MarkerNameIsUnique(baseMarkerName + nameModifier))
             {
                 nameModifier++;
             }
@@ -254,7 +267,7 @@ namespace SealTeam4
         {
             registeredMarkers.Add(marker);
 
-            if(MarkerNameExists(marker.name))
+            if(!MarkerNameIsNotUsedByOtherMarkers(marker))
             {
                 if (marker is NPCSpawnMarker)
                     return GetUniqueMarkerName(MARKER_TYPE.NPCSPAWN);

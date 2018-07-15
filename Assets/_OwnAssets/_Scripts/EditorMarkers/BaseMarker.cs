@@ -28,7 +28,7 @@ namespace SealTeam4
 
         private void CheckMarkerNameChange()
         {
-            if (oldName != gameObject.name && GameManager.instance.MarkerNameExists(gameObject.name))
+            if (oldName != gameObject.name && !GameManager.instance.MarkerNameIsNotUsedByOtherMarkers(this))
             {
                 gameObject.name = oldName;
                 m_ExposedToEditor.SetName(gameObject.name);
