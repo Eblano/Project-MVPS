@@ -32,6 +32,13 @@ namespace SealTeam4
             aiState.hostileHuman.shootTarget = GameManager.instance.GetFirstVIPTransform();
         }
 
+        public void SetAction_MoveToWaypoint(string waypointName)
+        {
+            aiState.hostileHuman.waypointPos = GameManager.instance.GetWaypointMarkerPosition(waypointName);
+            aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.SPAWN_GUN;
+            SetState_MoveToWaypoint();
+        }
+
         private void Process_Idle()
         {
             aiController.StopMovement();
@@ -61,14 +68,39 @@ namespace SealTeam4
             }
         }
 
+        private void Process_MoveToWaypoint()
+        {
+            aiController.SetNMAgentDestination(aiState.hostileHuman.waypointPos);
+            aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
+
+            if (!aiController.ReachedDestination(aiState.hostileHuman.waypointPos, aiStats.stopDist))
+            {
+                aiController.SetNMAgentDestination(aiState.hostileHuman.waypointPos);
+                aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
+            }
+            else
+            {
+                aiController.StopMovement();
+            }
+        }
+
         private void Process_KnifeTarget()
         {
 
         }
 
-        private void Process_MoveToWaypoint()
+        private void SetState_MoveToWaypoint()
         {
+            aiController.SetNMAgentDestination(aiState.hostileHuman.waypointPos);
+            aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
+            aiState.hostileHuman.currState = AIState.HostileHuman.State.MOVE_TO_WAYPOINT;
+        }
 
+        private void SetState_MoveToShootTarget(Vector3 target)
+        {
+            aiState.hostileHuman.currState = AIState.HostileHuman.State.SHOOT_TARGET;
+            aiController.SetNMAgentDestination(target);
+            aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
         }
         
         private void SpawnGun()
@@ -84,8 +116,7 @@ namespace SealTeam4
             if (finished)
             {
                 aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.MOVE_TO_SHOOT_TARGET;
-                aiController.SetNMAgentDestination(aiState.hostileHuman.shootTarget.position);
-                aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
+                SetState_MoveToShootTarget(aiState.hostileHuman.shootTarget.position);
             }
         }
         
@@ -112,8 +143,7 @@ namespace SealTeam4
             if (!aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name))
             {
                 aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.MOVE_TO_SHOOT_TARGET;
-                aiController.SetNMAgentDestination(aiState.hostileHuman.shootTarget.position);
-                aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
+                SetState_MoveToShootTarget(aiState.hostileHuman.shootTarget.position);
                 return;
             }
 
@@ -132,8 +162,7 @@ namespace SealTeam4
             if (!aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name))
             {
                 aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.MOVE_TO_SHOOT_TARGET;
-                aiController.SetNMAgentDestination(aiState.hostileHuman.shootTarget.position);
-                aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
+                SetState_MoveToShootTarget(aiState.hostileHuman.shootTarget.position);
                 return;
             }
 

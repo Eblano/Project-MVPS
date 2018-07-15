@@ -337,7 +337,10 @@ namespace SealTeam4
 
         public void SetAction(string action)
         {
-            Debug.Log("Setting action: " + action);
+            if(action.Contains("Move To "))
+            {
+                aiFSM_HostileHuman.SetAction_MoveToWaypoint(action.Substring(8));
+            }
 
             switch (action)
             {

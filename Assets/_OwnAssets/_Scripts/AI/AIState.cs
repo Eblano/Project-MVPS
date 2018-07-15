@@ -77,12 +77,14 @@ namespace SealTeam4
         [System.Serializable]
         public class HostileHuman
         {
-            public int schBeforeEnteringHostileMode;
             public enum State { IDLE, SHOOT_TARGET, KNIFE_TARGET, MOVE_TO_WAYPOINT };
             public enum ShootTargetState { INACTIVE, SPAWN_GUN, DRAW_GUN, MOVE_TO_SHOOT_TARGET, TRACK_TARGET, SHOOT_TARGET }
+
             public State currState = State.IDLE;
             public ShootTargetState currShootTargetState = ShootTargetState.INACTIVE;
 
+            public int schBeforeEnteringHostileMode;
+            public Vector3 waypointPos;
             public Transform shootTarget;
         }
         public HostileHuman hostileHuman = new HostileHuman();
