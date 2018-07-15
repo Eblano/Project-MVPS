@@ -13,7 +13,12 @@ namespace SealTeam4
         [Header("User Set-Able parameters")]
         public bool activateOnSpawn = true;
         public NPCType npcType = NPCType.CIVILLIAN;
+
+        // For Civillian
         public CivillianStressResponseMode threatResponseMode = CivillianStressResponseMode.FREEZE;
+
+        // For Terrorist
+        public List<string> allDynamicWaypoints;
 
         [Header("Hidden Parameters")]
         public float lookAngleMarginOfError = 5.0f; // Min angle of error when rotating to face target

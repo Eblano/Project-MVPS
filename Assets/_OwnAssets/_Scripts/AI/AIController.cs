@@ -330,7 +330,6 @@ namespace SealTeam4
             return aiStats.npcType;
         }
         
-        #region Interface methods
         public List<string> GetActions()
         {
             return actionableParameters;
@@ -573,6 +572,5 @@ namespace SealTeam4
             };
             return objInfos;
         }
-        #endregion
     }
 }

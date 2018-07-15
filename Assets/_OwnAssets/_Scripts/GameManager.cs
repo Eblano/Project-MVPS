@@ -310,12 +310,7 @@ namespace SealTeam4
             return true;
         }
         #endregion
-
-
-        // ************
-        // General Methods
-        // ************
-        #region General Methods
+        
         public void RestartScene()
         {
             PlayerPrefs.SetString("SceneToLoad", "_MainScene");
@@ -326,7 +321,14 @@ namespace SealTeam4
         {
             SceneManager.LoadScene(sceneName);
         }
-        #endregion
+
+        public List<string> GetAllDynamicWapointNames(string prefix)
+        {
+            return registeredMarkers
+                .FindAll(x => x is WaypointMarker)
+                .Where(y => y.name.Contains(prefix))
+                .Select(z => z.name).ToList();
+        }
 
         public void SetLocalPlayerName(string name)
         {

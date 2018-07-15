@@ -248,7 +248,7 @@ namespace SealTeam4
                 
                 // Setting Civillian Stress Respond Mode
                 AIStats.CivillianStressResponseMode civillianThreatResponseMode;
-                switch (npcSpawnData_RTEStorage.threatResponse)
+                switch (npcSpawnData_RTEStorage.civillianThreatResponse)
                 {
                     case "Freeze":
                         civillianThreatResponseMode = AIStats.CivillianStressResponseMode.FREEZE;
@@ -264,6 +264,8 @@ namespace SealTeam4
                         break;
                 }
                 npcSpawnData.aiStats.threatResponseMode = civillianThreatResponseMode;
+                npcSpawnData.aiStats.allDynamicWaypoints = 
+                    GameManager.instance.GetAllDynamicWapointNames(npcSpawnData_RTEStorage.dynamicWaypointPrefix);
 
                 npcSpawnData.npcName = npcSpawnData_RTEStorage.npcName;
                 npcSpawnData.spawnMarkerName = npcSpawnData_RTEStorage.spawnMarkerName;
@@ -279,19 +281,21 @@ namespace SealTeam4
 [System.Serializable]
 public class NPCSpawnData_SStorage
 {
-    public string npcName;
-
-    // NPCSpawnData Properties
+    // Default Values
     private readonly string[] allNPCOutfits = { "None", "Type 0", "Type 1" };
-    public string npcOutfit = "TYPE 0";
-    public string spawnMarkerName;
-
-    // AI Stats Properties
-    public bool activateOnStart;
     private readonly string[] allAITypes = { "Terrorist", "VIP", "Civillian" };
-    public string aiType = "Civillian";
     private readonly string[] allCivillianThreatResponses = { "Freeze", "Run to Exit", "Random" };
-    public string threatResponse = "Freeze";
+
+    [Header("General Properties")]
+    public bool activateOnStart;
+    public string npcName;
+    public string spawnMarkerName;
+    public string npcOutfit = "TYPE 0";
+    public string aiType = "Civillian";
+    public string civillianThreatResponse = "Freeze";
+
+    [Header("Terrorist Properties")]
+    public string dynamicWaypointPrefix = "";
 
     public string[] GetAllCivillianStressResponses()
     {

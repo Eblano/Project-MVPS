@@ -11,17 +11,23 @@ namespace SealTeam4
 	{
         // a - All NPC Types
         // c - Civillian
+        // t - Terrorist
 
-        // All Inputs
+        [Header("General")]
 		[SerializeField] private TMP_Dropdown a_SpawnMarkerDropdown;
         [SerializeField] private TMP_Dropdown a_NPCOutfitDropdown;
         [SerializeField] private TMP_Dropdown a_AITypeDropdown;
         [SerializeField] private GameObject a_SchedulesPanel;
         [SerializeField] private TextMeshProUGUI a_PropertiesSectionText;
         [SerializeField] private Toggle a_ActivateAtSpawnToggle;
-        // Civillian Specific
+
+        [Header("Civillain Specific")]
         [SerializeField] private GameObject c_PropertiesPanel;
         [SerializeField] private TMP_Dropdown c_threatRespondBehaviourDropdown;
+
+        [Header("Terrorist Specific")]
+        [SerializeField] private GameObject t_PropertiesPanel;
+        [SerializeField] private TMP_InputField t_DWPPrefixInputField;
 
         // Color when there is error
         [SerializeField] private Color errorColor = Color.red;
@@ -69,7 +75,9 @@ namespace SealTeam4
             Setup_ActivateOnSpawnToggle();
             Setup_ScheduleSlots(waypointMarkers, areaMarkers);
 
+            // Setup Sub Properties Panel
             Setup_C_PropertiesPanel();
+            Setup_T_PropertiesPanel();
             
             spawnMarkerDropdownBGImg = a_SpawnMarkerDropdown.GetComponent<Image>();
             origColor = spawnMarkerDropdownBGImg.color;
@@ -119,6 +127,23 @@ namespace SealTeam4
                 c_PropertiesPanel.SetActive(false);
         }
 
+        private void Setup_T_PropertiesPanel()
+        {
+            Setup_T_DWPPrefixInputField();
+            
+            if (a_AITypeDropdown.options[a_AITypeDropdown.value].text == "Terrorist")
+                t_PropertiesPanel.SetActive(true);
+            else
+                t_PropertiesPanel.SetActive(false);
+        }
+
+        private void Setup_T_DWPPrefixInputField()
+        {
+            t_DWPPrefixInputField.onValueChanged.AddListener(delegate { OnValueChanged_T_DWPPrefixInputField(); });
+
+            t_DWPPrefixInputField.text = ref_npcSpawnData.dynamicWaypointPrefix;
+        }
+
         private void Setup_C_ThreatRespondBehaviourDropdown()
         {
             c_threatRespondBehaviourDropdown.onValueChanged.AddListener(delegate { OnValueChanged_C_ThreatRespondBehaviourDropdown(); });
@@ -141,7 +166,7 @@ namespace SealTeam4
             if (options.Count > 0)
                 c_threatRespondBehaviourDropdown.AddOptions(options);
 
-            string selectedThreatResponseBehaviour = ref_npcSpawnData.threatResponse;
+            string selectedThreatResponseBehaviour = ref_npcSpawnData.civillianThreatResponse;
 
             // Setting dropdown value
             int dropdownValue = c_threatRespondBehaviourDropdown.options.FindIndex((i) => { return i.text.Equals(selectedThreatResponseBehaviour); });
@@ -266,7 +291,7 @@ namespace SealTeam4
             a_AITypeDropdown.value = dropdownValue;
         }
 
-        public void OnValueChanged_NPCOutfitDropdown()
+        private void OnValueChanged_NPCOutfitDropdown()
         {
             int dropdownValue = a_NPCOutfitDropdown.value;
 
@@ -277,12 +302,12 @@ namespace SealTeam4
             }
         }
 
-        public void OnValueChanged_ActivateOnSpawnToggle()
+        private void OnValueChanged_ActivateOnSpawnToggle()
         {
             ref_npcSpawnData.activateOnStart = a_ActivateAtSpawnToggle.isOn;
         }
 
-        public void OnValueChanged_AITypeDropdown()
+        private void OnValueChanged_AITypeDropdown()
         {
             int dropdownValue = a_AITypeDropdown.value;
 
@@ -295,20 +320,36 @@ namespace SealTeam4
             {
                 case "Civillian":
                     c_PropertiesPanel.SetActive(true);
+                    t_PropertiesPanel.SetActive(false);
+                    break;
+
+                case "Terrorist":
+                    t_PropertiesPanel.SetActive(true);
+                    c_PropertiesPanel.SetActive(false);
+                    break;
+
+                case "VIP":
+                    t_PropertiesPanel.SetActive(false);
+                    c_PropertiesPanel.SetActive(false);
                     break;
             }
         }
 
-        public void OnValueChanged_SpawnMarkerDropdown()
+        private void OnValueChanged_SpawnMarkerDropdown()
         {
             int dropdownValue = a_SpawnMarkerDropdown.value;
             ref_npcSpawnData.spawnMarkerName = a_SpawnMarkerDropdown.options[dropdownValue].text;
         }
 
-        public void OnValueChanged_C_ThreatRespondBehaviourDropdown()
+        private void OnValueChanged_C_ThreatRespondBehaviourDropdown()
         {
             int dropdownValue = c_threatRespondBehaviourDropdown.value;
-            ref_npcSpawnData.threatResponse = c_threatRespondBehaviourDropdown.options[dropdownValue].text;
+            ref_npcSpawnData.civillianThreatResponse = c_threatRespondBehaviourDropdown.options[dropdownValue].text;
+        }
+
+        private void OnValueChanged_T_DWPPrefixInputField()
+        {
+            ref_npcSpawnData.dynamicWaypointPrefix = t_DWPPrefixInputField.text;
         }
 
         public string GetNPCName()
