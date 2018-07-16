@@ -10,6 +10,7 @@ public class PlayerSizeCalibration : MonoBehaviour
     [SerializeField] private Transform ulArmBone, llArmBone, urArmBone, lrArmBone;
     [SerializeField] private Transform lhandRef, headRef;
     [SerializeField] private float fitRadius = 0.02f;
+    [SerializeField] private VRIK vrIK;
     private VRIK.References vrIKRefs;
     private PlayerInteractionSync interactionSync;
     private float heightScale, armScale;
@@ -30,7 +31,7 @@ public class PlayerSizeCalibration : MonoBehaviour
             instance = this;
         }
 
-        vrIKRefs = GetComponent<VRIK>().references;
+        vrIKRefs = vrIK.references;
         ulArmBone = vrIKRefs.leftUpperArm;
         llArmBone = vrIKRefs.leftForearm;
         urArmBone = vrIKRefs.rightUpperArm;
