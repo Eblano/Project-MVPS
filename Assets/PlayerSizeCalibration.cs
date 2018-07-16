@@ -67,8 +67,13 @@ public class PlayerSizeCalibration : MonoBehaviour
         int counter = 0;
 
         // While the head scale does not fit
-        while (WithinDistance(headPos, headReal, fitRadius) || counter < breakCounter)
+        while (!WithinDistance(headPos, headReal, fitRadius))
         {
+            if(counter >= breakCounter)
+            {
+                break;
+            }
+
             float currSqrMag = (headPos - headReal).sqrMagnitude;
 
             // If the current magnitude is greater than the previous magnitude
@@ -89,8 +94,13 @@ public class PlayerSizeCalibration : MonoBehaviour
         counter = 0;
 
         // While the lhand scale does not fit
-        while (WithinDistance(handPos, lHandReal, fitRadius) || counter < breakCounter)
+        while (!WithinDistance(handPos, lHandReal, fitRadius))
         {
+            if (counter >= breakCounter)
+            {
+                break;
+            }
+
             float currSqrMag = (handPos - lHandReal).sqrMagnitude;
 
             // If the current magnitude is greater than the previous magnitude
