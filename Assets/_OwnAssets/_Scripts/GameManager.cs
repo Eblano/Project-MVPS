@@ -21,6 +21,8 @@ namespace SealTeam4
 
         // Instance of the Game Manager
         public static GameManager instance;
+        // If client name set on host
+        private bool clientNameSet = false;
 
         // GameManager Modes
         private enum GameManagerMode { LEVELSETUP, HOST, CLIENT }
@@ -115,6 +117,12 @@ namespace SealTeam4
         
         private void Client_Update()
         {
+            if(!clientNameSet && gameObject.name != "Player(Clone)" && GameManagerAssistant.instance)
+            {
+                RegisterClientOnServer(gameObject.name);
+                clientNameSet = true;
+            }
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("DebugNOOOO");

@@ -21,7 +21,6 @@ public class PlayerInteractionSync : NetworkBehaviour
     public override void OnStartServer()
     {
         gameManager = GameManager.instance;
-        GameManager.instance.RegisterClientOnServer(gameObject.name);
     }
 
     public Vector3 GetHeadPos()
