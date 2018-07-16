@@ -49,6 +49,12 @@ namespace SealTeam4
             TargetSyncHaps(NetworkServer.objects[networkInstanceId].connectionToClient, hapticType, devices);
         }
 
+        [Command]
+        public void CmdRegisterClient(string clientName)
+        {
+            InterfaceManager.instance.AddNewPlayer(clientName);
+        }
+
         [TargetRpc]
         public void TargetSyncHaps(NetworkConnection networkConnection, ControllerHapticsManager.HapticType hapticType, VRTK.VRTK_DeviceFinder.Devices devices)
         {

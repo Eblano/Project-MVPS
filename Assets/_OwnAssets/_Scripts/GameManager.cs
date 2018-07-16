@@ -198,6 +198,7 @@ namespace SealTeam4
                 currRefreshRate -= Time.deltaTime;
             }
         }
+
         public bool MarkerNameIsNotUsedByOtherMarkers(BaseMarker marker)
         {
             string markerName = marker.name;
@@ -210,6 +211,11 @@ namespace SealTeam4
             }
 
             return true;
+        }
+
+        public void RegisterClientOnServer(string clientName)
+        {
+            GameManagerAssistant.instance.CmdRegisterClient(clientName);
         }
 
         public bool MarkerNameIsUnique(string name)
