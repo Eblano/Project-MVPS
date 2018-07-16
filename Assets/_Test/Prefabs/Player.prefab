@@ -685,7 +685,7 @@ GameObject:
   - component: {fileID: 114606637673433114}
   - component: {fileID: 114938867403203222}
   - component: {fileID: 114497943614828676}
-  - component: {fileID: 114491654869544206}
+  - component: {fileID: 114291161829025212}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -4105,6 +4105,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageTaken: 20
   playerStats: {fileID: 114497943614828676}
+--- !u!114 &114291161829025212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1310987374780024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b2d409125a1b364f8734658236b4e9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scalePercIncrement: 0.05
+  ulArmBone: {fileID: 0}
+  llArmBone: {fileID: 0}
+  urArmBone: {fileID: 0}
+  lrArmBone: {fileID: 0}
+  lhandRef: {fileID: 4169325888710658}
+  headRef: {fileID: 4921126517001008}
+  fitRadius: 0.02
+  breakCounter: 20
 --- !u!114 &114313274701506548
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4144,30 +4164,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageTaken: 30
   playerStats: {fileID: 114497943614828676}
---- !u!114 &114491654869544206
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1310987374780024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1ce11681bd79ad4bb1eefd9a01ae311, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lHandTrans: {fileID: 0}
-  rHandTrans: {fileID: 0}
-  lThighTrans: {fileID: 4579509512959350}
-  rThighTrans: {fileID: 4981604997934410}
-  lThighSideTrans: {fileID: 4845312577069922}
-  rThighSideTrans: {fileID: 4207843804493516}
-  stomach: {fileID: 4393669098896888}
-  pistolPref: {fileID: 1219035538367190, guid: c06bc95979df63144915b6f42ad935c6, type: 2}
-  pistolFannyPref: {fileID: 1219035538367190, guid: c06bc95979df63144915b6f42ad935c6,
-    type: 2}
-  riflePref: {fileID: 1219035538367190, guid: c06bc95979df63144915b6f42ad935c6, type: 2}
-  magazinePref: {fileID: 1157371594619370, guid: fdd647bbcd1b86c439d09ef7a407ad5c,
-    type: 2}
 --- !u!114 &114497943614828676
 MonoBehaviour:
   m_ObjectHideFlags: 1

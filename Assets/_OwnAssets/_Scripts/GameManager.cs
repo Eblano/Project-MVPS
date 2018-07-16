@@ -115,7 +115,10 @@ namespace SealTeam4
         
         private void Client_Update()
         {
-
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                PlayerSizeCalibration.instance.CalibrateArmAndHeight();
+            }
         }
 
         private void LevelSetup_Update()

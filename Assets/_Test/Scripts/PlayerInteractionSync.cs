@@ -23,6 +23,16 @@ public class PlayerInteractionSync : NetworkBehaviour
         gameManager = GameManager.instance;
     }
 
+    public Vector3 GetHeadPos()
+    {
+        return headPos;
+    }
+
+    public Vector3 GetLHandPos()
+    {
+        return lHandPos;
+    }
+
     #region ServerMethods
     /// <summary>
     /// Updates the player's postition and rotation.
