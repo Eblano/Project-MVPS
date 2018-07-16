@@ -101,6 +101,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     public void UpButtonPressed()
     {
         //CmdLoadChamber();
+        CmdSafety(!gun.IsSafety());
     }
 
     /// <summary>
@@ -174,6 +175,18 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     public void CmdLoadChamber()
     {
         RpcLoadChamber();
+    }
+
+    [Command]
+    public void CmdSafety(bool state)
+    {
+        RpcSafety(state);
+    }
+
+    [ClientRpc]
+    private void RpcSafety(bool state)
+    {
+        gun.SetSafeState(state);
     }
 
     [ClientRpc]
@@ -282,7 +295,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         [SerializeField] private float spread;
         private Magazine currMag;
         private bool bulletInChamber;
-        private bool isSafe = false;
+        private bool isSafe = true;
 
         public void SetChamberState(bool state)
         {

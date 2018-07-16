@@ -115,7 +115,11 @@ namespace SealTeam4
         
         private void Client_Update()
         {
-
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Debug.Log("DebugNOOOO");
+                PlayerSizeCalibration.instance.CalibrateArmAndHeight();
+            }
         }
 
         private void LevelSetup_Update()
@@ -198,6 +202,7 @@ namespace SealTeam4
                 currRefreshRate -= Time.deltaTime;
             }
         }
+
         public bool MarkerNameIsNotUsedByOtherMarkers(BaseMarker marker)
         {
             string markerName = marker.name;
@@ -210,6 +215,11 @@ namespace SealTeam4
             }
 
             return true;
+        }
+
+        public void RegisterClientOnServer(string clientName)
+        {
+            GameManagerAssistant.instance.CmdRegisterClient(clientName);
         }
 
         public bool MarkerNameIsUnique(string name)

@@ -8,6 +8,7 @@ namespace SealTeam4
     public class GameManagerAssistant : NetworkBehaviour
     {
         public static GameManagerAssistant instance;
+        public List<IActions> allActions;
 
         private void Update()
         {
@@ -48,10 +49,24 @@ namespace SealTeam4
             TargetSyncHaps(NetworkServer.objects[networkInstanceId].connectionToClient, hapticType, devices);
         }
 
+        [Command]
+        public void CmdRegisterClient(string clientName)
+        {
+            InterfaceManager.instance.AddNewPlayer(clientName);
+        }
+
         [TargetRpc]
         public void TargetSyncHaps(NetworkConnection networkConnection, ControllerHapticsManager.HapticType hapticType, VRTK.VRTK_DeviceFinder.Devices devices)
         {
             ControllerHapticsManager.instance.PlayHaptic(hapticType, devices);
+        }
+
+        // Experimental Feature
+        [ClientRpc]
+        public void RpcSyncActions(int actionNum,string actionCommand)
+        {
+            // maybe just use game find all IActions and add to a list then send over the list number
+            allActions[actionNum].SetAction(actionCommand);
         }
     }
 }

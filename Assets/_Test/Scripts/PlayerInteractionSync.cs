@@ -21,6 +21,17 @@ public class PlayerInteractionSync : NetworkBehaviour
     public override void OnStartServer()
     {
         gameManager = GameManager.instance;
+        GameManager.instance.RegisterClientOnServer(gameObject.name);
+    }
+
+    public Vector3 GetHeadPos()
+    {
+        return headPos;
+    }
+
+    public Vector3 GetLHandPos()
+    {
+        return lHandPos;
     }
 
     #region ServerMethods

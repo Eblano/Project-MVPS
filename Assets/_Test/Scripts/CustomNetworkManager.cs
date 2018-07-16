@@ -82,7 +82,6 @@ namespace SealTeam4
                 GameManager.instance.GM_SwitchToClientMode();
                 prefNum = 1;
             }
-
             IntegerMessage msg = new IntegerMessage(prefNum);
             ClientScene.AddPlayer(conn, 0, msg);
         }

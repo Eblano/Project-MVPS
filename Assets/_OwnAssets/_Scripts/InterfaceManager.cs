@@ -24,23 +24,12 @@ namespace SealTeam4
         [SerializeField] private GameObject camPrefab;
         [SerializeField] private Camera cam;
 
-        // Calibration Button variables
-        //private bool calibrationModeOn;
-        //private Image calibrationBtnColor;
-
         [Header("Selected Game Object Panel variables")]
         [SerializeField] private GameObject currSelectedGO;
         [SerializeField] private TextMeshProUGUI selectedGOTxt;
         private RaycastHit hit;
         private Ray ray;
         private Renderer rend;
-
-        [Header("Player container list spawning variables")]
-        [SerializeField] private GameObject prefab;
-        [SerializeField] private GameObject playerList_GO;
-        [SerializeField] private RectTransform rt;
-        private int count;
-        private List<GameObject> playerContainerList = new List<GameObject>();
 
         [Header("Action List spawning variables")]
         [SerializeField] private Transform actionBtnContainer;
@@ -78,6 +67,11 @@ namespace SealTeam4
         private readonly float objectInfoRefRate = 1f;
         private float objectInfoTimeToRefresh = 0;
 
+        [Header("Player Info Properties")]
+        [SerializeField] private GameObject playersPanel;
+        [SerializeField] private GameObject playerContainer_Prefab;
+        private List<PlayerContainer> currActivePlayerContainers;
+
         [Space(10)]
 
         [SerializeField] private TextMeshProUGUI gameTime;
@@ -98,11 +92,6 @@ namespace SealTeam4
             }
             
             cam = Instantiate(camPrefab).GetComponentInChildren<Camera>();
-
-            // Calibration Button Setup
-            //calibrationModeOn = false;
-            //calibrationBtnColor = GameObject.Find("PlayerPosCalibrationBtn").GetComponent<Image>();
-            //calibrationBtnColor.color = Color.grey;
 
             // Selection Setup
             borderUI = Instantiate(borderUiPrefab, this.GetComponent<Canvas>().transform);
@@ -339,29 +328,6 @@ namespace SealTeam4
                 actionBtnList[9].onClick.Invoke();
         }
 
-        // Toggles the position Buttons on and off
-        //public void ToggleCalibration()
-        //{
-        //    if (!calibrationModeOn)
-        //    {
-        //        calibrationModeOn = true;
-        //        calibrationBtnColor.color = Color.cyan;
-
-        //    }
-        //    else
-        //    {
-        //        calibrationModeOn = false;
-        //        calibrationBtnColor.color = Color.grey;
-        //    }
-
-        //    foreach (GameObject playerContainer in playerContainerList)
-        //    {
-        //        playerContainer.GetComponent<playerUIContainer>().SetButtonStates(calibrationModeOn);
-        //    }
-        //}
-
-        // Gets an object and puts it in focus
-
         private void UpdateActionList()
         {
             if (currSelectedGO)
@@ -424,30 +390,12 @@ namespace SealTeam4
         {
             currSelectedGO.GetComponent<IActions>().SetAction(text);
         }
-
-        // Adds a new ui prefab to the player list
-        public void AddNewPlayer()
+        
+        public void AddNewPlayer(string clientName)
         {
-            // increases the viewport to account for the new player stats
-            rt.sizeDelta = new Vector2(rt.sizeDelta.x, rt.sizeDelta.y + 60);
-
-            // Instantiate a new player UI prefab
-            GameObject go = Instantiate(
-                prefab,
-                playerList_GO.transform.position,
-                Quaternion.identity,
-                playerList_GO.transform);
-
-            // Checks if calibration mode is on, then sets visibility accordingly
-            //go.GetComponent<playerUIContainer>().SetButtonStates(calibrationModeOn);
-            playerContainerList.Add(go);
-        }
-
-        // Removes a specific ui prefab to the player list
-        public void RemoveExistingPlayer()
-        {
-            // decreases the viewport to account for removal of one row of stats
-            rt.sizeDelta = new Vector2(rt.sizeDelta.x, rt.sizeDelta.y - 60);
+            PlayerContainer newPlayerContainer = Instantiate(playerContainer_Prefab, playersPanel.transform).GetComponent<PlayerContainer>();
+            newPlayerContainer.Setup(clientName);
+            currActivePlayerContainers.Add(newPlayerContainer);
         }
 
         private void OnStartGameButtonClick()
