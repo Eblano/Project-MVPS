@@ -277,8 +277,8 @@ namespace SealTeam4
                 }
             }
 
-            Vector3 headLeftPos = headT.position - transform.right * aiStats.losMarginSize;
-            Vector3 headRightPos = headT.position + transform.right * aiStats.losMarginSize;
+            Vector3 headLeftPos = Quaternion.AngleAxis(-90, Vector3.up) * (target - headT.position).normalized;
+            Vector3 headRightPos = Quaternion.AngleAxis(90, Vector3.up) * (target - headT.position).normalized;
 
             Ray rayLeft = new Ray(headLeftPos, target - headLeftPos);
             Ray rayRight = new Ray(headRightPos, target - headRightPos);
