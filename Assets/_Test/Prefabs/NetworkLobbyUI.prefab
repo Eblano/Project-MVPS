@@ -215,7 +215,6 @@ GameObject:
   - component: {fileID: 224494858253446970}
   - component: {fileID: 222989069924222760}
   - component: {fileID: 114591222554834710}
-  - component: {fileID: 114111629589874770}
   m_Layer: 5
   m_Name: pnlLobbyList
   m_TagString: Untagged
@@ -423,19 +422,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: New Text
---- !u!114 &114111629589874770
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1566052016863944}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24e7d806dc7f7e244b2f459b50e6d23c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonPref: {fileID: 114032779502705486, guid: 2db4bc906017f8b4db020b1a7ee91f1c,
-    type: 2}
 --- !u!114 &114150818443835190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -501,7 +487,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24e7d806dc7f7e244b2f459b50e6d23c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonPref: {fileID: 0}
+  buttonPref: {fileID: 114032779502705486, guid: 2db4bc906017f8b4db020b1a7ee91f1c,
+    type: 2}
 --- !u!114 &114230172071865898
 MonoBehaviour:
   m_ObjectHideFlags: 1
