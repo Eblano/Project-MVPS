@@ -114,6 +114,7 @@ public class PlayerSizeCalibration : MonoBehaviour
             }
 
             prevMag = currSqrMag;
+            counter++;
         }
     }
 }
