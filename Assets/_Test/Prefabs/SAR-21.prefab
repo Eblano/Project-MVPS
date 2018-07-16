@@ -422,7 +422,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1091421823349118}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.6939174, y: 1.5236399, z: 0}
+  m_LocalPosition: {x: -2.358, y: 1.194, z: 0.655}
   m_LocalScale: {x: 0.13616042, y: 0.13616015, z: 0.13616015}
   m_Children:
   - {fileID: 4731679982756704}
@@ -1024,7 +1024,7 @@ MonoBehaviour:
   spawnPref: {fileID: 1378528168167114, guid: c70ca12ccf07f374c94dea6f301e43c6, type: 2}
   firingPoint: {fileID: 4460811391975236}
   secondaryGrabTransforms:
-  - {fileID: 4815995378850662}
+  - {fileID: 4944662272450464}
   - {fileID: 4440165236119188}
   secondaryHoldingTransform: {fileID: 4440165236119188}
 --- !u!114 &114473180741286760
@@ -1116,7 +1116,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1650312653910570}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.27
