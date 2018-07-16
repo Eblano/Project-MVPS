@@ -156,8 +156,6 @@ namespace SealTeam4
 
         public bool ReachedDestination(Vector3 destination, float extraStoppingDistance)
         {
-            if (gameObject.name == "Terrorist")
-                Debug.Log(nmAgent.remainingDistance + ", " + (aiStats.stopDist + extraStoppingDistance));
             return nmAgent.remainingDistance < aiStats.stopDist + extraStoppingDistance;
         }
 
@@ -263,16 +261,7 @@ namespace SealTeam4
         {
             RaycastHit hitInfo;
 
-            Vector3 headLeftPos = headT.position - transform.right * aiStats.losMarginSize;
-            Vector3 headRightPos = headT.position + transform.right * aiStats.losMarginSize;
-
             Ray rayCenter = new Ray(headT.position, target - headT.position);
-            Ray rayLeft = new Ray(headLeftPos, target - headLeftPos);
-            Ray rayRight = new Ray(headRightPos, target - headRightPos);
-
-            Debug.DrawRay(headT.position, target - headT.position);
-            Debug.DrawRay(headLeftPos, target - headLeftPos);
-            Debug.DrawRay(headRightPos, target - headRightPos);
 
             int layerMask = ~(
                 1 << LayerMask.NameToLayer("FloatingUI") |
@@ -287,6 +276,12 @@ namespace SealTeam4
                     return false;
                 }
             }
+
+            Vector3 headLeftPos = headT.position - transform.right * aiStats.losMarginSize;
+            Vector3 headRightPos = headT.position + transform.right * aiStats.losMarginSize;
+
+            Ray rayLeft = new Ray(headLeftPos, target - headLeftPos);
+            Ray rayRight = new Ray(headRightPos, target - headRightPos);
 
             if (Physics.Raycast(rayLeft, out hitInfo, Mathf.Infinity, layerMask))
             {
@@ -304,7 +299,10 @@ namespace SealTeam4
                 }
             }
 
-            Debug.Log("Head is in LOS with " + targetGameObjectName);
+            Debug.DrawRay(headT.position, target - headT.position);
+            Debug.DrawRay(headLeftPos, target - headLeftPos);
+            Debug.DrawRay(headRightPos, target - headRightPos);
+
             return true;
         }
 
