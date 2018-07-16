@@ -38,6 +38,8 @@ public class BipedGrabNode : InteractableObject
             else
             {
                 BC.SetBiped(bipPos, null, 0);
+                transform.localPosition = Vector3.zero;
+                transform.localRotation = Quaternion.identity;
                 npcFollowScript.SetNodeGrabState(false);
             }
 
