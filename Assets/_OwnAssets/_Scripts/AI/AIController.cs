@@ -29,6 +29,7 @@ namespace SealTeam4
         private AIFSM_Schedule_ParticipateConvo aiFSM_ParticipateConvo = new AIFSM_Schedule_ParticipateConvo();
         private AIFSM_Civillian_UnderAttack aiFSM_Civillian_UnderAttack = new AIFSM_Civillian_UnderAttack();
         private AIFSM_HostileHuman aiFSM_HostileHuman = new AIFSM_HostileHuman();
+        private AIFSM_VIP_UnderAttack aiFSM_VIP_UnderAttack = new AIFSM_VIP_UnderAttack();
 
         // Schedules this NPC has
         private List<NPCSchedule> npcSchedules;
@@ -56,6 +57,7 @@ namespace SealTeam4
             aiFSM_ParticipateConvo.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
             aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
             aiFSM_HostileHuman.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
+            aiFSM_VIP_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
         }
 
         private void Update()
@@ -90,6 +92,9 @@ namespace SealTeam4
             {
                 case AIState.AIMode.FOLLOW_SCHEDULE:
                     aiFSM_FollowSchedule.FSM_Update();
+                    break;
+                case AIState.AIMode.VIP_UNDER_ATTACK:
+                    aiFSM_VIP_UnderAttack.FSM_Update();
                     break;
                 case AIState.AIMode.HOSTILE:
                     aiFSM_HostileHuman.FSM_Update();
