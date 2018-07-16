@@ -40,6 +40,7 @@ namespace Battlehub.RTEditor
 				{ typeof(SealTeam4.CiellingLight), new EditorDescriptor(17, true, false) },
 				{ typeof(SealTeam4.DynamicBillboard), new EditorDescriptor(17, true, false) },
 				{ typeof(SealTeam4.RTESkyboxSetter), new EditorDescriptor(17, true, false) },
+				{ typeof(SealTeam4.Ruler), new EditorDescriptor(17, true, false) },
 				{ typeof(SealTeam4.ScriptStorage), new EditorDescriptor(17, true, false) },
 			};
 		}
