@@ -18,9 +18,12 @@ public class PlayerSizeCalibration : MonoBehaviour
 
     private void Start()
     {
-        if (!GameManagerAssistant.instance.isLocalPlayer)
+        interactionSync = GetComponent<PlayerInteractionSync>();
+
+        if (!interactionSync.isLocalPlayer)
         {
             Destroy(this);
+            return;
         }
         else
         {
@@ -28,7 +31,6 @@ public class PlayerSizeCalibration : MonoBehaviour
         }
 
         vrIKRefs = GetComponent<VRIK>().references;
-        interactionSync = GetComponent<PlayerInteractionSync>();
         ulArmBone = vrIKRefs.leftUpperArm;
         llArmBone = vrIKRefs.leftForearm;
         urArmBone = vrIKRefs.rightUpperArm;
