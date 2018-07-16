@@ -337,8 +337,8 @@ public class NPCSchedule_SStorage
 public class AccessoryData_SStorage
 {
     private readonly string[] allAccessoryTypes =
-        { "Pistol", "Rifle", "Bag", "Magazine"};
-    public string accessoryItem = "Pistol";
+        { "P226", "SAR21", "P226 Magazine", "Sar21 Magazine"};
+    public string accessoryItem = "P226";
     public string accessoryMarker;
 
     public string[] GetAllAccessoryTypes()

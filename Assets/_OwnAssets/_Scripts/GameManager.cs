@@ -59,10 +59,10 @@ namespace SealTeam4
         public bool areaUnderAttack;
 
         [Header("Accessory Item Prefabs")]
-        [SerializeField] private GameObject pistol_Prefab;
-        [SerializeField] private GameObject rifle_Prefab;
-        [SerializeField] private GameObject bag_Prefab;
-        [SerializeField] private GameObject magazine_Prefab;
+        [SerializeField] private GameObject pistol_p226_Prefab;
+        [SerializeField] private GameObject magazine_p226_Prefab;
+        [SerializeField] private GameObject rifle_sar21_Prefab;
+        [SerializeField] private GameObject magazine_sar21_Prefab;
 
 
         // NPC List
@@ -410,17 +410,17 @@ namespace SealTeam4
 
                 switch(accessoryData.accessoryItem)
                 {
-                    case "Pistol":
-                        accessoryItemPrefab = pistol_Prefab;
+                    case "P226":
+                        accessoryItemPrefab = pistol_p226_Prefab;
                         break;
-                    case "Rifle":
-                        accessoryItemPrefab = pistol_Prefab;
+                    case "SAR21":
+                        accessoryItemPrefab = rifle_sar21_Prefab;
                         break;
-                    case "Bag":
-                        accessoryItemPrefab = pistol_Prefab;
+                    case "P226 Magazine":
+                        accessoryItemPrefab = magazine_p226_Prefab;
                         break;
-                    case "Magazine":
-                        accessoryItemPrefab = pistol_Prefab;
+                    case "Sar21 Magazine":
+                        accessoryItemPrefab = magazine_sar21_Prefab;
                         break;
                 }
 
