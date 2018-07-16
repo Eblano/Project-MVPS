@@ -18,7 +18,7 @@ public class PlayerSizeCalibration : MonoBehaviour
 
     private void Start()
     {
-        if (GameManagerAssistant.instance.isLocalPlayer)
+        if (!GameManagerAssistant.instance.isLocalPlayer)
         {
             Destroy(this);
         }
