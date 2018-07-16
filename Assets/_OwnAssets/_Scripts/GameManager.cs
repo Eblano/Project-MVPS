@@ -117,6 +117,7 @@ namespace SealTeam4
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                Debug.Log("DebugNOOOO");
                 PlayerSizeCalibration.instance.CalibrateArmAndHeight();
             }
         }

@@ -9,7 +9,7 @@ public class PlayerSizeCalibration : MonoBehaviour
     [SerializeField] private float scalePercIncrement = 0.05f;
     [SerializeField] private Transform ulArmBone, llArmBone, urArmBone, lrArmBone;
     [SerializeField] private Transform lhandRef, headRef;
-    [SerializeField] private float fitRadius = 0.02f;
+    [SerializeField] private float fitRadius = 0.005f;
     [SerializeField] private VRIK vrIK;
     private VRIK.References vrIKRefs;
     private PlayerInteractionSync interactionSync;
@@ -67,7 +67,7 @@ public class PlayerSizeCalibration : MonoBehaviour
         int counter = 0;
 
         // While the head scale does not fit
-        while (WithinDistance(headPos, headReal, fitRadius) && counter < breakCounter)
+        while (WithinDistance(headPos, headReal, fitRadius) || counter < breakCounter)
         {
             float currSqrMag = (headPos - headReal).sqrMagnitude;
 
@@ -89,7 +89,7 @@ public class PlayerSizeCalibration : MonoBehaviour
         counter = 0;
 
         // While the lhand scale does not fit
-        while (WithinDistance(handPos, lHandReal, fitRadius) && counter < breakCounter)
+        while (WithinDistance(handPos, lHandReal, fitRadius) || counter < breakCounter)
         {
             float currSqrMag = (handPos - lHandReal).sqrMagnitude;
 
