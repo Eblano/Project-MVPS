@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 114318471572218550}
   - component: {fileID: 114121564841466016}
   - component: {fileID: 114305114943270498}
+  - component: {fileID: 114927257824126072}
   m_Layer: 0
   m_Name: TestVIP
   m_TagString: Untagged
@@ -2136,6 +2137,7 @@ MonoBehaviour:
   grabPosition: {fileID: 4513105073156148}
   parentTransform: {fileID: 4414604222324456}
   BC: {fileID: 114121564841466016}
+  npcFollowScript: {fileID: 114927257824126072}
   bipPos: 0
   isBeingGrabbed: 0
 --- !u!114 &114305114943270498
@@ -2673,6 +2675,7 @@ MonoBehaviour:
   grabPosition: {fileID: 4152050603425108}
   parentTransform: {fileID: 4758232503852498}
   BC: {fileID: 114121564841466016}
+  npcFollowScript: {fileID: 114927257824126072}
   bipPos: 2
   isBeingGrabbed: 0
 --- !u!114 &114527173668818870
@@ -2689,6 +2692,7 @@ MonoBehaviour:
   grabPosition: {fileID: 4589492110111154}
   parentTransform: {fileID: 4471361191202988}
   BC: {fileID: 114121564841466016}
+  npcFollowScript: {fileID: 114927257824126072}
   bipPos: 1
   isBeingGrabbed: 0
 --- !u!114 &114606278292179722
@@ -2769,8 +2773,21 @@ MonoBehaviour:
   grabPosition: {fileID: 4817206223391406}
   parentTransform: {fileID: 4560537497387306}
   BC: {fileID: 114121564841466016}
+  npcFollowScript: {fileID: 114927257824126072}
   bipPos: 3
   isBeingGrabbed: 0
+--- !u!114 &114927257824126072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1189771968061436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4607489b88fbed949ab60abf5124a226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followThreshholdRadius: 0.5
 --- !u!135 &135025927830334962
 SphereCollider:
   m_ObjectHideFlags: 1

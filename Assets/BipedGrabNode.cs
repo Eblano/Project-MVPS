@@ -6,6 +6,7 @@ using SealTeam4;
 public class BipedGrabNode : InteractableObject
 {
     [SerializeField] private BipedController BC;
+    [SerializeField] private NpcFollowScript npcFollowScript;
     [SerializeField] private BipedController.BipedPosition bipPos;
 
     [SerializeField] private bool isBeingGrabbed = false;
@@ -32,10 +33,12 @@ public class BipedGrabNode : InteractableObject
             if (isBeingGrabbed)
             {
                 BC.SetBiped(bipPos, this.transform, 1);
+                npcFollowScript.SetNodeGrabState(true);
             }
             else
             {
                 BC.SetBiped(bipPos, null, 0);
+                npcFollowScript.SetNodeGrabState(false);
             }
 
             grabStateChanged = isBeingGrabbed;
