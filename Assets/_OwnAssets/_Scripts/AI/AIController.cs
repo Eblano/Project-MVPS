@@ -156,6 +156,8 @@ namespace SealTeam4
 
         public bool ReachedDestination(Vector3 destination, float extraStoppingDistance)
         {
+            if (gameObject.name == "Terrorist")
+                Debug.Log(nmAgent.remainingDistance + ", " + (aiStats.stopDist + extraStoppingDistance));
             return nmAgent.remainingDistance < aiStats.stopDist + extraStoppingDistance;
         }
 
