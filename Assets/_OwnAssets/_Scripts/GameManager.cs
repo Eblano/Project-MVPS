@@ -117,9 +117,9 @@ namespace SealTeam4
         
         private void Client_Update()
         {
-            if(!clientNameSet && gameObject.name != "Player(Clone)" && GameManagerAssistant.instance)
+            if(!clientNameSet && localPlayerName != "Player(Clone)" && GameManagerAssistant.instance)
             {
-                RegisterClientOnServer(gameObject.name);
+                RegisterClientOnServer(localPlayerName);
                 clientNameSet = true;
             }
 

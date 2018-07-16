@@ -70,7 +70,7 @@ namespace SealTeam4
         [Header("Player Info Properties")]
         [SerializeField] private GameObject playersPanel;
         [SerializeField] private GameObject playerContainer_Prefab;
-        private List<PlayerContainer> currActivePlayerContainers;
+        private List<PlayerContainer> currActivePlayerContainers = new List<PlayerContainer>();
 
         [Space(10)]
 
