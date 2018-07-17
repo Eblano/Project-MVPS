@@ -66,6 +66,8 @@ namespace SealTeam4
         [SerializeField] private GameObject rifle_sar21_Prefab;
         [SerializeField] private GameObject magazine_sar21_Prefab;
 
+        private List<GameObject> networkCommandableGameobjects = new List<GameObject>();
+
 
         // NPC List
         private List<AIController> spawnedNPCs = new List<AIController>();
@@ -650,6 +652,34 @@ namespace SealTeam4
             Color c = panelOverlay.color;
             c.a = percent / 100.0f;
             panelOverlay.color = c; 
+        }
+
+        public void RegisterNetCmdObj(GameObject go)
+        {
+            networkCommandableGameobjects.Add(go);
+        }
+
+        public void UnregisterNetCmdObj(GameObject go)
+        {
+            if(networkCommandableGameobjects.Exists(x => x == go))
+                networkCommandableGameobjects.Remove(go);
+        }
+
+        public void SendNetCmdObjMsg(GameObject sourceGO, string message)
+        {
+            if (GameManagerAssistant.instance)
+                GameManagerAssistant.instance.RpcGameManagerSendCommand(sourceGO.name, message);
+        }
+
+        public void RecieveNetCmdObjMsg(string targetGoName, string msg)
+        {
+            foreach(GameObject go in networkCommandableGameobjects.FindAll(x => x.name == targetGoName).FindAll(y => y != null))
+            {
+                if(go && go.GetComponent<INetworkCommandable>() != null)
+                {
+                    go.GetComponent<INetworkCommandable>().RecieveCommand(msg);
+                }
+            }
         }
     }
 }

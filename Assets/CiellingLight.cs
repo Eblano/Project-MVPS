@@ -6,7 +6,7 @@ using UnityEngine;
 namespace SealTeam4
 {
     [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
-    public class CiellingLight : MonoBehaviour, IActions
+    public class CiellingLight : MonoBehaviour, IActions, INetworkCommandable
     {
         private Light light;
         private BoxCollider collider;
@@ -45,9 +45,13 @@ namespace SealTeam4
         private void UpdateLightParams()
         {
             if (lightsOn)
+            {
                 light.enabled = true;
+            }
             else
+            {
                 light.enabled = false;
+            }
 
             if(light)
             {
@@ -80,11 +84,14 @@ namespace SealTeam4
         {
             if(light)
                 Destroy(light.gameObject);
+
+            GameManager.instance.UnregisterNetCmdObj(gameObject);
         }
 
         private void OnEnable()
         {
             CreateLightOBJ();
+            GameManager.instance.RegisterNetCmdObj(gameObject);
         }
 
         public List<string> GetActions()
@@ -118,7 +125,23 @@ namespace SealTeam4
             {
                 case "On":
                     lightsOn = true;
+                    GameManager.instance.SendNetCmdObjMsg(gameObject, "On");
                     break;
+                case "Off":
+                    lightsOn = false;
+                    GameManager.instance.SendNetCmdObjMsg(gameObject, "Off");
+                    break;
+            }
+        }
+
+        public void RecieveCommand(string command)
+        {
+            switch(command)
+            {
+                case "On":
+                    lightsOn = true;
+                    break;
+
                 case "Off":
                     lightsOn = false;
                     break;
