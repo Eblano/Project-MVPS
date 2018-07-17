@@ -56,7 +56,6 @@ namespace SealTeam4
 
         public void AnimEvent_GunDrawn()
         {
-            Debug.Log("AnimEvent_GunDrawn");
             gunDraw_Completed = true;
         }
         #endregion

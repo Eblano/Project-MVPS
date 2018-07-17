@@ -341,10 +341,17 @@ namespace SealTeam4
         public bool DrawGun()
         {
             aiAnimController.Anim_DrawGun();
-            if (aiAnimEventReciever.gunDraw_Completed)
-                aiAnimController.Anim_DrawGunEnd();
-
             return aiAnimEventReciever.gunDraw_Completed;
+        }
+
+        public void AimGun()
+        {
+            aiAnimController.Anim_AimGun();
+        }
+
+        public void LowerGun()
+        {
+            aiAnimController.Anim_LowerGun();
         }
 
         public void ResetGunTransformToOrig()
