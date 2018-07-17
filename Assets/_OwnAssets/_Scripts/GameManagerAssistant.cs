@@ -68,5 +68,11 @@ namespace SealTeam4
             // maybe just use game find all IActions and add to a list then send over the list number
             allActions[actionNum].SetAction(actionCommand);
         }
+
+        [ClientRpc]
+        public void RpcGameManagerSendCommand(string goName, string msg)
+        {
+            GameManager.instance.RecieveNetCmdObjMsg(goName, msg);
+        }
     }
 }
