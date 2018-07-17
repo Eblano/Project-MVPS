@@ -11,9 +11,24 @@ namespace SealTeam4
 {
     public class AIController : MonoBehaviour, IActions, IObjectInfo
     {
+        [System.Serializable]
+        private class TransformOffset
+        {
+            public Vector3 posOffset = Vector3.zero;
+            public Vector3 rotOffset = Vector3.zero;
+            public float scale = 1;
+        }
+
         private string npcName;
 
+        [Header("Body Parts")]
         public Transform headT;
+        public Transform rightHandT;
+
+        [Header("Weapon/Pistol")]
+        public GameObject pistol_Prefab;
+        [SerializeField] private TransformOffset pistol_TOffset;
+        [HideInInspector] public NPCGun ref_pistol;
 
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
@@ -38,8 +53,8 @@ namespace SealTeam4
 
         // Exposed Variables for InterfaceManager
         [Header("Exposed for InterfaceManager")]
-        [SerializeField] private Transform highestPoint;
-        [SerializeField] private Collider col;
+        public Transform highestPoint;
+        public Collider col;
 
         public void Setup(string npcName, AIStats aiStats, List<NPCSchedule> npcSchedules)
         {
@@ -62,6 +77,11 @@ namespace SealTeam4
 
         private void Update()
         {
+            //if (ref_pistol)
+            //{
+            //    ResetGunTransformToOrig();
+            //}
+
             UpdateActionableParameters();
 
             if (aiState.prepareEnterHostile && aiState.hostileHuman.schBeforeEnteringHostileMode < aiState.currSchedule)
@@ -264,7 +284,13 @@ namespace SealTeam4
 
         public bool InLOS3PT(Vector3 target, string targetGameObjectName)
         {
-            RaycastHit hitInfo;
+            RaycastHit centerRayHitInfo;
+            RaycastHit leftRayHitInfo;
+            RaycastHit rightRayHitInfo;
+
+            bool centerRayPassed = false;
+            bool leftRayPassed = false;
+            bool rightRayPassed = false;
 
             Ray rayCenter = new Ray(headT.position, target - headT.position);
 
@@ -274,41 +300,42 @@ namespace SealTeam4
                 1 << LayerMask.NameToLayer("AreaMarker") |
                 1 << LayerMask.NameToLayer("Marker"));
 
-            if (Physics.Raycast(rayCenter, out hitInfo, Mathf.Infinity, layerMask))
+            if (Physics.Raycast(rayCenter, out centerRayHitInfo, Mathf.Infinity, layerMask))
             {
-                if (hitInfo.transform.name != targetGameObjectName)
+                if (centerRayHitInfo.transform.name == targetGameObjectName)
                 {
-                    return false;
+                    centerRayPassed = true;
                 }
             }
 
-            Vector3 headLeftPos = Quaternion.AngleAxis(-90, Vector3.up) * (target - headT.position).normalized;
-            Vector3 headRightPos = Quaternion.AngleAxis(90, Vector3.up) * (target - headT.position).normalized;
+            Vector3 headLeftPos = (Quaternion.AngleAxis(-90, Vector3.up) * (target - headT.position).normalized * aiStats.losMarginSize) + headT.position;
+            Vector3 headRightPos = (Quaternion.AngleAxis(90, Vector3.up) * (target - headT.position).normalized  * aiStats.losMarginSize) +headT.position;
 
             Ray rayLeft = new Ray(headLeftPos, target - headLeftPos);
             Ray rayRight = new Ray(headRightPos, target - headRightPos);
 
-            if (Physics.Raycast(rayLeft, out hitInfo, Mathf.Infinity, layerMask))
+            if (Physics.Raycast(rayLeft, out leftRayHitInfo, centerRayHitInfo.distance, layerMask))
             {
-                if (hitInfo.transform.name != targetGameObjectName)
-                {
-                    return false;
-                }
+                if (leftRayHitInfo.transform.name == targetGameObjectName)
+                    leftRayPassed = true;
             }
+            else
+                leftRayPassed = true;
 
-            if (Physics.Raycast(rayRight, out hitInfo, Mathf.Infinity, layerMask))
+
+            if (Physics.Raycast(rayRight, out rightRayHitInfo, centerRayHitInfo.distance, layerMask))
             {
-                if (hitInfo.transform.name != targetGameObjectName)
-                {
-                    return false;
-                }
+                if (rightRayHitInfo.transform.name == targetGameObjectName)
+                    rightRayPassed = true;
             }
+            else
+                rightRayPassed = true;
 
             Debug.DrawRay(headT.position, target - headT.position);
             Debug.DrawRay(headLeftPos, target - headLeftPos);
             Debug.DrawRay(headRightPos, target - headRightPos);
 
-            return true;
+            return centerRayPassed && leftRayPassed && rightRayPassed;
         }
 
         public bool DrawGun()
@@ -319,10 +346,26 @@ namespace SealTeam4
 
             return aiAnimEventReciever.gunDraw_Completed;
         }
+
+        public void ResetGunTransformToOrig()
+        {
+            ref_pistol.transform.localPosition = pistol_TOffset.posOffset;
+            ref_pistol.transform.localRotation = Quaternion.Euler(pistol_TOffset.rotOffset);
+            ref_pistol.transform.localScale = new Vector3(pistol_TOffset.scale, pistol_TOffset.scale, pistol_TOffset.scale);
+        }
+
+        public void SpawnGunOnHand()
+        {
+            if(!ref_pistol)
+            {
+                ref_pistol = Instantiate(pistol_Prefab, rightHandT.transform).GetComponent<NPCGun>();
+                ResetGunTransformToOrig();
+            }
+        }
                  
         public void FadeAway()
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         public void AISetActive()

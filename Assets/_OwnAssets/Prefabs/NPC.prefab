@@ -1056,6 +1056,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   headT: {fileID: 4304147626054922}
+  rightHandT: {fileID: 4032215005889344}
+  pistol_Prefab: {fileID: 1087607677881998, guid: 5c8514583cc853e4fa04a44e6c911811,
+    type: 2}
+  pistol_TOffset:
+    posOffset: {x: -0.02, y: 0, z: 0}
+    rotOffset: {x: 0, y: 90, z: 90}
+    scale: 0.02
+  ref_pistol: {fileID: 0}
   aiState:
     active: 0
     aIMode: 0
@@ -1079,20 +1087,24 @@ MonoBehaviour:
         timeLeftBeforeFindingNewRandPosition: 0
         currMoveVector: {x: 0, y: 0, z: 0}
     hostileHuman:
-      currSubprocess: 0
-      schBeforeEnteringHostileMode: 0
       currState: 0
+      currShootTargetState: 0
+      schBeforeEnteringHostileMode: 0
+      waypointPos: {x: 0, y: 0, z: 0}
       shootTarget: {fileID: 0}
   aiStats:
     activateOnSpawn: 1
     npcType: 2
     threatResponseMode: 0
-    minAngleToFaceTarget: 10
+    allDynamicWaypoints: []
+    lookAngleMarginOfError: 5
     stopDist: 0.2
     stopDist_Convo: 1
     turningSpeed: 6
     normalMoveSpeed: 1
     runningSpeed: 2
+    shootTargetDir_AngleMarginOfError: 20
+    losMarginSize: 0.3
     maxGunRange: 5
   actionableParameters: []
   highestPoint: {fileID: 4652597901801500}

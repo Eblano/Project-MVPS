@@ -107,7 +107,10 @@ namespace SealTeam4
         
         private void SpawnGun()
         {
-            Debug.LogWarning("SpawnGun not implemented");
+            if (!aiController.ref_pistol)
+            {
+                aiController.SpawnGunOnHand();
+            }
             aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.DRAW_GUN;
         }
         
@@ -165,11 +168,14 @@ namespace SealTeam4
             {
                 aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.MOVE_TO_SHOOT_TARGET;
                 SetState_MoveToShootTarget(aiState.hostileHuman.shootTarget.position);
+                aiController.ResetGunTransformToOrig();
                 return;
             }
-            
+
+            // Pistol look at target
+            aiController.ref_pistol.gameObject.transform.LookAt(aiState.hostileHuman.shootTarget);
             // Shoot
-            Debug.Log("Shooting " + aiState.hostileHuman.shootTarget.name);
+            aiController.ref_pistol.FireGun();
         }
     }
 }

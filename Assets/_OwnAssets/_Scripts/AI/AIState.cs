@@ -83,9 +83,9 @@ namespace SealTeam4
             public State currState = State.IDLE;
             public ShootTargetState currShootTargetState = ShootTargetState.INACTIVE;
 
-            public int schBeforeEnteringHostileMode;
-            public Vector3 waypointPos;
-            public Transform shootTarget;
+            public int schBeforeEnteringHostileMode = 0;
+            public Vector3 waypointPos = Vector3.zero;
+            public Transform shootTarget = null;
         }
         public HostileHuman hostileHuman = new HostileHuman();
     }

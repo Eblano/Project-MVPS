@@ -654,9 +654,21 @@ namespace SealTeam4
             panelOverlay.color = c; 
         }
 
-        public void RegisterNetCmdObj(GameObject go)
+        public string RegisterNetCmdObj(GameObject go)
         {
+            if(networkCommandableGameobjects.Exists(x => x.name == go.name))
+            {
+                return go.name;
+            }
+
+            int increment = 1;
+            while(networkCommandableGameobjects.Exists(x => x.name == go.name + increment))
+            {
+                increment++;
+            }
+            
             networkCommandableGameobjects.Add(go);
+            return go.name + " " + increment;
         }
 
         public void UnregisterNetCmdObj(GameObject go)
