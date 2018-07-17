@@ -9,7 +9,7 @@ public class PlayerSizeCalibration : MonoBehaviour
     [SerializeField] private float scalePercIncrement = 0.05f;
     [SerializeField] private Transform ulArmBone, llArmBone, urArmBone, lrArmBone;
     [SerializeField] private Transform lhandRef, headRef;
-    [SerializeField] private float fitRadius = 0.005f;
+    [SerializeField] private float fitRadius = 0.01f;
     [SerializeField] private VRIK vrIK;
     private VRIK.References vrIKRefs;
     private PlayerInteractionSync interactionSync;
@@ -52,7 +52,13 @@ public class PlayerSizeCalibration : MonoBehaviour
 
     private bool WithinDistance(Vector3 a, Vector3 b, float comparison)
     {
-        return (a - b).sqrMagnitude < comparison * comparison;
+        return (a - b).magnitude < comparison;
+    }
+
+    public void ResetArmAndHeight()
+    {
+        transform.localScale = Vector3.one;
+        ulArmBone.localScale = llArmBone.localScale = urArmBone.localScale = lrArmBone.localScale = Vector3.one;
     }
 
     public void CalibrateArmAndHeight()
@@ -71,19 +77,23 @@ public class PlayerSizeCalibration : MonoBehaviour
         {
             if(counter >= breakCounter)
             {
+                Debug.Log("Head Counter Broke");
                 break;
             }
 
+            headPos = headRef.position;
             float currSqrMag = (headPos - headReal).sqrMagnitude;
 
             // If the current magnitude is greater than the previous magnitude
             if (currSqrMag > prevMag * prevMag)
             {
                 AdjustHeight(-1);
+                Debug.Log("Decrease Size(Height)");
             }
             else
             {
                 AdjustHeight(1);
+                Debug.Log("Increase Size(Height)");
             }
 
             prevMag = currSqrMag;
@@ -98,19 +108,23 @@ public class PlayerSizeCalibration : MonoBehaviour
         {
             if (counter >= breakCounter)
             {
+                Debug.Log("Arm Counter Broke");
                 break;
             }
 
+            handPos = lhandRef.position;
             float currSqrMag = (handPos - lHandReal).sqrMagnitude;
 
             // If the current magnitude is greater than the previous magnitude
             if (currSqrMag > prevMag * prevMag)
             {
                 AdjustArms(-1);
+                Debug.Log("Decrease Size(Arm)");
             }
             else
             {
                 AdjustArms(1);
+                Debug.Log("Increase Size(Arm)");
             }
 
             prevMag = currSqrMag;

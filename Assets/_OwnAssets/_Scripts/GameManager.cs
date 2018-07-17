@@ -128,6 +128,12 @@ namespace SealTeam4
                 Debug.Log("DebugNOOOO");
                 PlayerSizeCalibration.instance.CalibrateArmAndHeight();
             }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Debug.Log("Reset Calibration");
+                PlayerSizeCalibration.instance.ResetArmAndHeight();
+            }
         }
 
         private void LevelSetup_Update()
