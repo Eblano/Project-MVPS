@@ -126,13 +126,37 @@ namespace SealTeam4
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("DebugNOOOO");
-                PlayerSizeCalibration.instance.CalibrateArmAndHeight();
+                StartCoroutine(PlayerSizeCalibration.instance.CalibrateArmAndHeight());
             }
 
             if (Input.GetKeyDown(KeyCode.R))
             {
                 Debug.Log("Reset Calibration");
                 PlayerSizeCalibration.instance.ResetArmAndHeight();
+            }
+
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                Debug.Log("A");
+                PlayerSizeCalibration.instance.AdjustArms(-1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                Debug.Log("S");
+                PlayerSizeCalibration.instance.AdjustArms(1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Debug.Log("Q");
+                PlayerSizeCalibration.instance.AdjustHeight(-1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                Debug.Log("W");
+                PlayerSizeCalibration.instance.AdjustHeight(1);
             }
         }
 

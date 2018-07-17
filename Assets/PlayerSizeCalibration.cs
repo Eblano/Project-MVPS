@@ -6,15 +6,15 @@ using SealTeam4;
 
 public class PlayerSizeCalibration : MonoBehaviour
 {
-    [SerializeField] private float scalePercIncrement = 0.05f;
+    [SerializeField] private float scalePercIncrement = 0.01f;
     [SerializeField] private Transform ulArmBone, llArmBone, urArmBone, lrArmBone;
     [SerializeField] private Transform lhandRef, headRef;
-    [SerializeField] private float fitRadius = 0.01f;
+    [SerializeField] private float fitRadius = 0.02f;
     [SerializeField] private VRIK vrIK;
     private VRIK.References vrIKRefs;
     private PlayerInteractionSync interactionSync;
     private float heightScale, armScale;
-    [SerializeField] private int breakCounter = 20;
+    [SerializeField] private int breakCounter = 10;
     public static PlayerSizeCalibration instance;
 
     private void Start()
@@ -38,13 +38,13 @@ public class PlayerSizeCalibration : MonoBehaviour
         lrArmBone = vrIKRefs.rightForearm;
     }
 
-    private void AdjustHeight(int multiplier)
+    public void AdjustHeight(int multiplier)
     {
         heightScale = transform.localScale.y + (scalePercIncrement * multiplier);
         transform.localScale = new Vector3(heightScale, heightScale, heightScale);
     }
 
-    private void AdjustArms(int multiplier)
+    public void AdjustArms(int multiplier)
     {
         armScale = llArmBone.localScale.y + (scalePercIncrement * multiplier);
         ulArmBone.localScale = llArmBone.localScale = urArmBone.localScale = lrArmBone.localScale = new Vector3(armScale, armScale, armScale);
@@ -61,7 +61,7 @@ public class PlayerSizeCalibration : MonoBehaviour
         ulArmBone.localScale = llArmBone.localScale = urArmBone.localScale = lrArmBone.localScale = Vector3.one;
     }
 
-    public void CalibrateArmAndHeight()
+    public IEnumerator CalibrateArmAndHeight()
     {
         Vector3 headPos = headRef.position;
         Vector3 handPos = lhandRef.position;
@@ -69,8 +69,10 @@ public class PlayerSizeCalibration : MonoBehaviour
         Vector3 lHandReal = interactionSync.GetLHandPos();
         Vector3 headReal = interactionSync.GetHeadPos();
 
-        float prevMag = 0;
+        float prevSqrMag = 0;
         int counter = 0;
+
+        bool flip = false;
 
         // While the head scale does not fit
         while (!WithinDistance(headPos, headReal, fitRadius))
@@ -84,8 +86,15 @@ public class PlayerSizeCalibration : MonoBehaviour
             headPos = headRef.position;
             float currSqrMag = (headPos - headReal).sqrMagnitude;
 
+            Debug.Log("Height Curr: " + currSqrMag + "Prev: " + prevSqrMag + "Is CurrMag more than PrevMag:" + (currSqrMag > prevSqrMag));
+
             // If the current magnitude is greater than the previous magnitude
-            if (currSqrMag > prevMag * prevMag)
+            if (currSqrMag > prevSqrMag)
+            {
+                flip = !flip;
+            }
+
+            if (flip)
             {
                 AdjustHeight(-1);
                 Debug.Log("Decrease Size(Height)");
@@ -96,11 +105,13 @@ public class PlayerSizeCalibration : MonoBehaviour
                 Debug.Log("Increase Size(Height)");
             }
 
-            prevMag = currSqrMag;
+            yield return new WaitForSeconds(0.01f);
+
+            prevSqrMag = currSqrMag;
             counter++;
         }
 
-        prevMag = 0;
+        prevSqrMag = 0;
         counter = 0;
 
         // While the lhand scale does not fit
@@ -115,8 +126,15 @@ public class PlayerSizeCalibration : MonoBehaviour
             handPos = lhandRef.position;
             float currSqrMag = (handPos - lHandReal).sqrMagnitude;
 
+            Debug.Log("Arm Curr: " + currSqrMag + "Prev: " + prevSqrMag + ", Is CurrMag more than PrevMag:" + (currSqrMag > prevSqrMag));
+
             // If the current magnitude is greater than the previous magnitude
-            if (currSqrMag > prevMag * prevMag)
+            if (currSqrMag > prevSqrMag)
+            {
+                flip = !flip;
+            }
+
+            if (flip)
             {
                 AdjustArms(-1);
                 Debug.Log("Decrease Size(Arm)");
@@ -127,8 +145,12 @@ public class PlayerSizeCalibration : MonoBehaviour
                 Debug.Log("Increase Size(Arm)");
             }
 
-            prevMag = currSqrMag;
+            yield return new WaitForSeconds(0.01f);
+
+            prevSqrMag = currSqrMag;
             counter++;
         }
+
+        yield return null;
     }
 }
