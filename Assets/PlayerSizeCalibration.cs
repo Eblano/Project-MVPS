@@ -17,6 +17,9 @@ public class PlayerSizeCalibration : MonoBehaviour
     [SerializeField] private int breakCounter = 10;
     public static PlayerSizeCalibration instance;
 
+    private Vector3 originalHead;
+    private Vector3 originalHand;
+
     private void Start()
     {
         interactionSync = GetComponent<PlayerInteractionSync>();
@@ -36,6 +39,8 @@ public class PlayerSizeCalibration : MonoBehaviour
         llArmBone = vrIKRefs.leftForearm;
         urArmBone = vrIKRefs.rightUpperArm;
         lrArmBone = vrIKRefs.rightForearm;
+        originalHead = transform.localScale;
+        originalHand = llArmBone.localScale;
     }
 
     public void AdjustHeight(int multiplier)
@@ -52,13 +57,14 @@ public class PlayerSizeCalibration : MonoBehaviour
 
     private bool WithinDistance(Vector3 a, Vector3 b, float comparison)
     {
+        Debug.Log("Magnitude"+(a - b).magnitude);
         return (a - b).magnitude < comparison;
     }
 
     public void ResetArmAndHeight()
     {
-        transform.localScale = Vector3.one;
-        ulArmBone.localScale = llArmBone.localScale = urArmBone.localScale = lrArmBone.localScale = Vector3.one;
+        transform.localScale = originalHead;
+        ulArmBone.localScale = llArmBone.localScale = urArmBone.localScale = lrArmBone.localScale = originalHand;
     }
 
     public IEnumerator CalibrateArmAndHeight()
@@ -66,54 +72,17 @@ public class PlayerSizeCalibration : MonoBehaviour
         Vector3 headPos = headRef.position;
         Vector3 handPos = lhandRef.position;
 
-        Vector3 lHandReal = interactionSync.GetLHandPos();
-        Vector3 headReal = interactionSync.GetHeadPos();
+        Vector3 lHandReal = interactionSync.GetLHandPos().position;
+        Vector3 headReal = interactionSync.GetHeadPos().position;
+
+        Debug.Log("Hand: " + lHandReal);
+        Debug.Log("Head: " + headReal);
 
         float prevSqrMag = 0;
         int counter = 0;
 
         bool flip = false;
-
-        // While the head scale does not fit
-        while (!WithinDistance(headPos, headReal, fitRadius))
-        {
-            if(counter >= breakCounter)
-            {
-                Debug.Log("Head Counter Broke");
-                break;
-            }
-
-            headPos = headRef.position;
-            float currSqrMag = (headPos - headReal).sqrMagnitude;
-
-            Debug.Log("Height Curr: " + currSqrMag + "Prev: " + prevSqrMag + "Is CurrMag more than PrevMag:" + (currSqrMag > prevSqrMag));
-
-            // If the current magnitude is greater than the previous magnitude
-            if (currSqrMag > prevSqrMag)
-            {
-                flip = !flip;
-            }
-
-            if (flip)
-            {
-                AdjustHeight(-1);
-                Debug.Log("Decrease Size(Height)");
-            }
-            else
-            {
-                AdjustHeight(1);
-                Debug.Log("Increase Size(Height)");
-            }
-
-            yield return new WaitForSeconds(0.01f);
-
-            prevSqrMag = currSqrMag;
-            counter++;
-        }
-
-        prevSqrMag = 0;
-        counter = 0;
-
+        
         // While the lhand scale does not fit
         while (!WithinDistance(handPos, lHandReal, fitRadius))
         {
@@ -124,7 +93,7 @@ public class PlayerSizeCalibration : MonoBehaviour
             }
 
             handPos = lhandRef.position;
-            float currSqrMag = (handPos - lHandReal).sqrMagnitude;
+            float currSqrMag = (lHandReal - handPos).sqrMagnitude;
 
             Debug.Log("Arm Curr: " + currSqrMag + "Prev: " + prevSqrMag + ", Is CurrMag more than PrevMag:" + (currSqrMag > prevSqrMag));
 
@@ -145,10 +114,50 @@ public class PlayerSizeCalibration : MonoBehaviour
                 Debug.Log("Increase Size(Arm)");
             }
 
+            prevSqrMag = currSqrMag;
+            counter++;
+
             yield return new WaitForSeconds(0.01f);
+        }
+        
+        prevSqrMag = 0;
+        counter = 0;
+
+        // While the head scale does not fit
+        while (!WithinDistance(headPos, headReal, fitRadius))
+        {
+            if (counter >= breakCounter)
+            {
+                Debug.Log("Head Counter Broke");
+                break;
+            }
+
+            headPos = headRef.position;
+            float currSqrMag = (headReal - headPos).sqrMagnitude;
+
+            Debug.Log("Height Curr: " + currSqrMag + "Prev: " + prevSqrMag + "Is CurrMag more than PrevMag:" + (currSqrMag > prevSqrMag));
+
+            // If the current magnitude is greater than the previous magnitude
+            if (currSqrMag > prevSqrMag)
+            {
+                flip = !flip;
+            }
+
+            if (flip)
+            {
+                AdjustHeight(-1);
+                Debug.Log("Decrease Size(Height)");
+            }
+            else
+            {
+                AdjustHeight(1);
+                Debug.Log("Increase Size(Height)");
+            }
 
             prevSqrMag = currSqrMag;
             counter++;
+
+            yield return new WaitForSeconds(0.01f);
         }
 
         yield return null;

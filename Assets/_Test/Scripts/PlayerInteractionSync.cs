@@ -23,14 +23,14 @@ public class PlayerInteractionSync : NetworkBehaviour
         gameManager = GameManager.instance;
     }
 
-    public Vector3 GetHeadPos()
+    public Transform GetHeadPos()
     {
-        return headPos;
+        return headset;
     }
 
-    public Vector3 GetLHandPos()
+    public Transform GetLHandPos()
     {
-        return lHandPos;
+        return lControl;
     }
 
     #region ServerMethods
