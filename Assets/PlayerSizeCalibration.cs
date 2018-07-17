@@ -52,7 +52,7 @@ public class PlayerSizeCalibration : MonoBehaviour
     public void AdjustArms(int multiplier)
     {
         armScale = llArmBone.localScale.y + (scalePercIncrement * multiplier);
-        ulArmBone.localScale = llArmBone.localScale = urArmBone.localScale = lrArmBone.localScale = new Vector3(armScale, armScale, armScale);
+        ulArmBone.localScale = llArmBone.localScale = urArmBone.localScale = lrArmBone.localScale = new Vector3(armScale, originalHand.y, originalHand.z);
     }
 
     private bool WithinDistance(Vector3 a, Vector3 b, float comparison)
