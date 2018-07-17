@@ -109,6 +109,7 @@ namespace SealTeam4
                 else
                 {
                     camToFollow.rect = new Rect(0, 0, 1, 1);
+                    markerUICamera.rect = new Rect(0, 0, 1, 1);
                     markerUICamera.orthographicSize = camToFollow.orthographicSize;
                     markerUICamera.orthographic = camToFollow.orthographic;
                     markerUICamera.transform.position = camToFollow.transform.position;
