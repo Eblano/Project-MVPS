@@ -489,34 +489,19 @@ namespace SealTeam4
             }
         }
 
-        public AIController GetNearestAvailableCivilianNPCForConvo(AIController requester)
+        public AIController GetNPCForConvo(string targetNPCName, AIController requester)
         {
-            List<AIController> availableNPCs = new List<AIController>();
-            AIController availableClosestNPC = null;
-            float closestDist = Mathf.Infinity;
-
-            Vector3 position = requester.transform.position;
             foreach (AIController npc in spawnedNPCs)
             {
-                if (npc.GetNPCType() == AIStats.NPCType.CIVILLIAN && npc != requester && npc.AvailableForConversation())
+                if (npc.GetName() == targetNPCName &&
+                    npc.GetNPCType() == AIStats.NPCType.CIVILLIAN && 
+                    npc != requester && npc.AvailableForConversation())
                 {
-                    availableNPCs.Add(npc);
+                    return npc;
                 }
             }
 
-            foreach(AIController availableNPC in availableNPCs)
-            {
-                Vector3 diff = availableNPC.transform.position - position;
-                float curDistance = diff.sqrMagnitude;
-
-                if (curDistance < closestDist)
-                {
-                    availableClosestNPC = availableNPC;
-                    closestDist = curDistance;
-                }
-            }
-
-            return availableClosestNPC;
+            return null;
         }
 
         public Transform GetFirstVIPTransform()

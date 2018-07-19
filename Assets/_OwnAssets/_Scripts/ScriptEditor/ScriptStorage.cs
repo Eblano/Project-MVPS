@@ -1,6 +1,7 @@
 ﻿using ProtoBuf;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace SealTeam4
@@ -166,6 +167,11 @@ namespace SealTeam4
             return accessoryDataList_SStorage;
         }
 
+        public List<string> GetAllNPCNames()
+        {
+            return npcSpawnDataList_SStorage.Select(x => x.npcName).ToList();
+        }
+
         public List<NpcSpawnData> GetAllNPCSpawnData()
         {
             List<NpcSpawnData> npcSpawnDataList = new List<NpcSpawnData>();
@@ -292,6 +298,8 @@ public class NPCSpawnData_SStorage
     public string spawnMarkerName;
     public string npcOutfit = "TYPE 0";
     public string aiType = "Civillian";
+
+    [Header("Civillian Properties")]
     public string civillianThreatResponse = "Freeze";
 
     [Header("Terrorist Properties")]
