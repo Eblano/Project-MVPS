@@ -461,6 +461,11 @@ namespace SealTeam4
             return npcName;
         }
 
+        public void SetGrabModeTransform(Transform transform)
+        {
+
+        }
+
         public Vector3 GetHighestPointPos()
         {
             return highestPoint.position;
