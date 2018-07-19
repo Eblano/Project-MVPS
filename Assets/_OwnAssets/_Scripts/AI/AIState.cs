@@ -22,6 +22,7 @@ namespace SealTeam4
             PARTICIPATE_CONVO
         };
 
+        // Current AI Mode
         public AIMode aIMode = AIMode.FOLLOW_SCHEDULE;
         // Current schedule NPC is running
         public int currSchedule = 0;
@@ -88,5 +89,15 @@ namespace SealTeam4
             public Transform shootTarget = null;
         }
         public HostileHuman hostileHuman = new HostileHuman();
+
+        [System.Serializable]
+        public class VIP
+        {
+            public enum State { FOLLOWING_PLAYER, GRABBED };
+            public State currState = State.FOLLOWING_PLAYER;
+
+            public Transform grabSource = null;
+        }
+        public VIP vip = new VIP();
     }
 }

@@ -8,8 +8,15 @@ namespace SealTeam4
     {
         public void FSM_Update()
         {
-
+            switch (aiState.vip.currState)
+            {
+                case AIState.VIP.State.FOLLOWING_PLAYER:
+                    break;
+                case AIState.VIP.State.GRABBED:
+                    break;
+                default:
+                    break;
+            }
         }
-
     }
 }

@@ -504,6 +504,11 @@ namespace SealTeam4
             return null;
         }
 
+        //public Transform GetFirstPlayerTransform()
+        //{
+        //    retur;
+        //}
+
         public Transform GetFirstVIPTransform()
         {
             return spawnedNPCs.Where(x => x.GetNPCType() == AIStats.NPCType.VIP).First().transform;

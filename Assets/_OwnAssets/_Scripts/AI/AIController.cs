@@ -461,9 +461,9 @@ namespace SealTeam4
             return npcName;
         }
 
-        public void SetGrabModeTransform(Transform transform)
+        public void SetGrabModeTransform(Transform grabSource)
         {
-
+            aiState.vip.grabSource = grabSource;
         }
 
         public Vector3 GetHighestPointPos()

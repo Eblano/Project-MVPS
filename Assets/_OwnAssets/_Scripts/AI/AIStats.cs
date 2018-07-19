@@ -19,6 +19,12 @@ namespace SealTeam4
 
         // For Terrorist
         public List<string> allDynamicWaypoints;
+        public float shootTargetDir_AngleMarginOfError = 20.0f;
+        public float losMarginSize = 0.3f;
+        public float maxGunRange = 5.0f;
+
+        // For VIP
+        public float followPlayerDistance = 1.0f;
 
         [Header("Hidden Parameters")]
         public float lookAngleMarginOfError = 5.0f; // Min angle of error when rotating to face target
@@ -28,9 +34,5 @@ namespace SealTeam4
         public float turningSpeed = 10.0f;
         public float normalMoveSpeed = 1.0f;
         public float runningSpeed = 2.0f;
-
-        public float shootTargetDir_AngleMarginOfError = 20.0f;
-        public float losMarginSize = 0.3f;
-        public float maxGunRange = 5.0f;
     }
 }
