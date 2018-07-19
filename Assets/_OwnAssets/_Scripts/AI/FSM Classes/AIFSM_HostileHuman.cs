@@ -24,32 +24,88 @@ namespace SealTeam4
                     break;
             }
         }
-        
+
+        //***************************
+        #region SetAction Methods
+
         public void SetAction_SwitchToShootVIP()
         {
             aiState.hostileHuman.shootTarget = GameManager.instance.GetFirstVIPTransform();
-            aiState.hostileHuman.currState = AIState.HostileHuman.State.SHOOT_TARGET;
-            aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.SPAWN_GUN;
+            SetState_ShootTarget();
+            SetState_ShootTarget_SpawnGun();
         }
 
         public void SetAction_MoveToWaypoint(string waypointName)
         {
-            if (aiState.hostileHuman.currShootTargetState == AIState.HostileHuman.ShootTargetState.SHOOT_TARGET)
+            if (aiState.hostileHuman.currShootTargetState == AIState.HostileHuman.ShootTargetState.SHOOT)
+            {
+                aiController.ResetGunTransformToOrig();
                 aiController.LowerGun();
+            }
 
             aiState.hostileHuman.waypointPos = GameManager.instance.GetWaypointMarkerPosition(waypointName);
-            aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.SPAWN_GUN;
             SetState_MoveToWaypoint();
         }
 
-        private void Process_Idle()
+        #endregion
+        //***************************
+
+        //***************************
+        #region FSM State Switching Methods
+
+        private void SetState_ShootTarget()
         {
+            aiState.hostileHuman.currState = AIState.HostileHuman.State.SHOOT_TARGET;
+        }
+
+        private void SetState_MoveToWaypoint()
+        {
+            aiState.hostileHuman.currState = AIState.HostileHuman.State.MOVE_TO_WAYPOINT;
+        }
+
+        private void SetState_ShootTarget_MoveToShootTarget()
+        {
+            SetState_ShootTarget();
+            aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.MOVE_TO_SHOOT_TARGET;
+            aiController.SetNMAgentDestination(aiState.hostileHuman.shootTarget.position);
+            aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
+        }
+
+        private void SetState_ShootTarget_Shoot()
+        {
+            aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.SHOOT;
             aiController.StopMovement();
         }
 
+        private void SetState_ShootTarget_DrawGun()
+        {
+            aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.DRAW_GUN;
+        }
+
+        private void SetState_ShootTarget_TrackTarget()
+        {
+            aiController.StopMovement();
+            aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.TRACK_TARGET;
+        }
+
+        private void SetState_ShootTarget_AimGunOnTarget()
+        {
+            aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.AIM_GUN_ON_TARGET;
+        }
+
+        private void SetState_ShootTarget_SpawnGun()
+        {
+            aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.SPAWN_GUN;
+        }
+        #endregion
+        //***************************
+
+        //***************************
+        #region FSM Methods
+
         private void Process_ShootTarget()
         {
-            switch(aiState.hostileHuman.currShootTargetState)
+            switch (aiState.hostileHuman.currShootTargetState)
             {
                 case AIState.HostileHuman.ShootTargetState.INACTIVE:
                     break;
@@ -60,7 +116,7 @@ namespace SealTeam4
                     DrawGun();
                     break;
                 case AIState.HostileHuman.ShootTargetState.MOVE_TO_SHOOT_TARGET:
-                    MoveTowardsShootTarget();
+                    MoveToShootTarget();
                     break;
                 case AIState.HostileHuman.ShootTargetState.TRACK_TARGET:
                     TrackTarget();
@@ -68,8 +124,8 @@ namespace SealTeam4
                 case AIState.HostileHuman.ShootTargetState.AIM_GUN_ON_TARGET:
                     AimGunOnTarget();
                     break;
-                case AIState.HostileHuman.ShootTargetState.SHOOT_TARGET:
-                    ShootTarget();
+                case AIState.HostileHuman.ShootTargetState.SHOOT:
+                    Shoot();
                     break;
             }
         }
@@ -87,107 +143,90 @@ namespace SealTeam4
                 aiController.SetNMAgentDestination(aiState.hostileHuman.waypointPos);
             }
         }
-
+        private void Process_Idle()
+        {
+            aiController.StopMovement();
+        }
         private void Process_KnifeTarget()
         {
 
         }
+        #endregion
+        //***************************
 
-        private void SetState_MoveToWaypoint()
-        {
-            aiState.hostileHuman.currState = AIState.HostileHuman.State.MOVE_TO_WAYPOINT;
-        }
-
-        private void SetState_MoveToShootTarget(Vector3 target)
-        {
-            aiState.hostileHuman.currState = AIState.HostileHuman.State.SHOOT_TARGET;
-            aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.MOVE_TO_SHOOT_TARGET;
-            Debug.Log("Switch to MOVE_TO_SHOOT_TARGET");
-            aiController.SetNMAgentDestination(target);
-            aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
-        }
-
-        private void SetState_ShootTarget()
-        {
-            aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.SHOOT_TARGET;
-            Debug.Log("Switch to SHOOT_TARGET");
-            aiController.StopMovement();
-        }
-
+        //***************************
+        #region SubFSM Methods
         private void SpawnGun()
         {
-            if (!aiController.ref_pistol)
+            if (aiController.ref_pistol)
             {
-                aiController.SpawnGunOnHand();
-                aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.DRAW_GUN;
-            }
-            else
-                SetState_MoveToShootTarget(aiState.hostileHuman.shootTarget.position);
-        }
-        
-        private void DrawGun()
-        {
-            bool finished = aiController.DrawGun();
-
-            if (finished)
-            {
-                SetState_MoveToShootTarget(aiState.hostileHuman.shootTarget.position);
-            }
-        }
-        
-        private void MoveTowardsShootTarget()
-        {
-            if (!aiController.ReachedDestination(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) &&
-                !aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name)
-                )
-            {
-                aiController.SetNMAgentDestination(aiState.hostileHuman.shootTarget.position);
-                aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
-            }
-            else
-            {
-                aiController.StopMovement();
-                aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.TRACK_TARGET;
-                Debug.Log("Switch to TRACK_TARGET");
-            }
-        }
-        
-        private void TrackTarget()
-        {
-            aiController.RotateTowardsTargetDirection(aiState.hostileHuman.shootTarget.position);
-
-            if (!aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name))
-            {
-                aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.AIM_GUN_ON_TARGET;
-                Debug.Log("Switch to AIM_GUN_ON_TARGET");
+                SetState_ShootTarget_MoveToShootTarget();
                 return;
             }
 
-            if (aiController.LookingAtTarget(aiState.hostileHuman.shootTarget.position, aiStats.lookAngleMarginOfError))
-                SetState_ShootTarget();
+            aiController.SpawnGunOnHand();
+            SetState_ShootTarget_DrawGun();
+        }
+
+        private void DrawGun()
+        {
+            aiController.DrawGun();
+            SetState_ShootTarget_MoveToShootTarget();
+        }
+
+        private void MoveToShootTarget()
+        {
+            if (aiController.ReachedDestination(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) &&
+                aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name)
+                )
+            {
+                SetState_ShootTarget_TrackTarget();
+                return;
+            }
+
+            aiController.SetNMAgentDestination(aiState.hostileHuman.shootTarget.position);
+            aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
+        }
+
+        private void TrackTarget()
+        {
+            if (!aiController.ReachedDestination(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) ||
+                !aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name))
+            {
+                SetState_ShootTarget_MoveToShootTarget();
+                return;
+            }
+
+            if (aiController.LookingAtTarget(aiState.hostileHuman.shootTarget.position, aiStats.shootTargetDir_AngleMarginOfError))
+            {
+                SetState_ShootTarget_AimGunOnTarget();
+                return;
+            }
+
+            aiController.RotateTowardsTargetDirection(aiState.hostileHuman.shootTarget.position);
         }
 
         private void AimGunOnTarget()
         {
             aiController.AimGun();
-            SetState_MoveToShootTarget(aiState.hostileHuman.shootTarget.position);
+            SetState_ShootTarget_Shoot();
         }
 
-        private void ShootTarget()
+        private void Shoot()
         {
-            if (!aiController.LookingAtTarget(aiState.hostileHuman.shootTarget.position, aiStats.shootTargetDir_AngleMarginOfError))
+            if (!aiController.ReachedDestination(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) ||
+                !aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name))
             {
+                aiController.ResetGunTransformToOrig();
                 aiController.LowerGun();
-                aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.TRACK_TARGET;
-                Debug.Log("Switch to TRACK_TARGET");
+                SetState_ShootTarget_MoveToShootTarget();
                 return;
             }
 
-            if (!aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name))
+            if (!aiController.LookingAtTarget(aiState.hostileHuman.shootTarget.position, aiStats.shootTargetDir_AngleMarginOfError))
             {
-                SetState_MoveToShootTarget(aiState.hostileHuman.shootTarget.position);
-                aiController.ResetGunTransformToOrig();
                 aiController.LowerGun();
+                SetState_ShootTarget_TrackTarget();
                 return;
             }
 
@@ -196,5 +235,7 @@ namespace SealTeam4
             // Shoot
             aiController.ref_pistol.FireGun();
         }
+        #endregion
+        //***************************
     }
 }

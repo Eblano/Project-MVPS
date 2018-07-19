@@ -338,10 +338,9 @@ namespace SealTeam4
             return centerRayPassed && leftRayPassed && rightRayPassed;
         }
 
-        public bool DrawGun()
+        public void DrawGun()
         {
             aiAnimController.Anim_DrawGun();
-            return aiAnimEventReciever.gunDraw_Completed;
         }
 
         public void AimGun()
