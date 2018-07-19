@@ -16,10 +16,12 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     private bool isBeingGrabbed = false;
     private bool grabStateChanged = false;
     private Vector3 initRot;
+    private Animator gunAnim;
 
     private void Start()
     {
         interactableObject = GetComponent<InteractableObject>();
+        gunAnim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -208,6 +210,10 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         {
             // Fire bullet
             GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNFIRE, devices);
+            if (gunAnim)
+            {
+                gunAnim.SetTrigger("Fire");
+            }
             FireBullet();
 
             // If there is a magazine attached
