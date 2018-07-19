@@ -391,11 +391,16 @@ namespace SealTeam4
             currSelectedGO.GetComponent<IActions>().SetAction(text);
         }
         
-        public void AddNewPlayer(string clientName)
+        public void AddNewPlayer(string playerName)
         {
             PlayerContainer newPlayerContainer = Instantiate(playerContainer_Prefab, playersPanel.transform).GetComponent<PlayerContainer>();
-            newPlayerContainer.Setup(clientName);
+            newPlayerContainer.Setup(playerName);
             currActivePlayerContainers.Add(newPlayerContainer);
+        }
+
+        public void RemovePlayer(string playerName)
+        {
+            Destroy(currActivePlayerContainers.Find(x => x.playerNameTxt.text == playerName).gameObject);
         }
 
         private void OnStartGameButtonClick()

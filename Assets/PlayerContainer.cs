@@ -7,9 +7,9 @@ using TMPro;
 public class PlayerContainer : MonoBehaviour
 {
     [Header("UI Components")]
-    [SerializeField] private TextMeshProUGUI playerNameTxt;
+    public TextMeshProUGUI playerNameTxt;
     [SerializeField] private Button vipFollowTargetBtn;
-    private bool vipFollowTargetBtn_ToggleOn = false;
+    [SerializeField] private bool vipFollowTargetBtn_ToggleOn = false;
 
     [Header("Colors")]
     [SerializeField] private Color unselectedColor = Color.grey;

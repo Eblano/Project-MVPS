@@ -52,7 +52,7 @@ namespace SealTeam4
         [Command]
         public void CmdRegisterClient(string clientName)
         {
-            InterfaceManager.instance.AddNewPlayer(clientName);
+            GameManager.instance.AddNewPlayer(clientName);
         }
 
         [TargetRpc]

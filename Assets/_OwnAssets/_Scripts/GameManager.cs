@@ -67,8 +67,9 @@ namespace SealTeam4
         [SerializeField] private GameObject magazine_sar21_Prefab;
 
         private List<GameObject> networkCommandableGameobjects = new List<GameObject>();
-
-
+        private List<GameObject> players_ref = new List<GameObject>();
+        private List<string> playerNames = new List<string>();
+        
         // NPC List
         private List<AIController> spawnedNPCs = new List<AIController>();
 
@@ -173,6 +174,8 @@ namespace SealTeam4
             {
                 areaUnderAttack = true;
             }
+
+            CheckPlayers();
         }
         #endregion
 
@@ -347,6 +350,20 @@ namespace SealTeam4
             registeredMarkers.Remove(registeredMarkers.Find(x => x.gameObject == gameObject));
         }
 
+        public void CheckPlayers()
+        {
+            for(int i = 0; i < players_ref.Count; i++)
+            {
+                if(!players_ref[i])
+                {
+                    InterfaceManager.instance.RemovePlayer(playerNames[i]);
+                    playerNames.Remove(playerNames[i]);
+                    players_ref.Remove(players_ref[i]);
+                    return;
+                }
+            }
+        }
+
         public bool AllPointMarkersOnPoint()
         {
             foreach(BaseMarker marker in registeredMarkers)
@@ -504,11 +521,6 @@ namespace SealTeam4
             return null;
         }
 
-        //public Transform GetFirstPlayerTransform()
-        //{
-        //    retur;
-        //}
-
         public Transform GetFirstVIPTransform()
         {
             return spawnedNPCs.Where(x => x.GetNPCType() == AIStats.NPCType.VIP).First().transform;
@@ -635,6 +647,14 @@ namespace SealTeam4
         public string GetSceneHash()
         {
             return sceneHash;
+        }
+
+        public void AddNewPlayer(string playerName)
+        {
+            players_ref.Add(GameObject.Find(playerName));
+            playerNames.Add(playerName);
+
+            InterfaceManager.instance.AddNewPlayer(playerName);
         }
 
         public void SetOverlayTransparency(int percent)
