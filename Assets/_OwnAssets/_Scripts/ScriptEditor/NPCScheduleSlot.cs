@@ -390,7 +390,6 @@ namespace SealTeam4
 
             string partnerNPCName = talkToNPCPartnerDropdown.options[dropdownValue].text;
             ref_schedule.argument_1 = partnerNPCName;
-            Debug.Log(partnerNPCName);
         }
 
         public void OnValueChanged_TalkToNPCInputField()
