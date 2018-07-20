@@ -16,20 +16,20 @@ public class DoorGrabNode : InteractableObject
 
     private void CheckGrabState()
     {
-        if (GetOwner() != null)
-        {
-            isBeingGrabbed = true;
-        }
-        else
-        {
-            isBeingGrabbed = false;
-        }
+        //if (GetOwner() != null)
+        //{
+        //    isBeingGrabbed = true;
+        //}
+        //else
+        //{
+        //    isBeingGrabbed = false;
+        //}
 
         if (grabStateChanged != isBeingGrabbed)
         {
             if (isBeingGrabbed)
             {
-                door.SetDoorFreeRot(true);
+                door.EnableDoorRot();
             }
 
             grabStateChanged = isBeingGrabbed;
