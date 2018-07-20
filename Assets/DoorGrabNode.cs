@@ -7,7 +7,7 @@ public class DoorGrabNode : InteractableObject
 {
     [SerializeField] private bool isBeingGrabbed = false;
     private bool grabStateChanged = false;
-    [SerializeField] private Door door;
+    [SerializeField] private Door[] doors;
 
     private void Update()
     {
@@ -29,7 +29,10 @@ public class DoorGrabNode : InteractableObject
         {
             if (isBeingGrabbed)
             {
-                door.EnableDoorRot();
+                foreach(Door door in doors)
+                {
+                    door.EnableDoorRot();
+                }
             }
 
             grabStateChanged = isBeingGrabbed;
