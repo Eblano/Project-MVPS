@@ -67,15 +67,17 @@ namespace SealTeam4
         [SerializeField] private GameObject magazine_sar21_Prefab;
 
         private List<GameObject> networkCommandableGameobjects = new List<GameObject>();
+
         private List<GameObject> players_ref = new List<GameObject>();
         private List<string> playerNames = new List<string>();
-        
+        private GameObject vipFollowTarget = null;
+
         // NPC List
         private List<AIController> spawnedNPCs = new List<AIController>();
 
         [Space(10)]
        
-        public string localPlayerName;
+        private string localPlayerName;
 
         [SerializeField] private Image panelOverlay;
 
@@ -384,9 +386,15 @@ namespace SealTeam4
             SceneManager.LoadScene("_LoadingScene");
         }
 
-        public void LoadScene(string sceneName)
+        public void SetVIPFollowTarget(string playerName)
         {
-            SceneManager.LoadScene(sceneName);
+            vipFollowTarget = players_ref.Find(x => x.name == playerName);
+        }
+
+        public void UnsetVIPFollowTarget(string playerName)
+        {
+            if (vipFollowTarget.name == playerName)
+                vipFollowTarget = null;
         }
 
         public List<string> GetAllDynamicWapointNames(string prefix)
@@ -400,6 +408,11 @@ namespace SealTeam4
         public void SetLocalPlayerName(string name)
         {
             localPlayerName = name;
+        }
+
+        public string GetLocalPlayerName()
+        {
+            return localPlayerName;
         }
 
         public void SpawnAndSetupNPC()
