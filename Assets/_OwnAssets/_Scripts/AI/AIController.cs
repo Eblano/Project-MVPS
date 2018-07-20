@@ -84,14 +84,14 @@ namespace SealTeam4
 
             UpdateActionableParameters();
 
+            if (!aiState.active)
+                return;
+
             if (aiState.prepareEnterHostile && aiState.hostileHuman.schBeforeEnteringHostileMode < aiState.currSchedule)
             {
                 aiState.prepareEnterHostile = false;
                 aiState.aIMode = AIState.AIMode.HOSTILE;
             }
-
-            if (!aiState.active)
-                return;
 
             // if area under attack
             if (GameManager.instance.areaUnderAttack)
@@ -100,6 +100,7 @@ namespace SealTeam4
                 {
                     case AIStats.NPCType.VIP:
                         aiState.aIMode = AIState.AIMode.VIP_UNDER_ATTACK;
+                        aiFSM_VIP_UnderAttack.SetProcess_FollowingPlayer();
                         break;
                         
                     case AIStats.NPCType.CIVILLIAN:
@@ -463,7 +464,7 @@ namespace SealTeam4
 
         public void SetGrabModeTransform(Transform grabSource)
         {
-            aiState.vip.grabSource = grabSource;
+            aiState.vip.followSource = grabSource;
         }
 
         public Vector3 GetHighestPointPos()

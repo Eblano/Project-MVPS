@@ -10,6 +10,8 @@ namespace SealTeam4
         {
             switch (aiState.vip.currState)
             {
+                case AIState.VIP.State.IDLE:
+                    break;
                 case AIState.VIP.State.FOLLOWING_PLAYER:
                     break;
                 case AIState.VIP.State.GRABBED:
@@ -17,6 +19,34 @@ namespace SealTeam4
                 default:
                     break;
             }
+        }
+
+        public void SetProcess_FollowingPlayer()
+        {
+            aiState.vip.followSource = GameManager.instance.GetVIPFollowTargetTransform();
+
+            if(aiState.vip.followSource)
+            {
+                aiController.SetNMAgentDestination(aiState.vip.followSource.position);
+                aiState.vip.currState = AIState.VIP.State.FOLLOWING_PLAYER;
+            }
+        }
+
+        public void SetProcess_Idle()
+        {
+            aiController.StopMovement();
+        }
+
+        private void Process_FollowingPlayer()
+        {
+            if (!aiState.vip.followSource || aiController.ReachedDestination(aiState.vip.followSource.position, aiStats.vipFollowPlayerDistance))
+            {
+                SetProcess_Idle();
+                return;
+            }
+
+            aiController.SetNMAgentDestination(aiState.vip.followSource.position);
+            aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
         }
     }
 }

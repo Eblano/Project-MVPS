@@ -9,9 +9,9 @@ using System.Linq;
 
 using UnityObject = UnityEngine.Object;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+//#if UNITY_EDITOR
+//using UnityEditor;
+//#endif
 
 namespace Battlehub.RTSaveLoad
 {
@@ -164,7 +164,7 @@ namespace Battlehub.RTSaveLoad
         private void Start()
         {
             #if UNITY_EDITOR
-            if (!Application.isPlaying && EditorApplication.isPlaying)
+            if (!Application.isPlaying /*&& EditorApplication.isPlaying*/)
             {
                 if(IdentifiersMap.Instance != null)
                 {

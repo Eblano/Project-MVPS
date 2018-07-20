@@ -114,10 +114,12 @@ namespace SealTeam4
 
         private void Host_Update()
         {
-            if(currGameManagerHostMode == GameManagerHostMode.RUN)
+            if (Input.GetKeyDown(KeyCode.P))
             {
-                Host_Run_Update();
+                areaUnderAttack = true;
             }
+
+            CheckPlayers();
         }
         
         private void Client_Update()
@@ -130,54 +132,43 @@ namespace SealTeam4
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Debug.Log("DebugNOOOO");
                 StartCoroutine(PlayerSizeCalibration.instance.CalibrateArmAndHeight());
             }
 
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                Debug.Log("Reset Calibration");
-                PlayerSizeCalibration.instance.ResetArmAndHeight();
-            }
+            //if (Input.GetKeyDown(KeyCode.R))
+            //{
+            //    Debug.Log("Reset Calibration");
+            //    PlayerSizeCalibration.instance.ResetArmAndHeight();
+            //}
 
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                Debug.Log("A");
-                PlayerSizeCalibration.instance.AdjustArms(-1);
-            }
+            //if (Input.GetKeyDown(KeyCode.A))
+            //{
+            //    Debug.Log("A");
+            //    PlayerSizeCalibration.instance.AdjustArms(-1);
+            //}
 
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                Debug.Log("S");
-                PlayerSizeCalibration.instance.AdjustArms(1);
-            }
+            //if (Input.GetKeyDown(KeyCode.S))
+            //{
+            //    Debug.Log("S");
+            //    PlayerSizeCalibration.instance.AdjustArms(1);
+            //}
 
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                Debug.Log("Q");
-                PlayerSizeCalibration.instance.AdjustHeight(-1);
-            }
+            //if (Input.GetKeyDown(KeyCode.Q))
+            //{
+            //    Debug.Log("Q");
+            //    PlayerSizeCalibration.instance.AdjustHeight(-1);
+            //}
 
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                Debug.Log("W");
-                PlayerSizeCalibration.instance.AdjustHeight(1);
-            }
+            //if (Input.GetKeyDown(KeyCode.W))
+            //{
+            //    Debug.Log("W");
+            //    PlayerSizeCalibration.instance.AdjustHeight(1);
+            //}
         }
 
         private void LevelSetup_Update()
         {
             UpdateRegisteredMarkers();
-        }
-
-        private void Host_Run_Update()
-        {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                areaUnderAttack = true;
-            }
-
-            CheckPlayers();
         }
         #endregion
 
@@ -384,6 +375,11 @@ namespace SealTeam4
         {
             PlayerPrefs.SetString("SceneToLoad", "_MainScene");
             SceneManager.LoadScene("_LoadingScene");
+        }
+
+        public Transform GetVIPFollowTargetTransform()
+        {
+            return vipFollowTarget.transform;
         }
 
         public void SetVIPFollowTarget(string playerName)
