@@ -289,21 +289,22 @@ namespace SealTeam4
         {
             GameManager.instance.SetSceneInfo(m_projectManager.ActiveScene.Name, GetActiveSceneHash());
 
+            // Spawn selected GameObjects
+            for (int i = 0; i < gameObjectsToSpawn.Count; i++)
+            {
+                GameObject go = Instantiate(gameObjectsToSpawn[i], Vector3.zero, Quaternion.identity);
+                go.transform.SetParent(null);
+            }
+
             // Destroy selected GameObjects by name in hierarchy
             for (int i = 0; i < gameObjectsToDestroyByName.Count; i++)
             {
                 GameObject objectToDestroy = GameObject.Find(gameObjectsToDestroyByName[i]);
                 if (objectToDestroy != null)
                 {
-                    Destroy(objectToDestroy);
+                    Debug.Log(objectToDestroy.name);
+                    DestroyImmediate(objectToDestroy);
                 }
-            }
-
-            // Spawn selected GameObjects
-            for (int i = 0; i < gameObjectsToSpawn.Count; i++)
-            {
-                GameObject go = Instantiate(gameObjectsToSpawn[i], Vector3.zero, Quaternion.identity);
-                go.transform.SetParent(null);
             }
 
             markerUICamera.gameObject.SetActive(true);

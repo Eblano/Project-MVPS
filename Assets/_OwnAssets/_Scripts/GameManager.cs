@@ -70,7 +70,7 @@ namespace SealTeam4
 
         private List<GameObject> players_ref = new List<GameObject>();
         private List<string> playerNames = new List<string>();
-        private GameObject vipFollowTarget = null;
+        [SerializeField] private GameObject vipFollowTarget = null;
 
         // NPC List
         private List<AIController> spawnedNPCs = new List<AIController>();
