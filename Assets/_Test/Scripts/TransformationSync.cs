@@ -5,12 +5,29 @@ using UnityEngine.Networking;
 
 public class TransformationSync : NetworkBehaviour
 {
+    [SerializeField] private float sendRatePerSecond = 30;
+    private float counter = float.MinValue;
+
     private void Update()
     {
         if (isServer)
         {
-            RpcSyncTransform(transform.position, transform.eulerAngles);
+            if (IsCounterReady(ref counter, 1 / sendRatePerSecond))
+            {
+                RpcSyncTransform(transform.position, transform.eulerAngles);
+            }
         }
+    }
+
+    private bool IsCounterReady(ref float timeCounter, float downTime)
+    {
+        if (Time.time > timeCounter)
+        {
+            timeCounter = Time.time + downTime;
+            return true;
+        }
+
+        return false;
     }
 
     [ClientRpc]
