@@ -303,7 +303,7 @@ namespace SealTeam4
                 if (objectToDestroy != null)
                 {
                     Debug.Log(objectToDestroy.name);
-                    DestroyImmediate(objectToDestroy);
+                    Destroy(objectToDestroy);
                 }
             }
 

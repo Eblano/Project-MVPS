@@ -10,13 +10,11 @@ namespace SealTeam4
         {
             switch (aiState.vip.currState)
             {
-                case AIState.VIP.State.IDLE:
+                case AIState.VIP.State.FOLLOW_PLAYER:
+                    Process_FollowPlayer();
                     break;
-                case AIState.VIP.State.FOLLOWING_PLAYER:
-                    break;
-                case AIState.VIP.State.GRABBED:
-                    break;
-                default:
+                case AIState.VIP.State.GRABBED_FOLLOW_PLAYER:
+                    Process_GrabbedFollowPlayer();
                     break;
             }
         }
@@ -28,25 +26,40 @@ namespace SealTeam4
             if(aiState.vip.followSource)
             {
                 aiController.SetNMAgentDestination(aiState.vip.followSource.position);
-                aiState.vip.currState = AIState.VIP.State.FOLLOWING_PLAYER;
+                aiState.vip.currState = AIState.VIP.State.FOLLOW_PLAYER;
             }
         }
 
         public void SetProcess_Idle()
         {
             aiController.StopMovement();
+            aiState.vip.currState = AIState.VIP.State.IDLE;
         }
 
-        private void Process_FollowingPlayer()
+        public void Process_Idle()
         {
-            if (!aiState.vip.followSource || aiController.ReachedDestination(aiState.vip.followSource.position, aiStats.vipFollowPlayerDistance))
+            if (aiState.vip.followSource)
             {
-                SetProcess_Idle();
+                aiController.SetNMAgentDestination(aiState.vip.followSource.position);
+                aiState.vip.currState = AIState.VIP.State.FOLLOW_PLAYER;
                 return;
             }
 
+            aiController.StopMovement();
+        }
+
+        private void Process_FollowPlayer()
+        {
+            if (!aiState.vip.followSource || aiController.ReachedDestination(aiState.vip.followSource.position, aiStats.vipFollowPlayerDistance))
+                return;
+
             aiController.SetNMAgentDestination(aiState.vip.followSource.position);
             aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
+        }
+
+        private void Process_GrabbedFollowPlayer()
+        {
+
         }
     }
 }

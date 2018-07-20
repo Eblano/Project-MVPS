@@ -22,7 +22,7 @@ namespace SealTeam4
         // Instance of the Game Manager
         public static GameManager instance;
         // If client name set on host
-        private bool clientNameSet = false;
+        private bool setupDone = false;
 
         // GameManager Modes
         private enum GameManagerMode { LEVELSETUP, HOST, CLIENT }
@@ -124,10 +124,11 @@ namespace SealTeam4
         
         private void Client_Update()
         {
-            if(!clientNameSet && localPlayerName != "Player(Clone)" && GameManagerAssistant.instance)
+            if(!setupDone && localPlayerName != "Player(Clone)" && GameManagerAssistant.instance)
             {
                 RegisterClientOnServer(localPlayerName);
-                clientNameSet = true;
+                Destroy(GameObject.Find("MarkerUICamera(Clone"));
+                setupDone = true;
             }
 
             if (Input.GetKeyDown(KeyCode.Space))

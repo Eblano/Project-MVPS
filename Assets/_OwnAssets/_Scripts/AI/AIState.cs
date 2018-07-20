@@ -93,8 +93,8 @@ namespace SealTeam4
         [System.Serializable]
         public class VIP
         {
-            public enum State { IDLE, FOLLOWING_PLAYER, GRABBED };
-            public State currState = State.FOLLOWING_PLAYER;
+            public enum State { IDLE, FOLLOW_PLAYER, GRABBED_FOLLOW_PLAYER };
+            public State currState = State.FOLLOW_PLAYER;
 
             public Transform followSource = null;
         }
