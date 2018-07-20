@@ -24,7 +24,8 @@ namespace SealTeam4
         public float maxGunRange = 5.0f;
 
         // For VIP
-        public float vipFollowPlayerDistance = 1.0f;
+        public float vipFollowPlayerDistance = 0.5f;
+        public float vipGrabbedPlayerDistance = 0.2f;
 
         [Header("Hidden Parameters")]
         public float lookAngleMarginOfError = 5.0f; // Min angle of error when rotating to face target

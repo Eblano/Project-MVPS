@@ -127,7 +127,6 @@ namespace SealTeam4
             if(!setupDone && localPlayerName != "Player(Clone)" && GameManagerAssistant.instance)
             {
                 RegisterClientOnServer(localPlayerName);
-                Destroy(GameObject.Find("MarkerUICamera(Clone"));
                 setupDone = true;
             }
 
@@ -205,6 +204,7 @@ namespace SealTeam4
                 Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
 
                 Destroy(Camera.main.gameObject);
+                Destroy(GameObject.Find("markerUICamera(Clone)"));
             }
         }
 

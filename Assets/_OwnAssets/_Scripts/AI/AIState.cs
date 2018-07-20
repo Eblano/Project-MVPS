@@ -96,7 +96,7 @@ namespace SealTeam4
             public enum State { IDLE, FOLLOW_PLAYER, GRABBED_FOLLOW_PLAYER };
             public State currState = State.FOLLOW_PLAYER;
 
-            public Transform followSource = null;
+            public Transform playerFollowTarget = null;
         }
         public VIP vip = new VIP();
     }

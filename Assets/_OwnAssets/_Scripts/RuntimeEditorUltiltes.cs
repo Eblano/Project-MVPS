@@ -306,8 +306,6 @@ namespace SealTeam4
                     Destroy(objectToDestroy);
                 }
             }
-
-            markerUICamera.gameObject.SetActive(true);
         }
 
         /// <summary>

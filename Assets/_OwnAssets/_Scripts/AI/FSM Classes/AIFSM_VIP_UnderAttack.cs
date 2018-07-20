@@ -10,6 +10,9 @@ namespace SealTeam4
         {
             switch (aiState.vip.currState)
             {
+                case AIState.VIP.State.IDLE:
+                    Process_Idle();
+                    break;
                 case AIState.VIP.State.FOLLOW_PLAYER:
                     Process_FollowPlayer();
                     break;
@@ -19,15 +22,32 @@ namespace SealTeam4
             }
         }
 
-        public void SetProcess_FollowingPlayer()
+        //**************************
+        #region SetProcess methods
+        public void SetProcess_FollowPlayer()
         {
-            aiState.vip.followSource = GameManager.instance.GetVIPFollowTargetTransform();
+            aiState.vip.playerFollowTarget = GameManager.instance.GetVIPFollowTargetTransform();
 
-            if(aiState.vip.followSource)
+            if(!aiState.vip.playerFollowTarget)
             {
-                aiController.SetNMAgentDestination(aiState.vip.followSource.position);
-                aiState.vip.currState = AIState.VIP.State.FOLLOW_PLAYER;
+                SetProcess_Idle();
             }
+
+            aiController.SetNMAgentDestination(aiState.vip.playerFollowTarget.position);
+            aiState.vip.currState = AIState.VIP.State.FOLLOW_PLAYER;
+        }
+
+        public void SetProcess_GrabbedFollowPlayer(Transform grabSource)
+        {
+            aiState.vip.playerFollowTarget = grabSource;
+
+            if (!aiState.vip.playerFollowTarget)
+            {
+                SetProcess_Idle();
+            }
+
+            aiController.SetNMAgentDestination(aiState.vip.playerFollowTarget.position);
+            aiState.vip.currState = AIState.VIP.State.GRABBED_FOLLOW_PLAYER;
         }
 
         public void SetProcess_Idle()
@@ -35,13 +55,16 @@ namespace SealTeam4
             aiController.StopMovement();
             aiState.vip.currState = AIState.VIP.State.IDLE;
         }
+        #endregion
+        //**************************
 
+        //**************************
+        #region Process methods
         public void Process_Idle()
         {
-            if (aiState.vip.followSource)
+            if (aiState.vip.playerFollowTarget && !aiController.ReachedDestination(aiState.vip.playerFollowTarget.position, aiStats.vipFollowPlayerDistance))
             {
-                aiController.SetNMAgentDestination(aiState.vip.followSource.position);
-                aiState.vip.currState = AIState.VIP.State.FOLLOW_PLAYER;
+                SetProcess_FollowPlayer();
                 return;
             }
 
@@ -50,16 +73,28 @@ namespace SealTeam4
 
         private void Process_FollowPlayer()
         {
-            if (!aiState.vip.followSource || aiController.ReachedDestination(aiState.vip.followSource.position, aiStats.vipFollowPlayerDistance))
+            if (!aiState.vip.playerFollowTarget || aiController.ReachedDestination(aiState.vip.playerFollowTarget.position, aiStats.vipFollowPlayerDistance))
+            {
+                SetProcess_Idle();
                 return;
+            }
 
-            aiController.SetNMAgentDestination(aiState.vip.followSource.position);
+            aiController.SetNMAgentDestination(aiState.vip.playerFollowTarget.position);
             aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
         }
 
         private void Process_GrabbedFollowPlayer()
         {
+            if (!aiState.vip.playerFollowTarget || aiController.ReachedDestination(aiState.vip.playerFollowTarget.position, aiStats.vipGrabbedPlayerDistance))
+            {
+                SetProcess_Idle();
+                return;
+            }
 
+            aiController.SetNMAgentDestination(aiState.vip.playerFollowTarget.position);
+            aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
         }
+        #endregion
+        //**************************
     }
 }

@@ -100,7 +100,7 @@ namespace SealTeam4
                 {
                     case AIStats.NPCType.VIP:
                         aiState.aIMode = AIState.AIMode.VIP_UNDER_ATTACK;
-                        aiFSM_VIP_UnderAttack.SetProcess_FollowingPlayer();
+                        aiFSM_VIP_UnderAttack.SetProcess_FollowPlayer();
                         break;
                         
                     case AIStats.NPCType.CIVILLIAN:
@@ -464,7 +464,10 @@ namespace SealTeam4
 
         public void SetGrabModeTransform(Transform grabSource)
         {
-            aiState.vip.followSource = grabSource;
+            if (grabSource)
+                aiFSM_VIP_UnderAttack.SetProcess_GrabbedFollowPlayer(grabSource);
+            else
+                aiFSM_VIP_UnderAttack.SetProcess_FollowPlayer();
         }
 
         public Vector3 GetHighestPointPos()
