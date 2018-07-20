@@ -4,33 +4,46 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class PlayerContainer : MonoBehaviour
+namespace SealTeam4
 {
-    [Header("UI Components")]
-    public TextMeshProUGUI playerNameTxt;
-    [SerializeField] private Button vipFollowTargetBtn;
-    [SerializeField] private bool vipFollowTargetBtn_ToggleOn = false;
-
-    [Header("Colors")]
-    [SerializeField] private Color unselectedColor = Color.grey;
-    [SerializeField] private Color vipFollowTargetBtnColor = Color.red;
-
-    public void Setup(string playerName)
+    public class PlayerContainer : MonoBehaviour
     {
-        playerNameTxt.text = playerName;
+        [Header("UI Components")]
+        public TextMeshProUGUI playerNameTxt;
+        [SerializeField] private Button vipFollowTargetBtn;
+        [SerializeField] private bool vipFollowTargetBtn_ToggleOn = false;
 
-        vipFollowTargetBtn.image.color = unselectedColor;
+        [Header("Colors")]
+        [SerializeField] private Color unselectedColor = Color.grey;
+        [SerializeField] private Color vipFollowTargetBtnColor = Color.red;
 
-        vipFollowTargetBtn.onClick.AddListener(delegate { OnClick_VIPFollowTargetBtn(); });
-    }
+        public void Setup(string playerName)
+        {
+            playerNameTxt.text = playerName;
 
-    private void OnClick_VIPFollowTargetBtn()
-    {
-        if(vipFollowTargetBtn_ToggleOn)
-            vipFollowTargetBtn.image.color = vipFollowTargetBtnColor;
-        else
             vipFollowTargetBtn.image.color = unselectedColor;
 
-        vipFollowTargetBtn_ToggleOn = !vipFollowTargetBtn_ToggleOn;
+            vipFollowTargetBtn.onClick.AddListener(delegate { OnClick_VIPFollowTargetBtn(); });
+        }
+
+        public void SetVIPFollowButtonState(bool state)
+        {
+            if (state)
+            {
+                vipFollowTargetBtn.image.color = vipFollowTargetBtnColor;
+                InterfaceManager.instance.UnToggleAllPlayerContainerVIPFollowTarget(this);
+                GameManager.instance.SetVIPFollowTarget(playerNameTxt.text);
+            }
+            else
+                vipFollowTargetBtn.image.color = unselectedColor;
+
+            vipFollowTargetBtn_ToggleOn = state;
+        }
+
+        private void OnClick_VIPFollowTargetBtn()
+        {
+            vipFollowTargetBtn_ToggleOn = !vipFollowTargetBtn_ToggleOn;
+            SetVIPFollowButtonState(vipFollowTargetBtn_ToggleOn);
+        }
     }
 }

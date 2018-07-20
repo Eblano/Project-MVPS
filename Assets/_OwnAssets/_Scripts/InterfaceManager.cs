@@ -18,7 +18,6 @@ namespace SealTeam4
     /// </summary>
     public class InterfaceManager : MonoBehaviour
     {
-        #region Variables
         public static InterfaceManager instance;
 
         [SerializeField] private GameObject camPrefab;
@@ -79,7 +78,6 @@ namespace SealTeam4
 
         private bool spawnedNPCAndAcc = false;
         private bool gameStarted = false;
-        #endregion
 
         // Use this for initialization
         void Start()
@@ -173,6 +171,15 @@ namespace SealTeam4
         {
             currGameTime += Time.deltaTime;
             gameTime.text = string.Format("{0:00}:{1:00}", (currGameTime / 60) % 60, currGameTime % 60);
+        }
+
+        public void UnToggleAllPlayerContainerVIPFollowTarget(PlayerContainer exclude)
+        {
+            foreach(PlayerContainer player in currActivePlayerContainers)
+            {
+                if (player != exclude)
+                    player.SetVIPFollowButtonState(false);
+            }
         }
 
         private void RefreshObjectInfoPanels(List<ObjectInfo> objInfos)
