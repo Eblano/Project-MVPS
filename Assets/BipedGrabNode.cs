@@ -8,9 +8,17 @@ public class BipedGrabNode : InteractableObject
     [SerializeField] private BipedController BC;
     [SerializeField] private AIController aIController;
     [SerializeField] private BipedController.BipedPosition bipPos;
+    [SerializeField] private float snapBackRadius;
+
+    private Transform bipedTransform;
 
     [SerializeField] private bool isBeingGrabbed = false;
     private bool grabStateChanged = false;
+
+    private void Start()
+    {
+        bipedTransform = BC.GetBipedPos(bipPos);
+    }
 
     private void Update()
     {
@@ -19,7 +27,7 @@ public class BipedGrabNode : InteractableObject
 
     private void CheckGrabState()
     {
-        if (GetOwner() != null)
+        if (GetOwner() != null && WithinRadius())
         {
             isBeingGrabbed = true;
         }
@@ -45,5 +53,10 @@ public class BipedGrabNode : InteractableObject
 
             grabStateChanged = isBeingGrabbed;
         }
+    }
+
+    private bool WithinRadius()
+    {
+        return Vector3.Distance(bipedTransform.position, transform.position) < snapBackRadius;
     }
 }
