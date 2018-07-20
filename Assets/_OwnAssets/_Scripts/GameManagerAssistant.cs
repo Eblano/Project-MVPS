@@ -36,9 +36,8 @@ namespace SealTeam4
         {
             GameManager.instance.SetOverlayTransparency(percent);
         }
-
-        [Command]
-        public void CmdNetworkSpawnObject(GameObject GO)
+        
+        public void NetworkSpawnGameObj(GameObject GO)
         {
             NetworkServer.Spawn(GO);
         }
