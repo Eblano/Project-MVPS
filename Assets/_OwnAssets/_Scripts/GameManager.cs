@@ -116,7 +116,11 @@ namespace SealTeam4
         {
             if (Input.GetKeyDown(KeyCode.P))
             {
-                areaUnderAttack = true;
+                foreach(AIController npc in spawnedNPCs)
+                {
+                    if (npc.GetNPCType() == AIStats.NPCType.CIVILLIAN || npc.GetNPCType() == AIStats.NPCType.VIP)
+                        npc.TriggerUnderAttackState();
+                }
             }
 
             CheckPlayers();

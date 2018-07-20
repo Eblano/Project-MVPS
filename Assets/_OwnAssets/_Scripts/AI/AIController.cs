@@ -93,22 +93,6 @@ namespace SealTeam4
                 aiState.aIMode = AIState.AIMode.HOSTILE;
             }
 
-            // if area under attack
-            if (GameManager.instance.areaUnderAttack)
-            {
-                switch (aiStats.npcType)
-                {
-                    case AIStats.NPCType.VIP:
-                        aiState.aIMode = AIState.AIMode.VIP_UNDER_ATTACK;
-                        aiFSM_VIP_UnderAttack.SetProcess_FollowPlayer();
-                        break;
-                        
-                    case AIStats.NPCType.CIVILLIAN:
-                        aiState.aIMode = AIState.AIMode.CIVILIAN_UNDER_ATTACK;
-                        break;
-                }
-            }
-
             switch (aiState.aIMode)
             {
                 case AIState.AIMode.FOLLOW_SCHEDULE:
@@ -183,6 +167,11 @@ namespace SealTeam4
         public bool ReachedDestination(Vector3 destination, float extraStoppingDistance)
         {
             return nmAgent.remainingDistance < aiStats.stopDist + extraStoppingDistance;
+        }
+
+        public bool WithinStoppingDistance(Vector3 destination, float stopDist)
+        {
+            return Vector3.Distance(transform.position, destination) < stopDist;
         }
 
         public void MoveAITowardsNMAgentDestination(float speed)
@@ -555,6 +544,27 @@ namespace SealTeam4
                     if (!actionableParameters.Contains("Move To " + dynWPMarkerName))
                         actionableParameters.Remove("Move To " + dynWPMarkerName);
                 }
+            }
+        }
+
+        public void TriggerUnderAttackState()
+        {
+            switch (aiStats.npcType)
+            {
+                case AIStats.NPCType.VIP:
+                    if(aiState.aIMode != AIState.AIMode.VIP_UNDER_ATTACK)
+                    {
+                        aiState.aIMode = AIState.AIMode.VIP_UNDER_ATTACK;
+                        aiFSM_VIP_UnderAttack.SetProcess_FollowPlayer();
+                    }
+                    break;
+
+                case AIStats.NPCType.CIVILLIAN:
+                    if (aiState.aIMode != AIState.AIMode.CIVILIAN_UNDER_ATTACK)
+                    {
+                        aiState.aIMode = AIState.AIMode.CIVILIAN_UNDER_ATTACK;
+                    }
+                    break;
             }
         }
 
