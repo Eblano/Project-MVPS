@@ -62,13 +62,12 @@ namespace SealTeam4
         #region Process methods
         public void Process_Idle()
         {
-            aiController.SetNMAgentDestination(aiController.transform.position);
             if (aiState.vip.playerFollowTarget && !aiController.ReachedDestination(aiState.vip.playerFollowTarget.position, aiStats.vipFollowPlayerDistance))
             {
                 SetProcess_FollowPlayer();
                 return;
             }
-            
+            aiController.SetNMAgentDestination(aiController.transform.position);
             aiController.StopMovement();
         }
 
