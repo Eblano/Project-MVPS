@@ -34,6 +34,25 @@ public class BipedController : MonoBehaviour
         }
     }
 
+    public Transform GetBipedPos(BipedPosition bipedPosition)
+    {
+        switch (bipedPosition)
+        {
+            case BipedPosition.LHAND:
+                return fbBipedIK.solver.leftHandEffector.target;
+            case BipedPosition.RHAND:
+                return fbBipedIK.solver.rightHandEffector.target;
+            case BipedPosition.LSHOULD:
+                return fbBipedIK.solver.leftShoulderEffector.target;
+            case BipedPosition.RSHOULD:
+                return fbBipedIK.solver.rightShoulderEffector.target;
+            default:
+                break;
+        }
+
+        return null;
+    }
+
     private void SetLeftShouldersBiped(Transform target, float weight)
     {
         fbBipedIK.solver.leftShoulderEffector.target = target;
