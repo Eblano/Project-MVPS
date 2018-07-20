@@ -449,7 +449,7 @@ namespace SealTeam4
                 spawnedNPCs.Add(npcGOAIController);
 
                 // Spawn NPC on all clients
-                GameManagerAssistant.instance.CmdNetworkSpawnObject(npc);
+                GameManagerAssistant.instance.NetworkSpawnGameObj(npc);
             }
         }
 
@@ -510,7 +510,7 @@ namespace SealTeam4
                 GameObject accessoryItem = Instantiate(accessoryItemPrefab, accessorySpawnMarker.pointPosition, accessorySpawnMarker.pointRotation);
 
                 if (GameManagerAssistant.instance)
-                    GameManagerAssistant.instance.CmdNetworkSpawnObject(accessoryItem);
+                    GameManagerAssistant.instance.NetworkSpawnGameObj(accessoryItem);
                 else
                     Debug.Log("GameManageAssistant not found");
             }
