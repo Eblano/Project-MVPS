@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageColliderHandler : MonoBehaviour
+public class DamageColliderHandler : IDamageable
 {
     [SerializeField] private int damageTaken;
     [SerializeField] private PlayerStats playerStats;
@@ -12,6 +12,11 @@ public class DamageColliderHandler : MonoBehaviour
         // Called by NPC for player to take dmg
         playerStats.TakeDamage(damageTaken);
         TriggerSomething();
+    }
+
+    public void OnHit(Collider c)
+    {
+
     }
 
     private void TriggerSomething()
