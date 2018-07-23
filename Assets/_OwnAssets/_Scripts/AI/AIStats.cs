@@ -35,5 +35,11 @@ namespace SealTeam4
         public float turningSpeed = 10.0f;
         public float normalMoveSpeed = 1.0f;
         public float runningSpeed = 2.0f;
+
+        public int totalHp = 100;
+        public int headDmg = 100;
+        public int bodyDmg = 20;
+        public int handDmg = 15;
+        public int legDmg = 15;
     }
 }
