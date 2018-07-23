@@ -36,10 +36,22 @@ namespace SealTeam4
         public float normalMoveSpeed = 1.0f;
         public float runningSpeed = 2.0f;
 
-        public int totalHp = 100;
+        [SerializeField] private int totalHp = 100;
         public int headDmg = 100;
         public int bodyDmg = 20;
         public int handDmg = 15;
         public int legDmg = 15;
+
+        public int GetTotalHP()
+        {
+            return totalHp;
+        }
+
+        public void TakeDamage(int dmgAmt)
+        {
+            totalHp -= dmgAmt;
+            if (totalHp < 0)
+                totalHp = 0;
+        }
     }
 }

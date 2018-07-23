@@ -29,10 +29,13 @@ namespace SealTeam4
 
             if(Physics.Raycast(ray, out hitInfo, Mathf.Infinity))
             {
-                if(hitEffect_Prefab)
-                {
-                    GameObject hitEffect = Instantiate(hitEffect_Prefab, hitInfo.point, Quaternion.identity);
-                }
+                IDamageable iDamagable = hitInfo.transform.root.GetComponent<IDamageable>();
+
+                if (iDamagable != null)
+                    iDamagable.OnHit(hitInfo.collider);
+
+                //if (hitEffect_Prefab)
+                //    Instantiate(hitEffect_Prefab, hitInfo.point, Quaternion.identity);
                     
             }
         }

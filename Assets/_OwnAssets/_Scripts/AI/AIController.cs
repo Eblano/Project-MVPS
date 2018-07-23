@@ -9,7 +9,7 @@ using UnityEngine.Events;
 /// </summary>
 namespace SealTeam4
 {
-    public class AIController : MonoBehaviour, IActions, IObjectInfo
+    public class AIController : MonoBehaviour, IActions, IObjectInfo, IDamageable
     {
         [System.Serializable]
         private class TransformOffset
@@ -102,6 +102,8 @@ namespace SealTeam4
 
             if (!aiState.active)
                 return;
+
+            CheckHPStatus();
 
             if (aiState.prepareEnterHostile && aiState.hostileHuman.schBeforeEnteringHostileMode < aiState.currSchedule)
             {
@@ -265,28 +267,15 @@ namespace SealTeam4
             return aiAnimEventReciever.sitting_Completed;
         }
 
-        //public bool InLOS(Vector3 target, string targetGameObjectName)
-        //{
-        //    RaycastHit hitInfo;
-        //    Ray ray = new Ray(headT.position, target - headT.position);
-        //    //Debug.DrawRay(headT.position, target - headT.position);
-
-        //    int layerMask = ~(
-        //        1 << LayerMask.NameToLayer("FloatingUI") |
-        //        1 << LayerMask.NameToLayer("UI") |
-        //        1 << LayerMask.NameToLayer("AreaMarker") |
-        //        1 << LayerMask.NameToLayer("Marker"));
-
-        //    if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, layerMask))
-        //    {
-        //        if (hitInfo.transform.name == targetGameObjectName)
-        //        {
-        //            Debug.Log("Head is in LOS with " + targetGameObjectName);
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
+        private void CheckHPStatus()
+        {
+            if(aiStats.GetTotalHP() == 0)
+            {
+                aiAnimController.Anim_Die();
+                aiState.active = false;
+                StopMovement();
+            }
+        }
 
         public bool InLOS3PT(Vector3 target, string targetGameObjectName)
         {
@@ -672,7 +661,7 @@ namespace SealTeam4
 
             ObjectInfo objInfo3 = new ObjectInfo();
             objInfo3.title = "Health";
-            objInfo3.content.Add("Current HP: " + aiStats.totalHp);
+            objInfo3.content.Add("Current HP: " + aiStats.GetTotalHP());
 
             List<ObjectInfo> objInfos = new List<ObjectInfo>
             {
@@ -689,7 +678,7 @@ namespace SealTeam4
             {
                 if (c == bodyColl)
                 {
-                    aiStats.totalHp -= aiStats.bodyDmg;
+                    aiStats.TakeDamage(aiStats.bodyDmg);
                     return;
                 }
             }
@@ -698,7 +687,7 @@ namespace SealTeam4
             {
                 if (c == headColl)
                 {
-                    aiStats.totalHp -= aiStats.headDmg;
+                    aiStats.TakeDamage(aiStats.headDmg);
                     return;
                 }
             }
@@ -707,7 +696,7 @@ namespace SealTeam4
             {
                 if (c == handColl)
                 {
-                    aiStats.totalHp -= aiStats.handDmg;
+                    aiStats.TakeDamage(aiStats.handDmg);
                     return;
                 }
             }
@@ -716,7 +705,7 @@ namespace SealTeam4
             {
                 if (c == legColl)
                 {
-                    aiStats.totalHp -= aiStats.legDmg;
+                    aiStats.TakeDamage(aiStats.handDmg);
                     return;
                 }
             }

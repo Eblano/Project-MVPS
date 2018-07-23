@@ -176,7 +176,7 @@ namespace SealTeam4
 
         private void MoveToShootTarget()
         {
-            if (aiController.ReachedDestination(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) &&
+            if (aiController.WithinStoppingDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) &&
                 aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name)
                 )
             {
@@ -190,7 +190,7 @@ namespace SealTeam4
 
         private void TrackTarget()
         {
-            if (!aiController.ReachedDestination(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) ||
+            if (!aiController.WithinStoppingDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) ||
                 !aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name))
             {
                 SetState_ShootTarget_MoveToShootTarget();
@@ -214,17 +214,9 @@ namespace SealTeam4
 
         private void Shoot()
         {
-            if (!aiController.ReachedDestination(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) ||
-                !aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name))
-            {
-                aiController.ResetGunTransformToOrig();
-                aiController.LowerGun();
-                SetState_ShootTarget_MoveToShootTarget();
-                return;
-            }
-
             if (!aiController.LookingAtTarget(aiState.hostileHuman.shootTarget.position, aiStats.shootTargetDir_AngleMarginOfError))
             {
+                aiController.ResetGunTransformToOrig();
                 aiController.LowerGun();
                 SetState_ShootTarget_TrackTarget();
                 return;

@@ -127,6 +127,11 @@ namespace SealTeam4
             m_Animator.SetBool("AimGun", false);
         }
 
+        public void Anim_Die()
+        {
+            m_Animator.SetTrigger("Die");
+        }
+
         /// <summary>
         /// Help the character turn faster 
         /// (this is in addition to root rotation in the animation)
