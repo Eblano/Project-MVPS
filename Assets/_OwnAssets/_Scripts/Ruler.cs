@@ -28,6 +28,11 @@ namespace SealTeam4
             prevEndName = endName;
         }
 
+        public void SetDistToEnd(float value)
+        {
+            distToEnd = value;
+        }
+
         private void Update()
         {
             if (endName != prevEndName)
@@ -55,7 +60,10 @@ namespace SealTeam4
         private void AttemptToDisconnectFromEndRuler()
         {
             if(connectedRuler)
+            {
                 connectedRuler.SetRulerEnd(false);
+                connectedRuler.SetDistToEnd(0);
+            }
 
             SetRulerHead(false);
             connectedRuler = null;
@@ -78,7 +86,10 @@ namespace SealTeam4
         private void UpdateDistanceValue()
         {
             if (connectedRuler)
+            {
                 distToEnd = float.Parse((connectedRuler.transform.position - transform.position).magnitude.ToString("n2"));
+                connectedRuler.SetDistToEnd(distToEnd);
+            }
             else
                 distToEnd = 0;
         }
