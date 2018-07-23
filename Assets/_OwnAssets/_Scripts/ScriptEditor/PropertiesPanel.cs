@@ -20,6 +20,7 @@ namespace SealTeam4
         [SerializeField] private GameObject a_SchedulesPanel;
         [SerializeField] private TextMeshProUGUI a_PropertiesSectionText;
         [SerializeField] private Toggle a_ActivateAtSpawnToggle;
+        [SerializeField] private TMP_InputField a_MovementSpdInputField;
 
         [Header("Civillain Specific")]
         [SerializeField] private GameObject c_PropertiesPanel;
@@ -68,6 +69,7 @@ namespace SealTeam4
             a_SpawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_NPCOutfitDropdown(); });
             a_AITypeDropdown.onValueChanged.AddListener(delegate { OnValueChanged_AITypeDropdown(); });
             a_ActivateAtSpawnToggle.onValueChanged.AddListener(delegate { OnValueChanged_ActivateOnSpawnToggle(); });
+            a_MovementSpdInputField.onValueChanged.AddListener(delegate { OnValueChanged_MovementSpdInputField(); });
 
             Setup_SpawnMarkerDropdown(npcSpawnMarkers);
             Setup_NPCOutfitDropdown();
@@ -305,6 +307,14 @@ namespace SealTeam4
         private void OnValueChanged_ActivateOnSpawnToggle()
         {
             ref_npcSpawnData.activateOnStart = a_ActivateAtSpawnToggle.isOn;
+        }
+
+        private void OnValueChanged_MovementSpdInputField()
+        {
+            float movementSpd = float.Parse(a_MovementSpdInputField.text);
+
+            movementSpd = Mathf.Clamp(movementSpd, 0.2f, 3f);
+            ref_npcSpawnData.movementSpdMultiplier = movementSpd;
         }
 
         private void OnValueChanged_AITypeDropdown()

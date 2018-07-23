@@ -298,6 +298,7 @@ public class NPCSpawnData_SStorage
     public string spawnMarkerName;
     public string npcOutfit = "TYPE 0";
     public string aiType = "Civillian";
+    public float movementSpdMultiplier = 1;
 
     [Header("Civillian Properties")]
     public string civillianThreatResponse = "Freeze";
