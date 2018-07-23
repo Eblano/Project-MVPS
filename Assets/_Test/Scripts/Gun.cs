@@ -83,6 +83,13 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         RaycastHit hit;
         if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("NPC")))
         {
+            IDamageable damageableObj = hit.collider.transform.root.GetComponent<IDamageable>();
+
+            if (damageableObj != null)
+            {
+                damageableObj.OnHit(hit.collider);
+            }
+
             Instantiate(spawnPref, hit.point, firingPoint.rotation);
         }
     }
