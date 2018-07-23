@@ -275,6 +275,8 @@ namespace SealTeam4
 
                 npcSpawnData.npcName = npcSpawnData_RTEStorage.npcName;
                 npcSpawnData.spawnMarkerName = npcSpawnData_RTEStorage.spawnMarkerName;
+                npcSpawnData.aiStats.normalMoveSpeed *= npcSpawnData_RTEStorage.movementSpdMultiplier;
+                npcSpawnData.aiStats.runningSpeed *= npcSpawnData_RTEStorage.movementSpdMultiplier;
 
                 npcSpawnDataList.Add(npcSpawnData);
             }
@@ -298,6 +300,7 @@ public class NPCSpawnData_SStorage
     public string spawnMarkerName;
     public string npcOutfit = "TYPE 0";
     public string aiType = "Civillian";
+    public float movementSpdMultiplier = 1;
 
     [Header("Civillian Properties")]
     public string civillianThreatResponse = "Freeze";

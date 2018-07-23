@@ -20,7 +20,8 @@ namespace SealTeam4
         [SerializeField] private GameObject a_SchedulesPanel;
         [SerializeField] private TextMeshProUGUI a_PropertiesSectionText;
         [SerializeField] private Toggle a_ActivateAtSpawnToggle;
-
+        [SerializeField] private TMP_InputField a_MovementSpdInputField;
+        
         [Header("Civillain Specific")]
         [SerializeField] private GameObject c_PropertiesPanel;
         [SerializeField] private TMP_Dropdown c_threatRespondBehaviourDropdown;
@@ -35,6 +36,7 @@ namespace SealTeam4
 
         // BG of inputs
         private Image spawnMarkerDropdownBGImg;
+        private Image movementSpdInputFieldBGImg;
 
         // Prefab of NPC Schedule Slot
         private GameObject npcScheduleSlot_Prefab;
@@ -68,10 +70,12 @@ namespace SealTeam4
             a_SpawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_NPCOutfitDropdown(); });
             a_AITypeDropdown.onValueChanged.AddListener(delegate { OnValueChanged_AITypeDropdown(); });
             a_ActivateAtSpawnToggle.onValueChanged.AddListener(delegate { OnValueChanged_ActivateOnSpawnToggle(); });
+            a_MovementSpdInputField.onValueChanged.AddListener(delegate { OnValueChanged_MovementSpdInputField(); });
 
             Setup_SpawnMarkerDropdown(npcSpawnMarkers);
             Setup_NPCOutfitDropdown();
             Setup_AITypeDropdown();
+            Setup_MovementSpeedInputField();
             Setup_ActivateOnSpawnToggle();
             Setup_ScheduleSlots(waypointMarkers, areaMarkers);
 
@@ -81,6 +85,8 @@ namespace SealTeam4
             
             spawnMarkerDropdownBGImg = a_SpawnMarkerDropdown.GetComponent<Image>();
             origColor = spawnMarkerDropdownBGImg.color;
+            movementSpdInputFieldBGImg = a_MovementSpdInputField.GetComponent<Image>();
+            origColor = movementSpdInputFieldBGImg.color;
 
             gameObject.SetActive(false);
         }
@@ -103,6 +109,14 @@ namespace SealTeam4
             }
             else
                 spawnMarkerDropdownBGImg.color = origColor;
+
+            if(ref_npcSpawnData.movementSpdMultiplier < 0.5f || ref_npcSpawnData.movementSpdMultiplier > 5f)
+            {
+                movementSpdInputFieldBGImg.color = errorColor;
+                dataIsComplete = false;
+            }
+            else
+                movementSpdInputFieldBGImg.color = origColor;
 
             // Checking all NPC Schedule slots under this properties panel
             foreach (NPCScheduleSlot slot in npcScheduleSlotList)
@@ -263,6 +277,11 @@ namespace SealTeam4
             a_ActivateAtSpawnToggle.isOn = ref_npcSpawnData.activateOnStart;
         }
 
+        private void Setup_MovementSpeedInputField()
+        {
+            a_MovementSpdInputField.text = ref_npcSpawnData.movementSpdMultiplier.ToString();
+        }
+
         private void Setup_AITypeDropdown()
         {
             List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
@@ -305,6 +324,17 @@ namespace SealTeam4
         private void OnValueChanged_ActivateOnSpawnToggle()
         {
             ref_npcSpawnData.activateOnStart = a_ActivateAtSpawnToggle.isOn;
+        }
+
+        private void OnValueChanged_MovementSpdInputField()
+        {
+            if(a_MovementSpdInputField.text.Length > 0)
+            {
+                float movementSpd = float.Parse(a_MovementSpdInputField.text);
+                ref_npcSpawnData.movementSpdMultiplier = movementSpd;
+            }
+            else
+                ref_npcSpawnData.movementSpdMultiplier = 1;
         }
 
         private void OnValueChanged_AITypeDropdown()

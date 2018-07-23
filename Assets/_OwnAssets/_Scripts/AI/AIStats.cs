@@ -18,14 +18,7 @@ namespace SealTeam4
         public CivillianStressResponseMode threatResponseMode = CivillianStressResponseMode.FREEZE;
 
         // For Terrorist
-        public List<string> allDynamicWaypoints;
-        public float shootTargetDir_AngleMarginOfError = 20.0f;
-        public float losMarginSize = 0.3f;
         public float maxGunRange = 5.0f;
-
-        // For VIP
-        public float vipFollowPlayerDistance = 2f;
-        public float vipGrabbedPlayerDistance = 0.3f;
 
         [Header("Hidden Parameters")]
         public float lookAngleMarginOfError = 5.0f; // Min angle of error when rotating to face target
@@ -41,6 +34,15 @@ namespace SealTeam4
         public int bodyDmg = 20;
         public int handDmg = 15;
         public int legDmg = 15;
+
+        // For Terrorist
+        public List<string> allDynamicWaypoints;
+        public float shootTargetDir_AngleMarginOfError = 20.0f;
+        public float losMarginSize = 0.3f;
+
+        // For VIP
+        public float vipFollowPlayerDistance = 2f;
+        public float vipGrabbedPlayerDistance = 0.3f;
 
         public int GetTotalHP()
         {
