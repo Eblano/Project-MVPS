@@ -52,7 +52,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
         if (totalHp <= 0)
         {
             // Stop game when dead
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
         }
     }
 
