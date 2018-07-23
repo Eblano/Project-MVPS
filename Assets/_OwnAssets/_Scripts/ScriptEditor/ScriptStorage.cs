@@ -275,6 +275,8 @@ namespace SealTeam4
 
                 npcSpawnData.npcName = npcSpawnData_RTEStorage.npcName;
                 npcSpawnData.spawnMarkerName = npcSpawnData_RTEStorage.spawnMarkerName;
+                npcSpawnData.aiStats.normalMoveSpeed *= npcSpawnData_RTEStorage.movementSpdMultiplier;
+                npcSpawnData.aiStats.runningSpeed *= npcSpawnData_RTEStorage.movementSpdMultiplier;
 
                 npcSpawnDataList.Add(npcSpawnData);
             }

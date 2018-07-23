@@ -1123,12 +1123,7 @@ MonoBehaviour:
     activateOnSpawn: 1
     npcType: 2
     threatResponseMode: 0
-    allDynamicWaypoints: []
-    shootTargetDir_AngleMarginOfError: 20
-    losMarginSize: 0.3
     maxGunRange: 5
-    vipFollowPlayerDistance: 2
-    vipGrabbedPlayerDistance: 0.3
     lookAngleMarginOfError: 5
     stopDist: 0.2
     stopDist_Convo: 1
@@ -1140,6 +1135,11 @@ MonoBehaviour:
     bodyDmg: 20
     handDmg: 15
     legDmg: 15
+    allDynamicWaypoints: []
+    shootTargetDir_AngleMarginOfError: 20
+    losMarginSize: 0.3
+    vipFollowPlayerDistance: 2
+    vipGrabbedPlayerDistance: 0.3
   actionableParameters: []
   highestPoint: {fileID: 4652597901801500}
   col: {fileID: 65043758385708502}
@@ -1187,7 +1187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 95609669354809904}
-  m_ParameterSendBits: 127
+  m_ParameterSendBits: 255
   param0: 
   param1: 
   param2: 
