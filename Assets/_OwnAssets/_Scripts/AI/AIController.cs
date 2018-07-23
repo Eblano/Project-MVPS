@@ -34,8 +34,13 @@ namespace SealTeam4
         private AIAnimationController aiAnimController;
         private AIAnimEventReciever aiAnimEventReciever;
 
+        [Space(10)]
+
         // Stores various state of this AI
         [SerializeField] private AIState aiState;
+
+        [Space(10)]
+
         // Stores various stats of this AI
         [SerializeField] private AIStats aiStats;
 
@@ -55,6 +60,17 @@ namespace SealTeam4
         [Header("Exposed for InterfaceManager")]
         public Transform highestPoint;
         public Collider col;
+
+        [System.Serializable]
+        private class HitBoxColliders
+        {
+            public List<Collider> headColliders;
+            public List<Collider> bodyColliders;
+            public List<Collider> HandColliders;
+            public List<Collider> legColliders;
+        }
+        [Space(10)]
+        [SerializeField] private HitBoxColliders hitBoxColliders;
 
         public void Setup(string npcName, AIStats aiStats, List<NPCSchedule> npcSchedules)
         {
