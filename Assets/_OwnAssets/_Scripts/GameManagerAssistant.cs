@@ -73,5 +73,17 @@ namespace SealTeam4
         {
             GameManager.instance.RecieveNetCmdObjMsg(goName, msg);
         }
+
+        [Command]
+        public void CmdSendAudioSourceInt(int audioSourceNum)
+        {
+            RpcSendAudioSourceInt(audioSourceNum);
+        }
+
+        [ClientRpc]
+        public void RpcSendAudioSourceInt(int audioSourceNum)
+        {
+            NetworkASManager.instance.PlayAudioSource(audioSourceNum);
+        }
     }
 }
