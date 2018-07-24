@@ -8,6 +8,7 @@ namespace SealTeam4
     {
         [SerializeField] private int bulletsInMag;
         [SerializeField] private int bulletCapacity;
+        [SerializeField] private Collider magCollider;
 
         /// <summary>
         /// Reduces the amount of bullets in magazine by 1.
@@ -41,6 +42,7 @@ namespace SealTeam4
         {
             //snappedTo.GetComponent<Gun>().gun.SetMagazine(null);
             base.Unsnap();
+            magCollider.enabled = true;
         }
 
         /// <summary>
@@ -49,6 +51,7 @@ namespace SealTeam4
         /// <param name="snapTransform"></param>
         public override void SnapObject(Transform snapTransform)
         {
+            magCollider.enabled = false;
             base.SnapObject(snapTransform);
             snapTransform.parent.GetComponent<Gun>().gun.SetMagazine(this);
         }
