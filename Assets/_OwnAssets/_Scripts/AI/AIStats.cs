@@ -19,6 +19,7 @@ namespace SealTeam4
 
         // For Terrorist
         public float maxGunRange = 5.0f;
+        public float meleeDist = 0.3f;
 
         [Header("Hidden Parameters")]
         public float lookAngleMarginOfError = 5.0f; // Min angle of error when rotating to face target
