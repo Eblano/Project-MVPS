@@ -80,13 +80,16 @@ namespace SealTeam4
         {
             public enum State { IDLE, SHOOT_TARGET, KNIFE_TARGET, MOVE_TO_WAYPOINT };
             public enum ShootTargetState { INACTIVE, SPAWN_GUN, DRAW_GUN, MOVE_TO_SHOOT_TARGET, TRACK_TARGET, AIM_GUN_ON_TARGET, SHOOT }
+            public enum KnifeTargetState { INACTIVE, SPAWN_KNIFE, DRAW_KNIFE, MOVE_TO_KNIFE_TARGET, TRACK_TARGET, KNIFE }
 
             public State currState = State.IDLE;
             public ShootTargetState currShootTargetState = ShootTargetState.INACTIVE;
+            public KnifeTargetState currKnifeTargetState = KnifeTargetState.INACTIVE;
 
             public int schBeforeEnteringHostileMode = 0;
             public Vector3 waypointPos = Vector3.zero;
             public Transform shootTarget = null;
+            public Transform knifeTarget = null;
         }
         public HostileHuman hostileHuman = new HostileHuman();
 

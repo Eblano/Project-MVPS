@@ -65,9 +65,15 @@ namespace SealTeam4
 
         private void SetState_ShootTarget_MoveToShootTarget()
         {
-            SetState_ShootTarget();
             aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.MOVE_TO_SHOOT_TARGET;
             aiController.SetNMAgentDestination(aiState.hostileHuman.shootTarget.position);
+            aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
+        }
+
+        private void SetState_KnifeTarget_MoveToKnifeTarget()
+        {
+            aiState.hostileHuman.currKnifeTargetState = AIState.HostileHuman.KnifeTargetState.MOVE_TO_KNIFE_TARGET;
+            aiController.SetNMAgentDestination(aiState.hostileHuman.knifeTarget.position);
             aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
         }
 
@@ -77,15 +83,32 @@ namespace SealTeam4
             aiController.StopMovement();
         }
 
+        private void SetState_KnifeTarget_Knife()
+        {
+            aiState.hostileHuman.currKnifeTargetState = AIState.HostileHuman.KnifeTargetState.KNIFE;
+            aiController.StopMovement();
+        }
+
         private void SetState_ShootTarget_DrawGun()
         {
             aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.DRAW_GUN;
+        }
+
+        private void SetState_KnifeTarget_DrawKnife()
+        {
+            aiState.hostileHuman.currKnifeTargetState = AIState.HostileHuman.KnifeTargetState.DRAW_KNIFE;
         }
 
         private void SetState_ShootTarget_TrackTarget()
         {
             aiController.StopMovement();
             aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.TRACK_TARGET;
+        }
+
+        private void SetState_KnifeTarget_TrackTarget()
+        {
+            aiController.StopMovement();
+            aiState.hostileHuman.currKnifeTargetState = AIState.HostileHuman.KnifeTargetState.TRACK_TARGET;
         }
 
         private void SetState_ShootTarget_AimGunOnTarget()
@@ -110,22 +133,47 @@ namespace SealTeam4
                 case AIState.HostileHuman.ShootTargetState.INACTIVE:
                     break;
                 case AIState.HostileHuman.ShootTargetState.SPAWN_GUN:
-                    SpawnGun();
+                    ShootTarget_SpawnGun();
                     break;
                 case AIState.HostileHuman.ShootTargetState.DRAW_GUN:
-                    DrawGun();
+                    ShootTarget_DrawGun();
                     break;
                 case AIState.HostileHuman.ShootTargetState.MOVE_TO_SHOOT_TARGET:
-                    MoveToShootTarget();
+                    ShootTarget_MoveToShootTarget();
                     break;
                 case AIState.HostileHuman.ShootTargetState.TRACK_TARGET:
-                    TrackTarget();
+                    ShootTarget_TrackTarget();
                     break;
                 case AIState.HostileHuman.ShootTargetState.AIM_GUN_ON_TARGET:
-                    AimGunOnTarget();
+                    ShootTarget_AimGunOnTarget();
                     break;
                 case AIState.HostileHuman.ShootTargetState.SHOOT:
-                    Shoot();
+                    ShootTarget_Shoot();
+                    break;
+            }
+        }
+        private void Process_KnifeTarget()
+        {
+            switch (aiState.hostileHuman.currKnifeTargetState)
+            {
+                case AIState.HostileHuman.KnifeTargetState.INACTIVE:
+                    break;
+                case AIState.HostileHuman.KnifeTargetState.SPAWN_KNIFE:
+                    KnifeTarget_SpawnKnife();
+                    break;
+                case AIState.HostileHuman.KnifeTargetState.DRAW_KNIFE:
+                    KnifeTarget_DrawKnife();
+                    break;
+                case AIState.HostileHuman.KnifeTargetState.MOVE_TO_KNIFE_TARGET:
+                    KnifeTarget_MoveToKnifeTarget();
+                    break;
+                case AIState.HostileHuman.KnifeTargetState.TRACK_TARGET:
+                    KnifeTarget_TrackTarget();
+                    break;
+                case AIState.HostileHuman.KnifeTargetState.KNIFE:
+                    KnifeTarget_Knife();
+                    break;
+                default:
                     break;
             }
         }
@@ -143,20 +191,17 @@ namespace SealTeam4
                 aiController.SetNMAgentDestination(aiState.hostileHuman.waypointPos);
             }
         }
+
         private void Process_Idle()
         {
             aiController.StopMovement();
-        }
-        private void Process_KnifeTarget()
-        {
-
         }
         #endregion
         //***************************
 
         //***************************
         #region SubFSM Methods
-        private void SpawnGun()
+        private void ShootTarget_SpawnGun()
         {
             if (aiController.ref_pistol)
             {
@@ -168,15 +213,21 @@ namespace SealTeam4
             SetState_ShootTarget_DrawGun();
         }
 
-        private void DrawGun()
+        private void ShootTarget_DrawGun()
         {
-            aiController.DrawGun();
+            aiController.DrawWeapon();
             SetState_ShootTarget_MoveToShootTarget();
         }
 
-        private void MoveToShootTarget()
+        private void KnifeTarget_DrawKnife()
         {
-            if (aiController.WithinStoppingDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) &&
+            aiController.DrawWeapon();
+            SetState_KnifeTarget_MoveToKnifeTarget();
+        }
+
+        private void ShootTarget_MoveToShootTarget()
+        {
+            if (aiController.WithinDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) &&
                 aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name)
                 )
             {
@@ -188,9 +239,21 @@ namespace SealTeam4
             aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
         }
 
-        private void TrackTarget()
+        private void KnifeTarget_MoveToKnifeTarget()
         {
-            if (!aiController.WithinStoppingDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) ||
+            if (aiController.WithinDistance(aiState.hostileHuman.knifeTarget.position, aiStats.meleeDist))
+            {
+                SetState_KnifeTarget_TrackTarget();
+                return;
+            }
+
+            aiController.SetNMAgentDestination(aiState.hostileHuman.knifeTarget.position);
+            aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
+        }
+
+        private void ShootTarget_TrackTarget()
+        {
+            if (!aiController.WithinDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) ||
                 !aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.name))
             {
                 SetState_ShootTarget_MoveToShootTarget();
@@ -206,13 +269,30 @@ namespace SealTeam4
             aiController.RotateTowardsTargetDirection(aiState.hostileHuman.shootTarget.position);
         }
 
-        private void AimGunOnTarget()
+        private void KnifeTarget_TrackTarget()
+        {
+            if (!aiController.WithinDistance(aiState.hostileHuman.knifeTarget.position, aiStats.meleeDist))
+            {
+                SetState_KnifeTarget_MoveToKnifeTarget();
+                return;
+            }
+
+            if (aiController.LookingAtTarget(aiState.hostileHuman.knifeTarget.position, aiStats.shootTargetDir_AngleMarginOfError))
+            {
+                SetState_KnifeTarget_Knife();
+                return;
+            }
+
+            aiController.RotateTowardsTargetDirection(aiState.hostileHuman.knifeTarget.position);
+        }
+
+        private void ShootTarget_AimGunOnTarget()
         {
             aiController.AimGun();
             SetState_ShootTarget_Shoot();
         }
 
-        private void Shoot()
+        private void ShootTarget_Shoot()
         {
             if (!aiController.LookingAtTarget(aiState.hostileHuman.shootTarget.position, aiStats.shootTargetDir_AngleMarginOfError))
             {
@@ -226,6 +306,31 @@ namespace SealTeam4
             aiController.ref_pistol.gameObject.transform.LookAt(aiState.hostileHuman.shootTarget);
             // Shoot
             aiController.ref_pistol.FireGun();
+        }
+
+        private void KnifeTarget_Knife()
+        {
+            if (!aiController.LookingAtTarget(aiState.hostileHuman.knifeTarget.position, aiStats.shootTargetDir_AngleMarginOfError))
+            {
+                aiController.ResetKnifeTransformToOrig();
+                SetState_KnifeTarget_TrackTarget();
+                return;
+            }
+
+            // Shoot
+            aiController.SwingKnife();
+        }
+
+        private void KnifeTarget_SpawnKnife()
+        {
+            if (aiController.ref_knife)
+            {
+                SetState_KnifeTarget_MoveToKnifeTarget();
+                return;
+            }
+
+            aiController.SpawnKnifeOnHand();
+            SetState_KnifeTarget_DrawKnife();
         }
         #endregion
         //***************************

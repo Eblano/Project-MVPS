@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4455132867978186}
   - component: {fileID: 114937303008238198}
   - component: {fileID: 114767845761546020}
-  - component: {fileID: 114772409867919426}
+  - component: {fileID: 114589021353495668}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -42,6 +42,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114589021353495668
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1044430686693050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Guid: 6a955809-6ab3-4d01-9e6d-734e782eb064
+  Mapping:
+  - Name: GameManager
+    Object: {fileID: 114767845761546020}
+    Id: 23501
+  - Name: GameManager
+    Object: {fileID: 1044430686693050}
+    Id: 23502
+  - Name: GameManager
+    Object: {fileID: 4455132867978186}
+    Id: 23503
 --- !u!114 &114767845761546020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -55,28 +77,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_guid: b8c9c5fa-af5c-4d70-a967-a47f299b9c6a
   m_isRuntime: 0
---- !u!114 &114772409867919426
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1044430686693050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid: cdfb1a12-1d10-4141-a785-08c65454666a
-  Mapping:
-  - Name: GameManager
-    Object: {fileID: 114767845761546020}
-    Id: 20946
-  - Name: GameManager
-    Object: {fileID: 1044430686693050}
-    Id: 20947
-  - Name: GameManager
-    Object: {fileID: 4455132867978186}
-    Id: 20965
 --- !u!114 &114937303008238198
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -99,7 +99,7 @@ MonoBehaviour:
     type: 2}
   gameMasterUI_Prefab: {fileID: 1176464834026370, guid: 201a82403bbff884b9c7d5d75b29d3e7,
     type: 2}
-  type0NPC_Prefab: {fileID: 1601331633119506, guid: ce14c7e8560313f4da7e3ad3611cf0a7,
+  type0NPC_Prefab: {fileID: 1252520042481744, guid: 45488b27bc622c54387ed43900a40ed1,
     type: 2}
   type1NPC_Prefab: {fileID: 0}
   totalRegMarkers: 0
@@ -113,5 +113,5 @@ MonoBehaviour:
     type: 2}
   magazine_sar21_Prefab: {fileID: 1823229847869476, guid: 1fb9560ecbcd36b48a15fcb6c207b59b,
     type: 2}
-  localPlayerName: 
+  vipFollowTarget: {fileID: 0}
   panelOverlay: {fileID: 0}

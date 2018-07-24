@@ -30,6 +30,11 @@ namespace SealTeam4
         [SerializeField] private TransformOffset pistol_TOffset;
         [HideInInspector] public NPCGun ref_pistol;
 
+        [Header("Weapon/Knife")]
+        public GameObject knife_Prefab;
+        [SerializeField] private TransformOffset knife_TOffset;
+        [HideInInspector] public GameObject ref_knife;
+
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
         private AIAnimEventReciever aiAnimEventReciever;
@@ -93,11 +98,6 @@ namespace SealTeam4
 
         private void Update()
         {
-            //if (ref_pistol)
-            //{
-            //    ResetGunTransformToOrig();
-            //}
-
             UpdateActionableParameters();
 
             if (!aiState.active)
@@ -187,7 +187,7 @@ namespace SealTeam4
             return nmAgent.remainingDistance < aiStats.stopDist + extraStoppingDistance;
         }
 
-        public bool WithinStoppingDistance(Vector3 destination, float stopDist)
+        public bool WithinDistance(Vector3 destination, float stopDist)
         {
             return Vector3.Distance(transform.position, destination) < stopDist;
         }
@@ -333,7 +333,7 @@ namespace SealTeam4
             return centerRayPassed && leftRayPassed && rightRayPassed;
         }
 
-        public void DrawGun()
+        public void DrawWeapon()
         {
             aiAnimController.Anim_DrawGun();
         }
@@ -341,6 +341,11 @@ namespace SealTeam4
         public void AimGun()
         {
             aiAnimController.Anim_AimGun();
+        }
+
+        public void SwingKnife()
+        {
+            aiAnimController.Anim_SwingKnife();
         }
 
         public void LowerGun()
@@ -355,12 +360,28 @@ namespace SealTeam4
             ref_pistol.transform.localScale = new Vector3(pistol_TOffset.scale, pistol_TOffset.scale, pistol_TOffset.scale);
         }
 
+        public void ResetKnifeTransformToOrig()
+        {
+            ref_knife.transform.localPosition = knife_TOffset.posOffset;
+            ref_knife.transform.localRotation = Quaternion.Euler(knife_TOffset.rotOffset);
+            ref_knife.transform.localScale = new Vector3(knife_TOffset.scale, knife_TOffset.scale, knife_TOffset.scale);
+        }
+
         public void SpawnGunOnHand()
         {
             if (!ref_pistol)
             {
                 ref_pistol = Instantiate(pistol_Prefab, rightHandT.transform).GetComponent<NPCGun>();
                 ResetGunTransformToOrig();
+            }
+        }
+
+        public void SpawnKnifeOnHand()
+        {
+            if (!ref_knife)
+            {
+                ref_knife = Instantiate(knife_Prefab, rightHandT.transform);
+                ResetKnifeTransformToOrig();
             }
         }
 
