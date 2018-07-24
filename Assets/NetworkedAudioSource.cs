@@ -22,11 +22,8 @@ public class NetworkedAudioSource : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void Play()
     {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            NetworkASManager.instance.SendAudioSource(audioSource);
-        }
+        NetworkASManager.instance.SendAudioSource(audioSource);
     }
 }
