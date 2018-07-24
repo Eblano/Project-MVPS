@@ -35,6 +35,13 @@ namespace SealTeam4
             SetState_ShootTarget_SpawnGun();
         }
 
+        public void SetAction_SwitchToKnifeVIP()
+        {
+            aiState.hostileHuman.knifeTarget = GameManager.instance.GetFirstVIPTransform();
+            SetState_KnifeTarget();
+            SetState_KnifeTarget_SpawnKnife();
+        }
+
         public void SetAction_MoveToWaypoint(string waypointName)
         {
             if (aiState.hostileHuman.currShootTargetState == AIState.HostileHuman.ShootTargetState.SHOOT)
@@ -56,6 +63,11 @@ namespace SealTeam4
         private void SetState_ShootTarget()
         {
             aiState.hostileHuman.currState = AIState.HostileHuman.State.SHOOT_TARGET;
+        }
+
+        public void SetState_KnifeTarget()
+        {
+            aiState.hostileHuman.currState = AIState.HostileHuman.State.KNIFE_TARGET;
         }
 
         private void SetState_MoveToWaypoint()
@@ -119,6 +131,11 @@ namespace SealTeam4
         private void SetState_ShootTarget_SpawnGun()
         {
             aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.SPAWN_GUN;
+        }
+
+        private void SetState_KnifeTarget_SpawnKnife()
+        {
+            aiState.hostileHuman.currKnifeTargetState = AIState.HostileHuman.KnifeTargetState.SPAWN_KNIFE;
         }
         #endregion
         //***************************
@@ -296,6 +313,7 @@ namespace SealTeam4
         {
             if (!aiController.LookingAtTarget(aiState.hostileHuman.shootTarget.position, aiStats.shootTargetDir_AngleMarginOfError))
             {
+                aiState.hostileHuman.currGunCD = aiStats.gunCD;
                 aiController.ResetGunTransformToOrig();
                 aiController.LowerGun();
                 SetState_ShootTarget_TrackTarget();
@@ -319,13 +337,20 @@ namespace SealTeam4
         {
             if (!aiController.LookingAtTarget(aiState.hostileHuman.knifeTarget.position, aiStats.shootTargetDir_AngleMarginOfError))
             {
+                aiState.hostileHuman.currKnifeSwingCD = aiStats.knifeSwingCD;
                 aiController.ResetKnifeTransformToOrig();
                 SetState_KnifeTarget_TrackTarget();
                 return;
             }
 
-            // Shoot
-            aiController.SwingKnife();
+            // Swing Knife
+            if (aiState.hostileHuman.currGunCD <= 0)
+            {
+                aiController.SwingKnife();
+                aiState.hostileHuman.currKnifeSwingCD = aiStats.knifeSwingCD;
+            }
+            else
+                aiState.hostileHuman.currKnifeSwingCD -= Time.deltaTime;
         }
 
         private void KnifeTarget_SpawnKnife()

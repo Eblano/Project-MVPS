@@ -475,6 +475,10 @@ namespace SealTeam4
                 case "Shoot VIP":
                     aiFSM_HostileHuman.SetAction_SwitchToShootVIP();
                     break;
+
+                case "Knife VIP":
+                    aiFSM_HostileHuman.SetAction_SwitchToKnifeVIP();
+                    break;
             }
         }
 
