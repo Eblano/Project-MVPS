@@ -42,6 +42,7 @@ namespace SealTeam4
         private void Update()
         {
             UpdateScheduleOrder();
+            UpdateTalkToNPCPartnerDropdown();
         }
 
         public void Setup
@@ -70,7 +71,7 @@ namespace SealTeam4
             Setup_ScheduleTypeDropdown(ref_schedule.scheduleType, ref_schedule.GetAllScheduleTypes());
             Setup_WaypointMarkerDropdown(waypointMarkers);
             Setup_SitInAreaDropdown(areaMarkers);
-            Update_TalkToNPCPartnerDropdown();
+            UpdateTalkToNPCPartnerDropdown();
 
             // Set panel visibility
             waypointMarkerPanel.gameObject.SetActive(false);
@@ -140,7 +141,7 @@ namespace SealTeam4
             }
         }
 
-        private void Update_TalkToNPCPartnerDropdown()
+        private void UpdateTalkToNPCPartnerDropdown()
         {
             List<string> npcNames = ScriptStorage.instance.GetAllNPCNames();
             npcNames.Remove(ref_schedule.npcName);
@@ -174,7 +175,6 @@ namespace SealTeam4
         {
             bool dataIsComplete = false;
 
-            Update_TalkToNPCPartnerDropdown();
             if (ref_schedule.scheduleType == "Idle")
             {
                 // Checking argument
@@ -389,7 +389,9 @@ namespace SealTeam4
             int dropdownValue = talkToNPCPartnerDropdown.value;
 
             string partnerNPCName = talkToNPCPartnerDropdown.options[dropdownValue].text;
-            ref_schedule.argument_1 = partnerNPCName;
+
+            if(ref_schedule.scheduleType == "Talk to other NPC")
+                ref_schedule.argument_1 = partnerNPCName;
         }
 
         public void OnValueChanged_TalkToNPCInputField()

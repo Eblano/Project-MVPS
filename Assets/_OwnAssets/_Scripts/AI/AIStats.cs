@@ -10,42 +10,44 @@ namespace SealTeam4
         public enum NPCType { TERRORIST, VIP, CIVILLIAN };
         public enum CivillianStressResponseMode { FREEZE, RUNTOEXIT, RANDOM }
 
-        [Header("User Set-Able parameters")]
-        public bool activateOnSpawn = true;
-        public NPCType npcType = NPCType.CIVILLIAN;
+        #region User Settable Parameters
+        [HideInInspector] public bool activateOnSpawn = true;
+        [HideInInspector] public NPCType npcType = NPCType.CIVILLIAN;
 
         // For Civillian
-        public CivillianStressResponseMode threatResponseMode = CivillianStressResponseMode.FREEZE;
+        [HideInInspector] public CivillianStressResponseMode threatResponseMode = CivillianStressResponseMode.FREEZE;
 
         // For Terrorist
-        public float maxGunRange = 5.0f;
-        public float meleeDist = 0.3f;
+        [HideInInspector] public float maxGunRange = 5.0f;
+        [HideInInspector] public float meleeDist = 0.3f;
+        #endregion
 
-        [Header("Hidden Parameters")]
-        public float lookAngleMarginOfError = 5.0f; // Min angle of error when rotating to face target
-        public float stopDist = 0.2f; // Stop distance to any target
-        public float stopDist_Convo = 1.0f; // Stop distance for conversation
+        #region Hidden Parameters
+        public float lookAngleMarginOfError = 10f; // Min angle of error when rotating to face target
+        [HideInInspector] public float stopDist = 0.2f; // Stop distance to any target
+        [HideInInspector] public float stopDist_Convo = 1.0f; // Stop distance for conversation
 
-        public float turningSpeed = 10.0f;
-        public float normalMoveSpeed = 1.0f;
-        public float runningSpeed = 2.0f;
+        [HideInInspector] public float turningSpeed = 2f;
+        [HideInInspector] public float normalMoveSpeed = 0.4f;
+        [HideInInspector] public float runningSpeed = 0.6f;
 
-        [SerializeField] private int totalHp = 100;
-        public int headDmg = 100;
-        public int bodyDmg = 20;
-        public int handDmg = 15;
-        public int legDmg = 15;
+        [HideInInspector] private int totalHp = 100;
+        [HideInInspector] public int headDmg = 100;
+        [HideInInspector] public int bodyDmg = 20;
+        [HideInInspector] public int handDmg = 15;
+        [HideInInspector] public int legDmg = 15;
 
         // For Terrorist
-        public List<string> allDynamicWaypoints;
-        public float shootTargetDir_AngleMarginOfError = 20.0f;
-        public float losMarginSize = 0.3f;
-        public float gunCD = 2f;
-        public float knifeSwingCD = 3f;
+        [HideInInspector] public List<string> allDynamicWaypoints;
+        [HideInInspector] public float shootTargetDir_AngleMarginOfError = 5.0f;
+        [HideInInspector] public float losMarginSize = 0.3f;
+        [HideInInspector] public float gunCD = 2f;
+        [HideInInspector] public float knifeSwingCD = 3f;
 
         // For VIP
-        public float vipFollowPlayerDistance = 2f;
-        public float vipGrabbedPlayerDistance = 0.3f;
+        [HideInInspector] public float vipFollowPlayerDistance = 2f;
+        [HideInInspector] public float vipGrabbedPlayerDistance = 0.3f;
+        #endregion
 
         public int GetTotalHP()
         {

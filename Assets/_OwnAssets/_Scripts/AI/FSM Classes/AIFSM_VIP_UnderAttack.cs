@@ -8,6 +8,14 @@ namespace SealTeam4
     {
         public void FSM_Update()
         {
+            if (aiState.seated)
+            {
+                bool leftSeat = aiController.LeaveSeat();
+
+                if (!leftSeat)
+                    return;
+            }
+
             switch (aiState.vip.currState)
             {
                 case AIState.VIP.State.IDLE:

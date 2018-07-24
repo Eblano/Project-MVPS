@@ -57,9 +57,6 @@ namespace SealTeam4
         [SerializeField] private float refreshRate = 3.0f;
         private float currRefreshRate;
 
-        [Header("Game Condition")]
-        public bool areaUnderAttack;
-
         [Header("Accessory Item Prefabs")]
         [SerializeField] private GameObject pistol_p226_Prefab;
         [SerializeField] private GameObject magazine_p226_Prefab;
@@ -98,6 +95,9 @@ namespace SealTeam4
         #region Update Methods
         private void Update()
         {
+            if (Input.GetKeyDown(KeyCode.N))
+                FindObjectOfType<NavMeshSurface>().BuildNavMesh();
+
             switch (currGameManagerMode)
             {
                 case GameManagerMode.LEVELSETUP:
@@ -693,6 +693,14 @@ namespace SealTeam4
             
             networkCommandableGameobjects.Add(go);
             return go.name + " " + increment;
+        }
+
+        public void TriggerThreatInLevel()
+        {
+            foreach (AIController npc in spawnedNPCs)
+            {
+                npc.TriggerUnderThreatMode();
+            }
         }
 
         public void UnregisterNetCmdObj(GameObject go)

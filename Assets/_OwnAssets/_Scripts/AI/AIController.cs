@@ -97,6 +97,14 @@ namespace SealTeam4
             aiFSM_VIP_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
         }
 
+        private void EnterHostileMode()
+        {
+            aiState.prepareEnterHostile = false;
+            aiState.aIMode = AIState.AIMode.HOSTILE;
+            GameManager.instance.TriggerThreatInLevel();
+            Debug.Log("TRIGGERED");
+        }
+
         private void Update()
         {
             UpdateActionableParameters();
@@ -107,10 +115,7 @@ namespace SealTeam4
             CheckHPStatus();
 
             if (aiState.prepareEnterHostile && aiState.hostileHuman.schBeforeEnteringHostileMode < aiState.currSchedule)
-            {
-                aiState.prepareEnterHostile = false;
-                aiState.aIMode = AIState.AIMode.HOSTILE;
-            }
+                EnterHostileMode();
 
             switch (aiState.aIMode)
             {
@@ -132,6 +137,14 @@ namespace SealTeam4
                 default:
                     break;
             }
+        }
+
+        public void TriggerUnderThreatMode()
+        {
+            if (aiStats.npcType == AIStats.NPCType.CIVILLIAN)
+                aiState.aIMode = AIState.AIMode.CIVILIAN_UNDER_ATTACK;
+            else if (aiStats.npcType == AIStats.NPCType.VIP)
+                aiState.aIMode = AIState.AIMode.VIP_UNDER_ATTACK;
         }
 
         public bool RequestStartConvo(AIController requester)
@@ -223,6 +236,7 @@ namespace SealTeam4
             Vector3 direction = targetPosition - transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
 
+            Debug.Log(Quaternion.Angle(transform.rotation, lookRotation));
             return Quaternion.Angle(transform.rotation, lookRotation) < angleOfError;
         }
 
@@ -278,7 +292,7 @@ namespace SealTeam4
             }
         }
 
-        public bool InLOS3PT(Vector3 target, string targetGameObjectName)
+        public bool InLOS3PT(Vector3 target, string targetGameObjectName, float yOffset)
         {
             RaycastHit centerRayHitInfo;
             RaycastHit leftRayHitInfo;
@@ -288,7 +302,7 @@ namespace SealTeam4
             bool leftRayPassed = false;
             bool rightRayPassed = false;
 
-            Ray rayCenter = new Ray(headT.position, target - headT.position);
+            Ray rayCenter = new Ray(headT.position, target - headT.position + new Vector3(0, yOffset, 0));
 
             int layerMask = ~(
                 1 << LayerMask.NameToLayer("FloatingUI") |
@@ -467,7 +481,7 @@ namespace SealTeam4
                         SetAction("End Conversation (Next)");
 
                     if (aiState.currSchedule > npcSchedules.Count - 1)
-                        aiState.aIMode = AIState.AIMode.HOSTILE;
+                        EnterHostileMode();
                     else
                     {
                         aiState.hostileHuman.schBeforeEnteringHostileMode = aiState.currSchedule;
