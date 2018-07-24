@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4122999092876362}
   - component: {fileID: 114513512713017820}
+  - component: {fileID: 114241556216913752}
+  - component: {fileID: 114594739857144044}
   m_Layer: 0
   m_Name: p226_Pistol_AI
   m_TagString: Untagged
@@ -461,6 +463,38 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1312901940059346}
   m_Mesh: {fileID: 4300002, guid: c27783d6935db37489250477b7369930, type: 3}
+--- !u!114 &114241556216913752
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1087607677881998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 92
+    i1: 133
+    i2: 20
+    i3: 88
+    i4: 60
+    i5: 200
+    i6: 83
+    i7: 228
+    i8: 250
+    i9: 4
+    i10: 164
+    i11: 78
+    i12: 108
+    i13: 145
+    i14: 24
+    i15: 17
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114513512713017820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -476,3 +510,15 @@ MonoBehaviour:
   firingRate: 0.5
   hitEffect_Prefab: {fileID: 1635253994729064, guid: 984801eb424bb4f4ab589dccea49abe2,
     type: 2}
+--- !u!114 &114594739857144044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1087607677881998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde4790f75153294cb0604998f79c9ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendRatePerSecond: 30

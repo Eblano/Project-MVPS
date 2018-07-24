@@ -21,8 +21,10 @@ GameObject:
   - component: {fileID: 4317245545818998}
   - component: {fileID: 33650089410412438}
   - component: {fileID: 23099354547174758}
+  - component: {fileID: 114081573630085268}
+  - component: {fileID: 114406661630867904}
   m_Layer: 0
-  m_Name: Knife
+  m_Name: Knife_AI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,3 +85,47 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1092884117069814}
   m_Mesh: {fileID: 4300000, guid: 1a307d5b0279cff439bdf4d159f05e7a, type: 3}
+--- !u!114 &114081573630085268
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1092884117069814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 194
+    i1: 35
+    i2: 219
+    i3: 55
+    i4: 196
+    i5: 242
+    i6: 175
+    i7: 84
+    i8: 11
+    i9: 64
+    i10: 204
+    i11: 203
+    i12: 117
+    i13: 164
+    i14: 22
+    i15: 189
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114406661630867904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1092884117069814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde4790f75153294cb0604998f79c9ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendRatePerSecond: 30
