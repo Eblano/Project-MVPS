@@ -26,4 +26,9 @@ public class NetworkedAudioSource : MonoBehaviour
     {
         NetworkASManager.instance.SendAudioSource(audioSource);
     }
+
+    public void DirectPlay()
+    {
+        audioSource.Play();
+    }
 }
