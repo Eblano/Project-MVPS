@@ -226,7 +226,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
 
             if (networkedAudioSource)
             {
-                networkedAudioSource.Play();
+                networkedAudioSource.DirectPlay();
             }
 
             FireBullet();
