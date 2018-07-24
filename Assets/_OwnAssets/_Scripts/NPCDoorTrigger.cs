@@ -6,7 +6,7 @@ public class NPCDoorTrigger : MonoBehaviour
 {
     [SerializeField] Door[] doors;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         foreach (Door door in doors)
         {
