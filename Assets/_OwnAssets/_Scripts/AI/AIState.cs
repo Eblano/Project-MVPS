@@ -86,6 +86,8 @@ namespace SealTeam4
             public ShootTargetState currShootTargetState = ShootTargetState.INACTIVE;
             public KnifeTargetState currKnifeTargetState = KnifeTargetState.INACTIVE;
 
+            public float currGunCD = 0;
+
             public int schBeforeEnteringHostileMode = 0;
             public Vector3 waypointPos = Vector3.zero;
             public Transform shootTarget = null;

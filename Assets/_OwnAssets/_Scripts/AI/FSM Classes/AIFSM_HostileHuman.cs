@@ -304,8 +304,15 @@ namespace SealTeam4
 
             // Pistol look at target
             aiController.ref_pistol.gameObject.transform.LookAt(aiState.hostileHuman.shootTarget);
+
             // Shoot
-            aiController.ref_pistol.FireGun();
+            if (aiState.hostileHuman.currGunCD <= 0)
+            {
+                aiController.FireGun();
+                aiState.hostileHuman.currGunCD = aiStats.gunCD;
+            }
+            else
+                aiState.hostileHuman.currGunCD -= Time.deltaTime;
         }
 
         private void KnifeTarget_Knife()
