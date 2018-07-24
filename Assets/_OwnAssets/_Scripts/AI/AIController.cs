@@ -3,6 +3,7 @@ using UnityEngine;
 using ProtoBuf;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.Networking;
 
 /// <summary>
 /// Manages AI thought process
@@ -343,6 +344,12 @@ namespace SealTeam4
             aiAnimController.Anim_AimGun();
         }
 
+        public void FireGun()
+        {
+            ref_pistol.FireGun();
+            aiAnimController.Anim_FireGun();
+        }
+
         public void SwingKnife()
         {
             aiAnimController.Anim_SwingKnife();
@@ -372,6 +379,7 @@ namespace SealTeam4
             if (!ref_pistol)
             {
                 ref_pistol = Instantiate(pistol_Prefab, rightHandT.transform).GetComponent<NPCGun>();
+                NetworkServer.Spawn(ref_pistol.gameObject);
                 ResetGunTransformToOrig();
             }
         }
@@ -381,6 +389,7 @@ namespace SealTeam4
             if (!ref_knife)
             {
                 ref_knife = Instantiate(knife_Prefab, rightHandT.transform);
+                NetworkServer.Spawn(ref_knife.gameObject);
                 ResetKnifeTransformToOrig();
             }
         }
@@ -469,6 +478,10 @@ namespace SealTeam4
                 case "Shoot VIP":
                     aiFSM_HostileHuman.SetAction_SwitchToShootVIP();
                     break;
+
+                case "Knife VIP":
+                    aiFSM_HostileHuman.SetAction_SwitchToKnifeVIP();
+                    break;
             }
         }
 
@@ -548,8 +561,11 @@ namespace SealTeam4
                 if (!actionableParameters.Contains("Shoot VIP"))
                     actionableParameters.Add("Shoot VIP");
 
-                if (!actionableParameters.Contains("Shoot Player"))
-                    actionableParameters.Add("Shoot Player");
+                if (!actionableParameters.Contains("Knife VIP"))
+                    actionableParameters.Add("Knife VIP");
+
+                //if (!actionableParameters.Contains("Shoot Player"))
+                //    actionableParameters.Add("Shoot Player");
 
                 foreach (string dynWPMarkerName in aiStats.allDynamicWaypoints)
                 {
@@ -562,8 +578,11 @@ namespace SealTeam4
                 if (actionableParameters.Contains("Shoot VIP"))
                     actionableParameters.Remove("Shoot VIP");
 
-                if (actionableParameters.Contains("Shoot Player"))
-                    actionableParameters.Remove("Shoot Player");
+                if (actionableParameters.Contains("Knife VIP"))
+                    actionableParameters.Remove("Knife VIP");
+
+                //if (actionableParameters.Contains("Shoot Player"))
+                //    actionableParameters.Remove("Shoot Player");
 
                 foreach (string dynWPMarkerName in aiStats.allDynamicWaypoints)
                 {

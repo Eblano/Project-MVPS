@@ -73,5 +73,23 @@ namespace SealTeam4
         {
             GameManager.instance.RecieveNetCmdObjMsg(goName, msg);
         }
+
+        //[TargetRpc]
+        //public void TargetSyncSound(NetworkConnection networkConnection, ControllerHapticsManager.HapticType hapticType, VRTK.VRTK_DeviceFinder.Devices devices)
+        //{
+        //    ControllerHapticsManager.instance.PlayHaptic(hapticType, devices);
+        //}
+
+        [Command]
+        public void CmdSendAudioSourceInt(int audioSourceNum)
+        {
+            RpcSendAudioSourceInt(audioSourceNum);
+        }
+
+        [ClientRpc]
+        public void RpcSendAudioSourceInt(int audioSourceNum)
+        {
+            NetworkASManager.instance.PlayAudioSource(audioSourceNum);
+        }
     }
 }
