@@ -27,10 +27,10 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        if (GameManagerAssistant.instance.isServer)
-        {
-            Destroy(this);
-        }
+        //if (GameManagerAssistant.instance.isServer)
+        //{
+        //    Destroy(this);
+        //}
 
         netID = GetComponent<NetworkIdentity>().netId;
     }
