@@ -263,12 +263,12 @@ namespace SealTeam4
             }
 
             // If all point markers are pointing on ground
-            if(!GameManager.instance.AllPointMarkersOnPoint())
+            if (!GameManager.instance.AllPointMarkersOnPoint())
             {
                 PopupWindow.Show("Error", "One or more Markers are not pointing on any Ground, please resolve.", "Ok");
                 return;
             }
-            
+
             PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
                 "Yes",
                 args =>
@@ -434,7 +434,7 @@ namespace SealTeam4
 
             string hash = GetActiveSceneHash();
 
-            if(hash != null)
+            if (hash != null)
             {
                 maskSceneHashTxt.text = hash;
             }
@@ -450,10 +450,10 @@ namespace SealTeam4
         {
             ProjectItem currRuntimeScene = m_projectManager.ActiveScene;
 
-            if(m_projectManager.ActiveScene != null && m_projectManager.ActiveScene.Name != "New Scene" && !saveSceneButton.interactable)
+            if (m_projectManager.ActiveScene != null && m_projectManager.ActiveScene.Name != "New Scene" && !saveSceneButton.interactable)
             {
                 string filePathToScene = Application.persistentDataPath + "/" + currRuntimeScene.Parent + "/" + currRuntimeScene.NameExt;
-                
+
                 string hashText = "";
                 using (var md5 = System.Security.Cryptography.MD5.Create())
                 {
@@ -484,6 +484,11 @@ namespace SealTeam4
         public void ToggleMarkerVisibility()
         {
             markerUICamera.gameObject.SetActive(!markerUICamera.gameObject.activeInHierarchy);
+        }
+
+        public void ReloadScene()
+        {
+            GameManager.instance.RestartScene();
         }
     }
 }
