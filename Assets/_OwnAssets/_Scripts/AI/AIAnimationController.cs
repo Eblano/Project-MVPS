@@ -122,6 +122,11 @@ namespace SealTeam4
             m_Animator.SetBool("AimGun", true);
         }
 
+        public void Anim_FireGun()
+        {
+            m_Animator.SetTrigger("FireGun");
+        }
+
         public void Anim_SwingKnife()
         {
             m_Animator.SetTrigger("SwingKnife");

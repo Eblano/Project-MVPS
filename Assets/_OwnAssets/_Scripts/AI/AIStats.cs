@@ -40,6 +40,7 @@ namespace SealTeam4
         public List<string> allDynamicWaypoints;
         public float shootTargetDir_AngleMarginOfError = 20.0f;
         public float losMarginSize = 0.3f;
+        public float gunCD = 1f;
 
         // For VIP
         public float vipFollowPlayerDistance = 2f;

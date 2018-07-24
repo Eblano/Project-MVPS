@@ -343,6 +343,12 @@ namespace SealTeam4
             aiAnimController.Anim_AimGun();
         }
 
+        public void FireGun()
+        {
+            ref_pistol.FireGun();
+            aiAnimController.Anim_FireGun();
+        }
+
         public void SwingKnife()
         {
             aiAnimController.Anim_SwingKnife();
