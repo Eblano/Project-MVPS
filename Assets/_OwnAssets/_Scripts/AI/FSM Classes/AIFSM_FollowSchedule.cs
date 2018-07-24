@@ -197,7 +197,7 @@ namespace SealTeam4
                     LeaveSeatIfSeated();
                     break;
                 case 1:
-                    TalkToOtherNPC_FindPartner();
+                    TalkToOtherNPC_FindPartner(npcSchedules[aiState.currSchedule].argument_1);
                     break;
                 case 2:
                     MoveToWaypoint(aiState.currConvoNPCTarget.transform.position, aiStats.normalMoveSpeed, aiStats.stopDist_Convo);
@@ -392,10 +392,10 @@ namespace SealTeam4
             }
         }
 
-        public void TalkToOtherNPC_FindPartner()
+        public void TalkToOtherNPC_FindPartner(string targetNPCName)
         {
             // Get gameobject of nearest NPC
-            AIController otherNPC = GameManager.instance.GetNearestAvailableCivilianNPCForConvo(aiController);
+            AIController otherNPC = GameManager.instance.GetNPCForConvo(targetNPCName, aiController);
 
             if(otherNPC && otherNPC.AvailableForConversation()) // If found NPC & able to convo
             {
@@ -427,7 +427,7 @@ namespace SealTeam4
 
         public void TalkToOtherNPC()
         {
-            float conversationDuration = float.Parse(npcSchedules[aiState.currSchedule].argument_1);
+            float conversationDuration = float.Parse(npcSchedules[aiState.currSchedule].argument_2);
 
             if (aiState.timeInConvo >= conversationDuration)
                 aiState.currSubschedule++;
@@ -437,7 +437,7 @@ namespace SealTeam4
 
         public void SetAction_End_TalkToOtherNPC()
         {
-            aiState.timeInConvo = float.Parse(npcSchedules[aiState.currSchedule].argument_1);
+            aiState.timeInConvo = float.Parse(npcSchedules[aiState.currSchedule].argument_2);
         }
 
         public void Terminate_TalkToOtherNPC()

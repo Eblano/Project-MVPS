@@ -17,9 +17,10 @@ namespace SealTeam4
         [Space(10)]
 
         [SerializeField] private TMP_Dropdown scheduleTypeDropdown;
-        [SerializeField] private TMP_Dropdown WaypointMarkerDropdown;
+        [SerializeField] private TMP_Dropdown waypointMarkerDropdown;
         [SerializeField] private TMP_InputField idleInputField;
-        [SerializeField] private TMP_InputField talkToNPCInputField;
+        [SerializeField] private TMP_Dropdown talkToNPCPartnerDropdown;
+        [SerializeField] private TMP_InputField talkToNPCDurationInputField;
         [SerializeField] private TMP_Dropdown sitInAreaDropdown;
         [SerializeField] private TMP_InputField sitInAreaDurationInputField;
 
@@ -56,9 +57,10 @@ namespace SealTeam4
 
             // Add listeners
             scheduleTypeDropdown.onValueChanged.AddListener(delegate { OnValueChanged_ScheduleTypeDropdown(); });
-            WaypointMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_WaypointMarkerDropdown(); });
+            waypointMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_WaypointMarkerDropdown(); });
             idleInputField.onValueChanged.AddListener(delegate { OnValueChanged_IdleInputField(); });
-            talkToNPCInputField.onValueChanged.AddListener(delegate { OnValueChanged_TalkToNPCInputField(); });
+            talkToNPCDurationInputField.onValueChanged.AddListener(delegate { OnValueChanged_TalkToNPCInputField(); });
+            talkToNPCPartnerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_TalkToNPCPartnerDropdown(); });
             sitInAreaDropdown.onValueChanged.AddListener(delegate { OnValueChanged_SitInAreaDropdown(); });
             sitInAreaDurationInputField.onValueChanged.AddListener(delegate { OnValueChanged_SitInAreaDurationInputField(); });
             moveUpButton.onClick.AddListener(delegate { OnButtonClick_MoveUpButton(); });
@@ -68,6 +70,7 @@ namespace SealTeam4
             Setup_ScheduleTypeDropdown(ref_schedule.scheduleType, ref_schedule.GetAllScheduleTypes());
             Setup_WaypointMarkerDropdown(waypointMarkers);
             Setup_SitInAreaDropdown(areaMarkers);
+            Update_TalkToNPCPartnerDropdown();
 
             // Set panel visibility
             waypointMarkerPanel.gameObject.SetActive(false);
@@ -94,7 +97,8 @@ namespace SealTeam4
                     sitInAreaPanel.gameObject.SetActive(true);
                     break;
                 case "Talk to other NPC":
-                    talkToNPCInputField.text = ref_schedule.argument_1;
+                    SetValue_TalkToNPCPartnerDropdown(ref_schedule.argument_1);
+                    talkToNPCDurationInputField.text = ref_schedule.argument_2;
                     talkToNPCPanel.gameObject.SetActive(true);
                     break;
             }
@@ -113,13 +117,13 @@ namespace SealTeam4
         {
             if (markers.Count > 0)
             {
-                List<TMP_Dropdown.OptionData> areaDropdownOptions = new List<TMP_Dropdown.OptionData>();
+                List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
                 TMP_Dropdown.OptionData noneOption = new TMP_Dropdown.OptionData
                 {
                     text = "None"
                 };
-                areaDropdownOptions.Add(noneOption);
+                options.Add(noneOption);
 
                 foreach (AreaMarker marker in markers)
                 {
@@ -127,19 +131,51 @@ namespace SealTeam4
                     {
                         text = marker.name
                     };
-
-                    areaDropdownOptions.Add(option);
+                    options.Add(option);
                 }
 
                 sitInAreaDropdown.ClearOptions();
-                if (areaDropdownOptions.Count > 0)
-                    sitInAreaDropdown.AddOptions(areaDropdownOptions);
+                if (options.Count > 0)
+                    sitInAreaDropdown.AddOptions(options);
+            }
+        }
+
+        private void Update_TalkToNPCPartnerDropdown()
+        {
+            List<string> npcNames = ScriptStorage.instance.GetAllNPCNames();
+            npcNames.Remove(ref_schedule.npcName);
+
+            List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+
+            TMP_Dropdown.OptionData noneOption = new TMP_Dropdown.OptionData
+            {
+                text = "None"
+            };
+            options.Add(noneOption);
+
+            foreach (string npcName in npcNames)
+            {
+                TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData
+                {
+                    text = npcName
+                };
+                options.Add(option);
+            }
+
+            talkToNPCPartnerDropdown.ClearOptions();
+            if (options.Count > 0)
+            {
+                talkToNPCPartnerDropdown.AddOptions(options);
+                SetValue_TalkToNPCPartnerDropdown(ref_schedule.argument_1);
             }
         }
 
         public bool CheckData()
         {
-            if(ref_schedule.scheduleType == "Idle")
+            bool dataIsComplete = false;
+
+            Update_TalkToNPCPartnerDropdown();
+            if (ref_schedule.scheduleType == "Idle")
             {
                 // Checking argument
                 if (ref_schedule.argument_1 == null ||
@@ -149,17 +185,16 @@ namespace SealTeam4
                     float.Parse(ref_schedule.argument_1) > float.MaxValue - 1)
                 {
                     scheduleSlotBGImg.color = errorColor;
-                    return false;
+                    dataIsComplete =  false;
                 }
                 else
                 {
                     scheduleSlotBGImg.color = origColor;
-                    return true;
+                    dataIsComplete = true;
                 }
             }
             else if (ref_schedule.scheduleType == "Move to Waypoint" ||
-                ref_schedule.scheduleType == "Move to Waypoint + Rotate" ||
-                ref_schedule.scheduleType == "Talk to other NPC")
+                ref_schedule.scheduleType == "Move to Waypoint + Rotate")
             {
                 // Checking argument
                 if (ref_schedule.argument_1 == null ||
@@ -167,15 +202,16 @@ namespace SealTeam4
                     ref_schedule.argument_1 == "None")
                 {
                     scheduleSlotBGImg.color = errorColor;
-                    return false;
+                    dataIsComplete = false;
                 }
                 else
                 {
                     scheduleSlotBGImg.color = origColor;
-                    return true;
+                    dataIsComplete = true;
                 }
             }
-            else if(ref_schedule.scheduleType == "Sit in Area")
+            else if(ref_schedule.scheduleType == "Sit in Area" ||
+                ref_schedule.scheduleType == "Talk to other NPC")
             {
                 // Checking argument
                 if (ref_schedule.argument_1 == null ||
@@ -192,15 +228,15 @@ namespace SealTeam4
 
                 {
                     scheduleSlotBGImg.color = errorColor;
-                    return false;
+                    dataIsComplete = false;
                 }
                 else
                 {
                     scheduleSlotBGImg.color = origColor;
-                    return true;
+                    dataIsComplete = true;
                 }
             }
-            return true;
+            return dataIsComplete;
         }
 
         private void Setup_WaypointMarkerDropdown(List<WaypointMarker> markers)
@@ -225,9 +261,9 @@ namespace SealTeam4
                     dropdownOptions.Add(option);
                 }
 
-                WaypointMarkerDropdown.ClearOptions();
+                waypointMarkerDropdown.ClearOptions();
                 if (dropdownOptions.Count > 0)
-                    WaypointMarkerDropdown.AddOptions(dropdownOptions);
+                    waypointMarkerDropdown.AddOptions(dropdownOptions);
             }
         }
 
@@ -256,14 +292,20 @@ namespace SealTeam4
 
         private void SetValue_MoveToPosDropdown(string selectedWaypoint)
         {
-            int dropdownValue = WaypointMarkerDropdown.options.FindIndex((i) => { return i.text.Equals(selectedWaypoint); });
-            WaypointMarkerDropdown.value = dropdownValue;
+            int dropdownValue = waypointMarkerDropdown.options.FindIndex((i) => { return i.text.Equals(selectedWaypoint); });
+            waypointMarkerDropdown.value = dropdownValue;
         }
 
         private void SetValue_SitInAreaDropdown(string selectedArea)
         {
             int dropdownValue = sitInAreaDropdown.options.FindIndex((i) => { return i.text.Equals(selectedArea); });
             sitInAreaDropdown.value = dropdownValue;
+        }
+
+        private void SetValue_TalkToNPCPartnerDropdown(string selectedNPCPartner)
+        {
+            int dropdownValue = talkToNPCPartnerDropdown.options.FindIndex((i) => { return i.text.Equals(selectedNPCPartner); });
+            talkToNPCPartnerDropdown.value = dropdownValue;
         }
 
         public void OnValueChanged_ScheduleTypeDropdown()
@@ -310,10 +352,10 @@ namespace SealTeam4
 
             // Reset all input from all panels
             idleInputField.text = "";
-            talkToNPCInputField.text = "";
+            talkToNPCDurationInputField.text = "";
             sitInAreaDropdown.value = 0;
             sitInAreaDurationInputField.text = "";
-            WaypointMarkerDropdown.value = 0;
+            waypointMarkerDropdown.value = 0;
         }
 
         public void OnValueChanged_IdleInputField()
@@ -342,17 +384,25 @@ namespace SealTeam4
             ref_schedule.argument_2 = inputFieldText;
         }
 
+        public void OnValueChanged_TalkToNPCPartnerDropdown()
+        {
+            int dropdownValue = talkToNPCPartnerDropdown.value;
+
+            string partnerNPCName = talkToNPCPartnerDropdown.options[dropdownValue].text;
+            ref_schedule.argument_1 = partnerNPCName;
+        }
+
         public void OnValueChanged_TalkToNPCInputField()
         {
-            string inputFieldText = talkToNPCInputField.text;
-            ref_schedule.argument_1 = inputFieldText;
+            string inputFieldText = talkToNPCDurationInputField.text;
+            ref_schedule.argument_2 = inputFieldText;
         }
 
         public void OnValueChanged_WaypointMarkerDropdown()
         {
-            int dropdownValue = WaypointMarkerDropdown.value;
+            int dropdownValue = waypointMarkerDropdown.value;
             
-            string targetMarkerName = WaypointMarkerDropdown.options[dropdownValue].text;
+            string targetMarkerName = waypointMarkerDropdown.options[dropdownValue].text;
             ref_schedule.argument_1 = targetMarkerName;
         }
 

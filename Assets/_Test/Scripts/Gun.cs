@@ -16,10 +16,12 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     private bool isBeingGrabbed = false;
     private bool grabStateChanged = false;
     private Vector3 initRot;
+    private Animator gunAnim;
 
     private void Start()
     {
         interactableObject = GetComponent<InteractableObject>();
+        gunAnim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -79,8 +81,15 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     private void FireBullet()
     {
         RaycastHit hit;
-        if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("NPC")))
+        if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit, Mathf.Infinity))
         {
+            IDamageable damageableObj = hit.collider.transform.root.GetComponent<IDamageable>();
+
+            if (damageableObj != null)
+            {
+                damageableObj.OnHit(hit.collider);
+            }
+
             Instantiate(spawnPref, hit.point, firingPoint.rotation);
         }
     }
@@ -208,6 +217,10 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         {
             // Fire bullet
             GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNFIRE, devices);
+            if (gunAnim)
+            {
+                gunAnim.SetTrigger("Fire");
+            }
             FireBullet();
 
             // If there is a magazine attached

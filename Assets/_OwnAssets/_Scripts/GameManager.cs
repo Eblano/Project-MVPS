@@ -22,7 +22,7 @@ namespace SealTeam4
         // Instance of the Game Manager
         public static GameManager instance;
         // If client name set on host
-        private bool clientNameSet = false;
+        private bool setupDone = false;
 
         // GameManager Modes
         private enum GameManagerMode { LEVELSETUP, HOST, CLIENT }
@@ -66,13 +66,18 @@ namespace SealTeam4
         [SerializeField] private GameObject rifle_sar21_Prefab;
         [SerializeField] private GameObject magazine_sar21_Prefab;
 
+        private List<GameObject> networkCommandableGameobjects = new List<GameObject>();
+
+        private List<GameObject> players_ref = new List<GameObject>();
+        private List<string> playerNames = new List<string>();
+        [SerializeField] private GameObject vipFollowTarget = null;
 
         // NPC List
         private List<AIController> spawnedNPCs = new List<AIController>();
 
         [Space(10)]
        
-        public string localPlayerName;
+        private string localPlayerName;
 
         [SerializeField] private Image panelOverlay;
 
@@ -109,38 +114,65 @@ namespace SealTeam4
 
         private void Host_Update()
         {
-            if(currGameManagerHostMode == GameManagerHostMode.RUN)
+            if (Input.GetKeyDown(KeyCode.P))
             {
-                Host_Run_Update();
+                foreach(AIController npc in spawnedNPCs)
+                {
+                    if (npc.GetNPCType() == AIStats.NPCType.CIVILLIAN || npc.GetNPCType() == AIStats.NPCType.VIP)
+                        npc.TriggerUnderAttackState();
+                }
             }
+
+            CheckPlayers();
         }
         
         private void Client_Update()
         {
-            if(!clientNameSet && localPlayerName != "Player(Clone)" && GameManagerAssistant.instance)
+            if(!setupDone && localPlayerName != "Player(Clone)" && GameManagerAssistant.instance)
             {
                 RegisterClientOnServer(localPlayerName);
-                clientNameSet = true;
+                setupDone = true;
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Debug.Log("DebugNOOOO");
-                PlayerSizeCalibration.instance.CalibrateArmAndHeight();
+                StartCoroutine(PlayerSizeCalibration.instance.CalibrateArmAndHeight());
             }
+
+            //if (Input.GetKeyDown(KeyCode.R))
+            //{
+            //    Debug.Log("Reset Calibration");
+            //    PlayerSizeCalibration.instance.ResetArmAndHeight();
+            //}
+
+            //if (Input.GetKeyDown(KeyCode.A))
+            //{
+            //    Debug.Log("A");
+            //    PlayerSizeCalibration.instance.AdjustArms(-1);
+            //}
+
+            //if (Input.GetKeyDown(KeyCode.S))
+            //{
+            //    Debug.Log("S");
+            //    PlayerSizeCalibration.instance.AdjustArms(1);
+            //}
+
+            //if (Input.GetKeyDown(KeyCode.Q))
+            //{
+            //    Debug.Log("Q");
+            //    PlayerSizeCalibration.instance.AdjustHeight(-1);
+            //}
+
+            //if (Input.GetKeyDown(KeyCode.W))
+            //{
+            //    Debug.Log("W");
+            //    PlayerSizeCalibration.instance.AdjustHeight(1);
+            //}
         }
 
         private void LevelSetup_Update()
         {
             UpdateRegisteredMarkers();
-        }
-
-        private void Host_Run_Update()
-        {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                areaUnderAttack = true;
-            }
         }
         #endregion
 
@@ -176,6 +208,7 @@ namespace SealTeam4
                 Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
 
                 Destroy(Camera.main.gameObject);
+                Destroy(GameObject.Find("markerUICamera(Clone)"));
             }
         }
 
@@ -315,6 +348,20 @@ namespace SealTeam4
             registeredMarkers.Remove(registeredMarkers.Find(x => x.gameObject == gameObject));
         }
 
+        public void CheckPlayers()
+        {
+            for(int i = 0; i < players_ref.Count; i++)
+            {
+                if(!players_ref[i])
+                {
+                    InterfaceManager.instance.RemovePlayer(playerNames[i]);
+                    playerNames.Remove(playerNames[i]);
+                    players_ref.Remove(players_ref[i]);
+                    return;
+                }
+            }
+        }
+
         public bool AllPointMarkersOnPoint()
         {
             foreach(BaseMarker marker in registeredMarkers)
@@ -335,9 +382,20 @@ namespace SealTeam4
             SceneManager.LoadScene("_LoadingScene");
         }
 
-        public void LoadScene(string sceneName)
+        public Transform GetVIPFollowTargetTransform()
         {
-            SceneManager.LoadScene(sceneName);
+            return vipFollowTarget.transform;
+        }
+
+        public void SetVIPFollowTarget(string playerName)
+        {
+            vipFollowTarget = players_ref.Find(x => x.name == playerName);
+        }
+
+        public void UnsetVIPFollowTarget(string playerName)
+        {
+            if (vipFollowTarget.name == playerName)
+                vipFollowTarget = null;
         }
 
         public List<string> GetAllDynamicWapointNames(string prefix)
@@ -351,6 +409,11 @@ namespace SealTeam4
         public void SetLocalPlayerName(string name)
         {
             localPlayerName = name;
+        }
+
+        public string GetLocalPlayerName()
+        {
+            return localPlayerName;
         }
 
         public void SpawnAndSetupNPC()
@@ -390,7 +453,7 @@ namespace SealTeam4
                 spawnedNPCs.Add(npcGOAIController);
 
                 // Spawn NPC on all clients
-                GameManagerAssistant.instance.CmdNetworkSpawnObject(npc);
+                GameManagerAssistant.instance.NetworkSpawnGameObj(npc);
             }
         }
 
@@ -451,40 +514,25 @@ namespace SealTeam4
                 GameObject accessoryItem = Instantiate(accessoryItemPrefab, accessorySpawnMarker.pointPosition, accessorySpawnMarker.pointRotation);
 
                 if (GameManagerAssistant.instance)
-                    GameManagerAssistant.instance.CmdNetworkSpawnObject(accessoryItem);
+                    GameManagerAssistant.instance.NetworkSpawnGameObj(accessoryItem);
                 else
                     Debug.Log("GameManageAssistant not found");
             }
         }
 
-        public AIController GetNearestAvailableCivilianNPCForConvo(AIController requester)
+        public AIController GetNPCForConvo(string targetNPCName, AIController requester)
         {
-            List<AIController> availableNPCs = new List<AIController>();
-            AIController availableClosestNPC = null;
-            float closestDist = Mathf.Infinity;
-
-            Vector3 position = requester.transform.position;
             foreach (AIController npc in spawnedNPCs)
             {
-                if (npc.GetNPCType() == AIStats.NPCType.CIVILLIAN && npc != requester && npc.AvailableForConversation())
+                if (npc.GetName() == targetNPCName &&
+                    npc.GetNPCType() == AIStats.NPCType.CIVILLIAN && 
+                    npc != requester && npc.AvailableForConversation())
                 {
-                    availableNPCs.Add(npc);
+                    return npc;
                 }
             }
 
-            foreach(AIController availableNPC in availableNPCs)
-            {
-                Vector3 diff = availableNPC.transform.position - position;
-                float curDistance = diff.sqrMagnitude;
-
-                if (curDistance < closestDist)
-                {
-                    availableClosestNPC = availableNPC;
-                    closestDist = curDistance;
-                }
-            }
-
-            return availableClosestNPC;
+            return null;
         }
 
         public Transform GetFirstVIPTransform()
@@ -615,11 +663,59 @@ namespace SealTeam4
             return sceneHash;
         }
 
+        public void AddNewPlayer(string playerName)
+        {
+            players_ref.Add(GameObject.Find(playerName));
+            playerNames.Add(playerName);
+
+            InterfaceManager.instance.AddNewPlayer(playerName);
+        }
+
         public void SetOverlayTransparency(int percent)
         {
             Color c = panelOverlay.color;
             c.a = percent / 100.0f;
             panelOverlay.color = c; 
+        }
+
+        public string RegisterNetCmdObj(GameObject go)
+        {
+            if(networkCommandableGameobjects.Exists(x => x.name == go.name))
+            {
+                return go.name;
+            }
+
+            int increment = 1;
+            while(networkCommandableGameobjects.Exists(x => x.name == go.name + increment))
+            {
+                increment++;
+            }
+            
+            networkCommandableGameobjects.Add(go);
+            return go.name + " " + increment;
+        }
+
+        public void UnregisterNetCmdObj(GameObject go)
+        {
+            if(networkCommandableGameobjects.Exists(x => x == go))
+                networkCommandableGameobjects.Remove(go);
+        }
+
+        public void SendNetCmdObjMsg(GameObject sourceGO, string message)
+        {
+            if (GameManagerAssistant.instance)
+                GameManagerAssistant.instance.RpcGameManagerSendCommand(sourceGO.name, message);
+        }
+
+        public void RecieveNetCmdObjMsg(string targetGoName, string msg)
+        {
+            foreach(GameObject go in networkCommandableGameobjects.FindAll(x => x.name == targetGoName).FindAll(y => y != null))
+            {
+                if(go && go.GetComponent<INetworkCommandable>() != null)
+                {
+                    go.GetComponent<INetworkCommandable>().RecieveCommand(msg);
+                }
+            }
         }
     }
 }

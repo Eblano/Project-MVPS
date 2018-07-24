@@ -62,7 +62,7 @@ public class ReplaySystemCameraScript : MonoBehaviour
             MouseActive = false;
         }
 
-        if (!MouseActive)
+        if (MouseActive)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -72,7 +72,7 @@ public class ReplaySystemCameraScript : MonoBehaviour
             Zoom();
             Pan();
         }
-        else if (MouseActive)
+        else
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;

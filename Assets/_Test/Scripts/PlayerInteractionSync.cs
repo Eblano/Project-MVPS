@@ -23,14 +23,14 @@ public class PlayerInteractionSync : NetworkBehaviour
         gameManager = GameManager.instance;
     }
 
-    public Vector3 GetHeadPos()
+    public Transform GetHeadPos()
     {
-        return headPos;
+        return headset;
     }
 
-    public Vector3 GetLHandPos()
+    public Transform GetLHandPos()
     {
-        return lHandPos;
+        return lControl;
     }
 
     #region ServerMethods
@@ -116,12 +116,15 @@ public class PlayerInteractionSync : NetworkBehaviour
     {
         headset.position = head.pos;
         headset.rotation = head.rot;
+        headset.localScale = head.scale;
 
         lControl.position = lHand.pos;
         lControl.rotation = lHand.rot;
+        lControl.localScale = lHand.scale;
 
         rControl.position = rHand.pos;
         rControl.rotation = rHand.rot;
+        rControl.localScale = rHand.scale;
     }
 
     [ClientRpc]
@@ -547,10 +550,12 @@ public class Vector3AndQuaternion
 {
     public Vector3 pos;
     public Quaternion rot;
+    public Vector3 scale;
 
     public void SetPosAndRot(Transform t)
     {
         pos = t.position;
         rot = t.rotation;
+        scale = t.localScale;
     }
 }

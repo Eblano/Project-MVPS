@@ -17,9 +17,12 @@ namespace SealTeam4
         private Vector3AndQuaternion head, lHand, rHand;
 
         private NetworkIdentity networkIdentity;
-        
+
         [SerializeField] private float grabRadius;
         [SerializeField] private float holdTouchPadTimer;
+
+        [SerializeField] private float sendRatePerSecond = 30;
+        private float counter = float.MinValue;
 
         private float leftTimer;
         private float rightTimer;
@@ -73,7 +76,21 @@ namespace SealTeam4
             head.SetPosAndRot(headset);
             lHand.SetPosAndRot(lHandCont);
             rHand.SetPosAndRot(rHandCont);
-            playerInteractionSync.CmdSyncVRTransform(head, lHand, rHand);
+            if (IsCounterReady(ref counter, 1 / sendRatePerSecond))
+            {
+                playerInteractionSync.CmdSyncVRTransform(head, lHand, rHand);
+            }
+        }
+
+        private bool IsCounterReady(ref float timeCounter, float downTime)
+        {
+            if (Time.time > timeCounter)
+            {
+                timeCounter = Time.time + downTime;
+                return true;
+            }
+
+            return false;
         }
 
         IEnumerator SetController()

@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using SealTeam4;
 
-public class Explosive : MonoBehaviour, IActions
+public class Explosive : MonoBehaviour, IActions, INetworkCommandable
 {
     private List<string> action = new List<string>();
     [SerializeField] private ParticleSystem explosionParticles;
-    [SerializeField] private Transform highestPoint;
-    [SerializeField] private Collider col;
+    private Collider col;
 
     void Start()
     {
         action.Add("Explode");
+        GameManager.instance.RegisterNetCmdObj(gameObject);
+        col = GetComponent<BoxCollider>();
     }
     public List<string> GetActions()
     {
@@ -25,8 +26,13 @@ public class Explosive : MonoBehaviour, IActions
 
     public void SetAction(string action)
     {
-        Debug.Log("SetAction");
-        Explode();
+        switch (action)
+        {
+            case "Explode":
+                Explode();
+                GameManager.instance.SendNetCmdObjMsg(gameObject, "Explode");
+                break;
+        }
     }
 
     private void Explode()
@@ -36,8 +42,8 @@ public class Explosive : MonoBehaviour, IActions
         explosion.Play();
         //GameManagerAssistant.instance.CmdSyncHaps(, ControllerHapticsManager.HapticType.GUNFIRE, VRTK.VRTK_DeviceFinder.Devices.LeftController);
         //GameManagerAssistant.instance.CmdSyncHaps(, ControllerHapticsManager.HapticType.GUNFIRE, VRTK.VRTK_DeviceFinder.Devices.RightController);
-        Destroy(gameObject);
         action.Clear();
+        Destroy(gameObject);
     }
 
     public string GetName()
@@ -47,16 +53,26 @@ public class Explosive : MonoBehaviour, IActions
 
     public Vector3 GetHighestPointPos()
     {
-        return highestPoint.position;
+        return transform.position;
     }
 
     public Transform GetHighestPointTransform()
     {
-        return highestPoint;
+        return transform;
     }
 
     public Collider GetCollider()
     {
         return col;
+    }
+
+    public void RecieveCommand(string command)
+    {
+        switch(command)
+        {
+            case "Explode":
+                Explode();
+                break;
+        }
     }
 }

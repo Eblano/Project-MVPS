@@ -22,6 +22,7 @@ namespace SealTeam4
             PARTICIPATE_CONVO
         };
 
+        // Current AI Mode
         public AIMode aIMode = AIMode.FOLLOW_SCHEDULE;
         // Current schedule NPC is running
         public int currSchedule = 0;
@@ -78,15 +79,25 @@ namespace SealTeam4
         public class HostileHuman
         {
             public enum State { IDLE, SHOOT_TARGET, KNIFE_TARGET, MOVE_TO_WAYPOINT };
-            public enum ShootTargetState { INACTIVE, SPAWN_GUN, DRAW_GUN, MOVE_TO_SHOOT_TARGET, TRACK_TARGET, SHOOT_TARGET }
+            public enum ShootTargetState { INACTIVE, SPAWN_GUN, DRAW_GUN, MOVE_TO_SHOOT_TARGET, TRACK_TARGET, AIM_GUN_ON_TARGET, SHOOT }
 
             public State currState = State.IDLE;
             public ShootTargetState currShootTargetState = ShootTargetState.INACTIVE;
 
-            public int schBeforeEnteringHostileMode;
-            public Vector3 waypointPos;
-            public Transform shootTarget;
+            public int schBeforeEnteringHostileMode = 0;
+            public Vector3 waypointPos = Vector3.zero;
+            public Transform shootTarget = null;
         }
         public HostileHuman hostileHuman = new HostileHuman();
+
+        [System.Serializable]
+        public class VIP
+        {
+            public enum State { IDLE, FOLLOW_PLAYER, GRABBED_FOLLOW_PLAYER };
+            public State currState = State.FOLLOW_PLAYER;
+
+            public Transform playerFollowTarget = null;
+        }
+        public VIP vip = new VIP();
     }
 }

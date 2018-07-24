@@ -9,18 +9,38 @@ using UnityEngine.Events;
 /// </summary>
 namespace SealTeam4
 {
-    public class AIController : MonoBehaviour, IActions, IObjectInfo
+    public class AIController : MonoBehaviour, IActions, IObjectInfo, IDamageable
     {
+        [System.Serializable]
+        private class TransformOffset
+        {
+            public Vector3 posOffset = Vector3.zero;
+            public Vector3 rotOffset = Vector3.zero;
+            public float scale = 1;
+        }
+
         private string npcName;
 
+        [Header("Body Parts")]
         public Transform headT;
+        public Transform rightHandT;
+
+        [Header("Weapon/Pistol")]
+        public GameObject pistol_Prefab;
+        [SerializeField] private TransformOffset pistol_TOffset;
+        [HideInInspector] public NPCGun ref_pistol;
 
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
         private AIAnimEventReciever aiAnimEventReciever;
 
+        [Space(10)]
+
         // Stores various state of this AI
         [SerializeField] private AIState aiState;
+
+        [Space(10)]
+
         // Stores various stats of this AI
         [SerializeField] private AIStats aiStats;
 
@@ -38,8 +58,19 @@ namespace SealTeam4
 
         // Exposed Variables for InterfaceManager
         [Header("Exposed for InterfaceManager")]
-        [SerializeField] private Transform highestPoint;
-        [SerializeField] private Collider col;
+        public Transform highestPoint;
+        public Collider col;
+
+        [System.Serializable]
+        private class HitBoxColliders
+        {
+            public List<Collider> headColliders;
+            public List<Collider> bodyColliders;
+            public List<Collider> HandColliders;
+            public List<Collider> legColliders;
+        }
+        [Space(10)]
+        [SerializeField] private HitBoxColliders hitBoxColliders;
 
         public void Setup(string npcName, AIStats aiStats, List<NPCSchedule> npcSchedules)
         {
@@ -62,30 +93,22 @@ namespace SealTeam4
 
         private void Update()
         {
+            //if (ref_pistol)
+            //{
+            //    ResetGunTransformToOrig();
+            //}
+
             UpdateActionableParameters();
+
+            if (!aiState.active)
+                return;
+
+            CheckHPStatus();
 
             if (aiState.prepareEnterHostile && aiState.hostileHuman.schBeforeEnteringHostileMode < aiState.currSchedule)
             {
                 aiState.prepareEnterHostile = false;
                 aiState.aIMode = AIState.AIMode.HOSTILE;
-            }
-
-            if (!aiState.active)
-                return;
-
-            // if area under attack
-            if (GameManager.instance.areaUnderAttack)
-            {
-                switch (aiStats.npcType)
-                {
-                    case AIStats.NPCType.VIP:
-                        aiState.aIMode = AIState.AIMode.VIP_UNDER_ATTACK;
-                        break;
-                        
-                    case AIStats.NPCType.CIVILLIAN:
-                        aiState.aIMode = AIState.AIMode.CIVILIAN_UNDER_ATTACK;
-                        break;
-                }
             }
 
             switch (aiState.aIMode)
@@ -109,10 +132,10 @@ namespace SealTeam4
                     break;
             }
         }
-        
+
         public bool RequestStartConvo(AIController requester)
         {
-            if(AvailableForConversation())
+            if (AvailableForConversation())
             {
                 aiState.aIMode = AIState.AIMode.PARTICIPATE_CONVO;
                 aiState.waitingForConversationToStart = true;
@@ -138,7 +161,7 @@ namespace SealTeam4
             aiState.inConversation = true;
             aiAnimController.Anim_StartStandTalking();
         }
-        
+
         public void EndConvoWithConvoNPCTarget()
         {
             aiState.inConversation = false;
@@ -148,12 +171,12 @@ namespace SealTeam4
             RemoveAction("End Conversation (Next)");
             aiState.timeInConvo = 0;
         }
-        
+
         public bool AvailableForConversation()
         {
             return !aiState.seated && aiState.active && !aiState.inConversation;
         }
-        
+
         public void SetNMAgentDestination(Vector3 position)
         {
             nmAgent.SetDestination(position);
@@ -162,6 +185,11 @@ namespace SealTeam4
         public bool ReachedDestination(Vector3 destination, float extraStoppingDistance)
         {
             return nmAgent.remainingDistance < aiStats.stopDist + extraStoppingDistance;
+        }
+
+        public bool WithinStoppingDistance(Vector3 destination, float stopDist)
+        {
+            return Vector3.Distance(transform.position, destination) < stopDist;
         }
 
         public void MoveAITowardsNMAgentDestination(float speed)
@@ -239,32 +267,25 @@ namespace SealTeam4
             return aiAnimEventReciever.sitting_Completed;
         }
 
-        //public bool InLOS(Vector3 target, string targetGameObjectName)
-        //{
-        //    RaycastHit hitInfo;
-        //    Ray ray = new Ray(headT.position, target - headT.position);
-        //    //Debug.DrawRay(headT.position, target - headT.position);
-
-        //    int layerMask = ~(
-        //        1 << LayerMask.NameToLayer("FloatingUI") |
-        //        1 << LayerMask.NameToLayer("UI") |
-        //        1 << LayerMask.NameToLayer("AreaMarker") |
-        //        1 << LayerMask.NameToLayer("Marker"));
-
-        //    if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, layerMask))
-        //    {
-        //        if (hitInfo.transform.name == targetGameObjectName)
-        //        {
-        //            Debug.Log("Head is in LOS with " + targetGameObjectName);
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
+        private void CheckHPStatus()
+        {
+            if(aiStats.GetTotalHP() == 0)
+            {
+                aiAnimController.Anim_Die();
+                aiState.active = false;
+                StopMovement();
+            }
+        }
 
         public bool InLOS3PT(Vector3 target, string targetGameObjectName)
         {
-            RaycastHit hitInfo;
+            RaycastHit centerRayHitInfo;
+            RaycastHit leftRayHitInfo;
+            RaycastHit rightRayHitInfo;
+
+            bool centerRayPassed = false;
+            bool leftRayPassed = false;
+            bool rightRayPassed = false;
 
             Ray rayCenter = new Ray(headT.position, target - headT.position);
 
@@ -274,55 +295,78 @@ namespace SealTeam4
                 1 << LayerMask.NameToLayer("AreaMarker") |
                 1 << LayerMask.NameToLayer("Marker"));
 
-            if (Physics.Raycast(rayCenter, out hitInfo, Mathf.Infinity, layerMask))
+            if (Physics.Raycast(rayCenter, out centerRayHitInfo, Mathf.Infinity, layerMask))
             {
-                if (hitInfo.transform.name != targetGameObjectName)
+                if (centerRayHitInfo.transform.name == targetGameObjectName)
                 {
-                    return false;
+                    centerRayPassed = true;
                 }
             }
 
-            Vector3 headLeftPos = Quaternion.AngleAxis(-90, Vector3.up) * (target - headT.position).normalized;
-            Vector3 headRightPos = Quaternion.AngleAxis(90, Vector3.up) * (target - headT.position).normalized;
+            Vector3 headLeftPos = (Quaternion.AngleAxis(-90, Vector3.up) * (target - headT.position).normalized * aiStats.losMarginSize) + headT.position;
+            Vector3 headRightPos = (Quaternion.AngleAxis(90, Vector3.up) * (target - headT.position).normalized * aiStats.losMarginSize) + headT.position;
 
             Ray rayLeft = new Ray(headLeftPos, target - headLeftPos);
             Ray rayRight = new Ray(headRightPos, target - headRightPos);
 
-            if (Physics.Raycast(rayLeft, out hitInfo, Mathf.Infinity, layerMask))
+            if (Physics.Raycast(rayLeft, out leftRayHitInfo, centerRayHitInfo.distance, layerMask))
             {
-                if (hitInfo.transform.name != targetGameObjectName)
-                {
-                    return false;
-                }
+                if (leftRayHitInfo.transform.name == targetGameObjectName)
+                    leftRayPassed = true;
             }
+            else
+                leftRayPassed = true;
 
-            if (Physics.Raycast(rayRight, out hitInfo, Mathf.Infinity, layerMask))
+
+            if (Physics.Raycast(rayRight, out rightRayHitInfo, centerRayHitInfo.distance, layerMask))
             {
-                if (hitInfo.transform.name != targetGameObjectName)
-                {
-                    return false;
-                }
+                if (rightRayHitInfo.transform.name == targetGameObjectName)
+                    rightRayPassed = true;
             }
+            else
+                rightRayPassed = true;
 
             Debug.DrawRay(headT.position, target - headT.position);
             Debug.DrawRay(headLeftPos, target - headLeftPos);
             Debug.DrawRay(headRightPos, target - headRightPos);
 
-            return true;
+            return centerRayPassed && leftRayPassed && rightRayPassed;
         }
 
-        public bool DrawGun()
+        public void DrawGun()
         {
             aiAnimController.Anim_DrawGun();
-            if (aiAnimEventReciever.gunDraw_Completed)
-                aiAnimController.Anim_DrawGunEnd();
-
-            return aiAnimEventReciever.gunDraw_Completed;
         }
-                 
+
+        public void AimGun()
+        {
+            aiAnimController.Anim_AimGun();
+        }
+
+        public void LowerGun()
+        {
+            aiAnimController.Anim_LowerGun();
+        }
+
+        public void ResetGunTransformToOrig()
+        {
+            ref_pistol.transform.localPosition = pistol_TOffset.posOffset;
+            ref_pistol.transform.localRotation = Quaternion.Euler(pistol_TOffset.rotOffset);
+            ref_pistol.transform.localScale = new Vector3(pistol_TOffset.scale, pistol_TOffset.scale, pistol_TOffset.scale);
+        }
+
+        public void SpawnGunOnHand()
+        {
+            if (!ref_pistol)
+            {
+                ref_pistol = Instantiate(pistol_Prefab, rightHandT.transform).GetComponent<NPCGun>();
+                ResetGunTransformToOrig();
+            }
+        }
+
         public void FadeAway()
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         public void AISetActive()
@@ -334,7 +378,7 @@ namespace SealTeam4
         {
             return aiStats.npcType;
         }
-        
+
         public List<string> GetActions()
         {
             return actionableParameters;
@@ -342,7 +386,7 @@ namespace SealTeam4
 
         public void SetAction(string action)
         {
-            if(action.Contains("Move To "))
+            if (action.Contains("Move To "))
             {
                 aiFSM_HostileHuman.SetAction_MoveToWaypoint(action.Substring(8));
             }
@@ -380,7 +424,7 @@ namespace SealTeam4
                     break;
 
                 case "Enter Hostile Mode":
-                    if(actionableParameters.Exists(x => x == "Dismiss from Seat (Next)"))
+                    if (actionableParameters.Exists(x => x == "Dismiss from Seat (Next)"))
                         SetAction("Dismiss from Seat (Next)");
 
                     else if (actionableParameters.Exists(x => x == "End Idle (Next)"))
@@ -392,7 +436,7 @@ namespace SealTeam4
                     else if (actionableParameters.Exists(x => x == "End Conversation (Next)"))
                         SetAction("End Conversation (Next)");
 
-                    if(aiState.currSchedule > npcSchedules.Count - 1)
+                    if (aiState.currSchedule > npcSchedules.Count - 1)
                         aiState.aIMode = AIState.AIMode.HOSTILE;
                     else
                     {
@@ -410,6 +454,14 @@ namespace SealTeam4
         public string GetName()
         {
             return npcName;
+        }
+
+        public void SetGrabModeTransform(Transform grabSource)
+        {
+            if (grabSource)
+                aiFSM_VIP_UnderAttack.SetProcess_GrabbedFollowPlayer(grabSource);
+            else
+                aiFSM_VIP_UnderAttack.SetProcess_FollowPlayer();
         }
 
         public Vector3 GetHighestPointPos()
@@ -440,7 +492,7 @@ namespace SealTeam4
 
         public void RemoveAction(string action)
         {
-            if(actionableParameters.Exists(x => x == action))
+            if (actionableParameters.Exists(x => x == action))
             {
                 actionableParameters.Remove(action);
             }
@@ -468,7 +520,7 @@ namespace SealTeam4
                 actionableParameters.Add("Activate NPC");
             }
 
-            if(aiState.active && aiState.aIMode == AIState.AIMode.HOSTILE &&
+            if (aiState.active && aiState.aIMode == AIState.AIMode.HOSTILE &&
                 (aiState.hostileHuman.currState == AIState.HostileHuman.State.IDLE ||
                  aiState.hostileHuman.currState == AIState.HostileHuman.State.MOVE_TO_WAYPOINT))
             {
@@ -478,9 +530,9 @@ namespace SealTeam4
                 if (!actionableParameters.Contains("Shoot Player"))
                     actionableParameters.Add("Shoot Player");
 
-                foreach(string dynWPMarkerName in aiStats.allDynamicWaypoints)
+                foreach (string dynWPMarkerName in aiStats.allDynamicWaypoints)
                 {
-                    if(!actionableParameters.Contains("Move To " + dynWPMarkerName))
+                    if (!actionableParameters.Contains("Move To " + dynWPMarkerName))
                         actionableParameters.Add("Move To " + dynWPMarkerName);
                 }
             }
@@ -497,6 +549,27 @@ namespace SealTeam4
                     if (!actionableParameters.Contains("Move To " + dynWPMarkerName))
                         actionableParameters.Remove("Move To " + dynWPMarkerName);
                 }
+            }
+        }
+
+        public void TriggerUnderAttackState()
+        {
+            switch (aiStats.npcType)
+            {
+                case AIStats.NPCType.VIP:
+                    if (aiState.aIMode != AIState.AIMode.VIP_UNDER_ATTACK)
+                    {
+                        aiState.aIMode = AIState.AIMode.VIP_UNDER_ATTACK;
+                        aiFSM_VIP_UnderAttack.SetProcess_FollowPlayer();
+                    }
+                    break;
+
+                case AIStats.NPCType.CIVILLIAN:
+                    if (aiState.aIMode != AIState.AIMode.CIVILIAN_UNDER_ATTACK)
+                    {
+                        aiState.aIMode = AIState.AIMode.CIVILIAN_UNDER_ATTACK;
+                    }
+                    break;
             }
         }
 
@@ -556,14 +629,14 @@ namespace SealTeam4
             ObjectInfo objInfo2 = new ObjectInfo();
             objInfo2.title = "Schedules";
 
-            if(aiState.aIMode == AIState.AIMode.FOLLOW_SCHEDULE)
+            if (aiState.aIMode == AIState.AIMode.FOLLOW_SCHEDULE)
                 objInfo2.contentIndexToHighlight = aiState.currSchedule;
             else
                 objInfo2.contentIndexToHighlight = -1;
 
             foreach (NPCSchedule schedule in npcSchedules)
             {
-                switch(schedule.scheduleType)
+                switch (schedule.scheduleType)
                 {
                     case NPCSchedule.SCHEDULE_TYPE.IDLE:
                         objInfo2.content.Add("Idle for " + schedule.argument_1 + "s");
@@ -585,12 +658,57 @@ namespace SealTeam4
                         break;
                 }
             }
+
+            ObjectInfo objInfo3 = new ObjectInfo();
+            objInfo3.title = "Health";
+            objInfo3.content.Add("Current HP: " + aiStats.GetTotalHP());
+
             List<ObjectInfo> objInfos = new List<ObjectInfo>
             {
                 objInfo1,
                 objInfo2,
+                objInfo3
             };
             return objInfos;
+        }
+
+        public void OnHit(Collider c)
+        {
+            foreach (Collider bodyColl in hitBoxColliders.bodyColliders)
+            {
+                if (c == bodyColl)
+                {
+                    aiStats.TakeDamage(aiStats.bodyDmg);
+                    return;
+                }
+            }
+
+            foreach (Collider headColl in hitBoxColliders.headColliders)
+            {
+                if (c == headColl)
+                {
+                    aiStats.TakeDamage(aiStats.headDmg);
+                    return;
+                }
+            }
+
+            foreach (Collider handColl in hitBoxColliders.HandColliders)
+            {
+                if (c == handColl)
+                {
+                    aiStats.TakeDamage(aiStats.handDmg);
+                    return;
+                }
+            }
+
+            foreach (Collider legColl in hitBoxColliders.legColliders)
+            {
+                if (c == legColl)
+                {
+                    aiStats.TakeDamage(aiStats.handDmg);
+                    return;
+                }
+            }
         }
     }
 }

@@ -13,11 +13,17 @@ namespace SealTeam4
         {
             base.Start();
             RegisterMarkerOnGameManager(this);
+            CreateNetworkStartPosGO();
+        }
 
+        private void CreateNetworkStartPosGO()
+        {
             if (!networkStartPosGO)
+            {
                 networkStartPosGO = new GameObject();
-
-            networkStartPosGO.AddComponent<UnityEngine.Networking.NetworkStartPosition>();
+                networkStartPosGO.AddComponent<UnityEngine.Networking.NetworkStartPosition>();
+                networkStartPosGO.AddComponent<Battlehub.RTSaveLoad.PersistentIgnore>();
+            }
         }
 
         private new void Update()
@@ -39,13 +45,12 @@ namespace SealTeam4
         private void OnDisable()
         {
             if (networkStartPosGO)
-                networkStartPosGO.SetActive(false);
+                Destroy(networkStartPosGO.gameObject);
         }
 
         private void OnEnable()
         {
-            if (networkStartPosGO)
-                networkStartPosGO.SetActive(true);
+            CreateNetworkStartPosGO();
         }
     }
 }

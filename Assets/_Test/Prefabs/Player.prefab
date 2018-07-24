@@ -161,7 +161,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4872398611212836}
   - component: {fileID: 136815204815144896}
-  - component: {fileID: 114381963786431626}
   m_Layer: 0
   m_Name: RLegUpper
   m_TagString: Untagged
@@ -686,6 +685,7 @@ GameObject:
   - component: {fileID: 114938867403203222}
   - component: {fileID: 114497943614828676}
   - component: {fileID: 114291161829025212}
+  - component: {fileID: 114183224138878064}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -717,7 +717,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4298494407424646}
   - component: {fileID: 65128771757740006}
-  - component: {fileID: 114091563590411116}
   m_Layer: 0
   m_Name: Spine2
   m_TagString: Untagged
@@ -764,7 +763,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4988270929047536}
   - component: {fileID: 136883303363740420}
-  - component: {fileID: 114566985844428266}
   m_Layer: 0
   m_Name: LArmUpper1
   m_TagString: Untagged
@@ -871,7 +869,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4023620396833458}
   - component: {fileID: 136966493775270872}
-  - component: {fileID: 114123988081919928}
   m_Layer: 0
   m_Name: RArmForearm1
   m_TagString: Untagged
@@ -888,7 +885,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4247057116743798}
   - component: {fileID: 136660289691087520}
-  - component: {fileID: 114259395746378174}
   m_Layer: 0
   m_Name: LArmForearm1
   m_TagString: Untagged
@@ -1241,7 +1237,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4158276135923370}
   - component: {fileID: 136945068846485608}
-  - component: {fileID: 114439500977502910}
   m_Layer: 0
   m_Name: LLegCalf
   m_TagString: Untagged
@@ -1609,7 +1604,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4669731838897838}
   - component: {fileID: 136694527008403788}
-  - component: {fileID: 114882154253122392}
   m_Layer: 0
   m_Name: RLegCalf
   m_TagString: Untagged
@@ -1626,7 +1620,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4839854342906828}
   - component: {fileID: 136586558785183176}
-  - component: {fileID: 114941622128275188}
   m_Layer: 0
   m_Name: RArmUpper1
   m_TagString: Untagged
@@ -1643,7 +1636,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4921126517001008}
   - component: {fileID: 135344667180397190}
-  - component: {fileID: 114313274701506548}
   m_Layer: 0
   m_Name: NeckHead
   m_TagString: ExcludeTeleport
@@ -1675,7 +1667,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4567130653189030}
   - component: {fileID: 136639690193652740}
-  - component: {fileID: 114254122851717316}
   m_Layer: 0
   m_Name: LLegUpper
   m_TagString: Untagged
@@ -3138,7 +3129,7 @@ Transform:
   m_GameObject: {fileID: 1310987374780024}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1.209}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 4600396700682946}
   - {fileID: 4866617232859642}
@@ -3838,32 +3829,6 @@ MonoBehaviour:
   holsterItems:
   - {fileID: 114815320031139628}
   - {fileID: 114685658332322944}
---- !u!114 &114091563590411116
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1319851747022104}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 469ead144e037e04c8920e5fdcdcd233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTaken: 35
-  playerStats: {fileID: 114497943614828676}
---- !u!114 &114123988081919928
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1367999629306396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 469ead144e037e04c8920e5fdcdcd233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTaken: 20
-  playerStats: {fileID: 114497943614828676}
 --- !u!114 &114152253452870584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3875,6 +3840,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b6345d9d75933469c32508141dfdd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114183224138878064
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1310987374780024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80442fbe6d0a9014eb8b61e2b0933627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalHp: 100
+  hitBoxColliders:
+    headColliders: []
+    bodyColliders: []
+    HandColliders: []
+    legColliders:
+    - {fileID: 136639690193652740}
+    - {fileID: 136945068846485608}
+    - {fileID: 136815204815144896}
+    - {fileID: 136694527008403788}
+  headDmg: 100
+  bodyDmg: 20
+  handDmg: 15
+  legDmg: 15
 --- !u!114 &114198895217664046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3914,7 +3904,7 @@ MonoBehaviour:
     IKPosition: {x: 0, y: 0, z: 0}
     IKPositionWeight: 1
     root: {fileID: 0}
-    plantFeet: 0
+    plantFeet: 1
     spine:
       bones: []
       headTarget: {fileID: 4652986284227114}
@@ -4079,32 +4069,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b6345d9d75933469c32508141dfdd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114254122851717316
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1912895007905776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 469ead144e037e04c8920e5fdcdcd233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTaken: 40
-  playerStats: {fileID: 114497943614828676}
---- !u!114 &114259395746378174
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1374919683613820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 469ead144e037e04c8920e5fdcdcd233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTaken: 20
-  playerStats: {fileID: 114497943614828676}
 --- !u!114 &114291161829025212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4117,54 +4081,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scalePercIncrement: 0.05
-  ulArmBone: {fileID: 0}
-  llArmBone: {fileID: 0}
-  urArmBone: {fileID: 0}
-  lrArmBone: {fileID: 0}
+  ulArmBone: {fileID: 4988270929047536}
+  llArmBone: {fileID: 4247057116743798}
+  urArmBone: {fileID: 4839854342906828}
+  lrArmBone: {fileID: 4023620396833458}
   lhandRef: {fileID: 4169325888710658}
   headRef: {fileID: 4921126517001008}
   fitRadius: 0.02
   vrIK: {fileID: 114198895217664046}
   breakCounter: 20
---- !u!114 &114313274701506548
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1891096205046624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 469ead144e037e04c8920e5fdcdcd233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTaken: 1000
-  playerStats: {fileID: 114497943614828676}
---- !u!114 &114381963786431626
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1085452870000574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 469ead144e037e04c8920e5fdcdcd233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTaken: 40
-  playerStats: {fileID: 114497943614828676}
---- !u!114 &114439500977502910
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1628566682966774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 469ead144e037e04c8920e5fdcdcd233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTaken: 30
-  playerStats: {fileID: 114497943614828676}
 --- !u!114 &114497943614828676
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4176,6 +4101,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80442fbe6d0a9014eb8b61e2b0933627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totalHp: 100
+  hitBoxColliders:
+    headColliders:
+    - {fileID: 135344667180397190}
+    bodyColliders:
+    - {fileID: 65128771757740006}
+    HandColliders:
+    - {fileID: 136883303363740420}
+    - {fileID: 136660289691087520}
+    - {fileID: 136586558785183176}
+    - {fileID: 136966493775270872}
+    legColliders: []
+  headDmg: 100
+  bodyDmg: 20
+  handDmg: 15
+  legDmg: 15
 --- !u!114 &114502516644767096
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4187,19 +4128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b6345d9d75933469c32508141dfdd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114566985844428266
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1326727144028612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 469ead144e037e04c8920e5fdcdcd233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTaken: 30
-  playerStats: {fileID: 114497943614828676}
 --- !u!114 &114606637673433114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4213,6 +4141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grabRadius: 0.1
   holdTouchPadTimer: 1.5
+  sendRatePerSecond: 30
 --- !u!114 &114631796332764460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4297,19 +4226,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b6345d9d75933469c32508141dfdd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114882154253122392
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1889435554776020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 469ead144e037e04c8920e5fdcdcd233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTaken: 30
-  playerStats: {fileID: 114497943614828676}
 --- !u!114 &114938867403203222
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4321,19 +4237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f1d419fa3a78646b629f5a72480221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114941622128275188
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1891066842215746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 469ead144e037e04c8920e5fdcdcd233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTaken: 30
-  playerStats: {fileID: 114497943614828676}
 --- !u!135 &135043852000998940
 SphereCollider:
   m_ObjectHideFlags: 1

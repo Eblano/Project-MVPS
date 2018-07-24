@@ -109,6 +109,7 @@ namespace SealTeam4
                 else
                 {
                     camToFollow.rect = new Rect(0, 0, 1, 1);
+                    markerUICamera.rect = new Rect(0, 0, 1, 1);
                     markerUICamera.orthographicSize = camToFollow.orthographicSize;
                     markerUICamera.orthographic = camToFollow.orthographic;
                     markerUICamera.transform.position = camToFollow.transform.position;
@@ -288,16 +289,6 @@ namespace SealTeam4
         {
             GameManager.instance.SetSceneInfo(m_projectManager.ActiveScene.Name, GetActiveSceneHash());
 
-            // Destroy selected GameObjects by name in hierarchy
-            for (int i = 0; i < gameObjectsToDestroyByName.Count; i++)
-            {
-                GameObject objectToDestroy = GameObject.Find(gameObjectsToDestroyByName[i]);
-                if (objectToDestroy != null)
-                {
-                    Destroy(objectToDestroy);
-                }
-            }
-
             // Spawn selected GameObjects
             for (int i = 0; i < gameObjectsToSpawn.Count; i++)
             {
@@ -305,7 +296,16 @@ namespace SealTeam4
                 go.transform.SetParent(null);
             }
 
-            markerUICamera.gameObject.SetActive(true);
+            // Destroy selected GameObjects by name in hierarchy
+            for (int i = 0; i < gameObjectsToDestroyByName.Count; i++)
+            {
+                GameObject objectToDestroy = GameObject.Find(gameObjectsToDestroyByName[i]);
+                if (objectToDestroy != null)
+                {
+                    Debug.Log(objectToDestroy.name);
+                    Destroy(objectToDestroy);
+                }
+            }
         }
 
         /// <summary>

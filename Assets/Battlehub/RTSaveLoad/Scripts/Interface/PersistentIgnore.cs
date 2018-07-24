@@ -9,10 +9,12 @@ using System.Linq;
 
 using UnityObject = UnityEngine.Object;
 
+//#if UNITY_EDITOR
+//using UnityEditor;
+//#endif
+
 namespace Battlehub.RTSaveLoad
 {
-    
-    
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
     public class PersistentIgnore : MonoBehaviour
@@ -162,7 +164,7 @@ namespace Battlehub.RTSaveLoad
         private void Start()
         {
             #if UNITY_EDITOR
-            if (!Application.isPlaying)
+            if (!Application.isPlaying /*&& EditorApplication.isPlaying*/)
             {
                 if(IdentifiersMap.Instance != null)
                 {

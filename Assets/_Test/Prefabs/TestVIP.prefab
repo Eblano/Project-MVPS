@@ -1639,7 +1639,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1189771968061436}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.09, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4936456459327752}
@@ -2137,8 +2137,9 @@ MonoBehaviour:
   grabPosition: {fileID: 4513105073156148}
   parentTransform: {fileID: 4414604222324456}
   BC: {fileID: 114121564841466016}
-  npcFollowScript: {fileID: 114927257824126072}
+  aIController: {fileID: 0}
   bipPos: 0
+  snapBackRadius: 0.1
   isBeingGrabbed: 0
 --- !u!114 &114305114943270498
 MonoBehaviour:
@@ -2675,8 +2676,9 @@ MonoBehaviour:
   grabPosition: {fileID: 4152050603425108}
   parentTransform: {fileID: 4758232503852498}
   BC: {fileID: 114121564841466016}
-  npcFollowScript: {fileID: 114927257824126072}
+  aIController: {fileID: 0}
   bipPos: 2
+  snapBackRadius: 0.1
   isBeingGrabbed: 0
 --- !u!114 &114527173668818870
 MonoBehaviour:
@@ -2692,8 +2694,9 @@ MonoBehaviour:
   grabPosition: {fileID: 4589492110111154}
   parentTransform: {fileID: 4471361191202988}
   BC: {fileID: 114121564841466016}
-  npcFollowScript: {fileID: 114927257824126072}
+  aIController: {fileID: 0}
   bipPos: 1
+  snapBackRadius: 0.1
   isBeingGrabbed: 0
 --- !u!114 &114606278292179722
 MonoBehaviour:
@@ -2773,8 +2776,9 @@ MonoBehaviour:
   grabPosition: {fileID: 4817206223391406}
   parentTransform: {fileID: 4560537497387306}
   BC: {fileID: 114121564841466016}
-  npcFollowScript: {fileID: 114927257824126072}
+  aIController: {fileID: 0}
   bipPos: 3
+  snapBackRadius: 0.1
   isBeingGrabbed: 0
 --- !u!114 &114927257824126072
 MonoBehaviour:
