@@ -2478,7 +2478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 95517852091237600}
-  m_ParameterSendBits: 511
+  m_ParameterSendBits: 1023
   param0: 
   param1: 
   param2: 
@@ -2515,6 +2515,7 @@ MonoBehaviour:
   ref_knife: {fileID: 0}
   aiState:
     active: 0
+    alive: 1
     aIMode: 0
     currSchedule: 0
     currSubschedule: 0
@@ -2543,8 +2544,8 @@ MonoBehaviour:
       currKnifeSwingCD: 0
       schBeforeEnteringHostileMode: 0
       waypointPos: {x: 0, y: 0, z: 0}
-      shootTarget: {fileID: 0}
-      knifeTarget: {fileID: 0}
+      shootTargetT: {fileID: 0}
+      knifeTargetT: {fileID: 0}
     vip:
       currState: 1
       playerFollowTarget: {fileID: 0}
@@ -2560,6 +2561,7 @@ MonoBehaviour:
     turningSpeed: 10
     normalMoveSpeed: 0.5
     runningSpeed: 0.7
+    totalHp: 100
     headDmg: 100
     bodyDmg: 20
     handDmg: 15
