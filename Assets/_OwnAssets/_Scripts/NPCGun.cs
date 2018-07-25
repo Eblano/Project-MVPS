@@ -13,30 +13,18 @@ namespace SealTeam4
 
         public void FireGun()
         {
-            if (timeToNextShot <= 0)
-            {
-                FireRaycastBullet();
-                timeToNextShot = firingRate;
-            }
-            else
-                timeToNextShot -= Time.deltaTime;
-        }
-
-        private void FireRaycastBullet()
-        {
             Ray ray = new Ray(firingPt.position, firingPt.forward);
             RaycastHit hitInfo;
 
-            if(Physics.Raycast(ray, out hitInfo, Mathf.Infinity))
+            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity))
             {
                 IDamageable iDamagable = hitInfo.transform.root.GetComponent<IDamageable>();
 
                 if (iDamagable != null)
                     iDamagable.OnHit(hitInfo.collider);
 
-                //if (hitEffect_Prefab)
-                //    Instantiate(hitEffect_Prefab, hitInfo.point, Quaternion.identity);
-                    
+                //Debug.Log(hitInfo.transform.name + " | " + hitInfo.transform.root.name);
+
             }
         }
     }

@@ -103,14 +103,13 @@ namespace SealTeam4
             aiState.prepareEnterHostile = false;
             aiState.aIMode = AIState.AIMode.HOSTILE;
             GameManager.instance.TriggerThreatInLevel();
-            Debug.Log("TRIGGERED");
         }
 
         private void Update()
         {
             UpdateActionableParameters();
 
-            if (!aiState.active)
+            if (!aiState.active || !aiState.alive)
                 return;
 
             CheckHPStatus();
@@ -234,11 +233,16 @@ namespace SealTeam4
 
         public bool LookingAtTarget(Vector3 targetPosition, float angleOfError)
         {
-            Vector3 direction = targetPosition - transform.position;
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            Vector3 forwardLook = headT.forward.normalized;
+            Vector3 targetLook = (targetPosition - headT.position).normalized;
 
-            Debug.Log(Quaternion.Angle(transform.rotation, lookRotation));
-            return Quaternion.Angle(transform.rotation, lookRotation) < angleOfError;
+            forwardLook.y = 0;
+            targetLook.y = 0;
+
+            Debug.DrawLine(headT.position, headT.position + forwardLook * 7, Color.blue);
+            Debug.DrawLine(headT.position, headT.position + targetLook * 7, Color.cyan);
+
+            return Vector3.Angle(forwardLook, targetLook) < angleOfError;
         }
 
         public void StopMovement()
@@ -288,9 +292,37 @@ namespace SealTeam4
             if(aiStats.GetTotalHP() == 0)
             {
                 aiAnimController.Anim_Die();
+                aiState.alive = false;
                 aiState.active = false;
                 StopMovement();
             }
+        }
+
+        public bool InLOS(Vector3 target, string targetGameObjectName)
+        {
+            RaycastHit centerRayHitInfo;
+
+            bool centerRayPassed = false;
+
+            Ray rayCenter = new Ray(headT.position, target - headT.position);
+
+            int layerMask = ~(
+                1 << LayerMask.NameToLayer("FloatingUI") |
+                1 << LayerMask.NameToLayer("UI") |
+                1 << LayerMask.NameToLayer("AreaMarker") |
+                1 << LayerMask.NameToLayer("Marker"));
+
+            if (Physics.Raycast(rayCenter, out centerRayHitInfo, Mathf.Infinity, layerMask))
+            {
+                if (centerRayHitInfo.transform.name == targetGameObjectName)
+                {
+                    centerRayPassed = true;
+                }
+            }
+
+            Debug.DrawRay(headT.position, target - headT.position);
+
+            return centerRayPassed;
         }
 
         public bool InLOS3PT(Vector3 target, string targetGameObjectName)
@@ -560,10 +592,10 @@ namespace SealTeam4
             if (aiState.aIMode == AIState.AIMode.HOSTILE && !aiState.prepareEnterHostile && actionableParameters.Contains("Enter Hostile Mode"))
                 actionableParameters.Remove("Enter Hostile Mode");
 
-            if (aiState.active && actionableParameters.Contains("Activate NPC"))
+            if ((aiState.active && actionableParameters.Contains("Activate NPC")) || (!aiState.alive && actionableParameters.Contains("Activate NPC")))
                 actionableParameters.Remove("Activate NPC");
 
-            if (!aiState.active && !actionableParameters.Contains("Activate NPC"))
+            if (!aiState.active && !actionableParameters.Contains("Activate NPC") && aiState.active)
             {
                 actionableParameters.Clear();
                 actionableParameters.Add("Activate NPC");

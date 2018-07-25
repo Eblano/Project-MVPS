@@ -12,6 +12,8 @@ namespace SealTeam4
     {
         // If NPC is allowed to function
         public bool active = false;
+        // If NPC is alive
+        public bool alive = true;
 
         public enum AIMode
         {

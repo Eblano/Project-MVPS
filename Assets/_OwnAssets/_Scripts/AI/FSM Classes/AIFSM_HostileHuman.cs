@@ -276,14 +276,14 @@ namespace SealTeam4
 
         private void ShootTarget_TrackTarget()
         {
-            if (!aiController.WithinDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) ||
-                !aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.root.name))
+            if (!aiController.WithinDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange + 1) ||
+                !aiController.InLOS(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.root.name))
             {
                 SetState_ShootTarget_MoveToShootTarget();
                 return;
             }
 
-            if (aiController.LookingAtTarget(aiState.hostileHuman.shootTarget.root.position, aiStats.shootTargetDir_AngleMarginOfError))
+            if (aiController.LookingAtTarget(aiState.hostileHuman.shootTarget.position, aiStats.shootTargetDir_AngleMarginOfError))
             {
                 SetState_ShootTarget_AimGunOnTarget();
                 return;
@@ -300,7 +300,7 @@ namespace SealTeam4
                 return;
             }
 
-            if (aiController.LookingAtTarget(aiState.hostileHuman.knifeTarget.root.position, aiStats.shootTargetDir_AngleMarginOfError))
+            if (aiController.LookingAtTarget(aiState.hostileHuman.knifeTarget.position, aiStats.shootTargetDir_AngleMarginOfError))
             {
                 SetState_KnifeTarget_Knife();
                 return;
@@ -317,7 +317,7 @@ namespace SealTeam4
 
         private void ShootTarget_Shoot()
         {
-            if (!aiController.LookingAtTarget(aiState.hostileHuman.shootTarget.root.position, aiStats.shootTargetDir_AngleMarginOfError))
+            if (!aiController.LookingAtTarget(aiState.hostileHuman.shootTarget.position, aiStats.shootTargetDir_AngleMarginOfError))
             {
                 aiState.hostileHuman.currGunCD = aiStats.gunCD;
                 aiController.ResetGunTransformToOrig();
@@ -326,9 +326,11 @@ namespace SealTeam4
                 return;
             }
 
-            if (!aiController.WithinDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) ||
-                !aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.root.name))
+            if (!aiController.WithinDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange + 1) ||
+                !aiController.InLOS(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.root.name))
             {
+                Debug.Log("Not Within Dist: " + !aiController.WithinDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange + 1));
+                Debug.Log("Not In LOS: " + !aiController.InLOS(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.root.name));
                 SetState_ShootTarget_MoveToShootTarget();
                 return;
             }
@@ -348,7 +350,7 @@ namespace SealTeam4
 
         private void KnifeTarget_Knife()
         {
-            if (!aiController.LookingAtTarget(aiState.hostileHuman.knifeTarget.root.position, aiStats.shootTargetDir_AngleMarginOfError))
+            if (!aiController.LookingAtTarget(aiState.hostileHuman.knifeTarget.position, aiStats.shootTargetDir_AngleMarginOfError))
             {
                 aiState.hostileHuman.currKnifeSwingCD = aiStats.knifeSwingCD;
                 aiController.ResetKnifeTransformToOrig();
