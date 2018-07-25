@@ -251,7 +251,7 @@ namespace SealTeam4
         private void ShootTarget_MoveToShootTarget()
         {
             if (aiController.WithinDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) &&
-                aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.root.name, 1)
+                aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.root.name)
                 )
             {
                 SetState_ShootTarget_TrackTarget();
@@ -277,7 +277,7 @@ namespace SealTeam4
         private void ShootTarget_TrackTarget()
         {
             if (!aiController.WithinDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) ||
-                !aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.root.name, 1))
+                !aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.root.name))
             {
                 SetState_ShootTarget_MoveToShootTarget();
                 return;
@@ -327,7 +327,7 @@ namespace SealTeam4
             }
 
             if (!aiController.WithinDistance(aiState.hostileHuman.shootTarget.position, aiStats.maxGunRange) ||
-                !aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.root.name, 1))
+                !aiController.InLOS3PT(aiState.hostileHuman.shootTarget.position, aiState.hostileHuman.shootTarget.root.name))
             {
                 SetState_ShootTarget_MoveToShootTarget();
                 return;

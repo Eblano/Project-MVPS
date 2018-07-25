@@ -25,6 +25,7 @@ namespace SealTeam4
         [Header("Body Parts")]
         public Transform headT;
         public Transform rightHandT;
+        public Transform centerMassT;
 
         [Header("Weapon/Pistol")]
         public GameObject pistol_Prefab;
@@ -292,7 +293,7 @@ namespace SealTeam4
             }
         }
 
-        public bool InLOS3PT(Vector3 target, string targetGameObjectName, float yOffset)
+        public bool InLOS3PT(Vector3 target, string targetGameObjectName)
         {
             RaycastHit centerRayHitInfo;
             RaycastHit leftRayHitInfo;
@@ -302,7 +303,7 @@ namespace SealTeam4
             bool leftRayPassed = false;
             bool rightRayPassed = false;
 
-            Ray rayCenter = new Ray(headT.position, target - headT.position + new Vector3(0, yOffset, 0));
+            Ray rayCenter = new Ray(headT.position, target - headT.position);
 
             int layerMask = ~(
                 1 << LayerMask.NameToLayer("FloatingUI") |

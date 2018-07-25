@@ -28,8 +28,8 @@ namespace SealTeam4
         [HideInInspector] public float stopDist_Convo = 1.0f; // Stop distance for conversation
 
         [HideInInspector] public float turningSpeed = 2f;
-        [HideInInspector] public float normalMoveSpeed = 0.4f;
-        [HideInInspector] public float runningSpeed = 0.6f;
+        [HideInInspector] public float normalMoveSpeed = 1f;
+        [HideInInspector] public float runningSpeed = 2f;
 
         [HideInInspector] private int totalHp = 100;
         [HideInInspector] public int headDmg = 100;

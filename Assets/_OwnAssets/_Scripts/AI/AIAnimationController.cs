@@ -12,7 +12,6 @@ namespace SealTeam4
 		[SerializeField] private float m_MovingTurnSpeed = 360;
 		[SerializeField] private float m_StationaryTurnSpeed = 180;
 		[SerializeField] private float m_GroundCheckDistance = 0.2f;
-        [SerializeField] private float moveSpdMultiplier = 6f;
 
         private Rigidbody m_Rigidbody;
         private Animator m_Animator;
@@ -65,7 +64,7 @@ namespace SealTeam4
             else
             {
                 // update the animator parameters
-                m_Animator.SetFloat("Forward", m_ForwardAmount * moveSpeed * moveSpdMultiplier, 0.1f, Time.deltaTime);
+                m_Animator.SetFloat("Forward", m_ForwardAmount * moveSpeed, 0.1f, Time.deltaTime);
                 m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
             }
         }
