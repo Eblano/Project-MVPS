@@ -29,7 +29,7 @@ namespace SealTeam4
 
         [HideInInspector] public float turningSpeed = 5f;
         [HideInInspector] public float normalMoveSpeed = 1f;
-        [HideInInspector] public float runningSpeed = 1.5f;
+        [HideInInspector] public float runningSpeed = 2f;
 
         [SerializeField] private int totalHp = 100;
         [HideInInspector] public int headDmg = 100;

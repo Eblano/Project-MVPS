@@ -95,8 +95,8 @@ namespace SealTeam4
         #region Update Methods
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.N))
-                FindObjectOfType<NavMeshSurface>().BuildNavMesh();
+            //if (Input.GetKeyDown(KeyCode.N))
+            //    FindObjectOfType<NavMeshSurface>().BuildNavMesh();
 
             switch (currGameManagerMode)
             {
@@ -535,7 +535,7 @@ namespace SealTeam4
             return null;
         }
 
-        public Transform GetFirstVIPTransform()
+        public Transform GetFirstVIPCenterMassTransform()
         {
             return spawnedNPCs.Where(x => x.GetNPCType() == AIStats.NPCType.VIP).First().centerMassT;
         }
@@ -724,6 +724,11 @@ namespace SealTeam4
                     go.GetComponent<INetworkCommandable>().RecieveCommand(msg);
                 }
             }
+        }
+
+        public bool IsInLevelEditMode()
+        {
+            return currGameManagerMode == GameManagerMode.LEVELSETUP;
         }
     }
 }

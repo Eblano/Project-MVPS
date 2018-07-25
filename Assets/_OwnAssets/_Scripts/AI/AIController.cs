@@ -294,6 +294,7 @@ namespace SealTeam4
                 aiAnimController.Anim_Die();
                 aiState.alive = false;
                 aiState.active = false;
+                Destroy(centerMassT.gameObject);
                 StopMovement();
             }
         }

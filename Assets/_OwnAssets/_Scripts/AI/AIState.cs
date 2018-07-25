@@ -93,8 +93,8 @@ namespace SealTeam4
 
             public int schBeforeEnteringHostileMode = 0;
             public Vector3 waypointPos = Vector3.zero;
-            public Transform shootTarget = null;
-            public Transform knifeTarget = null;
+            public Transform shootTargetT = null;
+            public Transform knifeTargetT = null;
         }
         public HostileHuman hostileHuman = new HostileHuman();
 
