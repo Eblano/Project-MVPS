@@ -31,7 +31,7 @@ namespace SealTeam4
         [HideInInspector] public float normalMoveSpeed = 1f;
         [HideInInspector] public float runningSpeed = 1.5f;
 
-        [HideInInspector] private int totalHp = 100;
+        [SerializeField] private int totalHp = 100;
         [HideInInspector] public int headDmg = 100;
         [HideInInspector] public int bodyDmg = 20;
         [HideInInspector] public int handDmg = 15;

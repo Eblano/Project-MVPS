@@ -472,13 +472,23 @@ Prefab:
       objectReference: {fileID: 9100000, guid: 97b5ba409ad6cec41bc32e50d5bc252a, type: 2}
     - target: {fileID: 9500000, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed by
-        Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
-        'mixamorig:LeftHandIndex1'\n\tTransform 'mixamorig:LeftHandPinky2'\n\tTransform
-        'mixamorig:RightHandRing2'\n\tTransform 'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform
-        'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftLeg'\n\tTransform 'mixamorig:LeftHandMiddle3'\n\tand
-        more ...\n\tFrom animation clip 'Talking'"
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 400034, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000041914979
+      objectReference: {fileID: 0}
+    - target: {fileID: 400034, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.0015338548
+      objectReference: {fileID: 0}
+    - target: {fileID: 400096, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000032723148
+      objectReference: {fileID: 0}
+    - target: {fileID: 400096, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0015337651
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
