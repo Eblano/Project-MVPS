@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
 using SealTeam4;
+using UnityEngine.Networking;
 
 public class PlayerSizeCalibration : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerSizeCalibration : MonoBehaviour
     [SerializeField] private VRIK vrIK;
     private VRIK.References vrIKRefs;
     private PlayerInteractionSync interactionSync;
+    private NetworkInstanceId networkInstanceId;
     private float heightScale, armScale;
     [SerializeField] private int breakCounter = 10;
     public static PlayerSizeCalibration instance;
@@ -33,6 +35,8 @@ public class PlayerSizeCalibration : MonoBehaviour
         {
             instance = this;
         }
+
+        networkInstanceId = GetComponent<NetworkIdentity>().netId;
 
         vrIKRefs = vrIK.references;
         ulArmBone = vrIKRefs.leftUpperArm;
@@ -65,6 +69,12 @@ public class PlayerSizeCalibration : MonoBehaviour
     {
         transform.localScale = originalHead;
         ulArmBone.localScale = llArmBone.localScale = urArmBone.localScale = lrArmBone.localScale = originalHand;
+    }
+
+    public void ApplyScale(Vector3 yScale, Vector3 handScale)
+    {
+        transform.localScale = yScale;
+        ulArmBone.localScale = llArmBone.localScale = urArmBone.localScale = lrArmBone.localScale = handScale;
     }
 
     public IEnumerator CalibrateArmAndHeight()
@@ -159,6 +169,8 @@ public class PlayerSizeCalibration : MonoBehaviour
 
             yield return new WaitForSeconds(0.01f);
         }
+
+        GameManagerAssistant.instance.CmdSyncScale(networkInstanceId, transform.localScale, llArmBone.localScale);
 
         yield return null;
     }
