@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using SealTeam4;
 
-public class PlayerStats : MonoBehaviour, IDamageable
+public class PlayerStats : MonoBehaviour, IDamageable, IObjectInfo
 {
     [SerializeField] private int totalHp = 100;
     [SerializeField] private HitBoxColliders hitBoxColliders;
@@ -93,5 +93,17 @@ public class PlayerStats : MonoBehaviour, IDamageable
                 return;
             }
         }
+    }
+
+    public List<ObjectInfo> GetObjectInfos()
+    {
+        List<ObjectInfo> objectInfos = new List<ObjectInfo>();
+        ObjectInfo objectInfo = new ObjectInfo();
+
+        objectInfo.title = "Player Stats";
+        objectInfo.content.Add("Player HP: " + totalHp);
+        objectInfos.Add(objectInfo);
+
+        return objectInfos;
     }
 }
