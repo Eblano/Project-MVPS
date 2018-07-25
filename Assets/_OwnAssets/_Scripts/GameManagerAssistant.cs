@@ -10,8 +10,6 @@ namespace SealTeam4
         public static GameManagerAssistant instance;
         public List<IActions> allActions;
 
-        public enum PlayerActionType { GRAB, UNGRAB, GRABSECONDHAND, SLIDE, USE, UNUSE, USEUP, USEDOWN };
-
         private void Update()
         {
             if (isLocalPlayer)
@@ -92,40 +90,6 @@ namespace SealTeam4
         public void RpcSendAudioSourceInt(int audioSourceNum)
         {
             NetworkASManager.instance.PlayAudioSource(audioSourceNum);
-        }
-
-        // CMD AND CLIENT RPC THIS SHIT or just send to all clients
-        public void ExecutePlayerAction(PlayerActionType playerActionType, NetworkInstanceId objNetId)
-        {
-            GameObject actionableObj = NetworkServer.objects[objNetId].gameObject;
-
-            if(actionableObj == null)
-            {
-                return;
-            }
-
-            switch (playerActionType)
-            {
-                case PlayerActionType.GRAB:
-                    //.GetComponent<InteractableObject>();
-                    break;
-                case PlayerActionType.UNGRAB:
-                    break;
-                case PlayerActionType.GRABSECONDHAND:
-                    break;
-                case PlayerActionType.SLIDE:
-                    break;
-                case PlayerActionType.USE:
-                    break;
-                case PlayerActionType.UNUSE:
-                    break;
-                case PlayerActionType.USEUP:
-                    break;
-                case PlayerActionType.USEDOWN:
-                    break;
-                default:
-                    break;
-            }
         }
     }
 }
