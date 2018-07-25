@@ -146,7 +146,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// <summary>
     /// Tries to fire the gun.
     /// </summary>
-    [Command]
+    //[Command]
     private void CmdFireGun(NetworkInstanceId networkInstanceId)
     {
         RpcFireGun(networkInstanceId);
@@ -155,7 +155,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// <summary>
     /// Calculates gun angle base on second hand position.
     /// </summary>
-    [Command]
+    //[Command]
     private void CmdCalculateGunRotation()
     {
         RpcCalculateGunRotation();
@@ -164,7 +164,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// <summary>
     /// Reset the gun's rotation to identity.
     /// </summary>
-    [Command]
+    //[Command]
     private void CmdResetGunRotation()
     {
         RpcResetGunRotation();
@@ -173,7 +173,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// <summary>
     /// Unload the magazine.
     /// </summary>
-    [Command]
+    //[Command]
     private void CmdUnloadMagazine()
     {
         RpcUnloadMagazine();
@@ -182,25 +182,25 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// <summary>
     /// Load the chamber into the gun.
     /// </summary>
-    [Command]
+    //[Command]
     public void CmdLoadChamber()
     {
         RpcLoadChamber();
     }
 
-    [Command]
+    //[Command]
     public void CmdSafety(bool state)
     {
         RpcSafety(state);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcSafety(bool state)
     {
         gun.SetSafeState(state);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcFireGun(NetworkInstanceId networkInstanceId)
     {
         VRTK.VRTK_DeviceFinder.Devices devices = VRTK.VRTK_DeviceFinder.Devices.Headset;
@@ -258,19 +258,19 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         }
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcCalculateGunRotation()
     {
         transform.rotation = Quaternion.FromToRotation(Vector3.forward, secondaryHoldingTransform.position - transform.position);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcResetGunRotation()
     {
         transform.localRotation = Quaternion.Euler(initRot);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcUnloadMagazine()
     {
         if (gun.GetMagazine() != null)
@@ -280,7 +280,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         }
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcLoadChamber()
     {
         // If there is a magazine attached and it has bullets

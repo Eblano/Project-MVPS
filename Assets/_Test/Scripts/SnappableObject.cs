@@ -19,7 +19,7 @@ namespace SealTeam4
         /// <summary>
         /// Checks for snappable objects within radius.
         /// </summary>
-        [Command]
+        //[Command]
         public void CmdCheckSnappable()
         {
             RpcCheckSnappable();
@@ -28,13 +28,13 @@ namespace SealTeam4
         /// <summary>
         /// Handles when the object is unsnapped.
         /// </summary>
-        [Command]
+        //[Command]
         public void CmdUnsnap()
         {
             RpcUnsnap();
         }
 
-        [ClientRpc]
+        //[ClientRpc]
         public void RpcCheckSnappable()
         {
             // Get all snappable positions within snappable radius
@@ -68,7 +68,7 @@ namespace SealTeam4
             SnapObject(nearestColl.transform);
         }
 
-        [ClientRpc]
+        //[ClientRpc]
         public void RpcUnsnap()
         {
             Unsnap();
