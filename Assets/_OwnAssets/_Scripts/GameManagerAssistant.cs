@@ -91,5 +91,17 @@ namespace SealTeam4
         {
             NetworkASManager.instance.PlayAudioSource(audioSourceNum);
         }
+
+        [Command]
+        public void CmdSyncScale(NetworkInstanceId networkId, Vector3 yScale, Vector3 handScale)
+        {
+            RpcSyncScale(networkId, yScale, handScale);
+        }
+
+        [ClientRpc]
+        public void RpcSyncScale(NetworkInstanceId networkId, Vector3 yScale, Vector3 handScale)
+        {
+            NetworkServer.objects[networkId].GetComponent<PlayerSizeCalibration>().ApplyScale(yScale, handScale);
+        }
     }
 }
