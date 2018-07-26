@@ -17,7 +17,7 @@ namespace SealTeam4
         public override void OnStartClient(NetworkClient client)
         {
             base.OnStartClient(client);
-            Debug.Log("OnClientDisconnect");
+            Debug.Log("OnStartClient");
             UIManager.instance.SetUIPanelState(false);
         }
 
