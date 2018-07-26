@@ -39,8 +39,8 @@ namespace SealTeam4
 
         // For Terrorist
         [HideInInspector] public List<string> allDynamicWaypoints;
-        [HideInInspector] public float shootTargetDir_AngleMarginOfError = 1f;
-        [HideInInspector] public float losMarginSize = 0.3f;
+        [HideInInspector] public float shootTargetDir_AngleMarginOfError = 3f;
+        [HideInInspector] public float losMarginSize = 0.5f;
         [HideInInspector] public float gunCD = 2f;
         [HideInInspector] public float knifeSwingCD = 3f;
 

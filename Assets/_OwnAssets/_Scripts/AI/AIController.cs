@@ -13,7 +13,7 @@ namespace SealTeam4
     public class AIController : MonoBehaviour, IActions, IObjectInfo, IDamageable
     {
         [System.Serializable]
-        private class TransformOffset
+        public class TransformOffset
         {
             public Vector3 posOffset = Vector3.zero;
             public Vector3 rotOffset = Vector3.zero;
@@ -28,14 +28,15 @@ namespace SealTeam4
         public Transform centerMassT;
 
         [Header("Weapon/Pistol")]
-        public GameObject pistol_Prefab;
-        [SerializeField] private TransformOffset pistol_TOffset;
-        [HideInInspector] public NPCGun ref_pistol;
+        [SerializeField] private GameObject pistol_Prefab;
+        public TransformOffset pistol_NormalOffset;
+        public TransformOffset pistol_HoldingGunOffset;
+        private NPCGun ref_pistol;
 
         [Header("Weapon/Knife")]
-        public GameObject knife_Prefab;
+        [SerializeField] private GameObject knife_Prefab;
         [SerializeField] private TransformOffset knife_TOffset;
-        [HideInInspector] public GameObject ref_knife;
+        private GameObject ref_knife;
 
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
@@ -225,6 +226,7 @@ namespace SealTeam4
 
             Vector3 direction = targetPosition - transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
+            lookRotation = Quaternion.Euler(0, lookRotation.eulerAngles.y, 0);
             //aiAnimController.Anim_Turn(lookRotation);
 
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * aiStats.turningSpeed);
@@ -243,6 +245,16 @@ namespace SealTeam4
 
             Debug.Log(Vector3.Angle(forwardLook, targetLook));
             return Vector3.Angle(forwardLook, targetLook) < angleOfError;
+        }
+
+        public bool KnifeSpawned()
+        {
+            return ref_knife;
+        }
+
+        public bool GunSpawned()
+        {
+            return ref_pistol;
         }
 
         public void StopMovement()
@@ -408,22 +420,18 @@ namespace SealTeam4
             aiAnimController.Anim_LowerGun();
         }
 
-        public void ResetGunTransformToOrig()
+        public void SetGunTransformOffset(TransformOffset offset)
         {
-            ref_pistol.transform.localPosition = pistol_TOffset.posOffset;
-            ref_pistol.transform.localRotation = Quaternion.Euler(pistol_TOffset.rotOffset);
-            ref_pistol.transform.localScale = new Vector3(pistol_TOffset.scale, pistol_TOffset.scale, pistol_TOffset.scale);
-
-            //ref_pistol.transform.localPosition = new Vector3(0, 0, 0);
-            //ref_pistol.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            //ref_pistol.transform.localScale = new Vector3(pistol_TOffset.scale, pistol_TOffset.scale, pistol_TOffset.scale);
+            ref_pistol.transform.localPosition = offset.posOffset;
+            ref_pistol.transform.localRotation = Quaternion.Euler(offset.rotOffset);
+            ref_pistol.transform.localScale = new Vector3(offset.scale, offset.scale, offset.scale);
         }
 
-        public void ResetKnifeTransformToOrig()
+        public void SetKnifeTransformOffset(TransformOffset offset)
         {
-            ref_knife.transform.localPosition = knife_TOffset.posOffset;
-            ref_knife.transform.localRotation = Quaternion.Euler(knife_TOffset.rotOffset);
-            ref_knife.transform.localScale = new Vector3(knife_TOffset.scale, knife_TOffset.scale, knife_TOffset.scale);
+            ref_knife.transform.localPosition = offset.posOffset;
+            ref_knife.transform.localRotation = Quaternion.Euler(offset.rotOffset);
+            ref_knife.transform.localScale = new Vector3(offset.scale, offset.scale, offset.scale);
         }
 
         public void SpawnGunOnHand()
@@ -432,7 +440,6 @@ namespace SealTeam4
             {
                 ref_pistol = Instantiate(pistol_Prefab, rightHandT.transform).GetComponent<NPCGun>();
                 NetworkServer.Spawn(ref_pistol.gameObject);
-                ResetGunTransformToOrig();
             }
         }
 
@@ -442,7 +449,6 @@ namespace SealTeam4
             {
                 ref_knife = Instantiate(knife_Prefab, rightHandT.transform);
                 NetworkServer.Spawn(ref_knife.gameObject);
-                ResetKnifeTransformToOrig();
             }
         }
 

@@ -10,6 +10,12 @@ namespace SealTeam4
         [SerializeField] private GameObject hitEffect_Prefab;
         private float timeToNextShot = 0;
 
+        private void Update()
+        {
+            Debug.Log("LocalPos: " + transform.localPosition);
+            Debug.Log("LocalRot: " + transform.localRotation.eulerAngles);
+        }
+
         public void FireGun()
         {
             Ray ray = new Ray(firingPt.position, firingPt.forward);
