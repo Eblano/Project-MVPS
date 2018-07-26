@@ -5,10 +5,10 @@ using UnityEngine.Networking;
 
 public class TransformationSync : NetworkBehaviour
 {
-    [SerializeField] private float sendRatePerSecond = 30;
+    [SerializeField] private float sendRatePerSecond = 45;
     private float counter = float.MinValue;
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (isServer)
         {
@@ -34,7 +34,7 @@ public class TransformationSync : NetworkBehaviour
     private void RpcSyncTransform(Vector3 position, Vector3 eulerAngle)
     {
         // Smooth the transform
-        transform.position = Vector3.Lerp(transform.position, position, 0.1f);
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(eulerAngle), 0.1f);
+        transform.position = Vector3.Lerp(transform.position, position, 0.05f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(eulerAngle), 0.05f);
     }
 }
