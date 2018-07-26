@@ -27,7 +27,8 @@ namespace SealTeam4
         private void Start()
 		{
 			m_Animator = GetComponent<Animator>();
-			m_Rigidbody = GetComponent<Rigidbody>();
+            n_NetAnimator = GetComponent<NetworkAnimator>();
+            m_Rigidbody = GetComponent<Rigidbody>();
             nmAgent = GetComponent<NavMeshAgent>();
 
             m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
