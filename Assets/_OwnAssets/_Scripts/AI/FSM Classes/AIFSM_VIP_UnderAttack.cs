@@ -16,6 +16,12 @@ namespace SealTeam4
                     return;
             }
 
+            if (aiState.inConversation)
+            {
+                aiAnimController.Anim_StopStandTalking();
+                aiState.inConversation = false;
+            }
+
             switch (aiState.vip.currState)
             {
                 case AIState.VIP.State.IDLE:

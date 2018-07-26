@@ -50,8 +50,10 @@ namespace SealTeam4
 
         public void SetAction_MoveToWaypoint(string waypointName)
         {
-            if (aiState.hostileHuman.currShootTargetState == AIState.HostileHuman.ShootTargetState.SHOOT)
+            if (aiState.hostileHuman.currShootTargetState == AIState.HostileHuman.ShootTargetState.SHOOT ||
+                aiState.hostileHuman.currShootTargetState == AIState.HostileHuman.ShootTargetState.AIM_GUN_ON_TARGET)
             {
+                aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.INACTIVE;
                 aiController.ResetGunTransformToOrig();
                 aiController.LowerGun();
             }
@@ -166,18 +168,23 @@ namespace SealTeam4
                     break;
                 case AIState.HostileHuman.ShootTargetState.MOVE_TO_SHOOT_TARGET:
                     ShootTarget_MoveToShootTarget();
+                    Debug.Log("ShootTarget_MoveToShootTarget");
                     break;
                 case AIState.HostileHuman.ShootTargetState.TRACK_TARGET:
                     ShootTarget_TrackTarget();
+                    Debug.Log("ShootTarget_TrackTarget");
                     break;
                 case AIState.HostileHuman.ShootTargetState.AIM_GUN_ON_TARGET:
                     ShootTarget_AimGunOnTarget();
+                    Debug.Log("ShootTarget_AimGunOnTarget");
                     break;
                 case AIState.HostileHuman.ShootTargetState.SHOOT:
                     ShootTarget_Shoot();
+                    Debug.Log("ShootTarget_Shoot");
                     break;
             }
         }
+
         private void Process_KnifeTarget()
         {
             switch (aiState.hostileHuman.currKnifeTargetState)
@@ -242,12 +249,14 @@ namespace SealTeam4
         {
             aiController.DrawWeapon();
             SetState_ShootTarget_MoveToShootTarget();
+            GameManager.instance.TriggerThreatInLevel();
         }
 
         private void KnifeTarget_DrawKnife()
         {
             aiController.DrawWeapon();
             SetState_KnifeTarget_MoveToKnifeTarget();
+            GameManager.instance.TriggerThreatInLevel();
         }
 
         private void ShootTarget_MoveToShootTarget()

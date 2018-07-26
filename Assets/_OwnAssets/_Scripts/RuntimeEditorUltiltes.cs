@@ -57,7 +57,6 @@ namespace SealTeam4
         private void Awake()
         {
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
-            RenderSettings.reflectionIntensity = 0.1f;
             DynamicGI.UpdateEnvironment();
         }
 

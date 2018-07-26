@@ -12,7 +12,7 @@ public class Explosive : MonoBehaviour, IActions, INetworkCommandable
     void Start()
     {
         action.Add("Explode");
-        GameManager.instance.RegisterNetCmdObj(gameObject);
+        GameManager.instance.RegisterNetCmdObj(gameObject, false);
         col = GetComponent<BoxCollider>();
     }
     public List<string> GetActions()

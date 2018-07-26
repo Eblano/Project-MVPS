@@ -102,7 +102,6 @@ namespace SealTeam4
         {
             aiState.prepareEnterHostile = false;
             aiState.aIMode = AIState.AIMode.HOSTILE;
-            GameManager.instance.TriggerThreatInLevel();
         }
 
         private void Update()
@@ -762,6 +761,9 @@ namespace SealTeam4
 
         public void OnHit(Collider c)
         {
+            if (aiState.invincible)
+                return;
+
             foreach (Collider bodyColl in hitBoxColliders.bodyColliders)
             {
                 if (c == bodyColl)

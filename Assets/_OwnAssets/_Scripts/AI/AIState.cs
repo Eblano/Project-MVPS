@@ -14,6 +14,8 @@ namespace SealTeam4
         public bool active = false;
         // If NPC is alive
         public bool alive = true;
+        // If NPC is invincible
+        public bool invincible = false;
 
         public enum AIMode
         {

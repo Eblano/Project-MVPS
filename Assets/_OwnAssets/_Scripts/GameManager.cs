@@ -525,7 +525,7 @@ namespace SealTeam4
             foreach (AIController npc in spawnedNPCs)
             {
                 if (npc.GetName() == targetNPCName &&
-                    npc.GetNPCType() == AIStats.NPCType.CIVILLIAN && 
+                    npc.GetNPCType() != AIStats.NPCType.NONE && 
                     npc != requester && npc.AvailableForConversation())
                 {
                     return npc;
@@ -683,21 +683,28 @@ namespace SealTeam4
             panelOverlay.color = c; 
         }
 
-        public string RegisterNetCmdObj(GameObject go)
+        public string RegisterNetCmdObj(GameObject go, bool uniqueName)
         {
-            if(networkCommandableGameobjects.Exists(x => x.name == go.name))
+            if (!uniqueName)
             {
+                networkCommandableGameobjects.Add(go);
                 return go.name;
             }
-
-            int increment = 1;
-            while(networkCommandableGameobjects.Exists(x => x.name == go.name + increment))
+            else
             {
-                increment++;
+                if (networkCommandableGameobjects.Exists(x => x.name == go.name))
+                {
+                    return go.name;
+                }
+
+                int increment = 1;
+                while (networkCommandableGameobjects.Exists(x => x.name == go.name + increment))
+                {
+                    increment++;
+                }
+
+                return go.name + " " + increment;
             }
-            
-            networkCommandableGameobjects.Add(go);
-            return go.name + " " + increment;
         }
 
         public void TriggerThreatInLevel()
