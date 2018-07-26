@@ -105,7 +105,7 @@ namespace SealTeam4
             Debug.Log("NetworkObject: " + NetworkServer.objects[networkId]);
             Debug.Log("GO Name: " + NetworkServer.objects[networkId].gameObject.name);
 
-            if (!NetworkServer.objects[networkId] || !NetworkServer.objects[networkId].gameObject)
+            if (!NetworkServer.objects.ContainsKey(networkId))
             {
                 return;
             }
