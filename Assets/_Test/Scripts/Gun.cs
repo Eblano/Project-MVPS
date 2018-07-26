@@ -16,13 +16,13 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     private bool isBeingGrabbed = false;
     private bool grabStateChanged = false;
     private Vector3 initRot;
-    private Animator gunAnim;
+    private NetworkAnimator gunAnim;
     private NetworkedAudioSource networkedAudioSource;
 
     private void Start()
     {
         interactableObject = GetComponent<InteractableObject>();
-        gunAnim = GetComponent<Animator>();
+        gunAnim = GetComponent<NetworkAnimator>();
         networkedAudioSource = GetComponent<NetworkedAudioSource>();
     }
 
