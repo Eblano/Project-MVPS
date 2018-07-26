@@ -7,7 +7,7 @@ namespace SealTeam4
     [System.Serializable]
     public class AIStats
     {
-        public enum NPCType { TERRORIST, VIP, CIVILLIAN };
+        public enum NPCType { NONE, TERRORIST, VIP, CIVILLIAN };
         public enum CivillianStressResponseMode { FREEZE, RUNTOEXIT, RANDOM }
 
         #region User Settable Parameters

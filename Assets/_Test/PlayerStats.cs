@@ -106,4 +106,9 @@ public class PlayerStats : MonoBehaviour, IDamageable, IObjectInfo
 
         return objectInfos;
     }
+
+    public AIStats.NPCType GetNPCType()
+    {
+        return AIStats.NPCType.NONE;
+    }
 }

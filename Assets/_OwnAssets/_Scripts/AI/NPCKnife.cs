@@ -8,10 +8,13 @@ namespace SealTeam4
     {
         private void OnTriggerEnter(Collider other)
         {
-            IDamageable iDamagable = other.transform.root.GetComponent<IDamageable>();
+            if(other.transform.root.name != transform.name)
+            {
+                IDamageable iDamagable = other.transform.root.GetComponent<IDamageable>();
 
-            if (iDamagable != null)
-                iDamagable.OnHit(other);
+                if (iDamagable != null && iDamagable.GetNPCType() != AIStats.NPCType.TERRORIST)
+                    iDamagable.OnHit(other);
+            }
         }
     }
 }

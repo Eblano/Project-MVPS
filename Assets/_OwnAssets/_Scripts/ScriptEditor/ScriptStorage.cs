@@ -17,7 +17,7 @@ namespace SealTeam4
         [SerializeField] private List<NPCSchedule_SStorage> npcScheduleList_SStorage;
         [SerializeField] private List<AccessoryData_SStorage> accessoryDataList_SStorage;
 
-        private void OnEnable()
+        private void Start()
         {
             if (instance == null)
                 instance = this;

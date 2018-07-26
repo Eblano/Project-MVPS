@@ -1,8 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-interface IDamageable
+namespace SealTeam4
 {
-    void OnHit(Collider c);
+    interface IDamageable
+    {
+        void OnHit(Collider c);
+
+        AIStats.NPCType GetNPCType();
+    }
 }
+

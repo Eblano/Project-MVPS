@@ -537,7 +537,12 @@ namespace SealTeam4
 
         public Transform GetFirstVIPCenterMassTransform()
         {
-            return spawnedNPCs.Where(x => x.GetNPCType() == AIStats.NPCType.VIP).First().centerMassT;
+            List<AIController> vips = spawnedNPCs.FindAll(x => x.GetNPCType() == AIStats.NPCType.VIP);
+
+            if (vips.Count > 0)
+                return vips.First().centerMassT;
+            else
+                return null;
         }
 
         public Vector3 GetNearestExitMarkerVector(GameObject npcGO)
