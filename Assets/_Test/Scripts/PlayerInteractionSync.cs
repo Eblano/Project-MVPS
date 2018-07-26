@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using VRTK;
 
-public class PlayerInteractionSync : NetworkBehaviour
+public class PlayerInteractionSync : NetworkBehaviour, IActions
 {
     [SerializeField] private Transform headset, lControl, rControl;
     [SerializeField] private GameObject leftHandObj;    // DEBUG
@@ -13,6 +13,10 @@ public class PlayerInteractionSync : NetworkBehaviour
     private Vector3AndQuaternion head, lHand, rHand;
     private Vector3 headPos, lHandPos, rHandPos;
     private Quaternion headRot, lHandRot, rHandRot;
+
+    [Space(10)]
+    [SerializeField] private Transform highestPoint;
+    [SerializeField] private Collider headCollider;
 
     private GameManager gameManager;
 
@@ -539,6 +543,36 @@ public class PlayerInteractionSync : NetworkBehaviour
         // Transfer all controller velocities to object
         rb.angularVelocity = anguVelo;
         rb.velocity = velo;
+    }
+
+    public List<string> GetActions()
+    {
+        return new List<string>();
+    }
+
+    public void SetAction(string action)
+    {
+        
+    }
+
+    public string GetName()
+    {
+        return gameObject.name;
+    }
+
+    public Vector3 GetHighestPointPos()
+    {
+        return highestPoint.position;
+    }
+
+    public Transform GetHighestPointTransform()
+    {
+        return highestPoint;
+    }
+
+    public Collider GetCollider()
+    {
+        return headCollider;
     }
     #endregion HelperMethods
 }
