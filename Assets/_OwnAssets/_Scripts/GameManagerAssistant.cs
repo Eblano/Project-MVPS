@@ -104,10 +104,12 @@ namespace SealTeam4
             Debug.Log("NetworkID: " + networkId);
             Debug.Log("NetworkObject: " + NetworkServer.objects[networkId]);
             Debug.Log("GO Name: " + NetworkServer.objects[networkId].gameObject.name);
-            if (!NetworkServer.objects[networkId].gameObject)
+
+            if (!NetworkServer.objects[networkId] || !NetworkServer.objects[networkId].gameObject)
             {
                 return;
             }
+            
             NetworkServer.objects[networkId].gameObject.GetComponent<PlayerSizeCalibration>().ApplyScale(yScale, handScale);
         }
     }

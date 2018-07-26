@@ -126,13 +126,13 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
     public void RpcSyncVRTransform(Vector3AndQuaternion head, Vector3AndQuaternion lHand, Vector3AndQuaternion rHand)
     {
         // Make a method for this
-        headset.position = Vector3.Lerp(headset.position, head.pos, 0.05f);
-        lControl.position = Vector3.Lerp(lControl.position, lHand.pos, 0.05f);
-        rControl.position = Vector3.Lerp(rControl.position, rHand.pos, 0.05f);
+        headset.position = Vector3.Lerp(headset.position, head.pos, 0.5f);
+        lControl.position = Vector3.Lerp(lControl.position, lHand.pos, 0.5f);
+        rControl.position = Vector3.Lerp(rControl.position, rHand.pos, 0.5f);
 
-        headset.rotation = Quaternion.Lerp(headset.rotation, head.rot, 0.05f);
-        lControl.rotation = Quaternion.Lerp(lControl.rotation, lHand.rot, 0.05f);
-        rControl.rotation = Quaternion.Lerp(rControl.rotation, rHand.rot, 0.05f);
+        headset.rotation = Quaternion.Lerp(headset.rotation, head.rot, 0.5f);
+        lControl.rotation = Quaternion.Lerp(lControl.rotation, lHand.rot, 0.5f);
+        rControl.rotation = Quaternion.Lerp(rControl.rotation, rHand.rot, 0.5f);
 
         //headset.position = head.pos;
         //headset.rotation = head.rot;
