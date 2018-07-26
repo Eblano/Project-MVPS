@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4129293733763736}
   - component: {fileID: 114688641268499904}
   - component: {fileID: 20974886055309088}
-  - component: {fileID: 114270659442303272}
   m_Layer: 0
   m_Name: AdminCamera
   m_TagString: Untagged
@@ -40,6 +39,7 @@ GameObject:
   - component: {fileID: 20894924208072922}
   - component: {fileID: 124605072012547368}
   - component: {fileID: 81865346904691002}
+  - component: {fileID: 114777221448862632}
   m_Layer: 0
   m_Name: AdminCam
   m_TagString: MainCamera
@@ -106,7 +106,7 @@ Camera:
   m_HDR: 1
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
+  m_ForceIntoRT: 1
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -142,7 +142,7 @@ Camera:
   m_HDR: 1
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
+  m_ForceIntoRT: 1
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -153,7 +153,7 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1363615716251526}
   m_Enabled: 1
---- !u!114 &114270659442303272
+--- !u!114 &114688641268499904
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -161,10 +161,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1175345499955892}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad31900d3ee333c449bfe1a5f79e6ac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MouseActive: 0
+  grc: {fileID: 0}
+  xzSens: 5
+  xzAmtToMove: 3
+  ySens: 5
+  targetYvalue: 5
+  yAmtToMove: 0.5
+  panAmt: 2
+  panBounceSpd: 1
+--- !u!114 &114777221448862632
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1363615716251526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volumeTrigger: {fileID: 4129293733763736}
+  volumeTrigger: {fileID: 4103379186306570}
   volumeLayer:
     serializedVersion: 2
     m_Bits: 2097152
@@ -211,26 +231,6 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
---- !u!114 &114688641268499904
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1175345499955892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad31900d3ee333c449bfe1a5f79e6ac9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MouseActive: 0
-  grc: {fileID: 0}
-  xzSens: 5
-  xzAmtToMove: 3
-  ySens: 5
-  targetYvalue: 5
-  yAmtToMove: 0.5
-  panAmt: 2
-  panBounceSpd: 1
 --- !u!124 &124605072012547368
 Behaviour:
   m_ObjectHideFlags: 1
