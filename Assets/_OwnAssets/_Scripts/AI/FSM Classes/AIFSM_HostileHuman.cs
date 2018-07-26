@@ -61,7 +61,6 @@ namespace SealTeam4
         }
 
         #endregion
-        //***************************
 
         //***************************
         #region FSM State Switching Methods
@@ -149,7 +148,6 @@ namespace SealTeam4
             aiController.StopMovement();
         }
         #endregion
-        //***************************
 
         //***************************
         #region FSM Methods
@@ -225,7 +223,6 @@ namespace SealTeam4
             aiController.StopMovement();
         }
         #endregion
-        //***************************
 
         //***************************
         #region SubFSM Methods
@@ -407,6 +404,5 @@ namespace SealTeam4
             SetState_KnifeTarget_DrawKnife();
         }
         #endregion
-        //***************************
     }
 }
