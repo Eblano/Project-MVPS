@@ -168,19 +168,15 @@ namespace SealTeam4
                     break;
                 case AIState.HostileHuman.ShootTargetState.MOVE_TO_SHOOT_TARGET:
                     ShootTarget_MoveToShootTarget();
-                    Debug.Log("ShootTarget_MoveToShootTarget");
                     break;
                 case AIState.HostileHuman.ShootTargetState.TRACK_TARGET:
                     ShootTarget_TrackTarget();
-                    Debug.Log("ShootTarget_TrackTarget");
                     break;
                 case AIState.HostileHuman.ShootTargetState.AIM_GUN_ON_TARGET:
                     ShootTarget_AimGunOnTarget();
-                    Debug.Log("ShootTarget_AimGunOnTarget");
                     break;
                 case AIState.HostileHuman.ShootTargetState.SHOOT:
                     ShootTarget_Shoot();
-                    Debug.Log("ShootTarget_Shoot");
                     break;
             }
         }
@@ -298,7 +294,8 @@ namespace SealTeam4
                 SetState_ShootTarget_Idle();
                 return;
             }
-
+            
+            // Use LOS
             if (!aiController.WithinDistance(aiState.hostileHuman.shootTargetT.position, aiStats.maxGunRange + 1) ||
                 !aiController.InLOS(aiState.hostileHuman.shootTargetT.position, aiState.hostileHuman.shootTargetT.root.name))
             {
@@ -361,6 +358,7 @@ namespace SealTeam4
                 return;
             }
 
+            // Use LOS
             if (!aiController.WithinDistance(aiState.hostileHuman.shootTargetT.position, aiStats.maxGunRange + 1) ||
                 !aiController.InLOS(aiState.hostileHuman.shootTargetT.position, aiState.hostileHuman.shootTargetT.root.name))
             {
@@ -369,7 +367,7 @@ namespace SealTeam4
             }
 
             // Pistol look at target
-            aiController.ref_pistol.gameObject.transform.LookAt(aiState.hostileHuman.shootTargetT);
+            //aiController.ref_pistol.gameObject.transform.LookAt(aiState.hostileHuman.shootTargetT);
 
             // Shoot
             if (aiState.hostileHuman.currGunCD <= 0)

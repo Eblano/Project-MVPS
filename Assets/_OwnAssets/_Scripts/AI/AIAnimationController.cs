@@ -76,7 +76,7 @@ namespace SealTeam4
         {
             float rotateDirection = (((targetRotation.eulerAngles.y - transform.rotation.eulerAngles.y) + 360f) % 360f) > 180.0f ? -1 : 1;
             
-            m_Animator.SetFloat("Turn", rotateDirection * Time.deltaTime * 3);
+            m_Animator.SetFloat("Turn", rotateDirection);
         }
 
         public void Anim_StopTurn()
@@ -116,7 +116,7 @@ namespace SealTeam4
 
         public void Anim_DrawGun()
         {
-            m_Animator.SetTrigger("DrawWeapon");
+            //m_Animator.SetTrigger("DrawWeapon");
             n_NetAnimator.SetTrigger("DrawWeapon");
         }
 
@@ -127,13 +127,13 @@ namespace SealTeam4
 
         public void Anim_FireGun()
         {
-            m_Animator.SetTrigger("FireGun");
+            //m_Animator.SetTrigger("FireGun");
             n_NetAnimator.SetTrigger("FireGun");
         }
 
         public void Anim_SwingKnife()
         {
-            m_Animator.SetTrigger("SwingKnife");
+            //m_Animator.SetTrigger("SwingKnife");
             n_NetAnimator.SetTrigger("SwingKnife");
         }
 
@@ -144,7 +144,7 @@ namespace SealTeam4
 
         public void Anim_Die()
         {
-            m_Animator.SetTrigger("Die");
+            //m_Animator.SetTrigger("Die");
             n_NetAnimator.SetTrigger("Die");
         }
 

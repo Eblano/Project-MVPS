@@ -7,7 +7,6 @@ namespace SealTeam4
     public class NPCGun : MonoBehaviour
     {
         [SerializeField] private Transform firingPt;
-        [SerializeField] private float firingRate = 0.5f;
         [SerializeField] private GameObject hitEffect_Prefab;
         private float timeToNextShot = 0;
 

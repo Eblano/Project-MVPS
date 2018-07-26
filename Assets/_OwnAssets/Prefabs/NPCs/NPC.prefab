@@ -2510,13 +2510,14 @@ MonoBehaviour:
   knife_Prefab: {fileID: 1092884117069814, guid: c223db37c4f2af540b40cccb75a416bd,
     type: 2}
   knife_TOffset:
-    posOffset: {x: -0.0091, y: 0.0904, z: 0}
-    rotOffset: {x: -90, y: -90, z: 180}
-    scale: 5
+    posOffset: {x: -0.03, y: 0.18, z: 0.015}
+    rotOffset: {x: -90, y: 90, z: 0}
+    scale: 0.025
   ref_knife: {fileID: 0}
   aiState:
     active: 0
     alive: 1
+    invincible: 0
     aIMode: 0
     currSchedule: 0
     currSubschedule: 0

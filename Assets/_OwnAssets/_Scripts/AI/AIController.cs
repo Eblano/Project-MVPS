@@ -225,7 +225,7 @@ namespace SealTeam4
 
             Vector3 direction = targetPosition - transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
-            aiAnimController.Anim_Turn(lookRotation);
+            //aiAnimController.Anim_Turn(lookRotation);
 
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * aiStats.turningSpeed);
         }
@@ -241,6 +241,7 @@ namespace SealTeam4
             Debug.DrawLine(headT.position, headT.position + forwardLook * 7, Color.blue);
             Debug.DrawLine(headT.position, headT.position + targetLook * 7, Color.cyan);
 
+            Debug.Log(Vector3.Angle(forwardLook, targetLook));
             return Vector3.Angle(forwardLook, targetLook) < angleOfError;
         }
 
@@ -412,6 +413,10 @@ namespace SealTeam4
             ref_pistol.transform.localPosition = pistol_TOffset.posOffset;
             ref_pistol.transform.localRotation = Quaternion.Euler(pistol_TOffset.rotOffset);
             ref_pistol.transform.localScale = new Vector3(pistol_TOffset.scale, pistol_TOffset.scale, pistol_TOffset.scale);
+
+            //ref_pistol.transform.localPosition = new Vector3(0, 0, 0);
+            //ref_pistol.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            //ref_pistol.transform.localScale = new Vector3(pistol_TOffset.scale, pistol_TOffset.scale, pistol_TOffset.scale);
         }
 
         public void ResetKnifeTransformToOrig()
