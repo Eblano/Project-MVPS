@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NPCDoorTrigger : MonoBehaviour
 {
-    [SerializeField] Door[] doors;
+    [SerializeField] private Door[] doors;
 
     private void OnTriggerEnter(Collider other)
     {

@@ -41,6 +41,11 @@ public class Door : MonoBehaviour
         }
     }
 
+    public void CloseDoor()
+    {
+        rb.AddTorque(-openingTorque);
+    }
+
     private void CheckDoorClosingAngle()
     {
         if (isMaxClosedState)
