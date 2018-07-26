@@ -251,6 +251,13 @@ namespace SealTeam4
                 return;
             }
 
+            // If there is no PlayerSpawnMarker on scene
+            if (!PlayerSpawnMarker.instance)
+            {
+                PopupWindow.Show("Error", "Please add PlayerSpawnMarker onto the Scene", "Ok");
+                return;
+            }
+
             // Open and close ScriptEditorUI to run checks
             RTEScriptEditor.instance.ShowScriptEditorUI();
             RTEScriptEditor.instance.HideScriptEditorUI();
