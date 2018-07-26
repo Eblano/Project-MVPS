@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using VRTK;
 
-public class PlayerInteractionSync : NetworkBehaviour
+public class PlayerInteractionSync : NetworkBehaviour, IActions
 {
     [SerializeField] private Transform headset, lControl, rControl;
     [SerializeField] private GameObject leftHandObj;    // DEBUG
@@ -13,6 +13,10 @@ public class PlayerInteractionSync : NetworkBehaviour
     private Vector3AndQuaternion head, lHand, rHand;
     private Vector3 headPos, lHandPos, rHandPos;
     private Quaternion headRot, lHandRot, rHandRot;
+
+    [Space(10)]
+    [SerializeField] private Transform highestPoint;
+    [SerializeField] private Collider headCollider;
 
     private GameManager gameManager;
 
@@ -31,6 +35,13 @@ public class PlayerInteractionSync : NetworkBehaviour
     public Transform GetLHandPos()
     {
         return lControl;
+    }
+
+    public void UpdateLocal(Vector3AndQuaternion headTrans, Vector3AndQuaternion lHandTrans, Vector3AndQuaternion rHandTrans)
+    {
+        LerpTransform(headset, headTrans);
+        LerpTransform(lControl, lHandTrans);
+        LerpTransform(rControl, rHandTrans);
     }
 
     #region ServerMethods
@@ -114,15 +125,18 @@ public class PlayerInteractionSync : NetworkBehaviour
     [ClientRpc]
     public void RpcSyncVRTransform(Vector3AndQuaternion head, Vector3AndQuaternion lHand, Vector3AndQuaternion rHand)
     {
-        headset.position = head.pos;
-        headset.rotation = head.rot;
-
-        lControl.position = lHand.pos;
-        lControl.rotation = lHand.rot;
-
-        rControl.position = rHand.pos;
-        rControl.rotation = rHand.rot;
+        // Make a method for this
+        LerpTransform(headset, head);
+        LerpTransform(lControl, lHand);
+        LerpTransform(rControl, rHand);
     }
+
+    public void LerpTransform(Transform t, Vector3AndQuaternion targetTransform)
+    {
+        t.position = Vector3.Lerp(t.position, targetTransform.pos, 0.5f);
+        t.rotation = Quaternion.Lerp(t.rotation, targetTransform.rot, 0.5f);
+    }
+
 
     [ClientRpc]
     public void RpcCallGrab(VRTK_DeviceFinder.Devices control, float grabRadius)
@@ -539,6 +553,36 @@ public class PlayerInteractionSync : NetworkBehaviour
         // Transfer all controller velocities to object
         rb.angularVelocity = anguVelo;
         rb.velocity = velo;
+    }
+
+    public List<string> GetActions()
+    {
+        return new List<string>();
+    }
+
+    public void SetAction(string action)
+    {
+        
+    }
+
+    public string GetName()
+    {
+        return gameObject.name;
+    }
+
+    public Vector3 GetHighestPointPos()
+    {
+        return highestPoint.position;
+    }
+
+    public Transform GetHighestPointTransform()
+    {
+        return highestPoint;
+    }
+
+    public Collider GetCollider()
+    {
+        return headCollider;
     }
     #endregion HelperMethods
 }

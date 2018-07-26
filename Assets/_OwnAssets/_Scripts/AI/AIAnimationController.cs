@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.AI;
 
 namespace SealTeam4
@@ -15,6 +16,7 @@ namespace SealTeam4
 
         private Rigidbody m_Rigidbody;
         private Animator m_Animator;
+        private NetworkAnimator n_NetAnimator;
 
         private float m_OrigGroundCheckDistance;
         private float m_TurnAmount;
@@ -25,7 +27,8 @@ namespace SealTeam4
         private void Start()
 		{
 			m_Animator = GetComponent<Animator>();
-			m_Rigidbody = GetComponent<Rigidbody>();
+            n_NetAnimator = GetComponent<NetworkAnimator>();
+            m_Rigidbody = GetComponent<Rigidbody>();
             nmAgent = GetComponent<NavMeshAgent>();
 
             m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
@@ -114,6 +117,7 @@ namespace SealTeam4
         public void Anim_DrawGun()
         {
             m_Animator.SetTrigger("DrawWeapon");
+            n_NetAnimator.SetTrigger("DrawWeapon");
         }
 
         public void Anim_AimGun()
@@ -124,11 +128,13 @@ namespace SealTeam4
         public void Anim_FireGun()
         {
             m_Animator.SetTrigger("FireGun");
+            n_NetAnimator.SetTrigger("FireGun");
         }
 
         public void Anim_SwingKnife()
         {
             m_Animator.SetTrigger("SwingKnife");
+            n_NetAnimator.SetTrigger("SwingKnife");
         }
 
         public void Anim_LowerGun()
@@ -139,6 +145,7 @@ namespace SealTeam4
         public void Anim_Die()
         {
             m_Animator.SetTrigger("Die");
+            n_NetAnimator.SetTrigger("Die");
         }
 
         /// <summary>

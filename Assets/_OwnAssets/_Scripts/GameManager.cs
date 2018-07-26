@@ -95,8 +95,8 @@ namespace SealTeam4
         #region Update Methods
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.N))
-                FindObjectOfType<NavMeshSurface>().BuildNavMesh();
+            //if (Input.GetKeyDown(KeyCode.N))
+            //    FindObjectOfType<NavMeshSurface>().BuildNavMesh();
 
             switch (currGameManagerMode)
             {
@@ -525,7 +525,7 @@ namespace SealTeam4
             foreach (AIController npc in spawnedNPCs)
             {
                 if (npc.GetName() == targetNPCName &&
-                    npc.GetNPCType() == AIStats.NPCType.CIVILLIAN && 
+                    npc.GetNPCType() != AIStats.NPCType.NONE && 
                     npc != requester && npc.AvailableForConversation())
                 {
                     return npc;
@@ -535,9 +535,14 @@ namespace SealTeam4
             return null;
         }
 
-        public Transform GetFirstVIPTransform()
+        public Transform GetFirstVIPCenterMassTransform()
         {
-            return spawnedNPCs.Where(x => x.GetNPCType() == AIStats.NPCType.VIP).First().centerMassT;
+            List<AIController> vips = spawnedNPCs.FindAll(x => x.GetNPCType() == AIStats.NPCType.VIP);
+
+            if (vips.Count > 0)
+                return vips.First().centerMassT;
+            else
+                return null;
         }
 
         public Vector3 GetNearestExitMarkerVector(GameObject npcGO)
@@ -678,21 +683,28 @@ namespace SealTeam4
             panelOverlay.color = c; 
         }
 
-        public string RegisterNetCmdObj(GameObject go)
+        public string RegisterNetCmdObj(GameObject go, bool uniqueName)
         {
-            if(networkCommandableGameobjects.Exists(x => x.name == go.name))
+            if (!uniqueName)
             {
+                networkCommandableGameobjects.Add(go);
                 return go.name;
             }
-
-            int increment = 1;
-            while(networkCommandableGameobjects.Exists(x => x.name == go.name + increment))
+            else
             {
-                increment++;
+                if (networkCommandableGameobjects.Exists(x => x.name == go.name))
+                {
+                    return go.name;
+                }
+
+                int increment = 1;
+                while (networkCommandableGameobjects.Exists(x => x.name == go.name + increment))
+                {
+                    increment++;
+                }
+
+                return go.name + " " + increment;
             }
-            
-            networkCommandableGameobjects.Add(go);
-            return go.name + " " + increment;
         }
 
         public void TriggerThreatInLevel()
@@ -724,6 +736,11 @@ namespace SealTeam4
                     go.GetComponent<INetworkCommandable>().RecieveCommand(msg);
                 }
             }
+        }
+
+        public bool IsInLevelEditMode()
+        {
+            return currGameManagerMode == GameManagerMode.LEVELSETUP;
         }
     }
 }

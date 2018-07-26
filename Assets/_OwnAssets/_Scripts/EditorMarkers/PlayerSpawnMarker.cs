@@ -8,9 +8,18 @@ namespace SealTeam4
     public class PlayerSpawnMarker : PointMarker, IMarkerBehaviours
     {
         private GameObject networkStartPosGO;
+        public static PlayerSpawnMarker instance;
 
         private new void Start()
         {
+            if (instance == null)
+                instance = this;
+            else
+            {
+                Debug.Log("Duplicate PlayerSpawnMarker detected, destroying duplicate..");
+                Destroy(gameObject);
+            }
+
             base.Start();
             RegisterMarkerOnGameManager(this);
             CreateNetworkStartPosGO();

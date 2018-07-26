@@ -7,7 +7,7 @@ namespace SealTeam4
     [System.Serializable]
     public class AIStats
     {
-        public enum NPCType { TERRORIST, VIP, CIVILLIAN };
+        public enum NPCType { NONE, TERRORIST, VIP, CIVILLIAN };
         public enum CivillianStressResponseMode { FREEZE, RUNTOEXIT, RANDOM }
 
         #region User Settable Parameters
@@ -23,15 +23,15 @@ namespace SealTeam4
         #endregion
 
         #region Hidden Parameters
-        public float lookAngleMarginOfError = 10f; // Min angle of error when rotating to face target
+        [HideInInspector] public float lookAngleMarginOfError = 2f; // Min angle of error when rotating to face target
         [HideInInspector] public float stopDist = 0.2f; // Stop distance to any target
         [HideInInspector] public float stopDist_Convo = 1.0f; // Stop distance for conversation
 
-        [HideInInspector] public float turningSpeed = 2f;
+        [HideInInspector] public float turningSpeed = 5f;
         [HideInInspector] public float normalMoveSpeed = 1f;
         [HideInInspector] public float runningSpeed = 2f;
 
-        [HideInInspector] private int totalHp = 100;
+        [SerializeField] private int totalHp = 100;
         [HideInInspector] public int headDmg = 100;
         [HideInInspector] public int bodyDmg = 20;
         [HideInInspector] public int handDmg = 15;

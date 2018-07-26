@@ -23,6 +23,9 @@ GameObject:
   - component: {fileID: 23099354547174758}
   - component: {fileID: 114081573630085268}
   - component: {fileID: 114406661630867904}
+  - component: {fileID: 65169925193873582}
+  - component: {fileID: 114534931342450192}
+  - component: {fileID: 54392416981501088}
   m_Layer: 0
   m_Name: Knife_AI
   m_TagString: Untagged
@@ -36,8 +39,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1092884117069814}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -18.58, y: 10.620996, z: -10.45}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 37.829685, y: 37.829685, z: 37.829685}
   m_Children: []
   m_Father: {fileID: 0}
@@ -56,6 +59,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 8e9996187e3c6e843a5091e9c0e06784, type: 2}
   - {fileID: 2100000, guid: d5d6c90c4c458934d9d00aeca833585b, type: 2}
@@ -85,6 +89,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1092884117069814}
   m_Mesh: {fileID: 4300000, guid: 1a307d5b0279cff439bdf4d159f05e7a, type: 3}
+--- !u!54 &54392416981501088
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1092884117069814}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 2
+--- !u!65 &65169925193873582
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1092884117069814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.007386142, y: 0.03895138, z: 0.008368599}
+  m_Center: {x: -1.9695064e-10, y: 0.025333531, z: 0}
 --- !u!114 &114081573630085268
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -129,3 +160,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendRatePerSecond: 30
+--- !u!114 &114534931342450192
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1092884117069814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37c29530a4d70b24c86be4c9f94817a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

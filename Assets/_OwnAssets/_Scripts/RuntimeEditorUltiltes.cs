@@ -54,6 +54,12 @@ namespace SealTeam4
         private Camera camToFollow;
         private bool fixedEditorCamViewport = false;
 
+        private void Awake()
+        {
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
+            DynamicGI.UpdateEnvironment();
+        }
+
         private void Start()
         {
             if (!instance)
@@ -68,8 +74,6 @@ namespace SealTeam4
 
             m_projectManager = Dependencies.ProjectManager;
             assetsFolderPath = Application.persistentDataPath + "/Assets";
-
-            DynamicGI.UpdateEnvironment();
         }
 
         private void Update()
@@ -248,6 +252,13 @@ namespace SealTeam4
             if (!ScriptStorage.instance)
             {
                 PopupWindow.Show("Error", "Please add NPCScriptStorage onto the Scene", "Ok");
+                return;
+            }
+
+            // If there is no PlayerSpawnMarker on scene
+            if (!PlayerSpawnMarker.instance)
+            {
+                PopupWindow.Show("Error", "Please add PlayerSpawnMarker onto the Scene", "Ok");
                 return;
             }
 

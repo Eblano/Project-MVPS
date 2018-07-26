@@ -48,7 +48,7 @@ public class ReplaySystemCameraScript : MonoBehaviour
             Destroy(this.gameObject);
         }
         grc = FindObjectOfType<Canvas>().GetComponent<GraphicRaycaster>();
-        cam = this.GetComponentInChildren<Camera>().transform;
+        cam = GetComponentInChildren<Camera>().transform;
     }
 
     private void Update()

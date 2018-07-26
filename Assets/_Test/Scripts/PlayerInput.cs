@@ -71,11 +71,14 @@ namespace SealTeam4
             rHandEvents.TouchpadReleased += RHandEvents_TouchpadReleased;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             head.SetPosAndRot(headset);
             lHand.SetPosAndRot(lHandCont);
             rHand.SetPosAndRot(rHandCont);
+
+            playerInteractionSync.UpdateLocal(head, lHand, rHand);
+
             if (IsCounterReady(ref counter, 1 / sendRatePerSecond))
             {
                 playerInteractionSync.CmdSyncVRTransform(head, lHand, rHand);

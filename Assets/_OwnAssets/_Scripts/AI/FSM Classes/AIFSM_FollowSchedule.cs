@@ -206,15 +206,18 @@ namespace SealTeam4
                     Terminate_MoveToWaypoint();
                     break;
                 case 4:
-                    Setup_TalkToOtherNPC();
+                    RotateLookAtConvoNPC();
                     break;
                 case 5:
-                    TalkToOtherNPC();
+                    Setup_TalkToOtherNPC();
                     break;
                 case 6:
-                    Terminate_TalkToOtherNPC();
+                    TalkToOtherNPC();
                     break;
                 case 7:
+                    Terminate_TalkToOtherNPC();
+                    break;
+                case 8:
                     aiState.currSubschedule = 0;
                     aiState.currSchedule++;
                     break;
@@ -251,6 +254,16 @@ namespace SealTeam4
         public void SetAction_End_MoveToWaypointAndRotate()
         {
             aiState.currSubschedule += 2;
+        }
+
+        public void RotateLookAtConvoNPC()
+        {
+            aiController.RotateTowardsTargetDirection(aiState.currConvoNPCTarget.transform.position);
+            if (aiController.LookingAtTarget(aiState.currConvoNPCTarget.transform.position, aiStats.lookAngleMarginOfError))
+            {
+                aiController.StopRotation();
+                aiState.currSubschedule++;
+            }
         }
 
         public Vector3 GetWaypointMarkerPosition()

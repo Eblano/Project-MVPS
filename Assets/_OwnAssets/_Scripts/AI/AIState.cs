@@ -12,6 +12,10 @@ namespace SealTeam4
     {
         // If NPC is allowed to function
         public bool active = false;
+        // If NPC is alive
+        public bool alive = true;
+        // If NPC is invincible
+        public bool invincible = false;
 
         public enum AIMode
         {
@@ -91,8 +95,8 @@ namespace SealTeam4
 
             public int schBeforeEnteringHostileMode = 0;
             public Vector3 waypointPos = Vector3.zero;
-            public Transform shootTarget = null;
-            public Transform knifeTarget = null;
+            public Transform shootTargetT = null;
+            public Transform knifeTargetT = null;
         }
         public HostileHuman hostileHuman = new HostileHuman();
 

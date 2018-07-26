@@ -19,7 +19,7 @@ namespace SealTeam4
 
         private void Update()
         {
-            if (Dependencies.ProjectManager == null)
+            if (!GameManager.instance.IsInLevelEditMode())
             {
                 AddNavMeshObstacles();
                 Destroy(this);

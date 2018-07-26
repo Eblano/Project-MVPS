@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 114134973361642180}
   - component: {fileID: 114095424428205528}
   - component: {fileID: 114196523117519802}
-  - component: {fileID: 114496765039278272}
+  - component: {fileID: 114525945259642650}
   m_Layer: 0
   m_Name: RuntimeEditor
   m_TagString: Untagged
@@ -10776,8 +10776,9 @@ MonoBehaviour:
   - {fileID: 1416903322352260, guid: ff2c3fdfdc8f6e34e809c7150e5a9d34, type: 2}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 1410533019575518, guid: 872324411310f2d48985e58b9e4db37f, type: 2}
+  - {fileID: 0}
   - {fileID: 1762975966504240, guid: ae61b55888989b64880d7419828f5835, type: 2}
+  - {fileID: 1583279982359520, guid: 872324411310f2d48985e58b9e4db37f, type: 2}
 --- !u!114 &114335433164122590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11883,28 +11884,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &114496765039278272
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid: 6a955809-6ab3-4d01-9e6d-734e782eb064
-  Mapping:
-  - Name: RuntimeEditor
-    Object: {fileID: 114196523117519802}
-    Id: 23507
-  - Name: RuntimeEditor
-    Object: {fileID: 146550}
-    Id: 23508
-  - Name: RuntimeEditor
-    Object: {fileID: 468744}
-    Id: 23509
 --- !u!114 &114502213321708530
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12338,6 +12317,28 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114525945259642650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Guid: 6a955809-6ab3-4d01-9e6d-734e782eb064
+  Mapping:
+  - Name: RuntimeEditor
+    Object: {fileID: 114196523117519802}
+    Id: 23507
+  - Name: RuntimeEditor
+    Object: {fileID: 146550}
+    Id: 23508
+  - Name: RuntimeEditor
+    Object: {fileID: 468744}
+    Id: 23509
 --- !u!114 &114527601226251686
 MonoBehaviour:
   m_ObjectHideFlags: 1

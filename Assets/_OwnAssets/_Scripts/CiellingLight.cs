@@ -91,7 +91,7 @@ namespace SealTeam4
         private void OnEnable()
         {
             CreateLightOBJ();
-            GameManager.instance.RegisterNetCmdObj(gameObject);
+            GameManager.instance.RegisterNetCmdObj(gameObject, false);
         }
 
         public List<string> GetActions()

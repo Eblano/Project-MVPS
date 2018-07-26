@@ -34,6 +34,7 @@ namespace SealTeam4
                 if (!leftSeat)
                     return;
             }
+
             if (aiState.inConversation)
             {
                 aiAnimController.Anim_StopStandTalking();
