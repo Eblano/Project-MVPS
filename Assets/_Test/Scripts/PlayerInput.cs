@@ -77,7 +77,7 @@ namespace SealTeam4
             lHand.SetPosAndRot(lHandCont);
             rHand.SetPosAndRot(rHandCont);
 
-            playerInteractionSync.UpdateLocal(headset.position, lHandCont.position, rHandCont.position);
+            playerInteractionSync.UpdateLocal(head, lHand, rHand);
 
             if (IsCounterReady(ref counter, 1 / sendRatePerSecond))
             {
