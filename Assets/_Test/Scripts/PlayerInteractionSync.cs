@@ -37,6 +37,13 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         return lControl;
     }
 
+    public void UpdateLocal(Vector3 headPos, Vector3 lHandPos, Vector3 rHandPos)
+    {
+        headset.position = headPos;
+        lControl.position = lHandPos;
+        rControl.position = rHandPos;
+    }
+
     #region ServerMethods
     /// <summary>
     /// Updates the player's postition and rotation.
@@ -118,14 +125,27 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
     [ClientRpc]
     public void RpcSyncVRTransform(Vector3AndQuaternion head, Vector3AndQuaternion lHand, Vector3AndQuaternion rHand)
     {
-        headset.position = head.pos;
-        headset.rotation = head.rot;
+        // Make a method for this
+        headset.position = Vector3.Lerp(headset.position, head.pos, 0.5f);
+        lControl.position = Vector3.Lerp(lControl.position, lHand.pos, 0.5f);
+        rControl.position = Vector3.Lerp(rControl.position, rHand.pos, 0.5f);
 
-        lControl.position = lHand.pos;
-        lControl.rotation = lHand.rot;
+        headset.rotation = Quaternion.Lerp(headset.rotation, head.rot, 0.5f);
+        lControl.rotation = Quaternion.Lerp(lControl.rotation, lHand.rot, 0.5f);
+        rControl.rotation = Quaternion.Lerp(rControl.rotation, rHand.rot, 0.5f);
 
-        rControl.position = rHand.pos;
-        rControl.rotation = rHand.rot;
+        //headset.position = head.pos;
+        //headset.rotation = head.rot;
+
+        //lControl.position = lHand.pos;
+        //lControl.rotation = lHand.rot;
+
+        //rControl.position = rHand.pos;
+        //rControl.rotation = rHand.rot;
+
+        // Smooth the transform
+        //transform.position = Vector3.Lerp(transform.position, position, 0.05f);
+        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(eulerAngle), 0.05f);
     }
 
     [ClientRpc]

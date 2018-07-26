@@ -101,7 +101,16 @@ namespace SealTeam4
         [ClientRpc]
         public void RpcSyncScale(NetworkInstanceId networkId, Vector3 yScale, Vector3 handScale)
         {
-            NetworkServer.objects[networkId].GetComponent<PlayerSizeCalibration>().ApplyScale(yScale, handScale);
+            Debug.Log("NetworkID: " + networkId);
+            Debug.Log("NetworkObject: " + NetworkServer.objects[networkId]);
+            Debug.Log("GO Name: " + NetworkServer.objects[networkId].gameObject.name);
+
+            if (!NetworkServer.objects[networkId] || !NetworkServer.objects[networkId].gameObject)
+            {
+                return;
+            }
+            
+            NetworkServer.objects[networkId].gameObject.GetComponent<PlayerSizeCalibration>().ApplyScale(yScale, handScale);
         }
     }
 }
