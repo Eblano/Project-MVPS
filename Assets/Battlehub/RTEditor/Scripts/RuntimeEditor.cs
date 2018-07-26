@@ -9,7 +9,7 @@ using Battlehub.RTCommon;
 
 using System.Collections;
 using Battlehub.RTGizmos;
-
+using UnityEngine.Rendering.PostProcessing;
 
 namespace Battlehub.RTEditor
 {
@@ -274,6 +274,9 @@ namespace Battlehub.RTEditor
                     RuntimeEditorApplication.SceneCameras[i].transform.localScale = RuntimeEditorApplication.GameCameras[0].transform.localScale;
                     RuntimeEditorApplication.SceneCameras[i].tag = "Untagged";
                     RuntimeEditorApplication.SceneCameras[i].name = "Editor Camera";
+                    PostProcessLayer pp = RuntimeEditorApplication.SceneCameras[i].gameObject.AddComponent<PostProcessLayer>();
+                    pp.volumeLayer = 1 << LayerMask.NameToLayer("PostProcessing");
+
                     RuntimeEditorApplication.SceneCameras[i].cullingMask = ~(1 << LayerMask.NameToLayer("FloatingUI") | 1 << LayerMask.NameToLayer("Marker"));
                 }
 

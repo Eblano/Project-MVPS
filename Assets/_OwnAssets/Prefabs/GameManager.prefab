@@ -21,8 +21,9 @@ GameObject:
   - component: {fileID: 4455132867978186}
   - component: {fileID: 114937303008238198}
   - component: {fileID: 114767845761546020}
-  - component: {fileID: 114589021353495668}
-  m_Layer: 0
+  - component: {fileID: 114772663251373130}
+  - component: {fileID: 114113479249253202}
+  m_Layer: 21
   m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +43,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114589021353495668
+--- !u!114 &114113479249253202
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1044430686693050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: fb97ec295a7b8ea43911f28b0e19ed52, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 0
+--- !u!114 &114767845761546020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1044430686693050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_guid: b8c9c5fa-af5c-4d70-a967-a47f299b9c6a
+  m_isRuntime: 0
+--- !u!114 &114772663251373130
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -64,19 +94,6 @@ MonoBehaviour:
   - Name: GameManager
     Object: {fileID: 4455132867978186}
     Id: 23503
---- !u!114 &114767845761546020
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1044430686693050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_guid: b8c9c5fa-af5c-4d70-a967-a47f299b9c6a
-  m_isRuntime: 0
 --- !u!114 &114937303008238198
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -104,7 +121,6 @@ MonoBehaviour:
   type1NPC_Prefab: {fileID: 0}
   totalRegMarkers: 0
   refreshRate: 3
-  areaUnderAttack: 0
   pistol_p226_Prefab: {fileID: 1645996731050356, guid: 81efbefc967e4194cb7e98304112e925,
     type: 2}
   magazine_p226_Prefab: {fileID: 1887284202064132, guid: dbdc87124d2f15148809c59387f408a2,
