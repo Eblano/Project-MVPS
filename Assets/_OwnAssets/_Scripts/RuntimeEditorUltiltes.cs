@@ -54,6 +54,13 @@ namespace SealTeam4
         private Camera camToFollow;
         private bool fixedEditorCamViewport = false;
 
+        private void Awake()
+        {
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
+            RenderSettings.reflectionIntensity = 0.1f;
+            DynamicGI.UpdateEnvironment();
+        }
+
         private void Start()
         {
             if (!instance)
@@ -68,10 +75,6 @@ namespace SealTeam4
 
             m_projectManager = Dependencies.ProjectManager;
             assetsFolderPath = Application.persistentDataPath + "/Assets";
-
-            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
-            RenderSettings.reflectionIntensity = 0.1f;
-            DynamicGI.UpdateEnvironment();
         }
 
         private void Update()
