@@ -10,8 +10,10 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     [SerializeField] private GameObject spawnPref;
     [SerializeField] private Transform firingPoint;
     [SerializeField] private List<Transform> secondaryGrabTransforms;
-    [SerializeField] private MuzzleFlash muzzleFlashEffects;
     public Transform secondaryHoldingTransform;
+    [SerializeField] private MuzzleFlash muzzleFlashEffects;
+    [SerializeField] private GameObject bulletPref;
+    [SerializeField] private Transform bulletExitPoint;
     private InteractableObject interactableObject;
     private bool isTwoHandedGrab = false;
     private bool isBeingGrabbed = false;
@@ -43,14 +45,16 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(muzzleFlashEffects)
+            if (muzzleFlashEffects)
                 muzzleFlashEffects.Activate();
 
-            if(gunAnim)
+            if (gunAnim)
                 gunAnim.SetTrigger("Fire");
 
-            if(networkedAudioSource)
+            if (networkedAudioSource)
                 networkedAudioSource.DirectPlay();
+
+            BulletShellSpawn();
         }
     }
 
@@ -82,6 +86,13 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
 
             grabStateChanged = isBeingGrabbed;
         }
+    }
+
+    private void BulletShellSpawn()
+    {
+        GameObject GO = Instantiate(bulletPref, bulletExitPoint.position, bulletExitPoint.rotation);
+        GO.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(20,50), 25, 0));
+        Destroy(GO, 5.0f);
     }
 
     private void SetColliderState(bool state)
