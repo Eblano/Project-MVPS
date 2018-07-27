@@ -43,9 +43,14 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            muzzleFlashEffects.Activate();
-            gunAnim.SetTrigger("Fire");
-            networkedAudioSource.DirectPlay();
+            if(muzzleFlashEffects)
+                muzzleFlashEffects.Activate();
+
+            if(gunAnim)
+                gunAnim.SetTrigger("Fire");
+
+            if(networkedAudioSource)
+                networkedAudioSource.DirectPlay();
         }
     }
 
