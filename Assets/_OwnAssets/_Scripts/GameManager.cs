@@ -95,8 +95,8 @@ namespace SealTeam4
         #region Update Methods
         private void Update()
         {
-            //if (Input.GetKeyDown(KeyCode.N))
-            //    FindObjectOfType<NavMeshSurface>().BuildNavMesh();
+            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.N))
+                FindObjectOfType<NavMeshSurface>().BuildNavMesh();
 
             switch (currGameManagerMode)
             {
