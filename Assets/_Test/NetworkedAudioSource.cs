@@ -5,16 +5,20 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class NetworkedAudioSource : MonoBehaviour
 {
-    private AudioSource audioSource;
+    private AudioSource[] audioSources;
+    private int counter = 0;
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        audioSources = GetComponents<AudioSource>();
 
         if (NetworkASManager.instance)
         {
             // Registers the audio source attached to this object on start
-            NetworkASManager.instance.RegisterAudioSource(audioSource);
+            foreach(AudioSource audio in audioSources)
+            {
+                NetworkASManager.instance.RegisterAudioSource(audio);
+            }
         }
         else
         {
@@ -24,11 +28,11 @@ public class NetworkedAudioSource : MonoBehaviour
 
     public void Play()
     {
-        NetworkASManager.instance.SendAudioSource(audioSource);
+        NetworkASManager.instance.SendAudioSource(audioSources[counter++ % audioSources.Length]);
     }
 
     public void DirectPlay()
     {
-        audioSource.Play();
+        audioSources[counter++ % audioSources.Length].Play();
     }
 }
