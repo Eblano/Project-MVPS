@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - TeleportIgnore
+  - ExcludeTeleport
+  - SecondGrabPoint
+  - projectile
+  - FxTemporaire
+  - NPC
+  - Holster
+  - CanBeHolstered
+  - Coords
+  - Fire
   layers:
   - Default
   - TransparentFX
@@ -14,21 +24,21 @@ TagManager:
   - 
   - 
   - 
+  - NPC
+  - IgnoreGrabLayer
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Ground
+  - GrabLayer
+  - SnapLayer
+  - HolsterLayer
+  - FloatingUI
+  - Marker
+  - AreaMarker
+  - NPCTrigger
+  - Furniture
+  - PostProcessing
+  - PlayerOrNpcCollidable
+  - FireLayer
   - 
   - 
   - 
