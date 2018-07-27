@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SealTeam4
 {
-    public class MuzzleFlash : MonoBehaviour
+    public class PistolMuzzleFlash : MonoBehaviour
     {
         [SerializeField] private ParticleSystem[] particleList;
         [SerializeField] private Light flash;
