@@ -4,11 +4,10 @@ using UnityEngine;
 
 namespace SealTeam4
 {
-    public class PistolMuzzleFlash : MonoBehaviour
+    public class MuzzleFlash : MonoBehaviour
     {
         [SerializeField] private ParticleSystem[] particleList;
         [SerializeField] private Light flash;
-        // Use this for initialization
 
         public void Activate()
         {
@@ -27,5 +26,4 @@ namespace SealTeam4
             flash.enabled = false;
         }
     }
-
 }
