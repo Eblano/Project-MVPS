@@ -351,6 +351,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114330725120075194, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.size
+      value: 96
+      objectReference: {fileID: 0}
     - target: {fileID: 468744, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1747,9 +1752,52 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114330725120075194, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[95]
+      value: 
+      objectReference: {fileID: 1205781918886610, guid: 0660c5a4af1fe104eacc7b8caf652cfb,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 114401837880776766, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1411472038 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 146550, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
+  m_PrefabInternal: {fileID: 1411472037}
+--- !u!114 &1411472039 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114196523117519802, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+    type: 2}
+  m_PrefabInternal: {fileID: 1411472037}
+  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
+--- !u!4 &1411472040 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 468744, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
+  m_PrefabInternal: {fileID: 1411472037}
+--- !u!114 &1411472041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1411472038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Guid: 6a955809-6ab3-4d01-9e6d-734e782eb064
+  Mapping:
+  - Name: RuntimeEditor
+    Object: {fileID: 1411472039}
+    Id: 23507
+  - Name: RuntimeEditor
+    Object: {fileID: 1411472038}
+    Id: 23508
+  - Name: RuntimeEditor
+    Object: {fileID: 1411472040}
+    Id: 23509
 --- !u!1 &1903868619
 GameObject:
   m_ObjectHideFlags: 0
