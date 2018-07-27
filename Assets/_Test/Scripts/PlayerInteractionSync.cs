@@ -20,8 +20,6 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
     private GameManager gameManager;
 
-    [SerializeField] private List<HolsterItem> holsterItems;
-
     public override void OnStartServer()
     {
         gameManager = GameManager.instance;
