@@ -10,6 +10,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     [SerializeField] private GameObject spawnPref;
     [SerializeField] private Transform firingPoint;
     [SerializeField] private List<Transform> secondaryGrabTransforms;
+    [SerializeField] private MuzzleFlash muzzleFlashEffects;
     public Transform secondaryHoldingTransform;
     private InteractableObject interactableObject;
     private bool isTwoHandedGrab = false;
@@ -38,6 +39,13 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         if (secondaryGrabTransforms.Count > 0)
         {
             CheckGrabState();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            muzzleFlashEffects.Activate();
+            gunAnim.SetTrigger("Fire");
+            networkedAudioSource.DirectPlay();
         }
     }
 
@@ -225,6 +233,11 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             {
                 gunAnim.SetTrigger("Fire");
                 gunNetworkAnim.SetTrigger("Fire");
+            }
+
+            if (muzzleFlashEffects)
+            {
+                muzzleFlashEffects.Activate();
             }
 
             if (networkedAudioSource)

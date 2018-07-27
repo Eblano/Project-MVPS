@@ -148,7 +148,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1569639569942576
 GameObject:
   m_ObjectHideFlags: 1
@@ -442,7 +442,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1583560957999620}
   m_LocalRotation: {x: -0.0006894673, y: 0.99999976, z: -0, w: 0}
-  m_LocalPosition: {x: 0.00999916, y: 0.1050001, z: -0.6530003}
+  m_LocalPosition: {x: 0.00999916, y: 0.1050001, z: -0.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4915392982614132}
@@ -488,7 +488,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1645996731050356}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.937923, y: 3.068, z: 2.8098276}
+  m_LocalPosition: {x: -3.74, y: 3.068, z: 2.8098276}
   m_LocalScale: {x: 0.021701485, y: 0.021701487, z: 0.021701487}
   m_Children:
   - {fileID: 4074237682685428}
@@ -813,7 +813,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1032,6 +1032,7 @@ MonoBehaviour:
   firingPoint: {fileID: 4171021114942098}
   secondaryGrabTransforms:
   - {fileID: 4746347998001938}
+  muzzleFlashEffects: {fileID: 114546623126074386}
   secondaryHoldingTransform: {fileID: 0}
 --- !u!114 &114338829164328208
 MonoBehaviour:
@@ -6069,7 +6070,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.03
+      scalar: 0.02
       minScalar: 1
       maxCurve:
         serializedVersion: 2
