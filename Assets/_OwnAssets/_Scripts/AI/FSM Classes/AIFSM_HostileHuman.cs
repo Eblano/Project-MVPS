@@ -147,6 +147,13 @@ namespace SealTeam4
 
         private void SetState_ShootTarget_Idle()
         {
+            aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.INACTIVE;
+            aiController.StopMovement();
+        }
+
+        private void SetState_KnifeTarget_Idle()
+        {
+            aiState.hostileHuman.currKnifeTargetState = AIState.HostileHuman.KnifeTargetState.INACTIVE;
             aiController.StopMovement();
         }
         #endregion
@@ -159,6 +166,7 @@ namespace SealTeam4
             switch (aiState.hostileHuman.currShootTargetState)
             {
                 case AIState.HostileHuman.ShootTargetState.INACTIVE:
+                    ShootTarget_Inactive();
                     break;
                 case AIState.HostileHuman.ShootTargetState.SPAWN_GUN:
                     ShootTarget_SpawnGun();
@@ -186,6 +194,7 @@ namespace SealTeam4
             switch (aiState.hostileHuman.currKnifeTargetState)
             {
                 case AIState.HostileHuman.KnifeTargetState.INACTIVE:
+                    KnifeTarget_Inactive();
                     break;
                 case AIState.HostileHuman.KnifeTargetState.SPAWN_KNIFE:
                     KnifeTarget_SpawnKnife();
@@ -229,6 +238,23 @@ namespace SealTeam4
 
         //***************************
         #region SubFSM Methods
+
+        private void KnifeTarget_Inactive()
+        {
+            if (aiController.KnifeSpawned())
+                aiController.SetKnifeTransformOffset(aiController.knife_TOffset);
+
+            aiController.StopMovement();
+        }
+
+        private void ShootTarget_Inactive()
+        {
+            if (aiController.GunSpawned())
+                aiController.SetGunTransformOffset(aiController.pistol_NormalOffset);
+
+            aiController.StopMovement();
+        }
+
         private void ShootTarget_SpawnGun()
         {
             if (aiController.GunSpawned())
@@ -256,6 +282,9 @@ namespace SealTeam4
 
         private void KnifeTarget_DrawKnife()
         {
+            if (aiController.KnifeSpawned())
+                aiController.SetKnifeTransformOffset(aiController.knife_TOffset);
+
             aiController.DrawWeapon();
             SetState_KnifeTarget_MoveToKnifeTarget();
             GameManager.instance.TriggerThreatInLevel();
@@ -286,6 +315,15 @@ namespace SealTeam4
 
         private void KnifeTarget_MoveToKnifeTarget()
         {
+            if (aiController.KnifeSpawned())
+                aiController.SetKnifeTransformOffset(aiController.knife_TOffset);
+
+            if (!aiState.hostileHuman.knifeTargetT)
+            {
+                SetState_KnifeTarget_Idle();
+                return;
+            }
+
             if (aiController.WithinDistance(aiState.hostileHuman.knifeTargetT.position, aiStats.meleeDist))
             {
                 SetState_KnifeTarget_TrackTarget();
@@ -315,7 +353,7 @@ namespace SealTeam4
                 return;
             }
 
-            if (aiController.LookingAtTarget(aiState.hostileHuman.shootTargetT.position, aiStats.shootTargetDir_AngleMarginOfError))
+            if (aiController.LookingAtTarget(aiState.hostileHuman.shootTargetT.position, aiStats.targetDir_AngleMarginOfError))
             {
                 SetState_ShootTarget_AimGunOnTarget();
                 return;
@@ -326,9 +364,12 @@ namespace SealTeam4
 
         private void KnifeTarget_TrackTarget()
         {
-            if (!aiState.hostileHuman.shootTargetT)
+            if (aiController.KnifeSpawned())
+                aiController.SetKnifeTransformOffset(aiController.knife_TOffset);
+
+            if (!aiState.hostileHuman.knifeTargetT)
             {
-                SetState_ShootTarget_Idle();
+                SetState_KnifeTarget_Idle();
                 return;
             }
 
@@ -338,7 +379,7 @@ namespace SealTeam4
                 return;
             }
 
-            if (aiController.LookingAtTarget(aiState.hostileHuman.knifeTargetT.position, aiStats.shootTargetDir_AngleMarginOfError))
+            if (aiController.LookingAtTarget(aiState.hostileHuman.knifeTargetT.position, aiStats.targetDir_AngleMarginOfError))
             {
                 SetState_KnifeTarget_Knife();
                 return;
@@ -361,14 +402,13 @@ namespace SealTeam4
             if (aiController.GunSpawned())
                 aiController.SetGunTransformOffset(aiController.pistol_HoldingGunOffset);
         
-
             if (!aiState.hostileHuman.shootTargetT)
             {
                 SetState_ShootTarget_Idle();
                 return;
             }
 
-            if (!aiController.LookingAtTarget(aiState.hostileHuman.shootTargetT.position, aiStats.shootTargetDir_AngleMarginOfError))
+            if (!aiController.LookingAtTarget(aiState.hostileHuman.shootTargetT.position, aiStats.targetDir_AngleMarginOfError))
             {
                 aiState.hostileHuman.currGunCD = aiStats.gunCD;
                 aiController.LowerGun();
@@ -384,9 +424,6 @@ namespace SealTeam4
                 return;
             }
 
-            // Pistol look at target
-            //aiController.ref_pistol.gameObject.transform.LookAt(aiState.hostileHuman.shootTargetT);
-
             // Shoot
             if (aiState.hostileHuman.currGunCD <= 0)
             {
@@ -399,10 +436,18 @@ namespace SealTeam4
 
         private void KnifeTarget_Knife()
         {
-            if (!aiController.LookingAtTarget(aiState.hostileHuman.knifeTargetT.position, aiStats.shootTargetDir_AngleMarginOfError))
+            if (aiController.KnifeSpawned())
+                aiController.SetKnifeTransformOffset(aiController.knife_TOffset);
+
+            if (!aiState.hostileHuman.knifeTargetT)
+            {
+                SetState_KnifeTarget_Idle();
+                return;
+            }
+
+            if (!aiController.LookingAtTarget(aiState.hostileHuman.knifeTargetT.position, aiStats.targetDir_AngleMarginOfError))
             {
                 aiState.hostileHuman.currKnifeSwingCD = aiStats.knifeSwingCD;
-                //aiController.SetKnifeTransformOffset(aiController.knife_TOffset);
                 SetState_KnifeTarget_TrackTarget();
                 return;
             }
@@ -419,6 +464,9 @@ namespace SealTeam4
 
         private void KnifeTarget_SpawnKnife()
         {
+            if (aiController.KnifeSpawned())
+                aiController.SetKnifeTransformOffset(aiController.knife_TOffset);
+
             if (aiController.KnifeSpawned())
             {
                 SetState_KnifeTarget_MoveToKnifeTarget();

@@ -38,4 +38,9 @@ public class DoorGrabNode : InteractableObject
             grabStateChanged = isBeingGrabbed;
         }
     }
+
+    public void SetDoors(Door[] doors)
+    {
+        this.doors = doors;
+    }
 }

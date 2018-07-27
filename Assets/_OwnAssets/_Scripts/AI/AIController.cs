@@ -35,7 +35,7 @@ namespace SealTeam4
 
         [Header("Weapon/Knife")]
         [SerializeField] private GameObject knife_Prefab;
-        [SerializeField] private TransformOffset knife_TOffset;
+        public TransformOffset knife_TOffset;
         private GameObject ref_knife;
 
         private NavMeshAgent nmAgent;
@@ -203,7 +203,12 @@ namespace SealTeam4
 
         public bool WithinDistance(Vector3 destination, float stopDist)
         {
-            return Vector3.Distance(transform.position, destination) < stopDist;
+            Vector3 origin = transform.position;
+            origin.y = 0;
+            destination.y = 0;
+
+            Debug.Log(Vector3.Distance(origin, destination));
+            return Vector3.Distance(origin, destination) < stopDist;
         }
 
         public void MoveAITowardsNMAgentDestination(float speed)
@@ -770,7 +775,7 @@ namespace SealTeam4
             return objInfos;
         }
 
-        public void OnHit(Collider c)
+        public void OnHit(Collider c, GlobalEnums.WeaponType weaponType)
         {
             if (aiState.invincible)
                 return;

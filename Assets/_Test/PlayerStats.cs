@@ -56,7 +56,7 @@ public class PlayerStats : MonoBehaviour, IDamageable, IObjectInfo
         }
     }
 
-    public void OnHit(Collider c)
+    public void OnHit(Collider c, GlobalEnums.WeaponType weaponType)
     {
         foreach (Collider bodyColl in hitBoxColliders.bodyColliders)
         {

@@ -13,9 +13,8 @@ namespace SealTeam4
                 IDamageable iDamagable = other.transform.root.GetComponent<IDamageable>();
 
                 if (iDamagable != null && iDamagable.GetNPCType() != AIStats.NPCType.TERRORIST)
-                    iDamagable.OnHit(other);
+                    iDamagable.OnHit(other, GlobalEnums.WeaponType.KNIFE);
             }
         }
     }
 }
-
