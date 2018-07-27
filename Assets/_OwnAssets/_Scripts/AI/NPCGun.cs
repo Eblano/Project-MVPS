@@ -26,7 +26,7 @@ namespace SealTeam4
                 IDamageable iDamagable = hitInfo.transform.root.GetComponent<IDamageable>();
 
                 if (iDamagable != null)
-                    iDamagable.OnHit(hitInfo.collider);
+                    iDamagable.OnHit(hitInfo.collider, GlobalEnums.WeaponType.PISTOL);
 
                 //Debug.Log(hitInfo.transform.name + " | " + hitInfo.transform.root.name);
 

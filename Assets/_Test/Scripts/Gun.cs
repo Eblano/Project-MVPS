@@ -99,7 +99,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
 
             if (damageableObj != null)
             {
-                damageableObj.OnHit(hit.collider);
+                damageableObj.OnHit(hit.collider, GlobalEnums.WeaponType.PISTOL);
             }
 
             Instantiate(spawnPref, hit.point, firingPoint.rotation);
