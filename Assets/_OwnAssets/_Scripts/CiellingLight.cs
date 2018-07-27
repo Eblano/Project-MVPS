@@ -29,7 +29,8 @@ namespace SealTeam4
             lightGo.name = "CeillingLight";
             lightGo.AddComponent<PersistentIgnore>();
             light = lightGo.AddComponent<Light>();
-            light.type = LightType.Spot;
+            light.type = LightType.Point;
+            light.shadows = LightShadows.Soft;
             light.cullingMask = ~(1 << LayerMask.NameToLayer("AreaMarker"));
         }
 

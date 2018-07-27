@@ -46,6 +46,7 @@ namespace SealTeam4
 
         [Header("GameObjects for RuntimeEditor Prefabs")]
         [SerializeField] private GameObject markerFloatingText_Prefab;
+        [SerializeField] private Mesh defCubeMesh_mesh;
         [SerializeField] private Material[] skyboxMats;
 
         [Header("MarkerUI Camera Properties")]
@@ -485,6 +486,11 @@ namespace SealTeam4
         public GameObject GetMarkerFloatingtTextPrefab()
         {
             return markerFloatingText_Prefab;
+        }
+
+        public Mesh GetDefCubeMesh()
+        {
+            return defCubeMesh_mesh;
         }
 
         public Material[] GetSkyboxMats()
