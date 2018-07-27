@@ -30,5 +30,10 @@ namespace SealTeam4
         {
             return grabPosition;
         }
+
+        public void SetGrabPosition(Transform grabPosition)
+        {
+            this.grabPosition = grabPosition;
+        }
     }
 }
