@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 114134973361642180}
   - component: {fileID: 114095424428205528}
   - component: {fileID: 114196523117519802}
-  - component: {fileID: 114525945259642650}
+  - component: {fileID: 114194635583007516}
   m_Layer: 0
   m_Name: RuntimeEditor
   m_TagString: Untagged
@@ -1020,6 +1020,8 @@ MonoBehaviour:
   EditButton: {fileID: 161616}
   CloseButton: {fileID: 1162983154779440}
   EditorRoot: {fileID: 112274}
+  editorCam_Prefab: {fileID: 1362216098329730, guid: a92f569d1852dce4bb5c7a24383f6201,
+    type: 2}
   SceneCameras: []
   SwitchSceneCameraKey: 104
   SceneView: {fileID: 11464816}
@@ -9206,6 +9208,28 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114194635583007516
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Guid: 6a955809-6ab3-4d01-9e6d-734e782eb064
+  Mapping:
+  - Name: RuntimeEditor
+    Object: {fileID: 114196523117519802}
+    Id: 23507
+  - Name: RuntimeEditor
+    Object: {fileID: 146550}
+    Id: 23508
+  - Name: RuntimeEditor
+    Object: {fileID: 468744}
+    Id: 23509
 --- !u!114 &114194740334828770
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10759,26 +10783,41 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 1819410033998814, guid: c4dea830cb9296b4da166afae55dac4f, type: 2}
-  - {fileID: 1003795272830546, guid: 58be5b907b037604f8108d02cf377b2e, type: 2}
-  - {fileID: 1194736757356002, guid: 0660c5a4af1fe104eacc7b8caf652cfb, type: 2}
-  - {fileID: 1739807776649874, guid: 480b54607b255bd4cb2f540de569967e, type: 2}
-  - {fileID: 1874349539346250, guid: 52fbf7124929a27499c7e9a3851a58c5, type: 2}
-  - {fileID: 1595201377534618, guid: 630fa8241b21ad04c8e153005d659123, type: 2}
-  - {fileID: 0}
-  - {fileID: 1450257710573268, guid: 3dbb05581f6ec574f8361e902010ed4a, type: 2}
-  - {fileID: 1138881111035434, guid: 3310ab3feebc7ba4ca175e415830e443, type: 2}
-  - {fileID: 1006683320524156, guid: be0371fe3814dfd4ea58029461d2687b, type: 2}
-  - {fileID: 0}
-  - {fileID: 1518791867783020, guid: 1d27d5bfd687f0344bbce938f481b435, type: 2}
-  - {fileID: 1650541966830322, guid: 9365252a32d41234c816aa6e952f1628, type: 2}
-  - {fileID: 1575917876135602, guid: 5c804c1fc3b26504aa30e9cba89848e1, type: 2}
-  - {fileID: 1416903322352260, guid: ff2c3fdfdc8f6e34e809c7150e5a9d34, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 1762975966504240, guid: ae61b55888989b64880d7419828f5835, type: 2}
-  - {fileID: 1583279982359520, guid: 872324411310f2d48985e58b9e4db37f, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1014233265703466, guid: 52fbf7124929a27499c7e9a3851a58c5, type: 2}
+  - {fileID: 1547325900686108, guid: be0371fe3814dfd4ea58029461d2687b, type: 2}
+  - {fileID: 1642080268240044, guid: 872324411310f2d48985e58b9e4db37f, type: 2}
+  - {fileID: 1515798190689216, guid: ae61b55888989b64880d7419828f5835, type: 2}
+  - {fileID: 1378114555253094, guid: 9365252a32d41234c816aa6e952f1628, type: 2}
+  - {fileID: 1253093264832832, guid: 58be5b907b037604f8108d02cf377b2e, type: 2}
+  - {fileID: 1366978140638900, guid: 0660c5a4af1fe104eacc7b8caf652cfb, type: 2}
+  - {fileID: 1835322690528930, guid: 3310ab3feebc7ba4ca175e415830e443, type: 2}
+  - {fileID: 1063188056533980, guid: c4dea830cb9296b4da166afae55dac4f, type: 2}
+  - {fileID: 1401079181749222, guid: 1d27d5bfd687f0344bbce938f481b435, type: 2}
+  - {fileID: 1373217648962908, guid: 480b54607b255bd4cb2f540de569967e, type: 2}
+  - {fileID: 1737281737977606, guid: 630fa8241b21ad04c8e153005d659123, type: 2}
+  - {fileID: 1258224507025772, guid: ff2c3fdfdc8f6e34e809c7150e5a9d34, type: 2}
+  - {fileID: 1976044413818072, guid: 5c804c1fc3b26504aa30e9cba89848e1, type: 2}
+  - {fileID: 1127405564895082, guid: 3dbb05581f6ec574f8361e902010ed4a, type: 2}
 --- !u!114 &114335433164122590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12317,28 +12356,6 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &114525945259642650
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid: 6a955809-6ab3-4d01-9e6d-734e782eb064
-  Mapping:
-  - Name: RuntimeEditor
-    Object: {fileID: 114196523117519802}
-    Id: 23507
-  - Name: RuntimeEditor
-    Object: {fileID: 146550}
-    Id: 23508
-  - Name: RuntimeEditor
-    Object: {fileID: 468744}
-    Id: 23509
 --- !u!114 &114527601226251686
 MonoBehaviour:
   m_ObjectHideFlags: 1
