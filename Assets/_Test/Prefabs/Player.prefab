@@ -1211,6 +1211,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1798983831810682
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4747714116030302}
+  - component: {fileID: 135122493019347258}
+  m_Layer: 0
+  m_Name: mixamorig:Head
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1802485557085230
 GameObject:
   m_ObjectHideFlags: 1
@@ -1252,7 +1268,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4123157782781020}
-  - component: {fileID: 135638236778911492}
   m_Layer: 0
   m_Name: mixamorig:Neck
   m_TagString: Untagged
@@ -1529,7 +1544,8 @@ Transform:
   m_LocalRotation: {x: 0.058128987, y: 0.000006647765, z: 0.000043761975, w: 0.9983091}
   m_LocalPosition: {x: -0.000018824114, y: 0.1467841, z: 0.023824727}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4747714116030302}
   m_Father: {fileID: 4221841664363154}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2308,6 +2324,19 @@ Transform:
   m_Father: {fileID: 4040181060363464}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4747714116030302
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1798983831810682}
+  m_LocalRotation: {x: -0, y: 4.5474735e-13, z: 1.8474111e-12, w: 1}
+  m_LocalPosition: {x: -0, y: 0.10079976, z: 0.030656125}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4123157782781020}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4747934792199494
 Transform:
   m_ObjectHideFlags: 1
@@ -2341,8 +2370,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1504192419831082}
-  m_LocalRotation: {x: -5.1622054e-11, y: -8.7396756e-13, z: -4.5475185e-13, w: 1}
-  m_LocalPosition: {x: -0.000044703484, y: 4.0106506, z: -0.0061506033}
+  m_LocalRotation: {x: -5.1622057e-11, y: -1.9184654e-13, z: 3.183227e-12, w: 1}
+  m_LocalPosition: {x: -0.00003516674, y: 4.0106506, z: -0.0061506033}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children:
   - {fileID: 4747934792199494}
@@ -3028,7 +3057,7 @@ MonoBehaviour:
   leftHandObj: {fileID: 0}
   rightHandObj: {fileID: 0}
   highestPoint: {fileID: 4747934792199494}
-  headCollider: {fileID: 135638236778911492}
+  headCollider: {fileID: 135122493019347258}
 --- !u!114 &114131560425550756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3047,7 +3076,7 @@ MonoBehaviour:
     spine: {fileID: 4866634858263152}
     chest: {fileID: 4221841664363154}
     neck: {fileID: 4123157782781020}
-    head: {fileID: 4778913121661176}
+    head: {fileID: 4747714116030302}
     leftShoulder: {fileID: 4658982252741848}
     leftUpperArm: {fileID: 4533197685837322}
     leftForearm: {fileID: 4176874798636170}
@@ -3319,7 +3348,7 @@ MonoBehaviour:
   totalHp: 100
   hitBoxColliders:
     headColliders:
-    - {fileID: 135638236778911492}
+    - {fileID: 135122493019347258}
     bodyColliders:
     - {fileID: 65817263338176088}
     HandColliders:
@@ -3441,6 +3470,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &135122493019347258
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1798983831810682}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.08
+  m_Center: {x: 0, y: 0.05, z: 0.05}
 --- !u!135 &135168294237579728
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -3465,18 +3506,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &135638236778911492
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1841225163515374}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.08
-  m_Center: {x: 0, y: 0.17, z: 0.05}
 --- !u!135 &135910798107854284
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -3682,7 +3711,7 @@ SkinnedMeshRenderer:
   - {fileID: 4527569939721678}
   - {fileID: 4986378418739498}
   - {fileID: 4441330791845930}
-  - {fileID: 4778913121661176}
+  - {fileID: 4747714116030302}
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 4436331028043722}
   m_AABB:
@@ -3730,11 +3759,11 @@ SkinnedMeshRenderer:
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 4300000, guid: 30779fad5ba090047b60fe13f8d1d9ef, type: 3}
   m_Bones:
-  - {fileID: 4778913121661176}
+  - {fileID: 4747714116030302}
   - {fileID: 0}
   - {fileID: 0}
   m_BlendShapeWeights: []
-  m_RootBone: {fileID: 4778913121661176}
+  m_RootBone: {fileID: 4747714116030302}
   m_AABB:
     m_Center: {x: 0.00000024214387, y: 0.07039291, z: 0.091442935}
     m_Extent: {x: 0.046348434, y: 0.015005171, z: 0.016945131}
@@ -3835,7 +3864,7 @@ SkinnedMeshRenderer:
   m_Bones:
   - {fileID: 4221841664363154}
   - {fileID: 4123157782781020}
-  - {fileID: 4778913121661176}
+  - {fileID: 4747714116030302}
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 4221841664363154}
   m_AABB:
@@ -3892,7 +3921,7 @@ SkinnedMeshRenderer:
   - {fileID: 4866634858263152}
   - {fileID: 4221841664363154}
   - {fileID: 4123157782781020}
-  - {fileID: 4778913121661176}
+  - {fileID: 4747714116030302}
   - {fileID: 4658982252741848}
   - {fileID: 4032637849892752}
   - {fileID: 4533197685837322}
