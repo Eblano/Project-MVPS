@@ -55,6 +55,8 @@ namespace SealTeam4
         private Camera camToFollow;
         private bool fixedEditorCamViewport = false;
 
+        private bool hideWallCeilling = false;
+
         private void Awake()
         {
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
@@ -501,6 +503,18 @@ namespace SealTeam4
         public void ToggleMarkerVisibility()
         {
             markerUICamera.gameObject.SetActive(!markerUICamera.gameObject.activeInHierarchy);
+        }
+
+        public void ToggleWallsCeillingVisibility()
+        {
+            if (hideWallCeilling)
+                camToFollow.cullingMask = camToFollow.cullingMask | (1 << LayerMask.NameToLayer("HideFromGameMaster"));
+            else
+                camToFollow.cullingMask = camToFollow.cullingMask & ~(1 << LayerMask.NameToLayer("HideFromGameMaster"));
+
+            hideWallCeilling = !hideWallCeilling;
+
+            hideWallCeilling = !hideWallCeilling;
         }
 
         public void ReloadScene()
