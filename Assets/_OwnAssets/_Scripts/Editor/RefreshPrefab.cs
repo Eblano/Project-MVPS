@@ -10,6 +10,7 @@ public class RefreshPrefab
     {
         int counter = 0;
         Object[] selectedObjects = Selection.objects;
+        List<GameObject> goToDestroy = new List<GameObject>();
         
         foreach(Object selectedObject in selectedObjects)
         {
@@ -24,10 +25,16 @@ public class RefreshPrefab
 
                 GameObject instantiatedGO = GameObject.Find(selectedObject.name);
                 PrefabUtility.CreatePrefab(AssetDatabase.GetAssetPath(selectedObject), instantiatedGO);
-                GameObject.Destroy(instantiatedGO);
+
+                goToDestroy.Add(instantiatedGO);
 
                 counter++;
             }
+        }
+
+        foreach(GameObject go in goToDestroy)
+        {
+            GameObject.DestroyImmediate(go);
         }
 
         Debug.Log("Successfully Refreshed " + counter + " prefabs, please manually expose them to editor again");
