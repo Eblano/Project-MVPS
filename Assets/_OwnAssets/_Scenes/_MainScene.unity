@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 8e5fbef7-0a09-4adb-befe-caaaf82a96c2
+  Guid: de9889bd-563b-43aa-96c7-840a1f038690
   Mapping:
   - Name: MainCamera
     Object: {fileID: 1123077324}
@@ -370,6 +370,11 @@ Prefab:
         type: 2}
       propertyPath: Objects.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114257519739094116, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.size
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 468744, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1919,6 +1924,30 @@ Prefab:
       value: 
       objectReference: {fileID: 1623550287537938, guid: 5dc168807068183469e3565ca0781588,
         type: 2}
+    - target: {fileID: 114257519739094116, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[17]
+      value: 
+      objectReference: {fileID: 1981595997256124, guid: 3310ab3feebc7ba4ca175e415830e443,
+        type: 2}
+    - target: {fileID: 114257519739094116, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[18]
+      value: 
+      objectReference: {fileID: 1900030871091598, guid: 5c804c1fc3b26504aa30e9cba89848e1,
+        type: 2}
+    - target: {fileID: 114257519739094116, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[19]
+      value: 
+      objectReference: {fileID: 1588815696243262, guid: 0660c5a4af1fe104eacc7b8caf652cfb,
+        type: 2}
+    - target: {fileID: 114257519739094116, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[20]
+      value: 
+      objectReference: {fileID: 1774826324281048, guid: 9365252a32d41234c816aa6e952f1628,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 114064679647006124, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
@@ -1948,7 +1977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 8e5fbef7-0a09-4adb-befe-caaaf82a96c2
+  Guid: de9889bd-563b-43aa-96c7-840a1f038690
   Mapping:
   - Name: RuntimeEditor
     Object: {fileID: 1411472039}
@@ -2034,7 +2063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 8e5fbef7-0a09-4adb-befe-caaaf82a96c2
+  Guid: de9889bd-563b-43aa-96c7-840a1f038690
   Mapping:
   - Name: EventSystem
     Object: {fileID: 1903868624}
@@ -2074,7 +2103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 8e5fbef7-0a09-4adb-befe-caaaf82a96c2
+  Guid: de9889bd-563b-43aa-96c7-840a1f038690
   Mapping:
   - Name: GameManager
     Object: {fileID: 2128280399}
