@@ -9,21 +9,21 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1516774323095806}
+  m_RootGameObject: {fileID: 1302397380722188}
   m_IsPrefabParent: 1
---- !u!1 &1516774323095806
+--- !u!1 &1302397380722188
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4760058649428452}
-  - component: {fileID: 33737314264022994}
-  - component: {fileID: 23991153927270246}
-  - component: {fileID: 65042693144596900}
-  - component: {fileID: 114874822744176342}
-  - component: {fileID: 114854661238969820}
+  - component: {fileID: 4190590795843756}
+  - component: {fileID: 33674026413366066}
+  - component: {fileID: 23423699116880508}
+  - component: {fileID: 65259989812289392}
+  - component: {fileID: 114067037244040426}
+  - component: {fileID: 114598976211431638}
   m_Layer: 0
   m_Name: Ceilling Light
   m_TagString: Untagged
@@ -31,12 +31,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4760058649428452
+--- !u!4 &4190590795843756
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516774323095806}
+  m_GameObject: {fileID: 1302397380722188}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
@@ -44,12 +44,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23991153927270246
+--- !u!23 &23423699116880508
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516774323095806}
+  m_GameObject: {fileID: 1302397380722188}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -79,31 +79,44 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33737314264022994
+--- !u!33 &33674026413366066
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516774323095806}
+  m_GameObject: {fileID: 1302397380722188}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65042693144596900
+--- !u!65 &65259989812289392
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516774323095806}
+  m_GameObject: {fileID: 1302397380722188}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114854661238969820
+--- !u!114 &114067037244040426
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516774323095806}
+  m_GameObject: {fileID: 1302397380722188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fee2839c2efa7f40850a05a41c9fd00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  markerColor: {r: 0, g: 0, b: 0, a: 0}
+  billboardTransform: {fileID: 0}
+--- !u!114 &114598976211431638
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1302397380722188}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e082b6109e3aa6a4fad8e82c5b9bbbf4, type: 3}
@@ -114,16 +127,3 @@ MonoBehaviour:
   intensity: 1
   angle: 100
   lightColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!114 &114874822744176342
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516774323095806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fee2839c2efa7f40850a05a41c9fd00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  markerColor: {r: 0, g: 0, b: 0, a: 0}
-  billboardTransform: {fileID: 0}

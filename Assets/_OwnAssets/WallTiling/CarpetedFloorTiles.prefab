@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1696204571384280}
+  m_IsPrefabParent: 1
+--- !u!1 &1696204571384280
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4742260159126650}
+  - component: {fileID: 114681668211904102}
+  m_Layer: 0
+  m_Name: CarpetedFloorTiles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4742260159126650
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1696204571384280}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114681668211904102
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1696204571384280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93e8ba3def9f9f448b3ef82e8eababc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 0
+  _1x1_Prefab: {fileID: 1881384569008586, guid: 2a55db6278a4b7148894ba7c4eb97b67,
+    type: 2}
+  _1x2_Prefab: {fileID: 1761834547246398, guid: cbeb776b8ec029540874185ae04ec335,
+    type: 2}
+  _2x2_Prefab: {fileID: 1005454339828226, guid: b0ffb8304c7564145a0fe9f5b96e425a,
+    type: 2}
+  _3x3_Prefab: {fileID: 1401101625063078, guid: e80132395e7a68d4e849a4d30f5e05ad,
+    type: 2}
+  _1x3_Prefab: {fileID: 1422194999928936, guid: 0c6b1f42f9ab82242b8b57c3bbaf351c,
+    type: 2}
