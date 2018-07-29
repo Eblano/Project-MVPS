@@ -8,6 +8,11 @@ public class NPCDoorTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.CompareTag("Player"))
+        {
+            return;
+        }
+
         foreach (Door door in doors)
         {
             door.EnableDoorRot();

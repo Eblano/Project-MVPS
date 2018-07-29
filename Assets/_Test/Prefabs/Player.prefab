@@ -768,9 +768,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4866634858263152}
   - component: {fileID: 65817263338176088}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mixamorig:Spine1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1220,6 +1220,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4747714116030302}
   - component: {fileID: 135122493019347258}
+  - component: {fileID: 135746992475064632}
   m_Layer: 0
   m_Name: mixamorig:Head
   m_TagString: Untagged
@@ -1812,7 +1813,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192401466576292}
   m_LocalRotation: {x: 0.48018402, y: 0.519163, z: -0.5226285, w: 0.47618535}
-  m_LocalPosition: {x: 0.91753334, y: 1.8016136, z: -0.074138045}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.250003, y: 1.2500032, z: 1.2500029}
   m_Children: []
   m_Father: {fileID: 4687085797149346}
@@ -2371,7 +2372,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1504192419831082}
   m_LocalRotation: {x: -5.1622057e-11, y: -1.9184654e-13, z: 3.183227e-12, w: 1}
-  m_LocalPosition: {x: -0.00003516674, y: 4.0106506, z: -0.0061506033}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children:
   - {fileID: 4747934792199494}
@@ -2526,7 +2527,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1068557962043022}
   m_LocalRotation: {x: -0.4801828, y: 0.5191643, z: -0.5226277, w: -0.47618607}
-  m_LocalPosition: {x: -0.91751873, y: 1.8016158, z: -0.07415503}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.250002, y: 1.250002, z: 1.2500019}
   m_Children: []
   m_Father: {fileID: 4866617232859642}
@@ -2540,7 +2541,7 @@ Transform:
   m_GameObject: {fileID: 1750074477020224}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 4436331028043722}
   - {fileID: 4316911065137692}
@@ -3057,7 +3058,7 @@ MonoBehaviour:
   leftHandObj: {fileID: 0}
   rightHandObj: {fileID: 0}
   highestPoint: {fileID: 4747934792199494}
-  headCollider: {fileID: 135122493019347258}
+  headCollider: {fileID: 135746992475064632}
 --- !u!114 &114131560425550756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3348,7 +3349,7 @@ MonoBehaviour:
   totalHp: 100
   hitBoxColliders:
     headColliders:
-    - {fileID: 135122493019347258}
+    - {fileID: 135746992475064632}
     bodyColliders:
     - {fileID: 65817263338176088}
     HandColliders:
@@ -3506,6 +3507,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &135746992475064632
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1798983831810682}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.08
+  m_Center: {x: 0, y: 0.05, z: 0.05}
 --- !u!135 &135910798107854284
 SphereCollider:
   m_ObjectHideFlags: 1
