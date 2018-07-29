@@ -50,12 +50,16 @@ namespace SealTeam4
         private Collider col;
 
         [Header("MarkerUI Camera Properties")]
-        private GameObject markerUICameraGO;
+        private Camera markerUICamera;
         private GameObject camToFollow;
 
         [Header("Buttons")]
         [SerializeField] private Button startButton;
         [SerializeField] private Button spawnNPCAccessoriesButton;
+        [SerializeField] private Button showHideWallsCeillingBtn;
+        [SerializeField] private Button showHideMarkersBtn;
+        private bool hideWallsCeillings = false;
+        private bool hideMarkers = false;
 
         [Header("More Info Panel Properties")]
         [SerializeField] private GameObject objectInfoPanel;
@@ -98,7 +102,7 @@ namespace SealTeam4
             GameObject.Find("AdminCam").transform.rotation = Quaternion.identity;
 
             // Setup MarkerUICamera
-            GameObject markerUICamera = GameObject.Find("MarkerUICamera(Clone)");
+            markerUICamera = GameObject.Find("MarkerUICamera(Clone)").GetComponent<Camera>();
             markerUICamera.transform.SetParent(cam.gameObject.transform);
             markerUICamera.transform.localPosition = new Vector3(0, 0, 0);
             markerUICamera.transform.rotation = Quaternion.identity;
@@ -106,7 +110,8 @@ namespace SealTeam4
             //Suscribe buttons to listerners
             startButton.onClick.AddListener(delegate { OnStartGameButtonClick(); });
             spawnNPCAccessoriesButton.onClick.AddListener(delegate { OnSpawnNPCsAccButtonClick(); });
-
+            showHideWallsCeillingBtn.onClick.AddListener(delegate { OnShowHideWallsCeillingBtn(); });
+            showHideMarkersBtn.onClick.AddListener(delegate { OnShowHideMarkersBtn(); });
         }
 
         // Update is called once per frame
@@ -333,6 +338,15 @@ namespace SealTeam4
 
             if (Input.GetKeyDown(KeyCode.Alpha0) && actionBtnList.Count > 9)
                 actionBtnList[9].onClick.Invoke();
+
+            if(Input.GetKey(KeyCode.LeftShift))
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                    showHideMarkersBtn.onClick.Invoke();
+
+                if (Input.GetKeyDown(KeyCode.F))
+                    showHideMarkersBtn.onClick.Invoke();
+            }
         }
 
         private void UpdateActionList()
@@ -430,5 +444,24 @@ namespace SealTeam4
             spawnedNPCAndAcc = true;
         }
         
+        private void OnShowHideWallsCeillingBtn()
+        {
+            if(hideWallsCeillings)
+                cam.cullingMask = cam.cullingMask | (1 << LayerMask.NameToLayer("HideFromGameMaster"));
+            else
+                cam.cullingMask = cam.cullingMask & ~(1 << LayerMask.NameToLayer("HideFromGameMaster"));
+
+            hideWallsCeillings = !hideWallsCeillings;
+        }
+
+        private void OnShowHideMarkersBtn()
+        {
+            if (hideMarkers)
+                markerUICamera.cullingMask = cam.cullingMask | (1 << LayerMask.NameToLayer("Marker")) | (1 << LayerMask.NameToLayer("AreaMarker")) | (1 << LayerMask.NameToLayer("FloatingUI"));
+            else
+                markerUICamera.cullingMask = cam.cullingMask & ~(1 << LayerMask.NameToLayer("Marker")) & ~(1 << LayerMask.NameToLayer("AreaMarker")) & ~(1 << LayerMask.NameToLayer("FloatingUI"));
+
+            hideMarkers = !hideMarkers;
+        }
     }
 }
