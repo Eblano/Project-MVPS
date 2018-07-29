@@ -247,18 +247,14 @@ namespace SealTeam4
         public bool MarkerNameIsNotUsedByOtherMarkers(BaseMarker marker)
         {
             string markerName = marker.name;
-            if(registeredMarkers.Exists(x => x.gameObject.name == markerName))
+            List<BaseMarker> markersWithSameName = registeredMarkers.FindAll(x => x.gameObject.name == markerName);
+
+            foreach(BaseMarker markerWithSameName in markersWithSameName)
             {
-                List<BaseMarker> markersWithSameName = registeredMarkers.FindAll(x => x.gameObject.name == markerName);
-
-                foreach (BaseMarker markerWithSameName in markersWithSameName)
-                {
-                    if (markerWithSameName != marker)
-                        return false;
-                }
-
-                return true;
+                if (markerWithSameName != marker)
+                    return false;
             }
+
             return true;
         }
 

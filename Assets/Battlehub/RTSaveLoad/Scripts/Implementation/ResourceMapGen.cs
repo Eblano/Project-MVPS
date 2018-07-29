@@ -17,7 +17,8 @@ namespace Battlehub.RTSaveLoad
     {
         public static readonly string[] AllowedPath = new string[]
         {
-             "Assets/_OwnAssets/"
+            //"Assets/"
+           // "Assets/EditableObjects/"
         };
 
         private const string bundleNameDelimiter = ">";
@@ -245,12 +246,6 @@ namespace Battlehub.RTSaveLoad
                             }
                         }
                     }
-
-                    //Mesh mesh = obj.GetComponent<MeshFilter>().sharedMesh;
-                    //if (!resourceMapData.Objects.Contains(mesh))
-                    //{
-                    //    resourceMapData.Objects.Add(mesh);
-                    //}
                 }
             }
 
