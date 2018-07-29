@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
 public class RefreshPrefab
 {
-    [MenuItem("Tools/Refresh Selected Prefabs")]
+    [MenuItem("Tools/Unexpose from Editor")]
     private static void RefreshSelectedPrefabs()
     {
         int counter = 0;
-        Object[] selectedObjects = Selection.objects;
+        List<Object> selectedObjects = Selection.objects.ToList();
         List<GameObject> goToDestroy = new List<GameObject>();
+
+        selectedObjects.RemoveAll(x => !x.name.Contains(".prefab"));
 
         foreach (Object selectedObject in selectedObjects)
         {
