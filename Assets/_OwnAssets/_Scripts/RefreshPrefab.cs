@@ -13,7 +13,7 @@ public class RefreshPrefab
         List<Object> selectedObjects = Selection.objects.ToList();
         List<GameObject> goToDestroy = new List<GameObject>();
 
-        selectedObjects.RemoveAll(x => !x.name.Contains(".prefab"));
+        //selectedObjects.RemoveAll(x => !x.name.Contains(".prefab"));
 
         foreach (Object selectedObject in selectedObjects)
         {
