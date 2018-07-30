@@ -679,13 +679,11 @@ namespace SealTeam4
 
             if (aiState.active && aiStats.npcType == AIStats.NPCType.TERRORIST && !actionableParameters.Contains("Enter Hostile Mode") && aiState.aIMode != AIState.AIMode.HOSTILE)
             {
-                Debug.Log("Enter Hostile Mode Add");
                 actionableParameters.Add("Enter Hostile Mode");
             }
 
             if (aiState.aIMode == AIState.AIMode.HOSTILE && !aiState.prepareEnterHostile && actionableParameters.Contains("Enter Hostile Mode"))
             {
-                Debug.Log("Enter Hostile Mode Remove");
                 actionableParameters.Remove("Enter Hostile Mode");
             }
 
