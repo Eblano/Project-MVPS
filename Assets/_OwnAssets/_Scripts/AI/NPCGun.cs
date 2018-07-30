@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace SealTeam4
 {
@@ -8,12 +9,22 @@ namespace SealTeam4
     {
         [SerializeField] private Transform firingPt;
         [SerializeField] private GameObject hitEffect_Prefab;
+
+        [SerializeField] private MuzzleFlash muzzleFlashEffect;
+        private NetworkAnimator gunNetworkAnim;
+        private NetworkedAudioSource networkedAudioSource;
+
         private float timeToNextShot = 0;
-        
+
         private float minVerticalDispersion = 0.1f;
         private float minHorizontalDispersion = 0.5f;
 
         private List<Vector3> hitPoints = new List<Vector3>();
+        private void Start()
+        {
+            gunNetworkAnim = GetComponent<NetworkAnimator>();
+            networkedAudioSource = GetComponent<NetworkedAudioSource>();
+        }
 
         private void Update()
         {
@@ -21,6 +32,11 @@ namespace SealTeam4
             {
                 Debug.DrawLine(firingPt.position, point, Color.green);
             }
+
+            //if (Input.GetKeyDown(KeyCode.Space))
+            //{
+            //    FireGun(GlobalEnums.GunAccuracy.HIGH);
+            //}
         }
 
         public void FireGun(GlobalEnums.GunAccuracy accuracy)
@@ -44,10 +60,10 @@ namespace SealTeam4
                     break;
             }
 
-            Vector3 offsetAmt = 
+            Vector3 offsetAmt =
                 new Vector3(
-                    Random.Range(-horizontalOffset, horizontalOffset), 
-                    Random.Range(-verticalOffset, verticalOffset), 
+                    Random.Range(-horizontalOffset, horizontalOffset),
+                    Random.Range(-verticalOffset, verticalOffset),
                     0);
 
 
@@ -72,6 +88,17 @@ namespace SealTeam4
                 bulletHole.LookAt(-hitInfo.normal);
                 Destroy(bulletHole.gameObject, 120);
             }
+
+
+            // All the Effects are here. If anything breaks, comment it out.
+            if (muzzleFlashEffect)
+                muzzleFlashEffect.Activate();
+
+            if (networkedAudioSource)
+                networkedAudioSource.DirectPlay();
+
+            if (gunNetworkAnim)
+                gunNetworkAnim.SetTrigger("AI_Fire");
         }
     }
 }

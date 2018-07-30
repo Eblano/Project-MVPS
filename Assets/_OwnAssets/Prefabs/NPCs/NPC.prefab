@@ -2832,7 +2832,7 @@ MonoBehaviour:
   headT: {fileID: 4831855432151194}
   rightHandT: {fileID: 4975296701076458}
   centerMassT: {fileID: 4540439457157570}
-  pistol_Prefab: {fileID: 1087607677881998, guid: 5c8514583cc853e4fa04a44e6c911811,
+  pistol_Prefab: {fileID: 1231583803769750, guid: 5c8514583cc853e4fa04a44e6c911811,
     type: 2}
   pistol_NormalOffset:
     posOffset: {x: -0.04, y: 0.18, z: 0.02}
@@ -2888,6 +2888,7 @@ MonoBehaviour:
   aiStats:
     activateOnSpawn: 1
     npcType: 2
+    gunAccuracy: 0
     threatResponseMode: 0
     maxGunRange: 5
     lookAngleMarginOfError: 5
@@ -2897,10 +2898,14 @@ MonoBehaviour:
     normalMoveSpeed: 0.5
     runningSpeed: 0.7
     totalHp: 100
-    headDmg: 100
-    bodyDmg: 20
-    handDmg: 15
-    legDmg: 15
+    bulletHeadDmg: 100
+    bulletBodyDmg: 35
+    bulletHandDmg: 20
+    bulletLegDmg: 25
+    knifeHeadDmg: 100
+    knifeBodyDmg: 75
+    knifeHandDmg: 25
+    knifeLegDmg: 25
     allDynamicWaypoints: []
     targetDir_AngleMarginOfError: 3
     losMarginSize: 0.3
