@@ -10,12 +10,6 @@ namespace SealTeam4
         [SerializeField] private GameObject hitEffect_Prefab;
         private float timeToNextShot = 0;
 
-        private void Update()
-        {
-            Debug.Log("LocalPos: " + transform.localPosition);
-            Debug.Log("LocalRot: " + transform.localRotation.eulerAngles);
-        }
-
         public void FireGun()
         {
             Ray ray = new Ray(firingPt.position, firingPt.forward);
@@ -29,7 +23,8 @@ namespace SealTeam4
                     iDamagable.OnHit(hitInfo.collider, GlobalEnums.WeaponType.PISTOL);
 
                 //Debug.Log(hitInfo.transform.name + " | " + hitInfo.transform.root.name);
-
+                //Debug.Log("Bullet Hit");
+                //Instantiate(hitEffect_Prefab, hitInfo.point, Quaternion.identity);
             }
         }
     }

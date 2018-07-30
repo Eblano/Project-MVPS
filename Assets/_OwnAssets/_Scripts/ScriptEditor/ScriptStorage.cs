@@ -180,16 +180,19 @@ namespace SealTeam4
             {
                 // Setting NPC Outfit
                 NpcSpawnData.NPCOutfit npcOutfit;
-                switch (npcSpawnData_RTEStorage.aiType)
+                switch (npcSpawnData_RTEStorage.npcOutfit)
                 {
-                    case "Type 0":
-                        npcOutfit = NpcSpawnData.NPCOutfit.TYPE0;
+                    case "Type_1":
+                        npcOutfit = NpcSpawnData.NPCOutfit.TYPE_1;
                         break;
-                    case "Type 1":
-                        npcOutfit = NpcSpawnData.NPCOutfit.TYPE1;
+                    case "Type_2":
+                        npcOutfit = NpcSpawnData.NPCOutfit.TYPE_2;
+                        break;
+                    case "Type_3":
+                        npcOutfit = NpcSpawnData.NPCOutfit.TYPE_3;
                         break;
                     default:
-                        npcOutfit = NpcSpawnData.NPCOutfit.TYPE0;
+                        npcOutfit = NpcSpawnData.NPCOutfit.TYPE_1;
                         break;
                 }
 
@@ -290,7 +293,7 @@ namespace SealTeam4
 public class NPCSpawnData_SStorage
 {
     // Default Values
-    private readonly string[] allNPCOutfits = { "None", "Type 0", "Type 1" };
+    private readonly string[] allNPCOutfits = { "Type_1", "Type_2", "Type_3" };
     private readonly string[] allAITypes = { "Terrorist", "VIP", "Civillian" };
     private readonly string[] allCivillianThreatResponses = { "Freeze", "Run to Exit", "Random" };
 
@@ -298,7 +301,7 @@ public class NPCSpawnData_SStorage
     public bool activateOnStart;
     public string npcName;
     public string spawnMarkerName;
-    public string npcOutfit = "TYPE 0";
+    public string npcOutfit = "TYPE_1";
     public string aiType = "Civillian";
     public float movementSpdMultiplier = 1;
 

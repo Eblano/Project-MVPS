@@ -457,9 +457,23 @@ namespace SealTeam4
         private void OnShowHideMarkersBtn()
         {
             if (hideMarkers)
-                markerUICamera.cullingMask = cam.cullingMask | (1 << LayerMask.NameToLayer("Marker")) | (1 << LayerMask.NameToLayer("AreaMarker")) | (1 << LayerMask.NameToLayer("FloatingUI"));
+            {
+                markerUICamera.cullingMask =
+                    markerUICamera.cullingMask |
+                    (1 << LayerMask.NameToLayer("Marker")) |
+                    (1 << LayerMask.NameToLayer("FloatingUI"));
+
+                cam.cullingMask = cam.cullingMask | (1 << LayerMask.NameToLayer("AreaMarker"));
+            }
             else
-                markerUICamera.cullingMask = cam.cullingMask & ~(1 << LayerMask.NameToLayer("Marker")) & ~(1 << LayerMask.NameToLayer("AreaMarker")) & ~(1 << LayerMask.NameToLayer("FloatingUI"));
+            {
+                markerUICamera.cullingMask =
+                    markerUICamera.cullingMask &
+                    ~(1 << LayerMask.NameToLayer("Marker")) &
+                    ~(1 << LayerMask.NameToLayer("FloatingUI"));
+
+                cam.cullingMask = cam.cullingMask & ~(1 << LayerMask.NameToLayer("AreaMarker"));
+            }
 
             hideMarkers = !hideMarkers;
         }

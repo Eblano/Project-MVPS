@@ -47,8 +47,7 @@ namespace SealTeam4
         public enum MARKER_TYPE { AREA, WAYPOINT, NPCSPAWN, SEAT, PLAYER_SPAWN_MARKER, EXIT, ACCESSORY };
 
         [Header("NPC Prefabs")]
-        [SerializeField] private GameObject type0NPC_Prefab;
-        [SerializeField] private GameObject type1NPC_Prefab;
+        [SerializeField] private GameObject npc_Prefab;
 
         // List of markers GameManager keeps track of
         [Header("Registered Markers Counter")]
@@ -247,6 +246,10 @@ namespace SealTeam4
         public bool MarkerNameIsNotUsedByOtherMarkers(BaseMarker marker)
         {
             string markerName = marker.name;
+
+            if (!registeredMarkers.Exists(x => x.gameObject.name == markerName))
+                return true;
+
             List<BaseMarker> markersWithSameName = registeredMarkers.FindAll(x => x.gameObject.name == markerName);
 
             foreach(BaseMarker markerWithSameName in markersWithSameName)
@@ -437,17 +440,14 @@ namespace SealTeam4
                 // Get spawn marker
                 NPCSpawnMarker npcSpawnMarker = GetSpawnMarkerByName(npcSpawnData.spawnMarkerName);
 
-                // Get NPC type to spawn
-                GameObject npcToSpawn = GetNPCPrefabByNPCType(npcSpawnData.npcOutfit);
-
                 // Spawn NPC
-                GameObject npc = Instantiate(npcToSpawn, npcSpawnMarker.pointPosition, npcSpawnMarker.pointRotation);
+                GameObject npc = Instantiate(npc_Prefab, npcSpawnMarker.pointPosition, npcSpawnMarker.pointRotation);
                 // Set name
                 npc.name = npcSpawnData.npcName;
 
                 // Setting NPC configurations
                 AIController npcGOAIController = npc.GetComponent<AIController>();
-                npcGOAIController.Setup(npcSpawnData.npcName, npcSpawnData.aiStats, npcSpawnData.npcSchedules);
+                npcGOAIController.Setup(npcSpawnData.npcName, npcSpawnData.npcOutfit, npcSpawnData.aiStats, npcSpawnData.npcSchedules);
 
                 // Adding NPC reference to list
                 spawnedNPCs.Add(npcGOAIController);
@@ -585,19 +585,6 @@ namespace SealTeam4
                 .Find(x => x.name == targetName);
 
             return waypointMarker.pointRotation;
-        }
-
-        public GameObject GetNPCPrefabByNPCType(NpcSpawnData.NPCOutfit npcType)
-        {
-            switch (npcType)
-            {
-                case NpcSpawnData.NPCOutfit.TYPE0:
-                    return type0NPC_Prefab;
-
-                case NpcSpawnData.NPCOutfit.TYPE1:
-                    return type1NPC_Prefab;
-            }
-            return null;
         }
         
         private NPCSpawnMarker GetSpawnMarkerByName(string markeName)
