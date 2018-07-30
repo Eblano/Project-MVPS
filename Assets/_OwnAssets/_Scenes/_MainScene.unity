@@ -320,17 +320,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: bf08671e-01fd-4e41-b26f-a35561e5ccb4
+  Guid: edf164ca-a8da-4798-bc8e-d2d428bdd23a
   Mapping:
   - Name: MainCamera
     Object: {fileID: 1123077324}
-    Id: 8240
+    Id: 8243
   - Name: MainCamera
     Object: {fileID: 1123077317}
-    Id: 8241
+    Id: 8244
   - Name: MainCamera
     Object: {fileID: 1123077321}
-    Id: 8242
+    Id: 8245
 --- !u!114 &1123077324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,6 +351,21 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.size
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 114278480474638160, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.size
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 114330725120075194, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.size
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 468744, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1701,9 +1716,154 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[18]
+      value: 
+      objectReference: {fileID: 1683025967269412, guid: a1fe527e52c49054981d985110d882e8,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[19]
+      value: 
+      objectReference: {fileID: 1543092116070912, guid: bf2e8254457b3e545b6daef262971890,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[20]
+      value: 
+      objectReference: {fileID: 1644269644663816, guid: 5dc168807068183469e3565ca0781588,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[21]
+      value: 
+      objectReference: {fileID: 1265855665735814, guid: dae88e5aec30eb74fae259a7a6244654,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[22]
+      value: 
+      objectReference: {fileID: 1743802677000848, guid: 1ff7ba5c7c5f0df439def6a84a937de7,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[23]
+      value: 
+      objectReference: {fileID: 1312189516232132, guid: ea34b07faf8fa404faf70d6b44a4e946,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[24]
+      value: 
+      objectReference: {fileID: 1642136564266264, guid: 6bb0ee241f351ec4987734057e917287,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[25]
+      value: 
+      objectReference: {fileID: 1833172742083000, guid: b2f41b672527f014d834a29f964c6cfe,
+        type: 2}
+    - target: {fileID: 114278480474638160, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[12]
+      value: 
+      objectReference: {fileID: 1249695510345604, guid: dc473841218bc07478c9c842cba96819,
+        type: 2}
+    - target: {fileID: 114278480474638160, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[13]
+      value: 
+      objectReference: {fileID: 1295488168807910, guid: 99eed67b20122cf44a728a903cd48f73,
+        type: 2}
+    - target: {fileID: 114278480474638160, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[14]
+      value: 
+      objectReference: {fileID: 1596857595531278, guid: 867f45e074ff44c47882ec4149771827,
+        type: 2}
+    - target: {fileID: 114278480474638160, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[15]
+      value: 
+      objectReference: {fileID: 1112735441448552, guid: 88a27309af52179469ed7bb9d143c0ab,
+        type: 2}
+    - target: {fileID: 114278480474638160, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[16]
+      value: 
+      objectReference: {fileID: 1475108071838538, guid: a9ba1091475b10347ac5b58cb77c25b1,
+        type: 2}
+    - target: {fileID: 114278480474638160, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[17]
+      value: 
+      objectReference: {fileID: 1389002216134662, guid: c24a71b5a66ea5f4ebd33494bd497aec,
+        type: 2}
+    - target: {fileID: 114330725120075194, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[8]
+      value: 
+      objectReference: {fileID: 1693631377570168, guid: 5c804c1fc3b26504aa30e9cba89848e1,
+        type: 2}
+    - target: {fileID: 114330725120075194, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[9]
+      value: 
+      objectReference: {fileID: 1084489948418024, guid: 3310ab3feebc7ba4ca175e415830e443,
+        type: 2}
+    - target: {fileID: 114330725120075194, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[10]
+      value: 
+      objectReference: {fileID: 1298088621541886, guid: 0660c5a4af1fe104eacc7b8caf652cfb,
+        type: 2}
+    - target: {fileID: 114330725120075194, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[11]
+      value: 
+      objectReference: {fileID: 1546781609028018, guid: 9365252a32d41234c816aa6e952f1628,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 114244048177923570, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1411472038 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 146550, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
+  m_PrefabInternal: {fileID: 1411472037}
+--- !u!114 &1411472039 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114196523117519802, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+    type: 2}
+  m_PrefabInternal: {fileID: 1411472037}
+  m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
+--- !u!4 &1411472040 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 468744, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
+  m_PrefabInternal: {fileID: 1411472037}
+--- !u!114 &1411472041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1411472038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Guid: edf164ca-a8da-4798-bc8e-d2d428bdd23a
+  Mapping:
+  - Name: RuntimeEditor
+    Object: {fileID: 1411472039}
+    Id: 8240
+  - Name: RuntimeEditor
+    Object: {fileID: 1411472038}
+    Id: 8241
+  - Name: RuntimeEditor
+    Object: {fileID: 1411472040}
+    Id: 8242
 --- !u!1 &1903868619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1779,7 +1939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: bf08671e-01fd-4e41-b26f-a35561e5ccb4
+  Guid: edf164ca-a8da-4798-bc8e-d2d428bdd23a
   Mapping:
   - Name: EventSystem
     Object: {fileID: 1903868624}
@@ -1819,7 +1979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: bf08671e-01fd-4e41-b26f-a35561e5ccb4
+  Guid: edf164ca-a8da-4798-bc8e-d2d428bdd23a
   Mapping:
   - Name: GameManager
     Object: {fileID: 2128280399}
