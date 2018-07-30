@@ -513,8 +513,6 @@ namespace SealTeam4
                 camToFollow.cullingMask = camToFollow.cullingMask & ~(1 << LayerMask.NameToLayer("HideFromGameMaster"));
 
             hideWallCeilling = !hideWallCeilling;
-
-            hideWallCeilling = !hideWallCeilling;
         }
 
         public void ReloadScene()

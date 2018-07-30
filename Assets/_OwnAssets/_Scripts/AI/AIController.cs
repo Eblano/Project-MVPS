@@ -206,8 +206,7 @@ namespace SealTeam4
             Vector3 origin = transform.position;
             origin.y = 0;
             destination.y = 0;
-
-            Debug.Log(Vector3.Distance(origin, destination));
+            
             return Vector3.Distance(origin, destination) < stopDist;
         }
 
@@ -247,8 +246,7 @@ namespace SealTeam4
 
             Debug.DrawLine(headT.position, headT.position + forwardLook * 7, Color.blue);
             Debug.DrawLine(headT.position, headT.position + targetLook * 7, Color.cyan);
-
-            Debug.Log(Vector3.Angle(forwardLook, targetLook));
+            
             return Vector3.Angle(forwardLook, targetLook) < angleOfError;
         }
 
@@ -287,6 +285,7 @@ namespace SealTeam4
 
             if (aiAnimEventReciever.standing_Completed || !aiState.seated)
             {
+                aiState.seated = false;
                 if (aiState.currSeatTarget)
                 {
                     aiState.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(true);
@@ -412,7 +411,6 @@ namespace SealTeam4
         public void FireGun()
         {
             ref_pistol.FireGun();
-            aiAnimController.Anim_FireGun();
         }
 
         public void SwingKnife()

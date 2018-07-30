@@ -8,6 +8,8 @@ namespace SealTeam4
     {
         public void FSM_Update()
         {
+            aiState.hostileHuman.currGunCD -= Time.deltaTime;
+
             switch (aiState.hostileHuman.currState)
             {
                 case AIState.HostileHuman.State.IDLE:
@@ -376,6 +378,7 @@ namespace SealTeam4
             if (!aiController.WithinDistance(aiState.hostileHuman.knifeTargetT.position, aiStats.meleeDist))
             {
                 SetState_KnifeTarget_MoveToKnifeTarget();
+                aiController.LowerGun();
                 return;
             }
 
@@ -410,13 +413,10 @@ namespace SealTeam4
 
             if (!aiController.LookingAtTarget(aiState.hostileHuman.shootTargetT.position, aiStats.targetDir_AngleMarginOfError))
             {
-                aiState.hostileHuman.currGunCD = aiStats.gunCD;
-                aiController.LowerGun();
                 SetState_ShootTarget_TrackTarget();
                 return;
             }
-
-            // Use LOS
+            
             if (!aiController.WithinDistance(aiState.hostileHuman.shootTargetT.position, aiStats.maxGunRange + 1) ||
                 !aiController.InLOS(aiState.hostileHuman.shootTargetT.position, aiState.hostileHuman.shootTargetT.root.name))
             {
@@ -424,14 +424,14 @@ namespace SealTeam4
                 return;
             }
 
+            Debug.Log(aiState.hostileHuman.currGunCD);
+
             // Shoot
             if (aiState.hostileHuman.currGunCD <= 0)
             {
                 aiController.FireGun();
                 aiState.hostileHuman.currGunCD = aiStats.gunCD;
             }
-            else
-                aiState.hostileHuman.currGunCD -= Time.deltaTime;
         }
 
         private void KnifeTarget_Knife()

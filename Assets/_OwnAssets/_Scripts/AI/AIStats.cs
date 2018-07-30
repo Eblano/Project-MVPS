@@ -26,7 +26,7 @@ namespace SealTeam4
         [HideInInspector] public float stopDist = 0.2f; // Stop distance to any target
         [HideInInspector] public float stopDist_Convo = 1.0f; // Stop distance for conversation
 
-        [HideInInspector] public float turningSpeed = 5f;
+        public float turningSpeed = 30f;
         [HideInInspector] public float normalMoveSpeed = 1f;
         [HideInInspector] public float runningSpeed = 2f;
 
@@ -38,7 +38,7 @@ namespace SealTeam4
 
         // For Terrorist
         [HideInInspector] public List<string> allDynamicWaypoints;
-        [HideInInspector] public float targetDir_AngleMarginOfError = 3f;
+        [HideInInspector] public float targetDir_AngleMarginOfError = 5f;
         [HideInInspector] public float losMarginSize = 0.5f;
         [HideInInspector] public float gunCD = 2f;
         [HideInInspector] public float knifeSwingCD = 1f;
