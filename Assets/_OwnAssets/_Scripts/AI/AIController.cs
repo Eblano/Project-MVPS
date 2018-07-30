@@ -446,6 +446,11 @@ namespace SealTeam4
             }
         }
 
+        public void DespawnGun()
+        {
+            Destroy(ref_pistol.gameObject);
+        }
+
         public void SpawnKnifeOnHand()
         {
             if (!ref_knife)
@@ -453,6 +458,11 @@ namespace SealTeam4
                 ref_knife = Instantiate(knife_Prefab, rightHandT.transform);
                 NetworkServer.Spawn(ref_knife.gameObject);
             }
+        }
+
+        public void DespawnKnife()
+        {
+            Destroy(ref_knife.gameObject);
         }
 
         public void FadeAway()
@@ -625,9 +635,6 @@ namespace SealTeam4
                 if (!actionableParameters.Contains("Knife VIP"))
                     actionableParameters.Add("Knife VIP");
 
-                //if (!actionableParameters.Contains("Shoot Player"))
-                //    actionableParameters.Add("Shoot Player");
-
                 foreach (string dynWPMarkerName in aiStats.allDynamicWaypoints)
                 {
                     if (!actionableParameters.Contains("Move To " + dynWPMarkerName))
@@ -636,14 +643,17 @@ namespace SealTeam4
             }
             else
             {
-                if (actionableParameters.Contains("Shoot VIP"))
+                if (aiState.hostileHuman.currState == AIState.HostileHuman.State.SHOOT_TARGET && actionableParameters.Contains("Shoot VIP"))
                     actionableParameters.Remove("Shoot VIP");
 
-                if (actionableParameters.Contains("Knife VIP"))
+                if (aiState.hostileHuman.currState == AIState.HostileHuman.State.KNIFE_TARGET && actionableParameters.Contains("Knife VIP"))
                     actionableParameters.Remove("Knife VIP");
 
-                //if (actionableParameters.Contains("Shoot Player"))
-                //    actionableParameters.Remove("Shoot Player");
+                if (aiState.hostileHuman.currState == AIState.HostileHuman.State.KNIFE_TARGET && !actionableParameters.Contains("Shoot VIP"))
+                    actionableParameters.Add("Shoot VIP");
+
+                if (aiState.hostileHuman.currState == AIState.HostileHuman.State.SHOOT_TARGET && !actionableParameters.Contains("Knife VIP"))
+                    actionableParameters.Add("Knife VIP");
 
                 foreach (string dynWPMarkerName in aiStats.allDynamicWaypoints)
                 {

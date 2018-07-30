@@ -32,9 +32,9 @@ namespace SealTeam4
 
         [SerializeField] private int totalHp = 100;
         [HideInInspector] public int headDmg = 100;
-        [HideInInspector] public int bodyDmg = 20;
-        [HideInInspector] public int handDmg = 15;
-        [HideInInspector] public int legDmg = 15;
+        [HideInInspector] public int bodyDmg = 35;
+        [HideInInspector] public int handDmg = 20;
+        [HideInInspector] public int legDmg = 25;
 
         // For Terrorist
         [HideInInspector] public List<string> allDynamicWaypoints;
