@@ -640,7 +640,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1091421823349118}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.7898734, y: 2.178, z: 0.6812784}
+  m_LocalPosition: {x: -0.9354572, y: 0.57989115, z: 0.163}
   m_LocalScale: {x: 0.13616042, y: 0.13616015, z: 0.13616015}
   m_Children:
   - {fileID: 4731679982756704}
@@ -1624,8 +1624,10 @@ MonoBehaviour:
   secondaryGrabTransforms:
   - {fileID: 4944662272450464}
   - {fileID: 4440165236119188}
-  muzzleFlashEffects: {fileID: 114029017053225488}
   secondaryHoldingTransform: {fileID: 4440165236119188}
+  muzzleFlashEffects: {fileID: 114029017053225488}
+  bulletPref: {fileID: 0}
+  bulletExitPoint: {fileID: 0}
 --- !u!114 &114417862528091020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6458,7 +6460,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
   randomSeed: 0
@@ -10911,7 +10913,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
   randomSeed: 0
@@ -15511,7 +15513,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
   randomSeed: 0
@@ -20054,7 +20056,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
   randomSeed: 0
