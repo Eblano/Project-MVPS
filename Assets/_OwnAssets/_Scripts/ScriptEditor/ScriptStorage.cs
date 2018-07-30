@@ -273,6 +273,26 @@ namespace SealTeam4
                         break;
                 }
                 npcSpawnData.aiStats.threatResponseMode = civillianThreatResponseMode;
+
+                // Setting Gun Accuracy
+                GlobalEnums.GunAccuracy gunAccuracy;
+                switch (npcSpawnData_RTEStorage.gunAccuracy)
+                {
+                    case "HIGH":
+                        gunAccuracy = GlobalEnums.GunAccuracy.HIGH;
+                        break;
+                    case "MID":
+                        gunAccuracy = GlobalEnums.GunAccuracy.MID;
+                        break;
+                    case "LOW":
+                        gunAccuracy = GlobalEnums.GunAccuracy.LOW;
+                        break;
+                    default:
+                        gunAccuracy = GlobalEnums.GunAccuracy.HIGH;
+                        break;
+                }
+                npcSpawnData.aiStats.gunAccuracy = gunAccuracy;
+
                 npcSpawnData.aiStats.allDynamicWaypoints = 
                     GameManager.instance.GetAllDynamicWapointNames(npcSpawnData_RTEStorage.dynamicWaypointPrefix);
 
@@ -296,6 +316,7 @@ public class NPCSpawnData_SStorage
     private readonly string[] allNPCOutfits = { "Type_1", "Type_2", "Type_3" };
     private readonly string[] allAITypes = { "Terrorist", "VIP", "Civillian" };
     private readonly string[] allCivillianThreatResponses = { "Freeze", "Run to Exit", "Random" };
+    private readonly string[] allGunAccuracy = { "HIGH", "MID", "LOW" };
 
     [Header("General Properties")]
     public bool activateOnStart;
@@ -303,6 +324,7 @@ public class NPCSpawnData_SStorage
     public string spawnMarkerName;
     public string npcOutfit = "TYPE_1";
     public string aiType = "Civillian";
+    public string gunAccuracy = "HIGH";
     public float movementSpdMultiplier = 1;
 
     [Header("Civillian Properties")]
@@ -324,6 +346,11 @@ public class NPCSpawnData_SStorage
     public string[] GetAllAITypes()
     {
         return allAITypes;
+    }
+
+    public string[] GetGunAccuracy()
+    {
+        return allGunAccuracy;
     }
 }
 

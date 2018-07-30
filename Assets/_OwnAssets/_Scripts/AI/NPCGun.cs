@@ -9,10 +9,33 @@ namespace SealTeam4
         [SerializeField] private Transform firingPt;
         [SerializeField] private GameObject hitEffect_Prefab;
         private float timeToNextShot = 0;
+        
+        private float minVerticalDispersion = 0.1f;
+        private float minHorizontalDispersion = 0.3f;
 
-        public void FireGun()
+        public void FireGun(GlobalEnums.GunAccuracy accuracy)
         {
-            Ray ray = new Ray(firingPt.position, firingPt.forward);
+            switch (accuracy)
+            {
+                case GlobalEnums.GunAccuracy.HIGH:
+                    break;
+                case GlobalEnums.GunAccuracy.MID:
+                    minHorizontalDispersion *= 1.3f;
+                    minHorizontalDispersion *= 1.3f;
+                    break;
+                case GlobalEnums.GunAccuracy.LOW:
+                    minHorizontalDispersion *= 1.6f;
+                    minHorizontalDispersion *= 1.6f;
+                    break;
+            }
+
+            Vector3 offsetAmt = 
+                new Vector3(
+                    Random.Range(-minHorizontalDispersion, minHorizontalDispersion), 
+                    Random.Range(-minVerticalDispersion, minVerticalDispersion), 
+                    0);
+
+            Ray ray = new Ray(firingPt.position, firingPt.forward + offsetAmt);
             RaycastHit hitInfo;
 
             if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity))

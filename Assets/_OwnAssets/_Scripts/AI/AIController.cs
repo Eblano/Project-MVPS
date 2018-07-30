@@ -13,6 +13,15 @@ namespace SealTeam4
     public class AIController : MonoBehaviour, IActions, IObjectInfo, IDamageable
     {
         [System.Serializable]
+        private class HitBoxColliders
+        {
+            public List<Collider> headColliders;
+            public List<Collider> bodyColliders;
+            public List<Collider> HandColliders;
+            public List<Collider> legColliders;
+        }
+
+        [System.Serializable]
         public class TransformOffset
         {
             public Vector3 posOffset = Vector3.zero;
@@ -92,14 +101,6 @@ namespace SealTeam4
         public Transform highestPoint;
         public Collider col;
 
-        [System.Serializable]
-        private class HitBoxColliders
-        {
-            public List<Collider> headColliders;
-            public List<Collider> bodyColliders;
-            public List<Collider> HandColliders;
-            public List<Collider> legColliders;
-        }
         [Space(10)]
         [SerializeField] private HitBoxColliders hitBoxColliders;
 
@@ -477,7 +478,7 @@ namespace SealTeam4
 
         public void FireGun()
         {
-            ref_pistol.FireGun();
+            ref_pistol.FireGun(aiStats.gunAccuracy);
         }
 
         public void SwingKnife()
@@ -655,7 +656,6 @@ namespace SealTeam4
         {
             return aiStats.activateOnSpawn;
         }
-
 
         public void AddAction(string action)
         {

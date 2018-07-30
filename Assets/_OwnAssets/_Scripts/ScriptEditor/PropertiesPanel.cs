@@ -29,6 +29,7 @@ namespace SealTeam4
         [Header("Terrorist Specific")]
         [SerializeField] private GameObject t_PropertiesPanel;
         [SerializeField] private TMP_InputField t_DWPPrefixInputField;
+        [SerializeField] private TMP_Dropdown t_GunAccuracyDropdown;
 
         // Color when there is error
         [SerializeField] private Color errorColor = Color.red;
@@ -71,6 +72,7 @@ namespace SealTeam4
             a_AITypeDropdown.onValueChanged.AddListener(delegate { OnValueChanged_AITypeDropdown(); });
             a_ActivateAtSpawnToggle.onValueChanged.AddListener(delegate { OnValueChanged_ActivateOnSpawnToggle(); });
             a_MovementSpdInputField.onValueChanged.AddListener(delegate { OnValueChanged_MovementSpdInputField(); });
+            t_GunAccuracyDropdown.onValueChanged.AddListener(delegate { OnValueChanged_GunAccuracyDropdown(); });
 
             Setup_SpawnMarkerDropdown(npcSpawnMarkers);
             Setup_NPCOutfitDropdown();
@@ -144,7 +146,8 @@ namespace SealTeam4
         private void Setup_T_PropertiesPanel()
         {
             Setup_T_DWPPrefixInputField();
-            
+            Setup_GunAccuracyDropdown();
+
             if (a_AITypeDropdown.options[a_AITypeDropdown.value].text == "Terrorist")
                 t_PropertiesPanel.SetActive(true);
             else
@@ -242,6 +245,34 @@ namespace SealTeam4
             // Setting dropdown value
             int dropdownValue = a_SpawnMarkerDropdown.options.FindIndex((i) => { return i.text.Equals(selectedSpawnMarker); });
             a_SpawnMarkerDropdown.value = dropdownValue;
+        }
+
+        private void Setup_GunAccuracyDropdown()
+        {
+            List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+
+            // Add marker texts to dropdown options
+            foreach (string accuracyMode in ref_npcSpawnData.GetGunAccuracy())
+            {
+                TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
+                {
+                    text = accuracyMode
+                };
+
+                // Add option to dropdown
+                options.Add(optionData);
+            }
+
+            t_GunAccuracyDropdown.ClearOptions();
+            // Add options to dropdown if there is 1 or more options
+            if (options.Count > 0)
+                t_GunAccuracyDropdown.AddOptions(options);
+
+            string gunAccuracy = ref_npcSpawnData.gunAccuracy;
+
+            // Setting dropdown value
+            int dropdownValue = t_GunAccuracyDropdown.options.FindIndex((i) => { return i.text.Equals(gunAccuracy); });
+            t_GunAccuracyDropdown.value = dropdownValue;
         }
 
         private void Setup_NPCOutfitDropdown()
@@ -363,6 +394,14 @@ namespace SealTeam4
                     c_PropertiesPanel.SetActive(false);
                     break;
             }
+        }
+
+        private void OnValueChanged_GunAccuracyDropdown()
+        {
+            int dropdownValue = t_GunAccuracyDropdown.value;
+
+            string newGunAccuracy = t_GunAccuracyDropdown.options[dropdownValue].text;
+            ref_npcSpawnData.gunAccuracy = newGunAccuracy;
         }
 
         private void OnValueChanged_SpawnMarkerDropdown()
