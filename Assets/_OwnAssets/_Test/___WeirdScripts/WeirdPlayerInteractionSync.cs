@@ -7,7 +7,7 @@ using VRTK;
 
 public class WeirdPlayerInteractionSync : NetworkBehaviour
 {
-    [SerializeField] private Transform headset, lControl, rControl;
+    [SerializeField] private Transform headset, lControl, rControl;//, realLPos, realRPos;
     [SerializeField] private GameObject leftHandObj;    // DEBUG
     [SerializeField] private GameObject rightHandObj;   // DEBUG
     private Vector3AndQuaternion head, lHand, rHand;

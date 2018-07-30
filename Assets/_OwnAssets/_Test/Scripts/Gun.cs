@@ -19,14 +19,12 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     private bool isBeingGrabbed = false;
     private bool grabStateChanged = false;
     private Vector3 initRot;
-    private Animator gunAnim;
     private NetworkAnimator gunNetworkAnim;
     private NetworkedAudioSource networkedAudioSource;
 
     private void Start()
     {
         interactableObject = GetComponent<InteractableObject>();
-        gunAnim = GetComponent<Animator>();
         gunNetworkAnim = GetComponent<NetworkAnimator>();
         networkedAudioSource = GetComponent<NetworkedAudioSource>();
     }
@@ -48,8 +46,8 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             if (muzzleFlashEffects)
                 muzzleFlashEffects.Activate();
 
-            if (gunAnim)
-                gunAnim.SetTrigger("Fire");
+            if (gunNetworkAnim)
+                gunNetworkAnim.SetTrigger("Fire");
 
             if (networkedAudioSource)
                 networkedAudioSource.DirectPlay();
@@ -245,9 +243,8 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         {
             // Fire bullet
             //GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNFIRE, devices);
-            if (gunAnim)
+            if (gunNetworkAnim)
             {
-                gunAnim.SetTrigger("Fire");
                 gunNetworkAnim.SetTrigger("Fire");
             }
 
@@ -262,6 +259,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             }
 
             FireBullet();
+            BulletShellSpawn();
 
             // If there is a magazine attached
             if (gun.GetMagazine() != null)
@@ -286,7 +284,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         else
         {
             // Play no bullet sound
-            GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNRELOAD, devices);
+            //GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNRELOAD, devices);
         }
     }
 
@@ -318,10 +316,13 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         // If there is a magazine attached and it has bullets
         if (gun.GetMagazine() != null && gun.GetMagazine().GetBulletsInMag() > 0)
         {
+            Debug.Log("Loaded: " + gun.ChamberIsLoaded());
             // If chamber is already loaded
             if (gun.ChamberIsLoaded())
             {
                 // Animate losing 1 bullet
+                BulletShellSpawn();
+                Debug.Log("Lost Bullet");
             }
             else
             {
@@ -347,7 +348,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     {
         [SerializeField] private float spread;
         private Magazine currMag;
-        private bool bulletInChamber;
+        private bool bulletInChamber = false;
         private bool isSafe = true;
 
         public void SetChamberState(bool state)
