@@ -79,14 +79,20 @@ namespace SealTeam4
                 hitPoints.Add(hitInfo.point);
 
                 if (iDamagable != null)
+                {
                     iDamagable.OnHit(hitInfo.collider, GlobalEnums.WeaponType.PISTOL);
+                }
+                else
+                {
+                    // Spawn bullet hole
+                    Transform bulletHole = Instantiate(hitEffect_Prefab, hitInfo.point, Quaternion.identity).GetComponent<Transform>();
+                    
+                    Destroy(bulletHole.gameObject, 120);
+                }
 
                 //Debug.Log(hitInfo.transform.name + " | " + hitInfo.transform.root.name);
                 //Debug.Log("Bullet Offset " + offsetAmt);
                 //Debug.Log("Bullet Hit");
-                Transform bulletHole = Instantiate(hitEffect_Prefab, hitInfo.point, Quaternion.identity).GetComponent<Transform>();
-                bulletHole.LookAt(-hitInfo.normal);
-                Destroy(bulletHole.gameObject, 120);
             }
 
 
