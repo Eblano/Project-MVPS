@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace SealTeam4
 {
@@ -11,9 +12,26 @@ namespace SealTeam4
         [SerializeField] private MuzzleFlash muzzleFlashEffect;
 
         private float timeToNextShot = 0;
-        
+
         private float minVerticalDispersion = 0.1f;
         private float minHorizontalDispersion = 0.3f;
+        
+        private NetworkAnimator gunNetworkAnim;
+        private NetworkedAudioSource networkedAudioSource;
+
+        private void Start()
+        {
+            gunNetworkAnim = GetComponent<NetworkAnimator>();
+            networkedAudioSource = GetComponent<NetworkedAudioSource>();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                FireGun(GlobalEnums.GunAccuracy.HIGH);
+            }
+        }
 
         public void FireGun(GlobalEnums.GunAccuracy accuracy)
         {
@@ -31,10 +49,10 @@ namespace SealTeam4
                     break;
             }
 
-            Vector3 offsetAmt = 
+            Vector3 offsetAmt =
                 new Vector3(
-                    Random.Range(-minHorizontalDispersion, minHorizontalDispersion), 
-                    Random.Range(-minVerticalDispersion, minVerticalDispersion), 
+                    Random.Range(-minHorizontalDispersion, minHorizontalDispersion),
+                    Random.Range(-minVerticalDispersion, minVerticalDispersion),
                     0);
 
             Ray ray = new Ray(firingPt.position, firingPt.forward + offsetAmt);
@@ -52,7 +70,16 @@ namespace SealTeam4
                 //Instantiate(hitEffect_Prefab, hitInfo.point, Quaternion.identity);
             }
 
-            muzzleFlashEffect.Activate();
+
+            // All the Effects are here. If anything breaks, comment it out.
+            if (muzzleFlashEffect)
+                muzzleFlashEffect.Activate();
+
+            if (networkedAudioSource)
+                networkedAudioSource.DirectPlay();
+
+            if (gunNetworkAnim)
+                gunNetworkAnim.SetTrigger("AI_Fire");
         }
     }
 }
