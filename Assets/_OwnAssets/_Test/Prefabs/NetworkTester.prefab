@@ -874,12 +874,8 @@ GameObject:
   - component: {fileID: 4134849173732282}
   - component: {fileID: 114664733492224248}
   - component: {fileID: 114069801145683034}
-  - component: {fileID: 114759560690987962}
   - component: {fileID: 114493715695999432}
-  - component: {fileID: 114268414386523720}
-  - component: {fileID: 114889771468254922}
-  - component: {fileID: 114507213592883868}
-  - component: {fileID: 114139228501268154}
+  - component: {fileID: 114470446443930160}
   m_Layer: 0
   m_Name: NetworkTester
   m_TagString: Untagged
@@ -3067,23 +3063,8 @@ MonoBehaviour:
   headset: {fileID: 4683026396319908}
   lControl: {fileID: 4507348793293306}
   rControl: {fileID: 4480772605186576}
-  realLPos: {fileID: 4234554138211704}
-  realRPos: {fileID: 4170035938109216}
   leftHandObj: {fileID: 0}
   rightHandObj: {fileID: 0}
---- !u!114 &114139228501268154
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1677124240038734}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fee2839c2efa7f40850a05a41c9fd00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  markerColor: {r: 0, g: 0, b: 0, a: 0}
-  billboardTransform: {fileID: 0}
 --- !u!114 &114163323738209352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3306,17 +3287,6 @@ MonoBehaviour:
           m_Calls: []
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
---- !u!114 &114268414386523720
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1677124240038734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9f1d419fa3a78646b629f5a72480221, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114284393326951878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3326,6 +3296,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14b6345d9d75933469c32508141dfdd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114470446443930160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1677124240038734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd94076b1418d024f8aae06f511e3f8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114493715695999432
@@ -3342,27 +3323,6 @@ MonoBehaviour:
   grabRadius: 0.1
   holdTouchPadTimer: 1.5
   sendRatePerSecond: 45
---- !u!114 &114507213592883868
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1677124240038734}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b2d409125a1b364f8734658236b4e9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scalePercIncrement: 0.05
-  ulArmBone: {fileID: 4298114835007270}
-  llArmBone: {fileID: 4043878789236626}
-  urArmBone: {fileID: 4482753374199196}
-  lrArmBone: {fileID: 4194928707321958}
-  lhandRef: {fileID: 4058106021080826}
-  headRef: {fileID: 4002609332203532}
-  fitRadius: 0.02
-  vrIK: {fileID: 114224299478289500}
-  breakCounter: 20
 --- !u!114 &114565391462568464
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3406,20 +3366,6 @@ MonoBehaviour:
     i15: 6
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114759560690987962
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1677124240038734}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b572d19753a99564eb4911e50bffa96e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grabRadius: 0.1
-  holdTouchPadTimer: 1.5
-  sendRatePerSecond: 45
 --- !u!114 &114832512054692938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3431,37 +3377,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b6345d9d75933469c32508141dfdd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114889771468254922
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1677124240038734}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80442fbe6d0a9014eb8b61e2b0933627, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  totalHp: 100
-  hitBoxColliders:
-    headColliders:
-    - {fileID: 135910816496633898}
-    bodyColliders:
-    - {fileID: 65739486940077162}
-    HandColliders:
-    - {fileID: 136471123083540710}
-    - {fileID: 136280734773570972}
-    - {fileID: 136687022827978972}
-    - {fileID: 136920047261660656}
-    legColliders:
-    - {fileID: 136755035827327714}
-    - {fileID: 136260285530722460}
-    - {fileID: 136635861961725922}
-    - {fileID: 136570838009783472}
-  headDmg: 100
-  bodyDmg: 20
-  handDmg: 15
-  legDmg: 15
 --- !u!135 &135020176983555730
 SphereCollider:
   m_ObjectHideFlags: 1
