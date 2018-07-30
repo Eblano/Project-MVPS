@@ -244,7 +244,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         if (gun.ChamberIsLoaded() && !gun.IsSafety())
         {
             // Fire bullet
-            GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNFIRE, devices);
+            //GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNFIRE, devices);
             if (gunAnim)
             {
                 gunAnim.SetTrigger("Fire");
