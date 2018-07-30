@@ -8,6 +8,8 @@ namespace SealTeam4
     {
         [SerializeField] private Transform firingPt;
         [SerializeField] private GameObject hitEffect_Prefab;
+        [SerializeField] private MuzzleFlash muzzleFlashEffect;
+
         private float timeToNextShot = 0;
         
         private float minVerticalDispersion = 0.1f;
@@ -49,6 +51,8 @@ namespace SealTeam4
                 //Debug.Log("Bullet Hit");
                 //Instantiate(hitEffect_Prefab, hitInfo.point, Quaternion.identity);
             }
+
+            muzzleFlashEffect.Activate();
         }
     }
 }
