@@ -41,19 +41,19 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             CheckGrabState();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (muzzleFlashEffects)
-                muzzleFlashEffects.Activate();
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    if (muzzleFlashEffects)
+        //        muzzleFlashEffects.Activate();
 
-            if (gunNetworkAnim)
-                gunNetworkAnim.SetTrigger("Fire");
+        //    if (gunNetworkAnim)
+        //        gunNetworkAnim.SetTrigger("Fire");
 
-            if (networkedAudioSource)
-                networkedAudioSource.DirectPlay();
+        //    if (networkedAudioSource)
+        //        networkedAudioSource.DirectPlay();
 
-            BulletShellSpawn();
-        }
+        //    BulletShellSpawn();
+        //}
     }
 
     #region HelperMethods
@@ -89,8 +89,22 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     private void BulletShellSpawn()
     {
         GameObject GO = Instantiate(bulletPref, bulletExitPoint.position, bulletExitPoint.rotation);
-        GO.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(20,50), 25, 0));
-        Destroy(GO, 5.0f);
+        if (Random.Range(0, 1) == 0)
+        {
+            GO.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(20, 50), 25, 0));
+        }
+        else
+        {
+            GO.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-20, -50), 25, 0));
+        }
+        NetworkServer.Spawn(GO);
+        StartCoroutine(DestroyServerObjAfter(GO, 5.0f));
+    }
+
+    private IEnumerator DestroyServerObjAfter(GameObject destroyObj, float destroyAfter)
+    {
+        yield return new WaitForSeconds(destroyAfter);
+        NetworkServer.Destroy(destroyObj);
     }
 
     private void SetColliderState(bool state)
@@ -243,23 +257,14 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         {
             // Fire bullet
             //GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNFIRE, devices);
-            if (gunNetworkAnim)
+            ActivateGunEffects();
+            
+            if (bulletPref)
             {
-                gunNetworkAnim.SetTrigger("Fire");
-            }
-
-            if (muzzleFlashEffects)
-            {
-                muzzleFlashEffects.Activate();
-            }
-
-            if (networkedAudioSource)
-            {
-                networkedAudioSource.DirectPlay();
+                BulletShellSpawn();
             }
 
             FireBullet();
-            BulletShellSpawn();
 
             // If there is a magazine attached
             if (gun.GetMagazine() != null)
@@ -316,13 +321,13 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         // If there is a magazine attached and it has bullets
         if (gun.GetMagazine() != null && gun.GetMagazine().GetBulletsInMag() > 0)
         {
-            Debug.Log("Loaded: " + gun.ChamberIsLoaded());
             // If chamber is already loaded
             if (gun.ChamberIsLoaded())
             {
-                // Animate losing 1 bullet
-                BulletShellSpawn();
-                Debug.Log("Lost Bullet");
+                if (bulletPref)
+                {
+                    BulletShellSpawn();
+                }
             }
             else
             {
@@ -335,6 +340,24 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         else
         {
             // play load into gun no bullet sound?
+        }
+    }
+
+    public void ActivateGunEffects()
+    {
+        if (gunNetworkAnim)
+        {
+            gunNetworkAnim.SetTrigger("Fire");
+        }
+
+        if (muzzleFlashEffects)
+        {
+            muzzleFlashEffects.Activate();
+        }
+
+        if (networkedAudioSource)
+        {
+            networkedAudioSource.DirectPlay();
         }
     }
 

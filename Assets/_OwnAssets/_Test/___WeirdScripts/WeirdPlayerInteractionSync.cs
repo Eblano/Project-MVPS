@@ -505,20 +505,6 @@ public class WeirdPlayerInteractionSync : NetworkBehaviour
         {
             GrabCalculate(childObj, VRTK_DeviceFinder.Devices.RightController);
         }
-        //Transform snapTarget = null;
-
-        //if (isLeftControl)
-        //{
-        //    snapTarget = lControl;
-        //}
-        //else
-        //{
-        //    snapTarget = rControl;
-        //}
-
-        //InteractableObject interactableObject = childObj.GetComponent<InteractableObject>();
-        //interactableObject.SetOwner(gameObject);
-        //SnapObjectToController(childObj, snapTarget, interactableObject.GetGrabPosition());
     }
 
     public void SyncControllerUnSnap(bool isLeftControl, Vector3 velo, Vector3 anguVelo)
@@ -531,6 +517,11 @@ public class WeirdPlayerInteractionSync : NetworkBehaviour
         {
             UnGrabCalculate(VRTK_DeviceFinder.Devices.RightController, velo, anguVelo);
         }
+    }
+
+    public void SyncControllerTrigger(bool isLeftControl, Vector3 velo, Vector3 anguVelo)
+    {
+
     }
     #endregion HelperMethods
 }
