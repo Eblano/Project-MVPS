@@ -20,6 +20,29 @@ namespace SealTeam4
             public float scale = 1;
         }
 
+        [System.Serializable]
+        public class OutfitMaterials
+        {
+            public Material body;
+            public Material bottoms;
+            public Material eyes;
+            public Material hair;
+            public Material shoes;
+            public Material tops;
+        }
+        
+        [Header("Body Parts Renderers")]
+        [SerializeField] private Renderer bodyRenderer;
+        [SerializeField] private Renderer bottomsRenderer;
+        [SerializeField] private Renderer eyesRenderer;
+        [SerializeField] private Renderer hairRenderer;
+        [SerializeField] private Renderer shoesRenderer;
+        [SerializeField] private Renderer topsRenderer;
+
+        [SerializeField] private OutfitMaterials outfitType_1;
+        [SerializeField] private OutfitMaterials outfitType_2;
+        [SerializeField] private OutfitMaterials outfitType_3;
+
         private string npcName;
 
         [Header("Body Parts")]
@@ -80,7 +103,7 @@ namespace SealTeam4
         [Space(10)]
         [SerializeField] private HitBoxColliders hitBoxColliders;
 
-        public void Setup(string npcName, AIStats aiStats, List<NPCSchedule> npcSchedules)
+        public void Setup(string npcName, NpcSpawnData.NPCOutfit outfit, AIStats aiStats, List<NPCSchedule> npcSchedules)
         {
             this.npcName = npcName;
             this.aiStats = aiStats;
@@ -97,6 +120,45 @@ namespace SealTeam4
             aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
             aiFSM_HostileHuman.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
             aiFSM_VIP_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
+
+            SetupOutfit(outfit);
+        }
+
+        private void SetupOutfit(NpcSpawnData.NPCOutfit outfit)
+        {
+            if(!bodyRenderer || !bottomsRenderer || !eyesRenderer || !hairRenderer || !shoesRenderer || !topsRenderer)
+            {
+                Debug.Log("One or more renderers are missing, failed to set outfit");
+                return;
+            }
+
+            switch (outfit)
+            {
+                case NpcSpawnData.NPCOutfit.TYPE_1:
+                    bodyRenderer.material = outfitType_1.body;
+                    bottomsRenderer.material = outfitType_1.bottoms;
+                    eyesRenderer.material = outfitType_1.eyes;
+                    hairRenderer.material = outfitType_1.hair;
+                    shoesRenderer.material = outfitType_1.shoes;
+                    topsRenderer.material = outfitType_1.tops;
+                    break;
+                case NpcSpawnData.NPCOutfit.TYPE_2:
+                    bodyRenderer.material = outfitType_2.body;
+                    bottomsRenderer.material = outfitType_2.bottoms;
+                    eyesRenderer.material = outfitType_2.eyes;
+                    hairRenderer.material = outfitType_2.hair;
+                    shoesRenderer.material = outfitType_2.shoes;
+                    topsRenderer.material = outfitType_2.tops;
+                    break;
+                case NpcSpawnData.NPCOutfit.TYPE_3:
+                    bodyRenderer.material = outfitType_3.body;
+                    bottomsRenderer.material = outfitType_3.bottoms;
+                    eyesRenderer.material = outfitType_3.eyes;
+                    hairRenderer.material = outfitType_3.hair;
+                    shoesRenderer.material = outfitType_3.shoes;
+                    topsRenderer.material = outfitType_3.tops;
+                    break;
+            }
         }
 
         private void EnterHostileMode()

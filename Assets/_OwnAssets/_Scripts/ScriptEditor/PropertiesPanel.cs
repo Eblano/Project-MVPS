@@ -67,7 +67,7 @@ namespace SealTeam4
 
             // Add listerners
             a_SpawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_SpawnMarkerDropdown(); });
-            a_SpawnMarkerDropdown.onValueChanged.AddListener(delegate { OnValueChanged_NPCOutfitDropdown(); });
+            a_NPCOutfitDropdown.onValueChanged.AddListener(delegate { OnValueChanged_NPCOutfitDropdown(); });
             a_AITypeDropdown.onValueChanged.AddListener(delegate { OnValueChanged_AITypeDropdown(); });
             a_ActivateAtSpawnToggle.onValueChanged.AddListener(delegate { OnValueChanged_ActivateOnSpawnToggle(); });
             a_MovementSpdInputField.onValueChanged.AddListener(delegate { OnValueChanged_MovementSpdInputField(); });
