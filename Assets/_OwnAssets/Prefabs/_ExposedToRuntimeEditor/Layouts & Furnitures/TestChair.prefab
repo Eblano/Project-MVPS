@@ -9,18 +9,18 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1683025967269412}
+  m_RootGameObject: {fileID: 1471959919204556}
   m_IsPrefabParent: 1
---- !u!1 &1675181436842222
+--- !u!1 &1284180193990678
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4969698806493386}
-  - component: {fileID: 33963331691900332}
-  - component: {fileID: 23428841233238948}
+  - component: {fileID: 4719498357801836}
+  - component: {fileID: 33547562638642144}
+  - component: {fileID: 23414207613051862}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -28,16 +28,16 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1683025967269412
+--- !u!1 &1471959919204556
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4102171643000668}
-  - component: {fileID: 114152376465390986}
-  - component: {fileID: 65129002893123246}
+  - component: {fileID: 4606358668021972}
+  - component: {fileID: 114567761870019234}
+  - component: {fileID: 65682685994434090}
   m_Layer: 0
   m_Name: TestChair
   m_TagString: Untagged
@@ -45,39 +45,39 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4102171643000668
+--- !u!4 &4606358668021972
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1683025967269412}
+  m_GameObject: {fileID: 1471959919204556}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4969698806493386}
+  - {fileID: 4719498357801836}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4969698806493386
+--- !u!4 &4719498357801836
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1675181436842222}
+  m_GameObject: {fileID: 1284180193990678}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
-  m_Father: {fileID: 4102171643000668}
+  m_Father: {fileID: 4606358668021972}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23428841233238948
+--- !u!23 &23414207613051862
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1675181436842222}
+  m_GameObject: {fileID: 1284180193990678}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -107,31 +107,31 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33963331691900332
+--- !u!33 &33547562638642144
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1675181436842222}
+  m_GameObject: {fileID: 1284180193990678}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65129002893123246
+--- !u!65 &65682685994434090
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1683025967269412}
+  m_GameObject: {fileID: 1471959919204556}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114152376465390986
+--- !u!114 &114567761870019234
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1683025967269412}
+  m_GameObject: {fileID: 1471959919204556}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10ab5ff127f6e9e40a183b7a7b54f16a, type: 3}
