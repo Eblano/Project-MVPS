@@ -427,7 +427,7 @@ namespace SealTeam4
                 return;
             }
 
-            Debug.Log(aiState.hostileHuman.currGunCD);
+            aiController.GunLookAtTarget(aiState.hostileHuman.shootTargetT);
 
             // Shoot
             if (aiState.hostileHuman.currGunCD <= 0)

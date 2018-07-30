@@ -139,6 +139,11 @@ namespace SealTeam4
             n_NetAnimator.SetTrigger("Die");
         }
 
+        public void Anim_Flinch()
+        {
+            n_NetAnimator.SetTrigger("Flinch");
+        }
+
         /// <summary>
         /// Help the character turn faster 
         /// (this is in addition to root rotation in the animation)

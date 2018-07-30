@@ -31,10 +31,16 @@ namespace SealTeam4
         [HideInInspector] public float runningSpeed = 2f;
 
         [SerializeField] private int totalHp = 100;
-        [HideInInspector] public int headDmg = 100;
-        [HideInInspector] public int bodyDmg = 35;
-        [HideInInspector] public int handDmg = 20;
-        [HideInInspector] public int legDmg = 25;
+
+        [HideInInspector] public int bulletHeadDmg = 100;
+        [HideInInspector] public int bulletBodyDmg = 35;
+        [HideInInspector] public int bulletHandDmg = 20;
+        [HideInInspector] public int bulletLegDmg = 25;
+
+        [HideInInspector] public int knifeHeadDmg = 100;
+        [HideInInspector] public int knifeBodyDmg = 75;
+        [HideInInspector] public int knifeHandDmg = 25;
+        [HideInInspector] public int knifeLegDmg = 25;
 
         // For Terrorist
         [HideInInspector] public List<string> allDynamicWaypoints;

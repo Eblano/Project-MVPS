@@ -23,7 +23,8 @@ namespace SealTeam4
                     iDamagable.OnHit(hitInfo.collider, GlobalEnums.WeaponType.PISTOL);
 
                 //Debug.Log(hitInfo.transform.name + " | " + hitInfo.transform.root.name);
-
+                //Debug.Log("Bullet Hit");
+                //Instantiate(hitEffect_Prefab, hitInfo.point, Quaternion.identity);
             }
         }
     }

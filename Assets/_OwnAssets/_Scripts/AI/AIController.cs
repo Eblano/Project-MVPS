@@ -465,6 +465,11 @@ namespace SealTeam4
             aiAnimController.Anim_DrawGun();
         }
 
+        public void GunLookAtTarget(Transform target)
+        {
+            ref_pistol.transform.LookAt(target);
+        }
+
         public void AimGun()
         {
             aiAnimController.Anim_AimGun();
@@ -673,15 +678,21 @@ namespace SealTeam4
             //}
 
             if (aiState.active && aiStats.npcType == AIStats.NPCType.TERRORIST && !actionableParameters.Contains("Enter Hostile Mode") && aiState.aIMode != AIState.AIMode.HOSTILE)
+            {
+                Debug.Log("Enter Hostile Mode Add");
                 actionableParameters.Add("Enter Hostile Mode");
+            }
 
             if (aiState.aIMode == AIState.AIMode.HOSTILE && !aiState.prepareEnterHostile && actionableParameters.Contains("Enter Hostile Mode"))
+            {
+                Debug.Log("Enter Hostile Mode Remove");
                 actionableParameters.Remove("Enter Hostile Mode");
+            }
 
             if ((aiState.active && actionableParameters.Contains("Activate NPC")) || (!aiState.alive && actionableParameters.Contains("Activate NPC")))
                 actionableParameters.Remove("Activate NPC");
 
-            if (!aiState.active && !actionableParameters.Contains("Activate NPC") && aiState.active)
+            if (!aiState.active && !actionableParameters.Contains("Activate NPC"))
             {
                 actionableParameters.Clear();
                 actionableParameters.Add("Activate NPC");
@@ -847,6 +858,12 @@ namespace SealTeam4
 
         public void OnHit(Collider c, GlobalEnums.WeaponType weaponType)
         {
+            if (!aiState.alive)
+                return;
+
+            aiAnimController.Anim_Flinch();
+
+
             if (aiState.invincible)
                 return;
 
@@ -854,7 +871,10 @@ namespace SealTeam4
             {
                 if (c == bodyColl)
                 {
-                    aiStats.TakeDamage(aiStats.bodyDmg);
+                    if(weaponType == GlobalEnums.WeaponType.PISTOL)
+                        aiStats.TakeDamage(aiStats.bulletBodyDmg);
+                    else if(weaponType == GlobalEnums.WeaponType.KNIFE)
+                        aiStats.TakeDamage(aiStats.knifeBodyDmg);
                     return;
                 }
             }
@@ -863,7 +883,10 @@ namespace SealTeam4
             {
                 if (c == headColl)
                 {
-                    aiStats.TakeDamage(aiStats.headDmg);
+                    if (weaponType == GlobalEnums.WeaponType.PISTOL)
+                        aiStats.TakeDamage(aiStats.bulletHeadDmg);
+                    else if (weaponType == GlobalEnums.WeaponType.KNIFE)
+                        aiStats.TakeDamage(aiStats.bulletHeadDmg);
                     return;
                 }
             }
@@ -872,7 +895,10 @@ namespace SealTeam4
             {
                 if (c == handColl)
                 {
-                    aiStats.TakeDamage(aiStats.handDmg);
+                    if (weaponType == GlobalEnums.WeaponType.PISTOL)
+                        aiStats.TakeDamage(aiStats.bulletHandDmg);
+                    else if (weaponType == GlobalEnums.WeaponType.KNIFE)
+                        aiStats.TakeDamage(aiStats.knifeLegDmg);
                     return;
                 }
             }
@@ -881,7 +907,10 @@ namespace SealTeam4
             {
                 if (c == legColl)
                 {
-                    aiStats.TakeDamage(aiStats.handDmg);
+                    if (weaponType == GlobalEnums.WeaponType.PISTOL)
+                        aiStats.TakeDamage(aiStats.bulletLegDmg);
+                    else if (weaponType == GlobalEnums.WeaponType.KNIFE)
+                        aiStats.TakeDamage(aiStats.knifeLegDmg);
                     return;
                 }
             }
