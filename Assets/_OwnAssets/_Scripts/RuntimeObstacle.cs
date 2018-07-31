@@ -22,6 +22,10 @@ namespace SealTeam4
             if (!GameManager.instance.IsInLevelEditMode())
             {
                 AddNavMeshObstacles();
+                foreach(BoxCollider collider in boxCollidersToCopy)
+                {
+                    Destroy(collider);
+                }
                 Destroy(this);
             }
         }
