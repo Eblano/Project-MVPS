@@ -112,43 +112,43 @@ namespace SealTeam4
 
         private void RHandEvents_TriggerClicked(object sender, ControllerInteractionEventArgs e)
         {
-            playerInteractionSync.CmdTriggerClick(VRTK_DeviceFinder.Devices.RightController, networkIdentity.netId);
+            playerInteractionSync.TriggerClick(VRTK_DeviceFinder.Devices.RightController, networkIdentity.netId);
         }
 
         private void LHandEvents_TriggerClicked(object sender, ControllerInteractionEventArgs e)
         {
-            playerInteractionSync.CmdTriggerClick(VRTK_DeviceFinder.Devices.LeftController, networkIdentity.netId);
+            playerInteractionSync.TriggerClick(VRTK_DeviceFinder.Devices.LeftController, networkIdentity.netId);
         }
 
         private void RHandEvents_GripUnclicked(object sender, ControllerInteractionEventArgs e)
         {
-            playerInteractionSync.CmdCallUngrab(VRTK_DeviceFinder.Devices.RightController, VRTK_DeviceFinder.GetControllerVelocity(rHandRef), VRTK_DeviceFinder.GetControllerAngularVelocity(rHandRef));
+            playerInteractionSync.Ungrab(VRTK_DeviceFinder.Devices.RightController, VRTK_DeviceFinder.GetControllerVelocity(rHandRef), VRTK_DeviceFinder.GetControllerAngularVelocity(rHandRef));
         }
 
         private void LHandEvents_GripUnclicked(object sender, ControllerInteractionEventArgs e)
         {
-            playerInteractionSync.CmdCallUngrab(VRTK_DeviceFinder.Devices.LeftController, VRTK_DeviceFinder.GetControllerVelocity(lHandRef), VRTK_DeviceFinder.GetControllerAngularVelocity(lHandRef));
+            playerInteractionSync.Ungrab(VRTK_DeviceFinder.Devices.LeftController, VRTK_DeviceFinder.GetControllerVelocity(lHandRef), VRTK_DeviceFinder.GetControllerAngularVelocity(lHandRef));
         }
 
         private void RHandEvents_GripClicked(object sender, ControllerInteractionEventArgs e)
         {
-            playerInteractionSync.CmdCallGrab(VRTK_DeviceFinder.Devices.RightController, grabRadius);
+            playerInteractionSync.Grab(VRTK_DeviceFinder.Devices.RightController, grabRadius);
         }
 
         private void LHandEvents_GripClicked(object sender, ControllerInteractionEventArgs e)
         {
-            playerInteractionSync.CmdCallGrab(VRTK_DeviceFinder.Devices.LeftController, grabRadius);
+            playerInteractionSync.Grab(VRTK_DeviceFinder.Devices.LeftController, grabRadius);
         }
 
         private void RHandEvents_TouchpadPressed(object sender, ControllerInteractionEventArgs e)
         {
-            playerInteractionSync.CmdCallTouchpadButton(VRTK_DeviceFinder.Devices.RightController, rHandEvents.GetTouchpadAxis());
+            playerInteractionSync.TouchpadButton(VRTK_DeviceFinder.Devices.RightController, rHandEvents.GetTouchpadAxis());
             TouchPadDown(VRTK_DeviceFinder.Devices.RightController);
         }
 
         private void LHandEvents_TouchpadPressed(object sender, ControllerInteractionEventArgs e)
         {
-            playerInteractionSync.CmdCallTouchpadButton(VRTK_DeviceFinder.Devices.LeftController, lHandEvents.GetTouchpadAxis());
+            playerInteractionSync.TouchpadButton(VRTK_DeviceFinder.Devices.LeftController, lHandEvents.GetTouchpadAxis());
             TouchPadDown(VRTK_DeviceFinder.Devices.LeftController);
         }
 
