@@ -16,8 +16,8 @@ namespace SealTeam4
 
         private float timeToNextShot = 0;
 
-        private float minVerticalDispersion = 0.05f;
-        private float minHorizontalDispersion = 0.05f;
+        private float minVerticalDispersion = 0.1f;
+        private float minHorizontalDispersion = 0.1f;
 
         private List<Vector3> hitPoints = new List<Vector3>();
         private void Start()
@@ -89,10 +89,10 @@ namespace SealTeam4
                     // Spawn bullet hole
                     GameObject bulletHole = Instantiate(
                                             hitEffect_Prefab, 
-                                            hitInfo.point + (hitInfo.normal*0.025F), 
+                                            hitInfo.point + (hitInfo.normal*0.005F), 
                                             Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal)
                                             ) as GameObject;
-                    Destroy(bulletHole, 120);
+                    Destroy(bulletHole, 360);
                 }
                 //Debug.Log(hitInfo.transform.name + " | " + hitInfo.transform.root.name);
                 //Debug.Log("Bullet Offset " + offsetAmt);
