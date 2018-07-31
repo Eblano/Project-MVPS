@@ -208,6 +208,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             // Fire bullet
             //GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNFIRE, devices);
 
+            ControllerHapticsManager.PlayHaptic(ControllerHapticsManager.HapticType.GUNFIRE, devices);
             WeirdGameManagerAssistant.instance.CmdGunFire(gunNetID);
             WeirdGameManagerAssistant.instance.RelaySenderCmdGunEffectSync(gunNetID);
             if (gunNetworkAnim)
@@ -216,7 +217,6 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             }
             ActivateGunEffects();
             BulletShellSpawn(Vector3.zero);
-            //FireBullet();
 
             // If there is a magazine attached
             if (gun.GetMagazine() != null)

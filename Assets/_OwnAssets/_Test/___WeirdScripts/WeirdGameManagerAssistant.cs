@@ -47,6 +47,11 @@ public class WeirdGameManagerAssistant : NetworkBehaviour
         CmdDropMagazine(playerID, gunNetID);
     }
 
+    public void RelaySenderCmdTorchlightState(NetworkInstanceId torchNetID, bool lightState)
+    {
+        CmdTorchlightState(playerID, torchNetID, lightState);
+    }
+
     [Command]
     public void CmdSnapToParentGameObj(NetworkInstanceId childID, NetworkInstanceId parentID, Vector3 offset)
     {
@@ -81,6 +86,12 @@ public class WeirdGameManagerAssistant : NetworkBehaviour
     private void CmdDropMagazine(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID)
     {
         RpcDropMagazine(senderPlayerID, gunNetID);
+    }
+
+    [Command]
+    private void CmdTorchlightState(NetworkInstanceId senderPlayerID, NetworkInstanceId torchNetID, bool lightState)
+    {
+        RpcTorchlightState(senderPlayerID, torchNetID, lightState);
     }
 
     [ClientRpc]
@@ -132,6 +143,17 @@ public class WeirdGameManagerAssistant : NetworkBehaviour
         }
 
         ClientScene.objects[gunNetID].GetComponent<Gun>().UnloadMagazine();
+    }
+
+    [ClientRpc]
+    private void RpcTorchlightState(NetworkInstanceId senderPlayerID, NetworkInstanceId torchNetID, bool lightState)
+    {
+        if (senderPlayerID == playerID)
+        {
+            return;
+        }
+
+        ClientScene.objects[torchNetID].GetComponent<Torchlight>().SetLightState(lightState);
     }
 
     [Command]

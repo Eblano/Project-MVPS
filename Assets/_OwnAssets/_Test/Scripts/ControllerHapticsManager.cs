@@ -4,32 +4,11 @@ using UnityEngine;
 using VRTK;
 using SealTeam4;
 
-public class ControllerHapticsManager : MonoBehaviour
+public static class ControllerHapticsManager
 {
     public enum HapticType { GUNFIRE, GUNRELOAD }
-    public static ControllerHapticsManager instance;
 
-    private void Start()
-    {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this);
-
-        //lHandRef = VRTK_DeviceFinder.GetControllerReferenceLeftHand();
-        //rHandRef = VRTK_DeviceFinder.GetControllerReferenceRightHand();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            PlayHaptic(HapticType.GUNFIRE, VRTK_DeviceFinder.Devices.LeftController);
-            PlayHaptic(HapticType.GUNRELOAD, VRTK_DeviceFinder.Devices.RightController);
-        }
-    }
-
-    public void PlayHaptic(HapticType hapticType, VRTK_DeviceFinder.Devices devices)
+    public static void PlayHaptic(HapticType hapticType, VRTK_DeviceFinder.Devices devices)
     {
         Debug.Log("PlayHaptic Attempt" + hapticType + " " + devices);
 
@@ -38,10 +17,10 @@ public class ControllerHapticsManager : MonoBehaviour
         switch (devices)
         {
             case VRTK_DeviceFinder.Devices.LeftController:
-                reference = PlayerInput.lHandRef;
+                reference = WeirdPlayerInput.lHandRef;
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
-                reference = PlayerInput.rHandRef;
+                reference = WeirdPlayerInput.rHandRef;
                 break;
         }
 

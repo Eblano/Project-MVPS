@@ -42,11 +42,11 @@ namespace SealTeam4
             NetworkServer.Spawn(GO);
         }
 
-        [Command]
-        public void CmdSyncHaps(NetworkInstanceId networkInstanceId, ControllerHapticsManager.HapticType hapticType, VRTK.VRTK_DeviceFinder.Devices devices)
-        {
-            TargetSyncHaps(NetworkServer.objects[networkInstanceId].connectionToClient, hapticType, devices);
-        }
+        //[Command]
+        //public void CmdSyncHaps(NetworkInstanceId networkInstanceId, ControllerHapticsManager.HapticType hapticType, VRTK.VRTK_DeviceFinder.Devices devices)
+        //{
+        //    TargetSyncHaps(NetworkServer.objects[networkInstanceId].connectionToClient, hapticType, devices);
+        //}
 
         [Command]
         public void CmdRegisterClient(string clientName)
@@ -54,11 +54,11 @@ namespace SealTeam4
             GameManager.instance.AddNewPlayer(clientName);
         }
 
-        [TargetRpc]
-        public void TargetSyncHaps(NetworkConnection networkConnection, ControllerHapticsManager.HapticType hapticType, VRTK.VRTK_DeviceFinder.Devices devices)
-        {
-            ControllerHapticsManager.instance.PlayHaptic(hapticType, devices);
-        }
+        //[TargetRpc]
+        //public void TargetSyncHaps(NetworkConnection networkConnection, ControllerHapticsManager.HapticType hapticType, VRTK.VRTK_DeviceFinder.Devices devices)
+        //{
+        //    ControllerHapticsManager.instance.PlayHaptic(hapticType, devices);
+        //}
 
         // Experimental Feature
         [ClientRpc]
