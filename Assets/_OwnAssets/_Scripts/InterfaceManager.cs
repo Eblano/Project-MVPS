@@ -344,8 +344,8 @@ namespace SealTeam4
                 if (Input.GetKeyDown(KeyCode.E))
                     showHideMarkersBtn.onClick.Invoke();
 
-                if (Input.GetKeyDown(KeyCode.F))
-                    showHideMarkersBtn.onClick.Invoke();
+                if (Input.GetKeyDown(KeyCode.R))
+                    showHideWallsCeillingBtn.onClick.Invoke();
             }
         }
 
@@ -447,9 +447,9 @@ namespace SealTeam4
         private void OnShowHideWallsCeillingBtn()
         {
             if(hideWallsCeillings)
-                cam.cullingMask = cam.cullingMask | (1 << LayerMask.NameToLayer("HideFromGameMaster"));
+                cam.cullingMask = cam.cullingMask | (1 << LayerMask.NameToLayer("Walls")) | (1 << LayerMask.NameToLayer("Ceilling"));
             else
-                cam.cullingMask = cam.cullingMask & ~(1 << LayerMask.NameToLayer("HideFromGameMaster"));
+                cam.cullingMask = cam.cullingMask & ~(1 << LayerMask.NameToLayer("Walls")) & ~(1 << LayerMask.NameToLayer("Ceilling"));
 
             hideWallsCeillings = !hideWallsCeillings;
         }

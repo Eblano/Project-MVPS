@@ -13,13 +13,14 @@ namespace SealTeam4
         #region User Settable Parameters
         [HideInInspector] public bool activateOnSpawn = true;
         [HideInInspector] public NPCType npcType = NPCType.CIVILLIAN;
-        public GlobalEnums.GunAccuracy gunAccuracy = GlobalEnums.GunAccuracy.HIGH;
 
         // For Civillian
         [HideInInspector] public CivillianStressResponseMode threatResponseMode = CivillianStressResponseMode.FREEZE;
 
         // For Terrorist
-        [HideInInspector] public float maxGunRange = 5.0f;
+        public GlobalEnums.GunAccuracy gunAccuracy = GlobalEnums.GunAccuracy.HIGH;
+        [HideInInspector] public float gunCD = 1f;
+        [HideInInspector] public float maxGunRange = 10.0f;
         #endregion
 
         #region Hidden Parameters
@@ -47,7 +48,6 @@ namespace SealTeam4
         [HideInInspector] public List<string> allDynamicWaypoints;
         [HideInInspector] public float targetDir_AngleMarginOfError = 5f;
         [HideInInspector] public float losMarginSize = 0.5f;
-        [HideInInspector] public float gunCD = 1f;
         [HideInInspector] public float knifeSwingCD = 1f;
         [HideInInspector] public float meleeDist = 0.6f;
 
