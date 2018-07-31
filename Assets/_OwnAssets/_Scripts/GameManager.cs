@@ -348,7 +348,8 @@ namespace SealTeam4
         /// <param name="gameObject"></param>
         public void UnregisterMarker(GameObject gameObject)
         {
-            registeredMarkers.Remove(registeredMarkers.Find(x => x.gameObject == gameObject));
+            if(gameObject && registeredMarkers.Exists(x => x == gameObject.GetComponent<BaseMarker>()))
+                registeredMarkers.Remove(registeredMarkers.Find(x => x == gameObject.GetComponent<BaseMarker>()));
         }
 
         public void CheckPlayers()
