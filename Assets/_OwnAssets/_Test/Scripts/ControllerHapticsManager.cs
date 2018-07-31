@@ -17,10 +17,10 @@ public static class ControllerHapticsManager
         switch (devices)
         {
             case VRTK_DeviceFinder.Devices.LeftController:
-                reference = WeirdPlayerInput.lHandRef;
+                reference = PlayerInput.lHandRef;
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
-                reference = WeirdPlayerInput.rHandRef;
+                reference = PlayerInput.rHandRef;
                 break;
         }
 

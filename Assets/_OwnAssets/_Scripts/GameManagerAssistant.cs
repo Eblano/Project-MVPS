@@ -19,6 +19,12 @@ namespace SealTeam4
                 return;
         }
 
+        [ClientRpc]
+        public void RpcGameManagerSendCommand(string goName, string msg)
+        {
+            GameManager.instance.RecieveNetCmdObjMsg(goName, msg);
+        }
+
         [TargetRpc]
         public void TargetUpdatePanelTransparency(NetworkConnection networkConnection, int percent)
         {
