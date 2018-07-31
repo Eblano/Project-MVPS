@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-// Convert to network script
+
 public class SlideHandler : MonoBehaviour
 {
     [SerializeField] private Transform slideObject;
@@ -26,6 +27,8 @@ public class SlideHandler : MonoBehaviour
 
     [SerializeField] private bool follow = false;
 
+    private NetworkInstanceId ownerNetID;
+
     private void Start()
     {
         initialSlidePos = slideObject.localPosition;
@@ -33,14 +36,16 @@ public class SlideHandler : MonoBehaviour
         initialRot = transform.eulerAngles;
     }
 
-    public void OnUngrabbed()
+    public void OnUngrabbed(NetworkInstanceId playerNetID)
     {
+        ownerNetID = NetworkInstanceId.Invalid;
         follow = false;
         slideObject.localPosition = initialSlidePos;
     }
 
-    public void OnGrabbed()
+    public void OnGrabbed(NetworkInstanceId playerNetID)
     {
+        ownerNetID = playerNetID;
         follow = true;
     }
 
@@ -69,21 +74,14 @@ public class SlideHandler : MonoBehaviour
         clampPos.x = Mathf.Clamp(clampPos.x, xMin, xMax);
         clampPos.y = Mathf.Clamp(clampPos.y, yMin, yMax);
         clampPos.z = Mathf.Clamp(clampPos.z, zMin, zMax);
-
-        if (IsSlideActive())
-        {
-            activeState = true;
-        }
-        else
-        {
-            activeState = false;
-        }
+        
+        activeState = IsSlideActive();
 
         if (activeStateChanged != activeState)
         {
-            if (activeState)
+            if (activeState && WeirdGameManagerAssistant.instance.playerID == ownerNetID)
             {
-                gun.CmdLoadChamber();
+                gun.LoadChamber();
             }
 
             activeStateChanged = activeState;

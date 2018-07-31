@@ -14,9 +14,9 @@ public class WeirdPlayerInteractionSync : NetworkBehaviour
     private Vector3 headPos, lHandPos, rHandPos;
     private Quaternion headRot, lHandRot, rHandRot;
 
-    private GameManager gameManager;
+    private NetworkInstanceId playerID;
 
-    private NetworkInstanceId networkedID;
+    private GameManager gameManager;
 
     public override void OnStartServer()
     {
@@ -25,7 +25,7 @@ public class WeirdPlayerInteractionSync : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
-        networkedID = GetComponent<NetworkIdentity>().netId;
+        playerID = GetComponent<NetworkIdentity>().netId;
     }
 
     public Transform GetHeadPos()
@@ -129,7 +129,7 @@ public class WeirdPlayerInteractionSync : NetworkBehaviour
             return;
         }
 
-        WeirdGameManagerAssistant.instance.CmdSnapToController(currGrabbedObj.GetComponent<NetworkIdentity>().netId, networkedID, isLeftGrab);
+        WeirdGameManagerAssistant.instance.RelaySenderCmdSnapToController(currGrabbedObj.GetComponent<NetworkIdentity>().netId, isLeftGrab);
     }
 
     public void Ungrab(VRTK_DeviceFinder.Devices control, Vector3 velo, Vector3 anguVelo)
@@ -147,7 +147,7 @@ public class WeirdPlayerInteractionSync : NetworkBehaviour
         }
 
         UnGrabCalculate(control, velo, anguVelo);
-        WeirdGameManagerAssistant.instance.CmdUnSnapFromController(networkedID, isLeftGrab, velo, anguVelo);
+        WeirdGameManagerAssistant.instance.RelaySenderCmdUnSnapFromController(isLeftGrab, velo, anguVelo);
     }
 
     public void TriggerClick(VRTK_DeviceFinder.Devices control, NetworkInstanceId networkInstanceId)
@@ -372,8 +372,6 @@ public class WeirdPlayerInteractionSync : NetworkBehaviour
 
     public void GrabCalculate(GameObject currGrabbedObj, VRTK_DeviceFinder.Devices control)
     {
-        Debug.Log("GO Name: " + currGrabbedObj.name);
-
         // If there is no grabbable object, stop running this method
         if (currGrabbedObj == null)
         {
@@ -403,7 +401,7 @@ public class WeirdPlayerInteractionSync : NetworkBehaviour
             if (currGrabbedObj.GetComponent<SlideHandler>())
             {
                 SlideHandler slide = currGrabbedObj.GetComponent<SlideHandler>();
-                slide.OnGrabbed();
+                slide.OnGrabbed(playerID);
             }
         }
 
@@ -467,7 +465,7 @@ public class WeirdPlayerInteractionSync : NetworkBehaviour
             if (currGrabbedObj.GetComponent<SlideHandler>())
             {
                 SlideHandler slide = currGrabbedObj.GetComponent<SlideHandler>();
-                slide.OnUngrabbed();
+                slide.OnUngrabbed(playerID);
                 slide.ResetLocalPos();
             }
         }
@@ -482,7 +480,7 @@ public class WeirdPlayerInteractionSync : NetworkBehaviour
             // Check for nearby snappable spots
             if (currGrabbedObj.GetComponent<SnappableObject>().IsNearSnappables())
             {
-                currGrabbedObj.GetComponent<SnappableObject>().CmdCheckSnappable();
+                currGrabbedObj.GetComponent<SnappableObject>().CheckSnappable();
             }
             else
             {
@@ -517,11 +515,6 @@ public class WeirdPlayerInteractionSync : NetworkBehaviour
         {
             UnGrabCalculate(VRTK_DeviceFinder.Devices.RightController, velo, anguVelo);
         }
-    }
-
-    public void SyncControllerTrigger(bool isLeftControl, Vector3 velo, Vector3 anguVelo)
-    {
-
     }
     #endregion HelperMethods
 }

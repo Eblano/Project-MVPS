@@ -34,15 +34,6 @@ namespace SealTeam4
         }
 
         /// <summary>
-        /// Overrides the base unsnap method
-        /// </summary>
-        public override void Unsnap()
-        {
-            //snappedTo.GetComponent<Gun>().gun.SetMagazine(null);
-            base.Unsnap();
-        }
-
-        /// <summary>
         /// Snaps object to
         /// </summary>
         /// <param name="snapTransform"></param>

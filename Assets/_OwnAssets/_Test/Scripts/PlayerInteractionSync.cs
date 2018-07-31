@@ -188,7 +188,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             if (currGrabbedObj.GetComponent<SlideHandler>())
             {
                 SlideHandler slide = currGrabbedObj.GetComponent<SlideHandler>();
-                slide.OnGrabbed();
+                //slide.OnGrabbed();
             }
         }
 
@@ -249,7 +249,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             if (currGrabbedObj.GetComponent<SlideHandler>())
             {
                 SlideHandler slide = currGrabbedObj.GetComponent<SlideHandler>();
-                slide.OnUngrabbed();
+                //slide.OnUngrabbed();
                 slide.ResetLocalPos();
             }
         }
@@ -264,7 +264,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             // Check for nearby snappable spots
             if (currGrabbedObj.GetComponent<SnappableObject>().IsNearSnappables())
             {
-                currGrabbedObj.GetComponent<SnappableObject>().CmdCheckSnappable();
+                currGrabbedObj.GetComponent<SnappableObject>().CheckSnappable();
             }
             else
             {

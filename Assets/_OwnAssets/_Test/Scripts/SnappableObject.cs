@@ -16,26 +16,7 @@ namespace SealTeam4
         }
 
         #region ServerMethods
-        /// <summary>
-        /// Checks for snappable objects within radius.
-        /// </summary>
-        //[Command]
-        public void CmdCheckSnappable()
-        {
-            RpcCheckSnappable();
-        }
-
-        /// <summary>
-        /// Handles when the object is unsnapped.
-        /// </summary>
-        //[Command]
-        public void CmdUnsnap()
-        {
-            RpcUnsnap();
-        }
-
-        //[ClientRpc]
-        public void RpcCheckSnappable()
+        public void CheckSnappable()
         {
             // Get all snappable positions within snappable radius
             Collider[] snappabbablesWithinRadius = Physics.OverlapSphere(transform.position, snapRange, 1 << LayerMask.NameToLayer("SnapLayer"), QueryTriggerInteraction.Collide);
@@ -67,19 +48,13 @@ namespace SealTeam4
 
             SnapObject(nearestColl.transform);
         }
-
-        //[ClientRpc]
-        public void RpcUnsnap()
-        {
-            Unsnap();
-        }
         #endregion ServerMethods
 
         #region HelperMethods
         /// <summary>
         /// Unset the snappable object and enable physics.
         /// </summary>
-        public virtual void Unsnap()
+        public virtual void UnsnapObject()
         {
             transform.SetParent(null);
             rb.isKinematic = false;

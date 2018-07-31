@@ -7,6 +7,7 @@ public class WeirdGameManagerAssistant : NetworkBehaviour
 {
     public static WeirdGameManagerAssistant instance;
     public List<IActions> allActions;
+    public NetworkInstanceId playerID;
 
     private void Update()
     {
@@ -16,11 +17,35 @@ public class WeirdGameManagerAssistant : NetworkBehaviour
             return;
     }
 
-    //[Command]
-    //public void CmdSnapToParentGameObj(NetworkInstanceId childID, NetworkInstanceId parentID)
-    //{
-    //    RpcSnapToParentGameObj(childID, parentID);
-    //}
+    public override void OnStartLocalPlayer()
+    {
+        playerID = GetComponent<NetworkIdentity>().netId;
+    }
+
+    public void RelaySenderCmdSnapToController(NetworkInstanceId childID, bool isLeftController)
+    {
+        CmdSnapToController(childID, playerID, isLeftController);
+    }
+
+    public void RelaySenderCmdUnSnapFromController(bool isLeftController, Vector3 velo, Vector3 anguVelo)
+    {
+        CmdUnSnapFromController(playerID, isLeftController, velo, anguVelo);
+    }
+
+    public void RelaySenderCmdGunShellSync(NetworkInstanceId gunNetID, Vector3 force)
+    {
+        CmdGunShellSync(playerID, gunNetID, force);
+    }
+
+    public void RelaySenderCmdGunEffectSync(NetworkInstanceId gunNetID)
+    {
+        CmdGunEffectSync(playerID, gunNetID);
+    }
+
+    public void RelaySenderCmdDropMagazine(NetworkInstanceId gunNetID)
+    {
+        CmdDropMagazine(playerID, gunNetID);
+    }
 
     [Command]
     public void CmdSnapToParentGameObj(NetworkInstanceId childID, NetworkInstanceId parentID, Vector3 offset)
@@ -29,39 +54,90 @@ public class WeirdGameManagerAssistant : NetworkBehaviour
     }
 
     [Command]
-    public void CmdSnapToController(NetworkInstanceId childID, NetworkInstanceId playerID, bool isLeftController)
+    private void CmdSnapToController(NetworkInstanceId childID, NetworkInstanceId senderPlayerID, bool isLeftController)
     {
-        RpcSnapToController(childID, playerID, isLeftController);
+        RpcSnapToController(childID, senderPlayerID, isLeftController);
     }
 
     [Command]
-    public void CmdUnSnapFromController(NetworkInstanceId playerID, bool isLeftController, Vector3 velo, Vector3 anguVelo)
+    private void CmdUnSnapFromController(NetworkInstanceId senderPlayerID, bool isLeftController, Vector3 velo, Vector3 anguVelo)
     {
-        RpcUnSnapFromController(playerID, isLeftController, velo, anguVelo);
+        RpcUnSnapFromController(senderPlayerID, isLeftController, velo, anguVelo);
     }
 
-    //[ClientRpc]
-    //public void RpcSnapToParentGameObj(NetworkInstanceId childID, NetworkInstanceId parentID)
-    //{
-    //    SnapTo(NetworkServer.objects[childID].gameObject, NetworkServer.objects[parentID].gameObject);
-    //}
+    [Command]
+    private void CmdGunShellSync(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID, Vector3 force)
+    {
+        RpcGunShellSync(senderPlayerID, gunNetID, force);
+    }
+
+    [Command]
+    private void CmdGunEffectSync(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID)
+    {
+        RpcGunEffectSync(senderPlayerID, gunNetID);
+    }
+
+    [Command]
+    private void CmdDropMagazine(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID)
+    {
+        RpcDropMagazine(senderPlayerID, gunNetID);
+    }
 
     [ClientRpc]
-    public void RpcSnapToParentGameObj(NetworkInstanceId childID, NetworkInstanceId parentID, Vector3 offset)
+    private void RpcSnapToParentGameObj(NetworkInstanceId childID, NetworkInstanceId parentID, Vector3 offset)
     {
         SnapTo(ClientScene.objects[childID].gameObject, ClientScene.objects[parentID].gameObject, offset);
     }
 
     [ClientRpc]
-    public void RpcSnapToController(NetworkInstanceId childID, NetworkInstanceId playerID, bool isLeftController)
+    private void RpcSnapToController(NetworkInstanceId childID, NetworkInstanceId senderPlayerID, bool isLeftController)
     {
-        ClientScene.objects[playerID].GetComponent<WeirdPlayerInteractionSync>().SyncControllerSnap(isLeftController, ClientScene.objects[childID].gameObject);
+        ClientScene.objects[senderPlayerID].GetComponent<WeirdPlayerInteractionSync>().SyncControllerSnap(isLeftController, ClientScene.objects[childID].gameObject);
     }
 
     [ClientRpc]
-    public void RpcUnSnapFromController(NetworkInstanceId playerID, bool isLeftController, Vector3 velo, Vector3 anguVelo)
+    private void RpcUnSnapFromController(NetworkInstanceId senderPlayerID, bool isLeftController, Vector3 velo, Vector3 anguVelo)
     {
-        ClientScene.objects[playerID].GetComponent<WeirdPlayerInteractionSync>().SyncControllerUnSnap(isLeftController, velo, anguVelo);
+        ClientScene.objects[senderPlayerID].GetComponent<WeirdPlayerInteractionSync>().SyncControllerUnSnap(isLeftController, velo, anguVelo);
+    }
+
+    [ClientRpc]
+    private void RpcGunShellSync(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID, Vector3 force)
+    {
+        if (senderPlayerID == playerID)
+        {
+            return;
+        }
+
+        ClientScene.objects[gunNetID].GetComponent<Gun>().BulletShellSpawn(force);
+    }
+
+    [ClientRpc]
+    private void RpcGunEffectSync(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID)
+    {
+        if (senderPlayerID == playerID)
+        {
+            return;
+        }
+
+        ClientScene.objects[gunNetID].GetComponent<Gun>().ActivateGunEffects();
+    }
+
+    [ClientRpc]
+    private void RpcDropMagazine(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID)
+    {
+        if (senderPlayerID == playerID)
+        {
+            return;
+        }
+
+        ClientScene.objects[gunNetID].GetComponent<Gun>().UnloadMagazine();
+    }
+
+    [Command]
+    public void CmdGunFire(NetworkInstanceId gunNetID)
+    {
+        NetworkServer.objects[gunNetID].GetComponent<Gun>().FireBullet();
     }
 
     private void SnapTo(GameObject child, GameObject parent)
