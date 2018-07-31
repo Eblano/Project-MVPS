@@ -417,11 +417,19 @@ namespace SealTeam4
             PlayerContainer newPlayerContainer = Instantiate(playerContainer_Prefab, playersPanel.transform).GetComponent<PlayerContainer>();
             newPlayerContainer.Setup(playerName);
             currActivePlayerContainers.Add(newPlayerContainer);
+
+            if(currActivePlayerContainers.Count == 1)
+            {
+                currActivePlayerContainers[0].SetVIPFollowButtonState(true);
+            }
         }
 
         public void RemovePlayer(string playerName)
         {
             Destroy(currActivePlayerContainers.Find(x => x.playerNameTxt.text == playerName).gameObject);
+            
+            if(currActivePlayerContainers.Count > 0)
+                currActivePlayerContainers[0].SetVIPFollowButtonState(true);
         }
 
         private void OnStartGameButtonClick()

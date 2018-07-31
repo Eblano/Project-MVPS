@@ -42,8 +42,11 @@ namespace SealTeam4
 
         private void OnClick_VIPFollowTargetBtn()
         {
-            vipFollowTargetBtn_ToggleOn = !vipFollowTargetBtn_ToggleOn;
-            SetVIPFollowButtonState(vipFollowTargetBtn_ToggleOn);
+            if(!vipFollowTargetBtn_ToggleOn)
+            {
+                vipFollowTargetBtn_ToggleOn = true;
+                SetVIPFollowButtonState(true);
+            }
         }
     }
 }

@@ -230,6 +230,12 @@ namespace SealTeam4
                 aiController.StopMovement();
                 aiController.SetNMAgentDestination(aiState.hostileHuman.waypointPos);
             }
+
+            if(aiController.GunSpawned())
+                aiController.SetGunTransformOffset(aiController.pistol_NormalOffset);
+
+            if (aiController.KnifeSpawned())
+                aiController.SetKnifeTransformOffset(aiController.knife_TOffset);
         }
 
         private void Process_Idle()
