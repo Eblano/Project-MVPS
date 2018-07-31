@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 
-#if (UNITY_EDITOR)
 public class RefreshPrefab
 {
     [MenuItem("Tools/Unexpose from Editor")]
