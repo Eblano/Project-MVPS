@@ -7,19 +7,22 @@ public class TransformationSync : NetworkBehaviour
 {
     [SerializeField] private float sendRatePerSecond = 45;
     [SerializeField] private float moveThreshold = 0.005f;
+    [SerializeField] private float angularThreshold = 0.01f;
     private float counter = float.MinValue;
     private Vector3 prevPos = Vector3.positiveInfinity;
+    private Quaternion prevRot = Quaternion.identity;
 
     private void FixedUpdate()
     {
         if (isServer)
         {
-            if (Vector3.Distance(prevPos, transform.position) > moveThreshold)
+            if (Vector3.Distance(prevPos, transform.position) > moveThreshold || Quaternion.Angle(prevRot, transform.rotation) > angularThreshold)
             {
                 if (IsCounterReady(ref counter, 1 / sendRatePerSecond))
                 {
                     RpcSyncTransform(transform.position, transform.eulerAngles);
                     prevPos = transform.position;
+                    prevRot = transform.rotation;
                 }
             }
         }

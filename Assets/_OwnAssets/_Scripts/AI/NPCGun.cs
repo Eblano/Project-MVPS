@@ -72,7 +72,7 @@ namespace SealTeam4
             Ray ray = new Ray(firingPt.position, firingPt.forward + offsetAmt);
             RaycastHit hitInfo;
 
-            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, layerToHit, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, layerToHit))
             {
                 IDamageable iDamagable = hitInfo.transform.root.GetComponent<IDamageable>();
 

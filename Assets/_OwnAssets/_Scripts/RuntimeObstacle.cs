@@ -12,40 +12,29 @@ namespace SealTeam4
     /// </summary>
     public class RuntimeObstacle : MonoBehaviour
     {
-        [Header("Colliders to use as navmesh obstacle")]
-        [SerializeField] private BoxCollider[] boxCollidersToCopy;
-
-        [SerializeField] private bool forceAddNavMeshObstacles = false;
-
         private void Update()
         {
             if (!GameManager.instance.IsInLevelEditMode())
             {
-                AddNavMeshObstacles();
-                foreach(BoxCollider collider in boxCollidersToCopy)
-                {
-                    Destroy(collider);
-                }
+                AddNavMeshObstacles(GetComponents<BoxCollider>()[0]);
+                Destroy(GetComponents<BoxCollider>()[0]);
                 Destroy(this);
             }
         }
 
-        private void AddNavMeshObstacles()
+        private void AddNavMeshObstacles(BoxCollider collider)
         {
-            foreach (BoxCollider collider in boxCollidersToCopy)
-            {
-                GameObject go = new GameObject();
-                go.transform.position = transform.position;
-                go.transform.rotation = transform.rotation;
-                go.transform.SetParent(gameObject.transform);
-                go.transform.localScale = new Vector3(1, 1, 1);
-                NavMeshObstacle obstacle = go.AddComponent<NavMeshObstacle>();
+            GameObject go = new GameObject();
+            go.transform.position = transform.position;
+            go.transform.rotation = transform.rotation;
+            go.transform.SetParent(gameObject.transform);
+            go.transform.localScale = new Vector3(1, 1, 1);
+            NavMeshObstacle obstacle = go.AddComponent<NavMeshObstacle>();
 
-                obstacle.shape = NavMeshObstacleShape.Box;
-                obstacle.center = collider.center;
-                obstacle.size = collider.size;
-                obstacle.carving = true;
-            }
+            obstacle.shape = NavMeshObstacleShape.Box;
+            obstacle.center = collider.center;
+            obstacle.size = collider.size;
+            obstacle.carving = true;
         }
     }
 }
