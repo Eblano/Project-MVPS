@@ -92,7 +92,6 @@ namespace SealTeam4
                                             hitInfo.point + (hitInfo.normal*0.025F), 
                                             Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal)
                                             ) as GameObject;
-
                     Destroy(bulletHole, 120);
                 }
                 //Debug.Log(hitInfo.transform.name + " | " + hitInfo.transform.root.name);
