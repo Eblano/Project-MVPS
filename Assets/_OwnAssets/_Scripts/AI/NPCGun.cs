@@ -33,10 +33,10 @@ namespace SealTeam4
                 Debug.DrawLine(firingPt.position, point, Color.green);
             }
 
-            //if (Input.GetKeyDown(KeyCode.Space))
-            //{
-            //    FireGun(GlobalEnums.GunAccuracy.HIGH);
-            //}
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                FireGun(GlobalEnums.GunAccuracy.HIGH);
+            }
         }
 
         public void FireGun(GlobalEnums.GunAccuracy accuracy)
@@ -81,22 +81,25 @@ namespace SealTeam4
                 if (iDamagable != null)
                 {
                     iDamagable.OnHit(hitInfo.collider, GlobalEnums.WeaponType.PISTOL);
+                    
+                    //Spawn blood particles
                 }
                 else
                 {
                     // Spawn bullet hole
-                    Transform bulletHole = Instantiate(hitEffect_Prefab, hitInfo.point, Quaternion.identity).GetComponent<Transform>();
-                    
-                    Destroy(bulletHole.gameObject, 120);
-                }
+                    GameObject bulletHole = Instantiate(
+                                            hitEffect_Prefab, 
+                                            hitInfo.point + (hitInfo.normal*0.025F), 
+                                            Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal)
+                                            ) as GameObject;
 
+                    Destroy(bulletHole, 120);
+                }
                 //Debug.Log(hitInfo.transform.name + " | " + hitInfo.transform.root.name);
                 //Debug.Log("Bullet Offset " + offsetAmt);
                 //Debug.Log("Bullet Hit");
             }
 
-
-            // All the Effects are here. If anything breaks, comment it out.
             if (muzzleFlashEffect)
                 muzzleFlashEffect.Activate();
 
