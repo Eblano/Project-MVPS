@@ -6,15 +6,21 @@ using UnityEngine.Networking;
 public class TransformationSync : NetworkBehaviour
 {
     [SerializeField] private float sendRatePerSecond = 45;
+    [SerializeField] private float moveThreshold = 0.005f;
     private float counter = float.MinValue;
+    private Vector3 prevPos = Vector3.positiveInfinity;
 
     private void FixedUpdate()
     {
         if (isServer)
         {
-            if (IsCounterReady(ref counter, 1 / sendRatePerSecond))
+            if (Vector3.Distance(prevPos, transform.position) > moveThreshold)
             {
-                RpcSyncTransform(transform.position, transform.eulerAngles);
+                if (IsCounterReady(ref counter, 1 / sendRatePerSecond))
+                {
+                    RpcSyncTransform(transform.position, transform.eulerAngles);
+                    prevPos = transform.position;
+                }
             }
         }
     }
