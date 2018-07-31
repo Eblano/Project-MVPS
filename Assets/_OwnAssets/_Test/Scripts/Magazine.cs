@@ -7,8 +7,6 @@ namespace SealTeam4
     public class Magazine : SnappableObject
     {
         [SerializeField] private int bulletsInMag;
-        [SerializeField] private int bulletCapacity;
-        [SerializeField] private Collider magCollider;
 
         /// <summary>
         /// Reduces the amount of bullets in magazine by 1.
@@ -36,22 +34,11 @@ namespace SealTeam4
         }
 
         /// <summary>
-        /// Overrides the base unsnap method
-        /// </summary>
-        public override void Unsnap()
-        {
-            //snappedTo.GetComponent<Gun>().gun.SetMagazine(null);
-            base.Unsnap();
-            magCollider.enabled = true;
-        }
-
-        /// <summary>
         /// Snaps object to
         /// </summary>
         /// <param name="snapTransform"></param>
         public override void SnapObject(Transform snapTransform)
         {
-            magCollider.enabled = false;
             base.SnapObject(snapTransform);
             snapTransform.parent.GetComponent<Gun>().gun.SetMagazine(this);
         }

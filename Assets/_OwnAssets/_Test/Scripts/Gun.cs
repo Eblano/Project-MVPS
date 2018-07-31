@@ -19,23 +19,23 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     private bool isBeingGrabbed = false;
     private bool grabStateChanged = false;
     private Vector3 initRot;
-    private Animator gunAnim;
     private NetworkAnimator gunNetworkAnim;
     private NetworkedAudioSource networkedAudioSource;
+    private NetworkInstanceId gunNetID;
 
     private void Start()
     {
         interactableObject = GetComponent<InteractableObject>();
-        gunAnim = GetComponent<Animator>();
         gunNetworkAnim = GetComponent<NetworkAnimator>();
         networkedAudioSource = GetComponent<NetworkedAudioSource>();
+        gunNetID = GetComponent<NetworkIdentity>().netId;
     }
 
     private void Update()
     {
         if (isTwoHandedGrab)
         {
-            CmdCalculateGunRotation();
+            CalculateGunRotation();
         }
 
         if (secondaryGrabTransforms.Count > 0)
@@ -43,19 +43,19 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             CheckGrabState();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (muzzleFlashEffects)
-                muzzleFlashEffects.Activate();
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    if (muzzleFlashEffects)
+        //        muzzleFlashEffects.Activate();
 
-            if (gunAnim)
-                gunAnim.SetTrigger("Fire");
+        //    if (gunNetworkAnim)
+        //        gunNetworkAnim.SetTrigger("Fire");
 
-            if (networkedAudioSource)
-                networkedAudioSource.DirectPlay();
+        //    if (networkedAudioSource)
+        //        networkedAudioSource.DirectPlay();
 
-            BulletShellSpawn();
-        }
+        //    BulletShellSpawn();
+        //}
     }
 
     #region HelperMethods
@@ -88,10 +88,30 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         }
     }
 
-    private void BulletShellSpawn()
+    public void BulletShellSpawn(Vector3 force)
     {
         GameObject GO = Instantiate(bulletPref, bulletExitPoint.position, bulletExitPoint.rotation);
-        GO.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(20,50), 25, 0));
+
+        if (force != Vector3.zero)
+        {
+            GO.GetComponent<Rigidbody>().AddForce(force);
+        }
+        else
+        {
+            Vector3 forceStrength = new Vector3(Random.Range(20, 50), 25, 0);
+            if (Random.Range(0, 1) == 0)
+            {
+                GO.GetComponent<Rigidbody>().AddForce(forceStrength);
+            }
+            else
+            {
+                forceStrength.x *= -1;
+                GO.GetComponent<Rigidbody>().AddForce(forceStrength);
+            }
+
+            WeirdGameManagerAssistant.instance.RelaySenderCmdGunShellSync(gunNetID, forceStrength);
+        }
+
         Destroy(GO, 5.0f);
     }
 
@@ -106,7 +126,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// <summary>
     /// Uses raycast to check for a hit.
     /// </summary>
-    private void FireBullet()
+    public void FireBullet()
     {
         RaycastHit hit;
         if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit, Mathf.Infinity))
@@ -129,7 +149,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// </summary>
     public void UseObject(NetworkInstanceId networkInstanceId)
     {
-        CmdFireGun(networkInstanceId);
+        FireGun(networkInstanceId);
     }
 
     /// <summary>
@@ -137,8 +157,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// </summary>
     public void UpButtonPressed()
     {
-        //CmdLoadChamber();
-        CmdSafety(!gun.IsSafety());
+        SetSafety(!gun.IsSafety());
     }
 
     /// <summary>
@@ -146,7 +165,8 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// </summary>
     public void DownButtonPressed()
     {
-        CmdUnloadMagazine();
+        UnloadMagazine();
+
     }
 
     /// <summary>
@@ -164,70 +184,12 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     public void SecondHandInactive()
     {
         isTwoHandedGrab = false;
-        CmdResetGunRotation();
+        ResetGunRotation();
     }
     #endregion InterfaceMethods
 
-    #region ServerMethods
-    /// <summary>
-    /// Tries to fire the gun.
-    /// </summary>
-    //[Command]
-    private void CmdFireGun(NetworkInstanceId networkInstanceId)
-    {
-        RpcFireGun(networkInstanceId);
-    }
-
-    /// <summary>
-    /// Calculates gun angle base on second hand position.
-    /// </summary>
-    //[Command]
-    private void CmdCalculateGunRotation()
-    {
-        RpcCalculateGunRotation();
-    }
-
-    /// <summary>
-    /// Reset the gun's rotation to identity.
-    /// </summary>
-    //[Command]
-    private void CmdResetGunRotation()
-    {
-        RpcResetGunRotation();
-    }
-
-    /// <summary>
-    /// Unload the magazine.
-    /// </summary>
-    //[Command]
-    private void CmdUnloadMagazine()
-    {
-        RpcUnloadMagazine();
-    }
-
-    /// <summary>
-    /// Load the chamber into the gun.
-    /// </summary>
-    //[Command]
-    public void CmdLoadChamber()
-    {
-        RpcLoadChamber();
-    }
-
-    //[Command]
-    public void CmdSafety(bool state)
-    {
-        RpcSafety(state);
-    }
-
-    //[ClientRpc]
-    private void RpcSafety(bool state)
-    {
-        gun.SetSafeState(state);
-    }
-
-    //[ClientRpc]
-    private void RpcFireGun(NetworkInstanceId networkInstanceId)
+    #region GunHandlingMethods
+    private void FireGun(NetworkInstanceId networkInstanceId)
     {
         VRTK.VRTK_DeviceFinder.Devices devices = VRTK.VRTK_DeviceFinder.Devices.Headset;
 
@@ -244,24 +206,17 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         if (gun.ChamberIsLoaded() && !gun.IsSafety())
         {
             // Fire bullet
-            GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNFIRE, devices);
-            if (gunAnim)
+            //GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNFIRE, devices);
+
+            ControllerHapticsManager.PlayHaptic(ControllerHapticsManager.HapticType.GUNFIRE, devices);
+            WeirdGameManagerAssistant.instance.CmdGunFire(gunNetID);
+            WeirdGameManagerAssistant.instance.RelaySenderCmdGunEffectSync(gunNetID);
+            if (gunNetworkAnim)
             {
-                gunAnim.SetTrigger("Fire");
                 gunNetworkAnim.SetTrigger("Fire");
             }
-
-            if (muzzleFlashEffects)
-            {
-                muzzleFlashEffects.Activate();
-            }
-
-            if (networkedAudioSource)
-            {
-                networkedAudioSource.DirectPlay();
-            }
-
-            FireBullet();
+            ActivateGunEffects();
+            BulletShellSpawn(Vector3.zero);
 
             // If there is a magazine attached
             if (gun.GetMagazine() != null)
@@ -286,34 +241,35 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         else
         {
             // Play no bullet sound
-            GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNRELOAD, devices);
+            //GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNRELOAD, devices);
         }
     }
 
-    //[ClientRpc]
-    private void RpcCalculateGunRotation()
+    private void SetSafety(bool state)
+    {
+        gun.SetSafeState(state);
+    }
+
+    private void CalculateGunRotation()
     {
         transform.rotation = Quaternion.FromToRotation(Vector3.forward, secondaryHoldingTransform.position - transform.position);
     }
 
-    //[ClientRpc]
-    private void RpcResetGunRotation()
+    private void ResetGunRotation()
     {
         transform.localRotation = Quaternion.Euler(initRot);
     }
 
-    //[ClientRpc]
-    private void RpcUnloadMagazine()
+    public void UnloadMagazine()
     {
         if (gun.GetMagazine() != null)
         {
-            gun.GetMagazine().CmdUnsnap();
+            gun.GetMagazine().UnsnapObject();
             gun.SetMagazine(null);
         }
     }
 
-    //[ClientRpc]
-    private void RpcLoadChamber()
+    public void LoadChamber()
     {
         // If there is a magazine attached and it has bullets
         if (gun.GetMagazine() != null && gun.GetMagazine().GetBulletsInMag() > 0)
@@ -321,7 +277,10 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             // If chamber is already loaded
             if (gun.ChamberIsLoaded())
             {
-                // Animate losing 1 bullet
+                if (bulletPref)
+                {
+                    BulletShellSpawn(Vector3.zero);
+                }
             }
             else
             {
@@ -337,7 +296,19 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         }
     }
 
-    #endregion ServerMethods
+    public void ActivateGunEffects()
+    {
+        if (muzzleFlashEffects)
+        {
+            muzzleFlashEffects.Activate();
+        }
+
+        if (networkedAudioSource)
+        {
+            networkedAudioSource.DirectPlay();
+        }
+    }
+    #endregion GunHandlingMethods
 
     /// <summary>
     /// Stores the information of a gun. Contains methods for chamber, spread and maagzine.
@@ -347,7 +318,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     {
         [SerializeField] private float spread;
         private Magazine currMag;
-        private bool bulletInChamber;
+        private bool bulletInChamber = false;
         private bool isSafe = true;
 
         public void SetChamberState(bool state)

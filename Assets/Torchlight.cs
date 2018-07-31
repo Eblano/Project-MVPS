@@ -6,17 +6,21 @@ using UnityEngine.Networking;
 public class Torchlight : MonoBehaviour, IUsableObject
 {
     [SerializeField] private Light lightSource;
+    private NetworkInstanceId torchNetID;
+
+    private void Start()
+    {
+        torchNetID = GetComponent<NetworkIdentity>().netId;
+    }
 
     public void UseObject(NetworkInstanceId networkInstanceId)
     {
-        lightSource.enabled = !lightSource.enabled;
+        WeirdGameManagerAssistant.instance.RelaySenderCmdTorchlightState(torchNetID, !lightSource.enabled);
+        SetLightState(!lightSource.enabled);
     }
 
-    private void Update()
+    public void SetLightState(bool state)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            UseObject(new NetworkInstanceId(1));
-        }
+        lightSource.enabled = state;
     }
 }

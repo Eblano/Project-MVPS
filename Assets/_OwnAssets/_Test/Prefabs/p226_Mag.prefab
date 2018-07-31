@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 33460702767311644}
   - component: {fileID: 23080329611967328}
   - component: {fileID: 65501626263706250}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Magazine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,6 +117,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: ff339c66a7de53a4d845c941b43e6d51, type: 2}
   - {fileID: 2100000, guid: 9b7c2c6edbb421a438e31008f61feb1d, type: 2}
@@ -219,9 +220,8 @@ MonoBehaviour:
   grabPosition: {fileID: 4382078092568822}
   parentTransform: {fileID: 0}
   snapRange: 0.1
-  bulletsInMag: 6
+  bulletsInMag: 20
   bulletCapacity: 0
-  magCollider: {fileID: 65501626263706250}
 --- !u!135 &135091534250818308
 SphereCollider:
   m_ObjectHideFlags: 1
