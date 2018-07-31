@@ -317,7 +317,6 @@ namespace SealTeam4
                 GameObject objectToDestroy = GameObject.Find(gameObjectsToDestroyByName[i]);
                 if (objectToDestroy != null)
                 {
-                    Debug.Log(objectToDestroy.name);
                     Destroy(objectToDestroy);
                 }
             }

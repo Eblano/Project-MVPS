@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -43,3 +44,4 @@ public class RefreshPrefab
         Debug.Log("Successfully Refreshed " + counter + " prefabs, please manually expose them to editor again");
     }
 }
+#endif

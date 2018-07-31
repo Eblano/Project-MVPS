@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.Networking;
 
 namespace SealTeam4
 {
@@ -64,9 +65,9 @@ namespace SealTeam4
 
         private List<GameObject> networkCommandableGameobjects = new List<GameObject>();
 
-        private List<GameObject> players_ref = new List<GameObject>();
+        private List<PlayerPositionReferencer> players_ref = new List<PlayerPositionReferencer>();
         private List<string> playerNames = new List<string>();
-        [SerializeField] private GameObject vipFollowTarget = null;
+        [SerializeField] private PlayerPositionReferencer vipFollowTarget = null;
 
         // NPC List
         private List<AIController> spawnedNPCs = new List<AIController>();
@@ -94,8 +95,13 @@ namespace SealTeam4
         #region Update Methods
         private void Update()
         {
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.N))
-                FindObjectOfType<NavMeshSurface>().BuildNavMesh();
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                if(Input.GetKeyDown(KeyCode.N))
+                    FindObjectOfType<NavMeshSurface>().BuildNavMesh();
+                if (Input.GetKeyDown(KeyCode.S))
+                    FindObjectOfType<NetworkManagerHUD>().enabled = !FindObjectOfType<NetworkManagerHUD>().enabled;
+            }
 
             switch (currGameManagerMode)
             {
@@ -386,9 +392,9 @@ namespace SealTeam4
             SceneManager.LoadScene("_LoadingScene");
         }
 
-        public Transform GetVIPFollowTargetTransform()
+        public Transform GetVIPFollowTarget()
         {
-            return vipFollowTarget.transform;
+            return vipFollowTarget.playerPosition;
         }
 
         public void SetVIPFollowTarget(string playerName)
@@ -658,7 +664,7 @@ namespace SealTeam4
 
         public void AddNewPlayer(string playerName)
         {
-            players_ref.Add(GameObject.Find(playerName));
+            players_ref.Add(GameObject.Find(playerName).GetComponent<PlayerPositionReferencer>());
             playerNames.Add(playerName);
 
             InterfaceManager.instance.AddNewPlayer(playerName);
