@@ -17,11 +17,6 @@ namespace SealTeam4
 
         [SerializeField] private bool forceAddNavMeshObstacles = false;
 
-        private void Start()
-        {
-            gameObject.layer = 20;
-        }
-
         private void Update()
         {
             if (!GameManager.instance.IsInLevelEditMode())

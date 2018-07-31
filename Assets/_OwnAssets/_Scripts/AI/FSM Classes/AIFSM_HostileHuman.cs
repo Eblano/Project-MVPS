@@ -311,7 +311,7 @@ namespace SealTeam4
                 SetState_ShootTarget_Idle();
                 return;
             }
-
+                    
             if (aiController.WithinDistance(aiState.hostileHuman.shootTargetT.position, aiStats.maxGunRange) &&
                 aiController.InLOS3PT(aiState.hostileHuman.shootTargetT.position, aiState.hostileHuman.shootTargetT.root.name)
                 )
@@ -364,13 +364,19 @@ namespace SealTeam4
                 return;
             }
 
+            aiController.RotateTowardsTargetDirection(aiState.hostileHuman.shootTargetT.position);
+
+            if (aiState.hostileHuman.initEngageTimePassed < aiStats.initEngageDelay)
+            {
+                aiState.hostileHuman.initEngageTimePassed += Time.deltaTime;
+                return;
+            }
+
             if (aiController.LookingAtTarget(aiState.hostileHuman.shootTargetT.position, aiStats.targetDir_AngleMarginOfError))
             {
                 SetState_ShootTarget_AimGunOnTarget();
                 return;
             }
-
-            aiController.RotateTowardsTargetDirection(aiState.hostileHuman.shootTargetT.position);
         }
 
         private void KnifeTarget_TrackTarget()
@@ -391,13 +397,19 @@ namespace SealTeam4
                 return;
             }
 
+            aiController.RotateTowardsTargetDirection(aiState.hostileHuman.knifeTargetT.position);
+
+            if (aiState.hostileHuman.initEngageTimePassed < aiStats.initEngageDelay)
+            {
+                aiState.hostileHuman.initEngageTimePassed += Time.deltaTime;
+                return;
+            }
+
             if (aiController.LookingAtTarget(aiState.hostileHuman.knifeTargetT.position, aiStats.targetDir_AngleMarginOfError))
             {
                 SetState_KnifeTarget_Knife();
                 return;
             }
-
-            aiController.RotateTowardsTargetDirection(aiState.hostileHuman.knifeTargetT.position);
         }
 
         private void ShootTarget_AimGunOnTarget()

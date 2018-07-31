@@ -394,7 +394,10 @@ namespace SealTeam4
 
         public Transform GetVIPFollowTarget()
         {
-            return vipFollowTarget.playerPosition;
+            if (vipFollowTarget)
+                return vipFollowTarget.playerPosition;
+            else
+                return null;
         }
 
         public void SetVIPFollowTarget(string playerName)
