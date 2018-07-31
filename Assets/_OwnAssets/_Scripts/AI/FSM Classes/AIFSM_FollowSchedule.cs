@@ -434,8 +434,8 @@ namespace SealTeam4
             aiState.currConvoNPCTarget.StartConvoWithConvoNPCTarget();
             aiAnimController.Anim_StartStandTalking();
             aiState.inConversation = true;
-            aiController.AddAction("End Conversation (Next)");
             aiState.currSubschedule++;
+            aiController.AddAction("End Conversation (Next)");
         }
 
         public void TalkToOtherNPC()
@@ -459,6 +459,7 @@ namespace SealTeam4
             aiState.timeInConvo = 0;
             aiAnimController.Anim_StopStandTalking();
             aiState.currConvoNPCTarget.EndConvoWithConvoNPCTarget();
+            aiState.currConvoNPCTarget = null;
             aiController.RemoveAction("End Conversation (Next)");
             aiState.currSubschedule++;
         }

@@ -60,6 +60,7 @@ namespace SealTeam4
         private void Awake()
         {
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
+            RenderSettings.ambientIntensity = 0.3f;
             DynamicGI.UpdateEnvironment();
         }
 
@@ -316,7 +317,6 @@ namespace SealTeam4
                 GameObject objectToDestroy = GameObject.Find(gameObjectsToDestroyByName[i]);
                 if (objectToDestroy != null)
                 {
-                    Debug.Log(objectToDestroy.name);
                     Destroy(objectToDestroy);
                 }
             }
@@ -508,11 +508,9 @@ namespace SealTeam4
         public void ToggleWallsCeillingVisibility()
         {
             if (hideWallCeilling)
-                camToFollow.cullingMask = camToFollow.cullingMask | (1 << LayerMask.NameToLayer("HideFromGameMaster"));
+                camToFollow.cullingMask = camToFollow.cullingMask | (1 << LayerMask.NameToLayer("Walls")) | (1 << LayerMask.NameToLayer("Ceilling"));
             else
-                camToFollow.cullingMask = camToFollow.cullingMask & ~(1 << LayerMask.NameToLayer("HideFromGameMaster"));
-
-            hideWallCeilling = !hideWallCeilling;
+                camToFollow.cullingMask = camToFollow.cullingMask & ~(1 << LayerMask.NameToLayer("Walls")) & ~(1 << LayerMask.NameToLayer("Ceilling"));
 
             hideWallCeilling = !hideWallCeilling;
         }

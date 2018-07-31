@@ -40,8 +40,7 @@ namespace SealTeam4
         #region SetProcess methods
         public void SetProcess_FollowPlayer()
         {
-            //Debug.Log("SetProcess_FollowPlayer()");
-            aiState.vip.playerFollowTarget = GameManager.instance.GetVIPFollowTargetTransform();
+            aiState.vip.playerFollowTarget = GameManager.instance.GetVIPFollowTarget();
 
             if (aiState.vip.playerFollowTarget)
             {
@@ -78,6 +77,9 @@ namespace SealTeam4
         #region Process methods
         public void Process_Idle()
         {
+            aiState.vip.playerFollowTarget = GameManager.instance.GetVIPFollowTarget();
+
+            Debug.Log("aiState.vip.playerFollowTarget: " + aiState.vip.playerFollowTarget);
             if (aiState.vip.playerFollowTarget && !aiController.WithinDistance(aiState.vip.playerFollowTarget.position, aiStats.vipFollowPlayerDistance))
             {
                 SetProcess_FollowPlayer();
@@ -86,7 +88,10 @@ namespace SealTeam4
         }
 
         private void Process_FollowPlayer()
-        {if (!aiState.vip.playerFollowTarget || aiController.WithinDistance(aiState.vip.playerFollowTarget.position, aiStats.vipFollowPlayerDistance))
+        {
+            aiState.vip.playerFollowTarget = GameManager.instance.GetVIPFollowTarget();
+
+            if (!aiState.vip.playerFollowTarget || aiController.WithinDistance(aiState.vip.playerFollowTarget.position, aiStats.vipFollowPlayerDistance))
             {
                 SetProcess_Idle();
                 return;
@@ -98,6 +103,8 @@ namespace SealTeam4
 
         private void Process_GrabbedFollowPlayer()
         {
+            aiState.vip.playerFollowTarget = GameManager.instance.GetVIPFollowTarget();
+
             if (!aiState.vip.playerFollowTarget || aiController.WithinDistance(aiState.vip.playerFollowTarget.position, aiStats.vipGrabbedPlayerDistance))
             {
                 SetProcess_Idle();

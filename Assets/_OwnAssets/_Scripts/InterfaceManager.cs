@@ -58,6 +58,7 @@ namespace SealTeam4
         [SerializeField] private Button spawnNPCAccessoriesButton;
         [SerializeField] private Button showHideWallsCeillingBtn;
         [SerializeField] private Button showHideMarkersBtn;
+        [SerializeField] private Button backToEditorBtn;
         private bool hideWallsCeillings = false;
         private bool hideMarkers = false;
 
@@ -112,6 +113,7 @@ namespace SealTeam4
             spawnNPCAccessoriesButton.onClick.AddListener(delegate { OnSpawnNPCsAccButtonClick(); });
             showHideWallsCeillingBtn.onClick.AddListener(delegate { OnShowHideWallsCeillingBtn(); });
             showHideMarkersBtn.onClick.AddListener(delegate { OnShowHideMarkersBtn(); });
+            backToEditorBtn.onClick.AddListener(delegate { OnBackToEditorBtn(); });
         }
 
         // Update is called once per frame
@@ -344,8 +346,8 @@ namespace SealTeam4
                 if (Input.GetKeyDown(KeyCode.E))
                     showHideMarkersBtn.onClick.Invoke();
 
-                if (Input.GetKeyDown(KeyCode.F))
-                    showHideMarkersBtn.onClick.Invoke();
+                if (Input.GetKeyDown(KeyCode.R))
+                    showHideWallsCeillingBtn.onClick.Invoke();
             }
         }
 
@@ -417,11 +419,19 @@ namespace SealTeam4
             PlayerContainer newPlayerContainer = Instantiate(playerContainer_Prefab, playersPanel.transform).GetComponent<PlayerContainer>();
             newPlayerContainer.Setup(playerName);
             currActivePlayerContainers.Add(newPlayerContainer);
+
+            if(currActivePlayerContainers.Count == 1)
+            {
+                currActivePlayerContainers[0].SetVIPFollowButtonState(true);
+            }
         }
 
         public void RemovePlayer(string playerName)
         {
             Destroy(currActivePlayerContainers.Find(x => x.playerNameTxt.text == playerName).gameObject);
+            
+            if(currActivePlayerContainers.Count > 0)
+                currActivePlayerContainers[0].SetVIPFollowButtonState(true);
         }
 
         private void OnStartGameButtonClick()
@@ -447,9 +457,9 @@ namespace SealTeam4
         private void OnShowHideWallsCeillingBtn()
         {
             if(hideWallsCeillings)
-                cam.cullingMask = cam.cullingMask | (1 << LayerMask.NameToLayer("HideFromGameMaster"));
+                cam.cullingMask = cam.cullingMask | (1 << LayerMask.NameToLayer("Walls")) | (1 << LayerMask.NameToLayer("Ceilling"));
             else
-                cam.cullingMask = cam.cullingMask & ~(1 << LayerMask.NameToLayer("HideFromGameMaster"));
+                cam.cullingMask = cam.cullingMask & ~(1 << LayerMask.NameToLayer("Walls")) & ~(1 << LayerMask.NameToLayer("Ceilling"));
 
             hideWallsCeillings = !hideWallsCeillings;
         }
@@ -457,11 +467,30 @@ namespace SealTeam4
         private void OnShowHideMarkersBtn()
         {
             if (hideMarkers)
-                markerUICamera.cullingMask = cam.cullingMask | (1 << LayerMask.NameToLayer("Marker")) | (1 << LayerMask.NameToLayer("AreaMarker")) | (1 << LayerMask.NameToLayer("FloatingUI"));
+            {
+                markerUICamera.cullingMask =
+                    markerUICamera.cullingMask |
+                    (1 << LayerMask.NameToLayer("Marker")) |
+                    (1 << LayerMask.NameToLayer("FloatingUI"));
+
+                cam.cullingMask = cam.cullingMask | (1 << LayerMask.NameToLayer("AreaMarker"));
+            }
             else
-                markerUICamera.cullingMask = cam.cullingMask & ~(1 << LayerMask.NameToLayer("Marker")) & ~(1 << LayerMask.NameToLayer("AreaMarker")) & ~(1 << LayerMask.NameToLayer("FloatingUI"));
+            {
+                markerUICamera.cullingMask =
+                    markerUICamera.cullingMask &
+                    ~(1 << LayerMask.NameToLayer("Marker")) &
+                    ~(1 << LayerMask.NameToLayer("FloatingUI"));
+
+                cam.cullingMask = cam.cullingMask & ~(1 << LayerMask.NameToLayer("AreaMarker"));
+            }
 
             hideMarkers = !hideMarkers;
+        }
+
+        private void OnBackToEditorBtn()
+        {
+            GameManager.instance.RestartScene();
         }
     }
 }

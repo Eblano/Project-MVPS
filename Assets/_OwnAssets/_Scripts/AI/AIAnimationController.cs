@@ -116,7 +116,6 @@ namespace SealTeam4
 
         public void Anim_DrawGun()
         {
-            //m_Animator.SetTrigger("DrawWeapon");
             n_NetAnimator.SetTrigger("DrawWeapon");
         }
 
@@ -125,15 +124,8 @@ namespace SealTeam4
             m_Animator.SetBool("AimGun", true);
         }
 
-        public void Anim_FireGun()
-        {
-            //m_Animator.SetTrigger("FireGun");
-            n_NetAnimator.SetTrigger("FireGun");
-        }
-
         public void Anim_SwingKnife()
         {
-            //m_Animator.SetTrigger("SwingKnife");
             n_NetAnimator.SetTrigger("SwingKnife");
         }
 
@@ -144,8 +136,12 @@ namespace SealTeam4
 
         public void Anim_Die()
         {
-            //m_Animator.SetTrigger("Die");
             n_NetAnimator.SetTrigger("Die");
+        }
+
+        public void Anim_Flinch()
+        {
+            n_NetAnimator.SetTrigger("Flinch");
         }
 
         /// <summary>

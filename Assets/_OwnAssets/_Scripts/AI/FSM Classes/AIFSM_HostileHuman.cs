@@ -8,6 +8,8 @@ namespace SealTeam4
     {
         public void FSM_Update()
         {
+            aiState.hostileHuman.currGunCD -= Time.deltaTime;
+
             switch (aiState.hostileHuman.currState)
             {
                 case AIState.HostileHuman.State.IDLE:
@@ -33,7 +35,6 @@ namespace SealTeam4
             aiState.hostileHuman.shootTargetT = GameManager.instance.GetFirstVIPCenterMassTransform();
             if(aiState.hostileHuman.shootTargetT)
             {
-                SetState_ShootTarget();
                 SetState_ShootTarget_SpawnGun();
             }
         }
@@ -43,7 +44,6 @@ namespace SealTeam4
             aiState.hostileHuman.knifeTargetT = GameManager.instance.GetFirstVIPCenterMassTransform();
             if (aiState.hostileHuman.knifeTargetT)
             {
-                SetState_KnifeTarget();
                 SetState_KnifeTarget_SpawnKnife();
             }
         }
@@ -54,7 +54,7 @@ namespace SealTeam4
                 aiState.hostileHuman.currShootTargetState == AIState.HostileHuman.ShootTargetState.AIM_GUN_ON_TARGET)
             {
                 aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.INACTIVE;
-                //aiController.ResetGunTransformToOrig();
+                aiState.hostileHuman.currKnifeTargetState = AIState.HostileHuman.KnifeTargetState.INACTIVE;
                 aiController.LowerGun();
             }
 
@@ -137,11 +137,13 @@ namespace SealTeam4
 
         private void SetState_ShootTarget_SpawnGun()
         {
+            aiState.hostileHuman.currState = AIState.HostileHuman.State.SHOOT_TARGET;
             aiState.hostileHuman.currShootTargetState = AIState.HostileHuman.ShootTargetState.SPAWN_GUN;
         }
 
         private void SetState_KnifeTarget_SpawnKnife()
         {
+            aiState.hostileHuman.currState = AIState.HostileHuman.State.KNIFE_TARGET;
             aiState.hostileHuman.currKnifeTargetState = AIState.HostileHuman.KnifeTargetState.SPAWN_KNIFE;
         }
 
@@ -228,6 +230,12 @@ namespace SealTeam4
                 aiController.StopMovement();
                 aiController.SetNMAgentDestination(aiState.hostileHuman.waypointPos);
             }
+
+            if(aiController.GunSpawned())
+                aiController.SetGunTransformOffset(aiController.pistol_NormalOffset);
+
+            if (aiController.KnifeSpawned())
+                aiController.SetKnifeTransformOffset(aiController.knife_TOffset);
         }
 
         private void Process_Idle()
@@ -262,6 +270,9 @@ namespace SealTeam4
                 SetState_ShootTarget_MoveToShootTarget();
                 return;
             }
+
+            if (aiController.KnifeSpawned())
+                aiController.DespawnKnife();
 
             if (aiController.GunSpawned())
                 aiController.SetGunTransformOffset(aiController.pistol_NormalOffset);
@@ -376,6 +387,7 @@ namespace SealTeam4
             if (!aiController.WithinDistance(aiState.hostileHuman.knifeTargetT.position, aiStats.meleeDist))
             {
                 SetState_KnifeTarget_MoveToKnifeTarget();
+                aiController.LowerGun();
                 return;
             }
 
@@ -410,13 +422,10 @@ namespace SealTeam4
 
             if (!aiController.LookingAtTarget(aiState.hostileHuman.shootTargetT.position, aiStats.targetDir_AngleMarginOfError))
             {
-                aiState.hostileHuman.currGunCD = aiStats.gunCD;
-                aiController.LowerGun();
                 SetState_ShootTarget_TrackTarget();
                 return;
             }
-
-            // Use LOS
+            
             if (!aiController.WithinDistance(aiState.hostileHuman.shootTargetT.position, aiStats.maxGunRange + 1) ||
                 !aiController.InLOS(aiState.hostileHuman.shootTargetT.position, aiState.hostileHuman.shootTargetT.root.name))
             {
@@ -424,14 +433,14 @@ namespace SealTeam4
                 return;
             }
 
+            aiController.GunLookAtTarget(aiState.hostileHuman.shootTargetT);
+
             // Shoot
             if (aiState.hostileHuman.currGunCD <= 0)
             {
                 aiController.FireGun();
                 aiState.hostileHuman.currGunCD = aiStats.gunCD;
             }
-            else
-                aiState.hostileHuman.currGunCD -= Time.deltaTime;
         }
 
         private void KnifeTarget_Knife()
@@ -472,6 +481,9 @@ namespace SealTeam4
                 SetState_KnifeTarget_MoveToKnifeTarget();
                 return;
             }
+
+            if (aiController.GunSpawned())
+                aiController.DespawnGun();
 
             aiController.SpawnKnifeOnHand();
             SetState_KnifeTarget_DrawKnife();

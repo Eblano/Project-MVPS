@@ -25,7 +25,8 @@ namespace SealTeam4
         {
             base.OnStopClient();
             Debug.Log("OnStopClient");
-            UIManager.instance.SetUIPanelState(true);
+            //UIManager.instance.SetUIPanelState(true);
+            UIManager.instance.ShowDisconnectedPopup();
         }
 
         public override void OnStartServer()

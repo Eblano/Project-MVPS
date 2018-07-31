@@ -9,18 +9,18 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1832626494631912}
+  m_RootGameObject: {fileID: 1275054135518412}
   m_IsPrefabParent: 1
---- !u!1 &1832626494631912
+--- !u!1 &1275054135518412
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4368566008093620}
-  - component: {fileID: 114814533176753666}
-  - component: {fileID: 114598526689271070}
+  - component: {fileID: 4107600302764554}
+  - component: {fileID: 114847127926901594}
+  - component: {fileID: 114660256034848192}
   m_Layer: 17
   m_Name: PlayerSpawnMarker
   m_TagString: Untagged
@@ -28,12 +28,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4368566008093620
+--- !u!4 &4107600302764554
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1832626494631912}
+  m_GameObject: {fileID: 1275054135518412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -41,12 +41,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114598526689271070
+--- !u!114 &114660256034848192
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1832626494631912}
+  m_GameObject: {fileID: 1275054135518412}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fee2839c2efa7f40850a05a41c9fd00, type: 3}
@@ -54,12 +54,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   markerColor: {r: 0.1457912, g: 0.9191176, b: 0, a: 0}
   billboardTransform: {fileID: 0}
---- !u!114 &114814533176753666
+--- !u!114 &114847127926901594
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1832626494631912}
+  m_GameObject: {fileID: 1275054135518412}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8749db4d709a21499d88b0a817acc80, type: 3}

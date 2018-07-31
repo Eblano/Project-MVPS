@@ -13,12 +13,44 @@ namespace SealTeam4
     public class AIController : MonoBehaviour, IActions, IObjectInfo, IDamageable
     {
         [System.Serializable]
+        private class HitBoxColliders
+        {
+            public List<Collider> headColliders;
+            public List<Collider> bodyColliders;
+            public List<Collider> HandColliders;
+            public List<Collider> legColliders;
+        }
+
+        [System.Serializable]
         public class TransformOffset
         {
             public Vector3 posOffset = Vector3.zero;
             public Vector3 rotOffset = Vector3.zero;
             public float scale = 1;
         }
+
+        [System.Serializable]
+        public class OutfitMaterials
+        {
+            public Material body;
+            public Material bottoms;
+            public Material eyes;
+            public Material hair;
+            public Material shoes;
+            public Material tops;
+        }
+        
+        [Header("Body Parts Renderers")]
+        [SerializeField] private Renderer bodyRenderer;
+        [SerializeField] private Renderer bottomsRenderer;
+        [SerializeField] private Renderer eyesRenderer;
+        [SerializeField] private Renderer hairRenderer;
+        [SerializeField] private Renderer shoesRenderer;
+        [SerializeField] private Renderer topsRenderer;
+
+        [SerializeField] private OutfitMaterials outfitType_1;
+        [SerializeField] private OutfitMaterials outfitType_2;
+        [SerializeField] private OutfitMaterials outfitType_3;
 
         private string npcName;
 
@@ -69,18 +101,10 @@ namespace SealTeam4
         public Transform highestPoint;
         public Collider col;
 
-        [System.Serializable]
-        private class HitBoxColliders
-        {
-            public List<Collider> headColliders;
-            public List<Collider> bodyColliders;
-            public List<Collider> HandColliders;
-            public List<Collider> legColliders;
-        }
         [Space(10)]
         [SerializeField] private HitBoxColliders hitBoxColliders;
 
-        public void Setup(string npcName, AIStats aiStats, List<NPCSchedule> npcSchedules)
+        public void Setup(string npcName, NpcSpawnData.NPCOutfit outfit, AIStats aiStats, List<NPCSchedule> npcSchedules)
         {
             this.npcName = npcName;
             this.aiStats = aiStats;
@@ -97,6 +121,45 @@ namespace SealTeam4
             aiFSM_Civillian_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
             aiFSM_HostileHuman.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
             aiFSM_VIP_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
+
+            SetupOutfit(outfit);
+        }
+
+        private void SetupOutfit(NpcSpawnData.NPCOutfit outfit)
+        {
+            if(!bodyRenderer || !bottomsRenderer || !eyesRenderer || !hairRenderer || !shoesRenderer || !topsRenderer)
+            {
+                Debug.Log("One or more renderers are missing, failed to set outfit");
+                return;
+            }
+
+            switch (outfit)
+            {
+                case NpcSpawnData.NPCOutfit.TYPE_1:
+                    bodyRenderer.material = outfitType_1.body;
+                    bottomsRenderer.material = outfitType_1.bottoms;
+                    eyesRenderer.material = outfitType_1.eyes;
+                    hairRenderer.material = outfitType_1.hair;
+                    shoesRenderer.material = outfitType_1.shoes;
+                    topsRenderer.material = outfitType_1.tops;
+                    break;
+                case NpcSpawnData.NPCOutfit.TYPE_2:
+                    bodyRenderer.material = outfitType_2.body;
+                    bottomsRenderer.material = outfitType_2.bottoms;
+                    eyesRenderer.material = outfitType_2.eyes;
+                    hairRenderer.material = outfitType_2.hair;
+                    shoesRenderer.material = outfitType_2.shoes;
+                    topsRenderer.material = outfitType_2.tops;
+                    break;
+                case NpcSpawnData.NPCOutfit.TYPE_3:
+                    bodyRenderer.material = outfitType_3.body;
+                    bottomsRenderer.material = outfitType_3.bottoms;
+                    eyesRenderer.material = outfitType_3.eyes;
+                    hairRenderer.material = outfitType_3.hair;
+                    shoesRenderer.material = outfitType_3.shoes;
+                    topsRenderer.material = outfitType_3.tops;
+                    break;
+            }
         }
 
         private void EnterHostileMode()
@@ -180,6 +243,9 @@ namespace SealTeam4
         {
             aiState.inConversation = false;
             aiState.aIMode = AIState.AIMode.FOLLOW_SCHEDULE;
+            if(aiState.currConvoNPCTarget)
+                aiState.currConvoNPCTarget.SetAction("End Conversation (Next)");
+            
             aiState.currConvoNPCTarget = null;
             aiAnimController.Anim_StopStandTalking();
             RemoveAction("End Conversation (Next)");
@@ -206,8 +272,7 @@ namespace SealTeam4
             Vector3 origin = transform.position;
             origin.y = 0;
             destination.y = 0;
-
-            Debug.Log(Vector3.Distance(origin, destination));
+            
             return Vector3.Distance(origin, destination) < stopDist;
         }
 
@@ -247,8 +312,7 @@ namespace SealTeam4
 
             Debug.DrawLine(headT.position, headT.position + forwardLook * 7, Color.blue);
             Debug.DrawLine(headT.position, headT.position + targetLook * 7, Color.cyan);
-
-            Debug.Log(Vector3.Angle(forwardLook, targetLook));
+            
             return Vector3.Angle(forwardLook, targetLook) < angleOfError;
         }
 
@@ -287,6 +351,7 @@ namespace SealTeam4
 
             if (aiAnimEventReciever.standing_Completed || !aiState.seated)
             {
+                aiState.seated = false;
                 if (aiState.currSeatTarget)
                 {
                     aiState.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(true);
@@ -404,6 +469,11 @@ namespace SealTeam4
             aiAnimController.Anim_DrawGun();
         }
 
+        public void GunLookAtTarget(Transform target)
+        {
+            ref_pistol.transform.LookAt(target);
+        }
+
         public void AimGun()
         {
             aiAnimController.Anim_AimGun();
@@ -411,8 +481,7 @@ namespace SealTeam4
 
         public void FireGun()
         {
-            ref_pistol.FireGun();
-            aiAnimController.Anim_FireGun();
+            ref_pistol.FireGun(aiStats.gunAccuracy);
         }
 
         public void SwingKnife()
@@ -448,6 +517,11 @@ namespace SealTeam4
             }
         }
 
+        public void DespawnGun()
+        {
+            Destroy(ref_pistol.gameObject);
+        }
+
         public void SpawnKnifeOnHand()
         {
             if (!ref_knife)
@@ -455,6 +529,11 @@ namespace SealTeam4
                 ref_knife = Instantiate(knife_Prefab, rightHandT.transform);
                 NetworkServer.Spawn(ref_knife.gameObject);
             }
+        }
+
+        public void DespawnKnife()
+        {
+            Destroy(ref_knife.gameObject);
         }
 
         public void FadeAway()
@@ -510,10 +589,17 @@ namespace SealTeam4
                     break;
 
                 case "End Conversation (Next)":
-                    if (npcSchedules[aiState.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC)
-                        aiFSM_FollowSchedule.SetAction_End_TalkToOtherNPC();
-                    else if (npcSchedules[aiState.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC)
+                    if (!aiState.inConversation)
+                        return;
+
+                    if (aiState.aIMode == AIState.AIMode.PARTICIPATE_CONVO)
                         SetAction_End_RecivingConvo();
+
+                    if (npcSchedules.Count == 0)
+                        return;
+
+                    if (npcSchedules[aiState.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC)
+                    aiFSM_FollowSchedule.SetAction_End_TalkToOtherNPC();
                     break;
 
                 case "Enter Hostile Mode":
@@ -581,7 +667,6 @@ namespace SealTeam4
             return aiStats.activateOnSpawn;
         }
 
-
         public void AddAction(string action)
         {
             actionableParameters.Add(action);
@@ -603,15 +688,19 @@ namespace SealTeam4
             //}
 
             if (aiState.active && aiStats.npcType == AIStats.NPCType.TERRORIST && !actionableParameters.Contains("Enter Hostile Mode") && aiState.aIMode != AIState.AIMode.HOSTILE)
+            {
                 actionableParameters.Add("Enter Hostile Mode");
+            }
 
             if (aiState.aIMode == AIState.AIMode.HOSTILE && !aiState.prepareEnterHostile && actionableParameters.Contains("Enter Hostile Mode"))
+            {
                 actionableParameters.Remove("Enter Hostile Mode");
+            }
 
             if ((aiState.active && actionableParameters.Contains("Activate NPC")) || (!aiState.alive && actionableParameters.Contains("Activate NPC")))
                 actionableParameters.Remove("Activate NPC");
 
-            if (!aiState.active && !actionableParameters.Contains("Activate NPC") && aiState.active)
+            if (!aiState.active && !actionableParameters.Contains("Activate NPC"))
             {
                 actionableParameters.Clear();
                 actionableParameters.Add("Activate NPC");
@@ -627,9 +716,6 @@ namespace SealTeam4
                 if (!actionableParameters.Contains("Knife VIP"))
                     actionableParameters.Add("Knife VIP");
 
-                //if (!actionableParameters.Contains("Shoot Player"))
-                //    actionableParameters.Add("Shoot Player");
-
                 foreach (string dynWPMarkerName in aiStats.allDynamicWaypoints)
                 {
                     if (!actionableParameters.Contains("Move To " + dynWPMarkerName))
@@ -638,14 +724,17 @@ namespace SealTeam4
             }
             else
             {
-                if (actionableParameters.Contains("Shoot VIP"))
+                if (aiState.hostileHuman.currState == AIState.HostileHuman.State.SHOOT_TARGET && actionableParameters.Contains("Shoot VIP"))
                     actionableParameters.Remove("Shoot VIP");
 
-                if (actionableParameters.Contains("Knife VIP"))
+                if (aiState.hostileHuman.currState == AIState.HostileHuman.State.KNIFE_TARGET && actionableParameters.Contains("Knife VIP"))
                     actionableParameters.Remove("Knife VIP");
 
-                //if (actionableParameters.Contains("Shoot Player"))
-                //    actionableParameters.Remove("Shoot Player");
+                if (aiState.hostileHuman.currState == AIState.HostileHuman.State.KNIFE_TARGET && !actionableParameters.Contains("Shoot VIP"))
+                    actionableParameters.Add("Shoot VIP");
+
+                if (aiState.hostileHuman.currState == AIState.HostileHuman.State.SHOOT_TARGET && !actionableParameters.Contains("Knife VIP"))
+                    actionableParameters.Add("Knife VIP");
 
                 foreach (string dynWPMarkerName in aiStats.allDynamicWaypoints)
                 {
@@ -754,7 +843,7 @@ namespace SealTeam4
                         objInfo2.content.Add("Sit in empty seat in \"" + schedule.argument_1 + "\" for " + schedule.argument_2 + "s");
                         break;
                     case NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC:
-                        objInfo2.content.Add("Talk to nearest NPC");
+                        objInfo2.content.Add("Talk to " + schedule.argument_1 + " for " + schedule.argument_2 + "s");
                         break;
                     default:
                         objInfo2.content.Add("???");
@@ -777,6 +866,12 @@ namespace SealTeam4
 
         public void OnHit(Collider c, GlobalEnums.WeaponType weaponType)
         {
+            if (!aiState.alive)
+                return;
+
+            aiAnimController.Anim_Flinch();
+
+
             if (aiState.invincible)
                 return;
 
@@ -784,7 +879,10 @@ namespace SealTeam4
             {
                 if (c == bodyColl)
                 {
-                    aiStats.TakeDamage(aiStats.bodyDmg);
+                    if(weaponType == GlobalEnums.WeaponType.PISTOL)
+                        aiStats.TakeDamage(aiStats.bulletBodyDmg);
+                    else if(weaponType == GlobalEnums.WeaponType.KNIFE)
+                        aiStats.TakeDamage(aiStats.knifeBodyDmg);
                     return;
                 }
             }
@@ -793,7 +891,10 @@ namespace SealTeam4
             {
                 if (c == headColl)
                 {
-                    aiStats.TakeDamage(aiStats.headDmg);
+                    if (weaponType == GlobalEnums.WeaponType.PISTOL)
+                        aiStats.TakeDamage(aiStats.bulletHeadDmg);
+                    else if (weaponType == GlobalEnums.WeaponType.KNIFE)
+                        aiStats.TakeDamage(aiStats.bulletHeadDmg);
                     return;
                 }
             }
@@ -802,7 +903,10 @@ namespace SealTeam4
             {
                 if (c == handColl)
                 {
-                    aiStats.TakeDamage(aiStats.handDmg);
+                    if (weaponType == GlobalEnums.WeaponType.PISTOL)
+                        aiStats.TakeDamage(aiStats.bulletHandDmg);
+                    else if (weaponType == GlobalEnums.WeaponType.KNIFE)
+                        aiStats.TakeDamage(aiStats.knifeLegDmg);
                     return;
                 }
             }
@@ -811,10 +915,23 @@ namespace SealTeam4
             {
                 if (c == legColl)
                 {
-                    aiStats.TakeDamage(aiStats.handDmg);
+                    if (weaponType == GlobalEnums.WeaponType.PISTOL)
+                        aiStats.TakeDamage(aiStats.bulletLegDmg);
+                    else if (weaponType == GlobalEnums.WeaponType.KNIFE)
+                        aiStats.TakeDamage(aiStats.knifeLegDmg);
                     return;
                 }
             }
+        }
+
+        public bool IsTalking()
+        {
+            return aiState.inConversation;
+        }
+
+        public bool IsInDistress()
+        {
+            return aiState.aIMode == AIState.AIMode.CIVILIAN_UNDER_ATTACK;
         }
     }
 }
