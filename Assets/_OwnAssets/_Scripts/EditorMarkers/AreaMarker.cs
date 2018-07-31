@@ -26,8 +26,32 @@ namespace SealTeam4
 
         private new void Update()
         {
-            base.Update();
-            UpdateRegisteredSeatNumber();
+            if(GameManager.instance.IsInLevelEditMode())
+            {
+                base.Update();
+                UpdateRegisteredSeatNumber();
+            }
+            else
+            {
+                PlayAmbientSFX();
+            }
+        }
+
+        private void PlayAmbientSFX()
+        {
+            int npcsTalking = 0;
+            int npcsInDistress = 0;
+
+            foreach(AIController npc in npcsInArea)
+            {
+                if (npc.IsTalking())
+                    npcsTalking++;
+
+                if (npc.IsInDistress())
+                    npcsInDistress++;
+            }
+
+            // Play sounds?
         }
 
         private void UpdateRegisteredSeatNumber()
@@ -49,7 +73,8 @@ namespace SealTeam4
 
             if(other.transform.root.GetComponent<AIController>())
             {
-                npcsInArea.Add(other.transform.root.GetComponent<AIController>());
+                if (!npcsInArea.Exists(x => x == other.transform.root.GetComponent<AIController>()))
+                    npcsInArea.Add(other.transform.root.GetComponent<AIController>());
             }
         }
 

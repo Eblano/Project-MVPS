@@ -928,5 +928,10 @@ namespace SealTeam4
         {
             return aiState.inConversation;
         }
+
+        public bool IsInDistress()
+        {
+            return aiState.aIMode == AIState.AIMode.CIVILIAN_UNDER_ATTACK;
+        }
     }
 }

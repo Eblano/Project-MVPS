@@ -509,9 +509,9 @@ namespace SealTeam4
         public void ToggleWallsCeillingVisibility()
         {
             if (hideWallCeilling)
-                camToFollow.cullingMask = camToFollow.cullingMask | (1 << LayerMask.NameToLayer("HideFromGameMaster"));
+                camToFollow.cullingMask = camToFollow.cullingMask | (1 << LayerMask.NameToLayer("Walls")) | (1 << LayerMask.NameToLayer("Ceilling"));
             else
-                camToFollow.cullingMask = camToFollow.cullingMask & ~(1 << LayerMask.NameToLayer("HideFromGameMaster"));
+                camToFollow.cullingMask = camToFollow.cullingMask & ~(1 << LayerMask.NameToLayer("Walls")) & ~(1 << LayerMask.NameToLayer("Ceilling"));
 
             hideWallCeilling = !hideWallCeilling;
         }
