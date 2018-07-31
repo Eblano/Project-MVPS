@@ -72,7 +72,7 @@ namespace SealTeam4
             Ray ray = new Ray(firingPt.position, firingPt.forward + offsetAmt);
             RaycastHit hitInfo;
 
-            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, layerToHit))
+            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, layerToHit, QueryTriggerInteraction.Ignore))
             {
                 IDamageable iDamagable = hitInfo.transform.root.GetComponent<IDamageable>();
 
@@ -82,7 +82,6 @@ namespace SealTeam4
                 {
                     iDamagable.OnHit(hitInfo.collider, GlobalEnums.WeaponType.PISTOL);
                     
-                    //Spawn blood particles
                 }
                 else
                 {
