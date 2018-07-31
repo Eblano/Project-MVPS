@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using SealTeam4;
 
 
 public class SlideHandler : MonoBehaviour
@@ -79,7 +80,7 @@ public class SlideHandler : MonoBehaviour
 
         if (activeStateChanged != activeState)
         {
-            if (activeState && WeirdGameManagerAssistant.instance.playerID == ownerNetID)
+            if (activeState && GameManagerAssistant.instance.playerID == ownerNetID)
             {
                 gun.LoadChamber();
             }

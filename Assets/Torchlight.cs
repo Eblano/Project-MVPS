@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using SealTeam4;
 
 public class Torchlight : MonoBehaviour, IUsableObject
 {
@@ -15,7 +16,7 @@ public class Torchlight : MonoBehaviour, IUsableObject
 
     public void UseObject(NetworkInstanceId networkInstanceId)
     {
-        WeirdGameManagerAssistant.instance.RelaySenderCmdTorchlightState(torchNetID, !lightSource.enabled);
+        GameManagerAssistant.instance.RelaySenderCmdTorchlightState(torchNetID, !lightSource.enabled);
         SetLightState(!lightSource.enabled);
     }
 

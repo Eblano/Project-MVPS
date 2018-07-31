@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 23271655832708894}
   - component: {fileID: 114672356922924134}
   - component: {fileID: 114214116580221804}
-  m_Layer: 13
+  m_Layer: 9
   m_Name: GrabNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 23598915726663784}
   - component: {fileID: 114839030716251258}
   - component: {fileID: 114317681497853494}
-  m_Layer: 13
+  m_Layer: 9
   m_Name: GrabNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -714,7 +714,7 @@ GameObject:
   - component: {fileID: 23887686523348080}
   - component: {fileID: 114594664649264838}
   - component: {fileID: 114526727173078902}
-  m_Layer: 13
+  m_Layer: 9
   m_Name: GrabNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -934,7 +934,7 @@ GameObject:
   - component: {fileID: 23097494669627786}
   - component: {fileID: 114126442271668502}
   - component: {fileID: 114964952574413184}
-  m_Layer: 13
+  m_Layer: 9
   m_Name: GrabNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2876,6 +2876,7 @@ MonoBehaviour:
       currState: 0
       currShootTargetState: 0
       currKnifeTargetState: 0
+      initEngageTimePassed: 0
       currGunCD: 0
       currKnifeSwingCD: 0
       schBeforeEnteringHostileMode: 0
@@ -2888,8 +2889,9 @@ MonoBehaviour:
   aiStats:
     activateOnSpawn: 1
     npcType: 2
-    gunAccuracy: 0
     threatResponseMode: 0
+    gunAccuracy: 0
+    gunCD: 2
     maxGunRange: 5
     lookAngleMarginOfError: 5
     stopDist: 0.2
@@ -2909,9 +2911,9 @@ MonoBehaviour:
     allDynamicWaypoints: []
     targetDir_AngleMarginOfError: 3
     losMarginSize: 0.3
-    gunCD: 2
     knifeSwingCD: 3
     meleeDist: 0.3
+    initEngageDelay: 0
     vipFollowPlayerDistance: 2
     vipGrabbedPlayerDistance: 0.3
   actionableParameters: []
@@ -2946,6 +2948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendRatePerSecond: 45
+  moveThreshold: 0.005
 --- !u!114 &114120004586611078
 MonoBehaviour:
   m_ObjectHideFlags: 1

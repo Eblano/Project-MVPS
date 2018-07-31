@@ -109,7 +109,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
                 GO.GetComponent<Rigidbody>().AddForce(forceStrength);
             }
 
-            WeirdGameManagerAssistant.instance.RelaySenderCmdGunShellSync(gunNetID, forceStrength);
+            GameManagerAssistant.instance.RelaySenderCmdGunShellSync(gunNetID, forceStrength);
         }
 
         Destroy(GO, 5.0f);
@@ -209,8 +209,8 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             //GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNFIRE, devices);
 
             ControllerHapticsManager.PlayHaptic(ControllerHapticsManager.HapticType.GUNFIRE, devices);
-            WeirdGameManagerAssistant.instance.CmdGunFire(gunNetID);
-            WeirdGameManagerAssistant.instance.RelaySenderCmdGunEffectSync(gunNetID);
+            GameManagerAssistant.instance.CmdGunFire(gunNetID);
+            GameManagerAssistant.instance.RelaySenderCmdGunEffectSync(gunNetID);
             if (gunNetworkAnim)
             {
                 gunNetworkAnim.SetTrigger("Fire");

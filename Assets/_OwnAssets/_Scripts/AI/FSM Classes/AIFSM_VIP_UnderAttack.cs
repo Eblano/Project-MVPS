@@ -78,8 +78,7 @@ namespace SealTeam4
         public void Process_Idle()
         {
             aiState.vip.playerFollowTarget = GameManager.instance.GetVIPFollowTarget();
-
-            Debug.Log("aiState.vip.playerFollowTarget: " + aiState.vip.playerFollowTarget);
+            
             if (aiState.vip.playerFollowTarget && !aiController.WithinDistance(aiState.vip.playerFollowTarget.position, aiStats.vipFollowPlayerDistance))
             {
                 SetProcess_FollowPlayer();

@@ -113,7 +113,15 @@ namespace SealTeam4
             else
                 spawnMarkerDropdownBGImg.color = origColor;
 
-            if(ref_npcSpawnData.movementSpdMultiplier < 1f || ref_npcSpawnData.movementSpdMultiplier > 5f)
+            if(ref_npcSpawnData.initEngageDelay < 0)
+            {
+                movementSpdInputFieldBGImg.color = errorColor;
+                dataIsComplete = false;
+            }
+            else
+                movementSpdInputFieldBGImg.color = origColor;
+
+            if (ref_npcSpawnData.movementSpdMultiplier < 1f || ref_npcSpawnData.movementSpdMultiplier > 5f)
             {
                 movementSpdInputFieldBGImg.color = errorColor;
                 dataIsComplete = false;

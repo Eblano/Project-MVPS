@@ -90,6 +90,8 @@ namespace SealTeam4
             public ShootTargetState currShootTargetState = ShootTargetState.INACTIVE;
             public KnifeTargetState currKnifeTargetState = KnifeTargetState.INACTIVE;
 
+            public float initEngageTimePassed = 0;
+
             public float currGunCD = 0;
             public float currKnifeSwingCD = 0;
 

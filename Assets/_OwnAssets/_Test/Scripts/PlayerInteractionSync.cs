@@ -18,11 +18,18 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
     [SerializeField] private Transform highestPoint;
     [SerializeField] private Collider headCollider;
 
+    private NetworkInstanceId playerID;
+
     private GameManager gameManager;
 
     public override void OnStartServer()
     {
         gameManager = GameManager.instance;
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+        playerID = GetComponent<NetworkIdentity>().netId;
     }
 
     public Transform GetHeadPos()
@@ -41,83 +48,17 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         LerpTransform(lControl, lHandTrans);
         LerpTransform(rControl, rHandTrans);
     }
+    
+    public void LerpTransform(Transform t, Vector3AndQuaternion targetTransform)
+    {
+        t.position = Vector3.Lerp(t.position, targetTransform.pos, 0.5f);
+        t.rotation = Quaternion.Lerp(t.rotation, targetTransform.rot, 0.5f);
+    }
 
-    #region ServerMethods
-    /// <summary>
-    /// Updates the player's postition and rotation.
-    /// </summary>
-    /// <param name="head"></param>
-    /// <param name="lHand"></param>
-    /// <param name="rHand"></param>
     [Command]
     public void CmdSyncVRTransform(Vector3AndQuaternion head, Vector3AndQuaternion lHand, Vector3AndQuaternion rHand)
     {
         RpcSyncVRTransform(head, lHand, rHand);
-    }
-
-    /// <summary>
-    /// Handles objects when player grabs.
-    /// </summary>
-    /// <param name="control"></param>
-    /// <param name="grabRadius"></param>
-    [Command]
-    public void CmdCallGrab(VRTK_DeviceFinder.Devices control, float grabRadius)
-    {
-        RpcCallGrab(control, grabRadius);
-    }
-
-    /// <summary>
-    /// Handles objects when player ungrabs.
-    /// </summary>
-    /// <param name="control"></param>
-    /// <param name="velo"></param>
-    /// <param name="anguVelo"></param>
-    [Command]
-    public void CmdCallUngrab(VRTK_DeviceFinder.Devices control, Vector3 velo, Vector3 anguVelo)
-    {
-        RpcCallUngrab(control, velo, anguVelo);
-    }
-
-    /// <summary>
-    /// Handles object when trigger button is clicked.
-    /// </summary>
-    /// <param name="control"></param>
-    [Command]
-    public void CmdTriggerClick(VRTK_DeviceFinder.Devices control, NetworkInstanceId networkInstanceId)
-    {
-        RpcCallTriggerClick(control, networkInstanceId);
-    }
-
-    /// <summary>
-    /// Handles object when trigger button is unclicked.
-    /// </summary>
-    /// <param name="control"></param>
-    [Command]
-    public void CmdTriggerUnlick(VRTK_DeviceFinder.Devices control)
-    {
-        RpcCallTriggerUnclick(control);
-    }
-
-    /// <summary>
-    /// Handles object when touchpad button is pressed
-    /// </summary>
-    /// <param name="control"></param>
-    /// <param name="touchpadAxis"></param>
-    [Command]
-    public void CmdCallTouchpadButton(VRTK_DeviceFinder.Devices control, Vector2 touchpadAxis)
-    {
-        RpcCallTouchpadButton(control, touchpadAxis);
-    }
-
-    /// <summary>
-    /// Swap the ownership of this hand's grabbed object to the the other hand.
-    /// </summary>
-    /// <param name="control"></param>
-    /// <param name="obj"></param>
-    [Command]
-    private void CmdTransferObject(VRTK_DeviceFinder.Devices control, GameObject obj)
-    {
-        RpcTransferObject(control, obj);
     }
 
     [ClientRpc]
@@ -129,15 +70,28 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         LerpTransform(rControl, rHand);
     }
 
-    public void LerpTransform(Transform t, Vector3AndQuaternion targetTransform)
+    private void TransferObject(VRTK_DeviceFinder.Devices control, GameObject obj)
     {
-        t.position = Vector3.Lerp(t.position, targetTransform.pos, 0.5f);
-        t.rotation = Quaternion.Lerp(t.rotation, targetTransform.rot, 0.5f);
+        Transform snapTarget = null;
+
+        switch (control)
+        {
+            case VRTK_DeviceFinder.Devices.LeftController:
+                snapTarget = lControl;
+                leftHandObj = obj;
+                rightHandObj = null;
+                break;
+            case VRTK_DeviceFinder.Devices.RightController:
+                snapTarget = rControl;
+                rightHandObj = obj;
+                leftHandObj = null;
+                break;
+        }
+
+        SnapObjectToController(obj, snapTarget, obj.GetComponent<InteractableObject>().GetGrabPosition());
     }
 
-
-    [ClientRpc]
-    public void RpcCallGrab(VRTK_DeviceFinder.Devices control, float grabRadius)
+    public void Grab(VRTK_DeviceFinder.Devices control, float grabRadius)
     {
         // If the controller is grabbing something
         if (ControllerIsGrabbingSomething(control))
@@ -147,13 +101,17 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
         Transform snapTarget = null;
 
+        bool isLeftGrab = false;
+
         switch (control)
         {
             case VRTK_DeviceFinder.Devices.LeftController:
                 snapTarget = lControl;
+                isLeftGrab = true;
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
                 snapTarget = rControl;
+                isLeftGrab = false;
                 break;
         }
 
@@ -162,123 +120,35 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         // Set current grabbed object as nearest game object within radius
         currGrabbedObj = GetNearestGameObjectWithinGrabRadius(grabRadius, snapTarget.position);
 
-        // If there is no grabbable object, stop running this method
-        if (currGrabbedObj == null)
+        GrabCalculate(currGrabbedObj, control);
+
+        if (!currGrabbedObj)
         {
             return;
         }
 
-        // If grabbing the same object
-        if (IsSameObjectGrab(control, currGrabbedObj))
-        {
-            CmdTransferObject(control, currGrabbedObj);
-            return;
-        }
-
-        if (IsSecondaryGrab(control, currGrabbedObj))
-        {
-            Transform objectParent = currGrabbedObj.transform.parent;
-            ITwoHandedObject twoHandedObject;
-            twoHandedObject = objectParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
-            if (objectParent.GetComponent<Gun>() && currGrabbedObj.CompareTag("SecondGrabPoint"))
-            {
-                twoHandedObject.SecondHandActive();
-            }
-            
-            if (currGrabbedObj.GetComponent<SlideHandler>())
-            {
-                SlideHandler slide = currGrabbedObj.GetComponent<SlideHandler>();
-                //slide.OnGrabbed();
-            }
-        }
-
-        // Store grabbed object on the correct hand
-        switch (control)
-        {
-            case VRTK_DeviceFinder.Devices.LeftController:
-                leftHandObj = currGrabbedObj;
-                break;
-            case VRTK_DeviceFinder.Devices.RightController:
-                rightHandObj = currGrabbedObj;
-                break;
-        }
-
-        InteractableObject interactableObject = currGrabbedObj.GetComponent<InteractableObject>();
-        interactableObject.SetOwner(gameObject);
-        SnapObjectToController(currGrabbedObj, snapTarget, interactableObject.GetGrabPosition());
+        GameManagerAssistant.instance.RelaySenderCmdSnapToController(currGrabbedObj.GetComponent<NetworkIdentity>().netId, isLeftGrab);
     }
 
-    [ClientRpc]
-    public void RpcCallUngrab(VRTK_DeviceFinder.Devices control, Vector3 velo, Vector3 anguVelo)
+    public void Ungrab(VRTK_DeviceFinder.Devices control, Vector3 velo, Vector3 anguVelo)
     {
-        // If the controller is not grabbing something
-        if (!ControllerIsGrabbingSomething(control))
-        {
-            return;
-        }
-
-        GameObject currGrabbedObj = null;
+        bool isLeftGrab = false;
 
         switch (control)
         {
             case VRTK_DeviceFinder.Devices.LeftController:
-                currGrabbedObj = leftHandObj;
-                leftHandObj = null;
+                isLeftGrab = true;
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
-                currGrabbedObj = rightHandObj;
-                rightHandObj = null;
+                isLeftGrab = false;
                 break;
         }
 
-        Transform grabbedObjParent;
-        grabbedObjParent = currGrabbedObj.GetComponent<InteractableObject>().GetParent();
-        currGrabbedObj.GetComponent<InteractableObject>().SetOwner(null);
-        if (grabbedObjParent)
-        {
-            ITwoHandedObject twoHandedObject;
-            twoHandedObject = grabbedObjParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
-
-            if(twoHandedObject != null)
-            {
-                twoHandedObject.SecondHandInactive();
-            }
-
-            currGrabbedObj.transform.SetParent(grabbedObjParent);
-
-            if (currGrabbedObj.GetComponent<SlideHandler>())
-            {
-                SlideHandler slide = currGrabbedObj.GetComponent<SlideHandler>();
-                //slide.OnUngrabbed();
-                slide.ResetLocalPos();
-            }
-        }
-        else
-        {
-            currGrabbedObj.transform.SetParent(null);
-        }
-
-        // Check if object is snappable
-        if (currGrabbedObj.GetComponent<SnappableObject>())
-        {
-            // Check for nearby snappable spots
-            if (currGrabbedObj.GetComponent<SnappableObject>().IsNearSnappables())
-            {
-                currGrabbedObj.GetComponent<SnappableObject>().CheckSnappable();
-            }
-            else
-            {
-                ApplyControllerPhysics(currGrabbedObj.GetComponent<Rigidbody>(), velo, anguVelo);
-            }
-        }
-        else
-        {
-            ApplyControllerPhysics(currGrabbedObj.GetComponent<Rigidbody>(), velo, anguVelo);
-        }
+        UnGrabCalculate(control, velo, anguVelo);
+        GameManagerAssistant.instance.RelaySenderCmdUnSnapFromController(isLeftGrab, velo, anguVelo);
     }
 
-    [ClientRpc]
-    public void RpcCallTriggerClick(VRTK_DeviceFinder.Devices control, NetworkInstanceId networkInstanceId)
+    public void TriggerClick(VRTK_DeviceFinder.Devices control, NetworkInstanceId networkInstanceId)
     {
         // If the controller is not grabbing something
         if (!ControllerIsGrabbingSomething(control))
@@ -308,38 +178,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         usableObject.Use(networkInstanceId);
     }
 
-    [ClientRpc]
-    public void RpcCallTriggerUnclick(VRTK_DeviceFinder.Devices control)
-    {
-        // If the controller is not grabbing something
-        if (!ControllerIsGrabbingSomething(control))
-        {
-            return;
-        }
-
-        GameObject currGrabbedObj = null;
-
-        switch (control)
-        {
-            case VRTK_DeviceFinder.Devices.LeftController:
-                currGrabbedObj = leftHandObj;
-                break;
-            case VRTK_DeviceFinder.Devices.RightController:
-                currGrabbedObj = rightHandObj;
-                break;
-        }
-
-        // Return if object grabbed is not usable
-        if (currGrabbedObj.GetComponent<UsableObject>() == null)
-        {
-            return;
-        }
-
-        //currGrabbedObj.GetComponent<NetworkUsableObject>().use = false;
-    }
-
-    [ClientRpc]
-    public void RpcCallTouchpadButton(VRTK_DeviceFinder.Devices control, Vector2 touchpadAxis)
+    public void TouchpadButton(VRTK_DeviceFinder.Devices control, Vector2 touchpadAxis)
     {
         // If the controller is not grabbing something
         if (!ControllerIsGrabbingSomething(control))
@@ -376,30 +215,6 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             usableObject.UseDown();
         }
     }
-
-    // METHOD TO UPDATE CLIENT SIDE FIRST
-    [ClientRpc]
-    private void RpcTransferObject(VRTK_DeviceFinder.Devices control, GameObject obj)
-    {
-        Transform snapTarget = null;
-
-        switch (control)
-        {
-            case VRTK_DeviceFinder.Devices.LeftController:
-                snapTarget = lControl;
-                leftHandObj = obj;
-                rightHandObj = null;
-                break;
-            case VRTK_DeviceFinder.Devices.RightController:
-                snapTarget = rControl;
-                rightHandObj = obj;
-                leftHandObj = null;
-                break;
-        }
-
-        SnapObjectToController(obj, snapTarget, obj.GetComponent<InteractableObject>().GetGrabPosition());
-    }
-    #endregion ServerMethods
 
     #region HelperMethods
     /// <summary>
@@ -551,6 +366,153 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         // Transfer all controller velocities to object
         rb.angularVelocity = anguVelo;
         rb.velocity = velo;
+    }
+
+    public void GrabCalculate(GameObject currGrabbedObj, VRTK_DeviceFinder.Devices control)
+    {
+        // If there is no grabbable object, stop running this method
+        if (currGrabbedObj == null)
+        {
+            Debug.Log("No grabbable");
+            return;
+        }
+
+        // If grabbing the same object
+        if (IsSameObjectGrab(control, currGrabbedObj))
+        {
+            Debug.Log("SameObjectGrab");
+            TransferObject(control, currGrabbedObj);
+            return;
+        }
+
+        if (IsSecondaryGrab(control, currGrabbedObj))
+        {
+            Debug.Log("SecondaryGrab");
+            Transform objectParent = currGrabbedObj.transform.parent;
+            ITwoHandedObject twoHandedObject;
+            twoHandedObject = objectParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
+            if (objectParent.GetComponent<Gun>() && currGrabbedObj.CompareTag("SecondGrabPoint"))
+            {
+                twoHandedObject.SecondHandActive();
+            }
+
+            if (currGrabbedObj.GetComponent<SlideHandler>())
+            {
+                SlideHandler slide = currGrabbedObj.GetComponent<SlideHandler>();
+                slide.OnGrabbed(playerID);
+            }
+        }
+
+        Transform snapTarget = null;
+
+        // Store grabbed object on the correct hand
+        switch (control)
+        {
+            case VRTK_DeviceFinder.Devices.LeftController:
+                leftHandObj = currGrabbedObj;
+                snapTarget = lControl;
+                break;
+            case VRTK_DeviceFinder.Devices.RightController:
+                rightHandObj = currGrabbedObj;
+                snapTarget = rControl;
+                break;
+        }
+
+        InteractableObject interactableObject = currGrabbedObj.GetComponent<InteractableObject>();
+        interactableObject.SetOwner(gameObject);
+        SnapObjectToController(currGrabbedObj, snapTarget, interactableObject.GetGrabPosition());
+    }
+
+    public void UnGrabCalculate(VRTK_DeviceFinder.Devices control, Vector3 velo, Vector3 anguVelo)
+    {
+        // If the controller is not grabbing something
+        if (!ControllerIsGrabbingSomething(control))
+        {
+            return;
+        }
+
+        GameObject currGrabbedObj = null;
+
+        switch (control)
+        {
+            case VRTK_DeviceFinder.Devices.LeftController:
+                currGrabbedObj = leftHandObj;
+                leftHandObj = null;
+                break;
+            case VRTK_DeviceFinder.Devices.RightController:
+                currGrabbedObj = rightHandObj;
+                rightHandObj = null;
+                break;
+        }
+
+        Transform grabbedObjParent;
+        grabbedObjParent = currGrabbedObj.GetComponent<InteractableObject>().GetParent();
+        currGrabbedObj.GetComponent<InteractableObject>().SetOwner(null);
+        if (grabbedObjParent)
+        {
+            ITwoHandedObject twoHandedObject;
+            twoHandedObject = grabbedObjParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
+
+            if (twoHandedObject != null)
+            {
+                twoHandedObject.SecondHandInactive();
+            }
+
+            currGrabbedObj.transform.SetParent(grabbedObjParent);
+
+            if (currGrabbedObj.GetComponent<SlideHandler>())
+            {
+                SlideHandler slide = currGrabbedObj.GetComponent<SlideHandler>();
+                slide.OnUngrabbed(playerID);
+                slide.ResetLocalPos();
+            }
+        }
+        else
+        {
+            currGrabbedObj.transform.SetParent(null);
+        }
+
+        // Check if object is snappable
+        if (currGrabbedObj.GetComponent<SnappableObject>())
+        {
+            // Check for nearby snappable spots
+            if (currGrabbedObj.GetComponent<SnappableObject>().IsNearSnappables())
+            {
+                currGrabbedObj.GetComponent<SnappableObject>().CheckSnappable();
+            }
+            else
+            {
+                ApplyControllerPhysics(currGrabbedObj.GetComponent<Rigidbody>(), velo, anguVelo);
+            }
+        }
+        else
+        {
+            ApplyControllerPhysics(currGrabbedObj.GetComponent<Rigidbody>(), velo, anguVelo);
+        }
+    }
+
+    public void SyncControllerSnap(bool isLeftControl, GameObject childObj)
+    {
+        if (isLeftControl)
+        {
+            GrabCalculate(childObj, VRTK_DeviceFinder.Devices.LeftController);
+        }
+        else
+        {
+            GrabCalculate(childObj, VRTK_DeviceFinder.Devices.RightController);
+        }
+    }
+
+    public void SyncControllerUnSnap(bool isLeftControl, Vector3 velo, Vector3 anguVelo)
+    {
+        if (isLeftControl)
+        {
+            UnGrabCalculate(VRTK_DeviceFinder.Devices.LeftController, velo, anguVelo);
+        }
+        else
+        {
+            UnGrabCalculate(VRTK_DeviceFinder.Devices.RightController, velo, anguVelo);
+        }
     }
 
     public List<string> GetActions()
