@@ -324,14 +324,15 @@ public class NPCSpawnData_SStorage
     public string spawnMarkerName;
     public string npcOutfit = "TYPE_1";
     public string aiType = "Civillian";
-    public string gunAccuracy = "HIGH";
     public float movementSpdMultiplier = 1;
 
     [Header("Civillian Properties")]
     public string civillianThreatResponse = "Freeze";
 
     [Header("Terrorist Properties")]
+    public string gunAccuracy = "HIGH";
     public string dynamicWaypointPrefix = "";
+    public float initEngageDelay;
 
     public string[] GetAllCivillianStressResponses()
     {

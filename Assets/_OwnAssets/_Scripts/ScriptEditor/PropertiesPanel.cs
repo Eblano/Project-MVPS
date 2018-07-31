@@ -29,6 +29,7 @@ namespace SealTeam4
         [Header("Terrorist Specific")]
         [SerializeField] private GameObject t_PropertiesPanel;
         [SerializeField] private TMP_InputField t_DWPPrefixInputField;
+        [SerializeField] private TMP_InputField t_InitEngageDelayInputField;
         [SerializeField] private TMP_Dropdown t_GunAccuracyDropdown;
 
         // Color when there is error
@@ -146,6 +147,7 @@ namespace SealTeam4
         private void Setup_T_PropertiesPanel()
         {
             Setup_T_DWPPrefixInputField();
+            Setup_T_InitEngageDelayInputField();
             Setup_GunAccuracyDropdown();
 
             if (a_AITypeDropdown.options[a_AITypeDropdown.value].text == "Terrorist")
@@ -159,6 +161,13 @@ namespace SealTeam4
             t_DWPPrefixInputField.onValueChanged.AddListener(delegate { OnValueChanged_T_DWPPrefixInputField(); });
 
             t_DWPPrefixInputField.text = ref_npcSpawnData.dynamicWaypointPrefix;
+        }
+
+        private void Setup_T_InitEngageDelayInputField()
+        {
+            t_InitEngageDelayInputField.onValueChanged.AddListener(delegate { OnValueChanged_InitEngageDelayInputField(); });
+
+            t_InitEngageDelayInputField.text = ref_npcSpawnData.initEngageDelay.ToString();
         }
 
         private void Setup_C_ThreatRespondBehaviourDropdown()
@@ -419,6 +428,11 @@ namespace SealTeam4
         private void OnValueChanged_T_DWPPrefixInputField()
         {
             ref_npcSpawnData.dynamicWaypointPrefix = t_DWPPrefixInputField.text;
+        }
+
+        private void OnValueChanged_InitEngageDelayInputField()
+        {
+            ref_npcSpawnData.initEngageDelay = float.Parse(t_InitEngageDelayInputField.text);
         }
 
         public string GetNPCName()
