@@ -243,6 +243,9 @@ namespace SealTeam4
         {
             aiState.inConversation = false;
             aiState.aIMode = AIState.AIMode.FOLLOW_SCHEDULE;
+            if(aiState.currConvoNPCTarget)
+                aiState.currConvoNPCTarget.SetAction("End Conversation (Next)");
+            
             aiState.currConvoNPCTarget = null;
             aiAnimController.Anim_StopStandTalking();
             RemoveAction("End Conversation (Next)");
@@ -586,10 +589,17 @@ namespace SealTeam4
                     break;
 
                 case "End Conversation (Next)":
-                    if (npcSchedules[aiState.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC)
-                        aiFSM_FollowSchedule.SetAction_End_TalkToOtherNPC();
-                    else if (npcSchedules[aiState.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC)
+                    if (!aiState.inConversation)
+                        return;
+
+                    if (aiState.aIMode == AIState.AIMode.PARTICIPATE_CONVO)
                         SetAction_End_RecivingConvo();
+
+                    if (npcSchedules.Count == 0)
+                        return;
+
+                    if (npcSchedules[aiState.currSchedule].scheduleType == NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC)
+                    aiFSM_FollowSchedule.SetAction_End_TalkToOtherNPC();
                     break;
 
                 case "Enter Hostile Mode":
@@ -833,7 +843,7 @@ namespace SealTeam4
                         objInfo2.content.Add("Sit in empty seat in \"" + schedule.argument_1 + "\" for " + schedule.argument_2 + "s");
                         break;
                     case NPCSchedule.SCHEDULE_TYPE.TALK_TO_OTHER_NPC:
-                        objInfo2.content.Add("Talk to nearest NPC");
+                        objInfo2.content.Add("Talk to " + schedule.argument_1 + " for " + schedule.argument_2 + "s");
                         break;
                     default:
                         objInfo2.content.Add("???");
@@ -912,6 +922,11 @@ namespace SealTeam4
                     return;
                 }
             }
+        }
+
+        public bool IsTalking()
+        {
+            return aiState.inConversation;
         }
     }
 }

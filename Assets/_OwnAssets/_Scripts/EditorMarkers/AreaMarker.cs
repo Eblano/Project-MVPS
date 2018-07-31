@@ -16,6 +16,7 @@ namespace SealTeam4
 
         private List<string> actionList = new List<string>();
         private List<AIController> npcsSeatedInArea = new List<AIController>();
+        private List<AIController> npcsInArea = new List<AIController>();
 
         private new void Start()
         {
@@ -45,6 +46,11 @@ namespace SealTeam4
                     seat.SetSeatAreaOwned(this);
                 }
             }
+
+            if(other.transform.root.GetComponent<AIController>())
+            {
+                npcsInArea.Add(other.transform.root.GetComponent<AIController>());
+            }
         }
 
         public void UnregisterNPCSitInArea(AIController npc)
@@ -63,6 +69,12 @@ namespace SealTeam4
                     UnregisterSeat(seat);
                     seat.GetComponent<SeatMarker>().SetSeatAreaOwned(null);
                 }
+            }
+
+            if (other.transform.root.GetComponent<AIController>())
+            {
+                if (npcsInArea.Exists(x => x == other.transform.root.GetComponent<AIController>()))
+                    npcsInArea.Remove(other.transform.root.GetComponent<AIController>());
             }
         }
 
