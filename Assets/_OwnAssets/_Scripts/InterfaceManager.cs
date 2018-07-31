@@ -58,6 +58,7 @@ namespace SealTeam4
         [SerializeField] private Button spawnNPCAccessoriesButton;
         [SerializeField] private Button showHideWallsCeillingBtn;
         [SerializeField] private Button showHideMarkersBtn;
+        [SerializeField] private Button backToEditorBtn;
         private bool hideWallsCeillings = false;
         private bool hideMarkers = false;
 
@@ -112,6 +113,7 @@ namespace SealTeam4
             spawnNPCAccessoriesButton.onClick.AddListener(delegate { OnSpawnNPCsAccButtonClick(); });
             showHideWallsCeillingBtn.onClick.AddListener(delegate { OnShowHideWallsCeillingBtn(); });
             showHideMarkersBtn.onClick.AddListener(delegate { OnShowHideMarkersBtn(); });
+            backToEditorBtn.onClick.AddListener(delegate { OnBackToEditorBtn(); });
         }
 
         // Update is called once per frame
@@ -484,6 +486,11 @@ namespace SealTeam4
             }
 
             hideMarkers = !hideMarkers;
+        }
+
+        private void OnBackToEditorBtn()
+        {
+            GameManager.instance.RestartScene();
         }
     }
 }

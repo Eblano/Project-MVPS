@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
     [SerializeField] private GameObject uiPanel;
     [SerializeField] private GameObject connectedPlayerUI;
+    [SerializeField] private GameObject disconnectedPopup;
     private Text txtConnectedPlayer;
 
     [SerializeField] private TextMeshProUGUI ipaddressTxt;
@@ -84,7 +85,12 @@ public class UIManager : MonoBehaviour
 
     public void SetConnectPlayerTxtState(bool state)
     {
-        connectedPlayerUI.SetActive(state);
+        //connectedPlayerUI.SetActive(state);
+    }
+
+    public void ShowDisconnectedPopup()
+    {
+        disconnectedPopup.SetActive(true);
     }
 
     public void SetConnectPlayerTxt(string txt)
