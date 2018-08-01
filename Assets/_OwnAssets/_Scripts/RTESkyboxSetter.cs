@@ -8,9 +8,8 @@ namespace SealTeam4
     public class RTESkyboxSetter : MonoBehaviour
     {
         private Material[] skyboxMats;
-        [SerializeField] private enum SKYBOXTYPE { Sunset, Midnight, DayTime };
-        [SerializeField] private SKYBOXTYPE skyboxType = SKYBOXTYPE.DayTime;
-        private SKYBOXTYPE prevSkyboxType;
+        [SerializeField] private GlobalEnums.SKYBOXTYPE skyboxType = GlobalEnums.SKYBOXTYPE.DayTime;
+        private GlobalEnums.SKYBOXTYPE prevSkyboxType;
 
         private void Start()
         {
@@ -40,17 +39,25 @@ namespace SealTeam4
 
             switch (skyboxType)
             {
-                case SKYBOXTYPE.DayTime:
+                case GlobalEnums.SKYBOXTYPE.DayTime:
                     skyboxMat = skyboxMats[2];
+                    if (RealtimeGlobalLightingManager.instance)
+                        RealtimeGlobalLightingManager.instance.SetLightMode(GlobalEnums.SKYBOXTYPE.DayTime);
                     break;
-                case SKYBOXTYPE.Sunset:
+                case GlobalEnums.SKYBOXTYPE.Sunset:
                     skyboxMat = skyboxMats[0];
+                    if (RealtimeGlobalLightingManager.instance)
+                        RealtimeGlobalLightingManager.instance.SetLightMode(GlobalEnums.SKYBOXTYPE.Sunset);
                     break;
-                case SKYBOXTYPE.Midnight:
+                case GlobalEnums.SKYBOXTYPE.Midnight:
                     skyboxMat = skyboxMats[1];
+                    if (RealtimeGlobalLightingManager.instance)
+                        RealtimeGlobalLightingManager.instance.SetLightMode(GlobalEnums.SKYBOXTYPE.Midnight);
                     break;
                 default:
                     skyboxMat = skyboxMats[0];
+                    if (RealtimeGlobalLightingManager.instance)
+                        RealtimeGlobalLightingManager.instance.SetLightMode(GlobalEnums.SKYBOXTYPE.Sunset);
                     break;
             }
 

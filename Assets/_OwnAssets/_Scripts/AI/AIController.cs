@@ -700,7 +700,7 @@ namespace SealTeam4
             if ((aiState.active && actionableParameters.Contains("Activate NPC")) || (!aiState.alive && actionableParameters.Contains("Activate NPC")))
                 actionableParameters.Remove("Activate NPC");
 
-            if (!aiState.active && !actionableParameters.Contains("Activate NPC"))
+            if (!aiState.active && !actionableParameters.Contains("Activate NPC") && aiState.alive)
             {
                 actionableParameters.Clear();
                 actionableParameters.Add("Activate NPC");

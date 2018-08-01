@@ -5,6 +5,7 @@ namespace SealTeam4
     {
         public enum WeaponType { PISTOL, KNIFE }
         public enum GunAccuracy { LOW, MID, HIGH }
+        public enum SKYBOXTYPE { Sunset, Midnight, DayTime };
     }
 }
 
