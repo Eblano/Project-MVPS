@@ -26,6 +26,7 @@ public class DoorHandle : MonoBehaviour
 
     public void SetUpKnob(GameObject syncObj)
     {
+        Debug.Log(syncObj.name+", " + parentObj.name);
         syncObj.transform.SetParent(parentObj);
         syncObj.transform.localPosition = transform.localPosition;
         syncObj.transform.localRotation = transform.localRotation;

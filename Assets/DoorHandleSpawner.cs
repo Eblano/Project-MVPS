@@ -34,6 +34,7 @@ public class DoorHandleSpawner : MonoBehaviour
             }
             doorHandles[i].InstantiateGrabNode(i);
         }
+
     }
 
     public void RegisterHandle(DoorHandle doorHandle)
