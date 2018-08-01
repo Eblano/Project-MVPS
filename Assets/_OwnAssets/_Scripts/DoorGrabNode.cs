@@ -7,7 +7,7 @@ public class DoorGrabNode : InteractableObject
 {
     [SerializeField] private bool isBeingGrabbed = false;
     private bool grabStateChanged = false;
-    [SerializeField] private Door[] doors;
+    [SerializeField] private List<Door> doors = new List<Door>();
 
     private void Update()
     {
@@ -39,7 +39,7 @@ public class DoorGrabNode : InteractableObject
         }
     }
 
-    public void SetDoors(Door[] doors)
+    public void Initialise(ref List<Door> doors)
     {
         this.doors = doors;
     }
