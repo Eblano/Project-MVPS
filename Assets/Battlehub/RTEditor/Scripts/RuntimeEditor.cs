@@ -30,7 +30,7 @@ namespace Battlehub.RTEditor
         public GameObject editorCam_Prefab;
 
         public Camera[] SceneCameras;
-        public KeyCode SwitchSceneCameraKey = KeyCode.H;
+        //public KeyCode SwitchSceneCameraKey = KeyCode.H;
 
         public RuntimeSceneView SceneView;
         public GameObject GameView;
@@ -196,10 +196,10 @@ namespace Battlehub.RTEditor
                 return;
             }
 
-            if (InputController.GetKeyDown(SwitchSceneCameraKey))
-            {
-                SwitchSceneCamera();
-            }
+            //if (InputController.GetKeyDown(SwitchSceneCameraKey))
+            //{
+            //    SwitchSceneCamera();
+            //}
 
             //if (InputController.GetKeyDown(EnterPlayModeKey) && InputController.GetKey(ModifierKey))
             //{
