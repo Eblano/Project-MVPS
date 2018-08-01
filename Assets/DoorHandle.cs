@@ -9,7 +9,7 @@ public class DoorHandle : MonoBehaviour
 {
     [SerializeField] private Transform parentObj;
     [SerializeField] private GameObject grabNodePref;
-    [SerializeField] Door[] doors;
+    [SerializeField] private Door[] doors;
 
     private void Start()
     {
@@ -29,6 +29,6 @@ public class DoorHandle : MonoBehaviour
         syncObj.transform.SetParent(parentObj);
         syncObj.transform.localPosition = transform.localPosition;
         syncObj.transform.localRotation = transform.localRotation;
-        syncObj.GetComponent<DoorGrabNode>().Initialise(ref doors);
+        syncObj.GetComponent<DoorGrabNode>().Initialise(ref doors, transform);
     }
 }

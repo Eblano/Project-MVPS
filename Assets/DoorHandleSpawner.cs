@@ -28,6 +28,10 @@ public class DoorHandleSpawner : MonoBehaviour
     {
         for(int i = 0; i < doorHandles.Count; i++)
         {
+            if(doorHandles[i] == null)
+            {
+                continue;
+            }
             doorHandles[i].InstantiateGrabNode(i);
         }
     }

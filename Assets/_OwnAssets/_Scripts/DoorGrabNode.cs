@@ -29,7 +29,7 @@ public class DoorGrabNode : InteractableObject
         {
             if (isBeingGrabbed)
             {
-                foreach(Door door in doors)
+                foreach (Door door in doors)
                 {
                     door.EnableDoorRot();
                 }
@@ -39,8 +39,9 @@ public class DoorGrabNode : InteractableObject
         }
     }
 
-    public void Initialise(ref Door[] doors)
+    public void Initialise(ref Door[] doors, Transform grabPos)
     {
         this.doors = doors;
+        SetGrabPosition(grabPos);
     }
 }
