@@ -25,7 +25,7 @@ namespace SealTeam4
 
         #region Hidden Parameters
         [HideInInspector] public float lookAngleMarginOfError = 2f; // Min angle of error when rotating to face target
-        [HideInInspector] public float stopDist = 0.2f; // Stop distance to any target
+        [HideInInspector] public float stopDist = 0.05f; // Stop distance to any target
         [HideInInspector] public float stopDist_Convo = 1.0f; // Stop distance for conversation
 
         [HideInInspector] public float turningSpeed = 30f;

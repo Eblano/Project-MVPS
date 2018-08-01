@@ -9,21 +9,21 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1796488010431540}
+  m_RootGameObject: {fileID: 1761746050567532}
   m_IsPrefabParent: 1
---- !u!1 &1796488010431540
+--- !u!1 &1761746050567532
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4827079279632632}
-  - component: {fileID: 33026995438422750}
-  - component: {fileID: 23967632159690816}
-  - component: {fileID: 65914610454522964}
-  - component: {fileID: 114942332760850232}
-  - component: {fileID: 114426914716427442}
+  - component: {fileID: 4837381010763780}
+  - component: {fileID: 33743632511350942}
+  - component: {fileID: 23394006892349186}
+  - component: {fileID: 65910171619142016}
+  - component: {fileID: 114255525686828420}
+  - component: {fileID: 114112824601447534}
   m_Layer: 0
   m_Name: Ceilling Light
   m_TagString: Untagged
@@ -31,12 +31,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4827079279632632
+--- !u!4 &4837381010763780
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1796488010431540}
+  m_GameObject: {fileID: 1761746050567532}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
@@ -44,12 +44,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23967632159690816
+--- !u!23 &23394006892349186
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1796488010431540}
+  m_GameObject: {fileID: 1761746050567532}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -79,31 +79,31 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33026995438422750
+--- !u!33 &33743632511350942
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1796488010431540}
+  m_GameObject: {fileID: 1761746050567532}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65914610454522964
+--- !u!65 &65910171619142016
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1796488010431540}
+  m_GameObject: {fileID: 1761746050567532}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114426914716427442
+--- !u!114 &114112824601447534
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1796488010431540}
+  m_GameObject: {fileID: 1761746050567532}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e082b6109e3aa6a4fad8e82c5b9bbbf4, type: 3}
@@ -114,12 +114,12 @@ MonoBehaviour:
   intensity: 1
   angle: 100
   lightColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!114 &114942332760850232
+--- !u!114 &114255525686828420
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1796488010431540}
+  m_GameObject: {fileID: 1761746050567532}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fee2839c2efa7f40850a05a41c9fd00, type: 3}
