@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.Networking;
 using SealTeam4;
 
+[ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
 public class DoorHandle : MonoBehaviour
 {
     [SerializeField] private Transform parentObj;
     [SerializeField] private GameObject grabNodePref;
-    [SerializeField] private List<Door> doors;
+    [SerializeField] Door[] doors;
 
     private void Start()
     {
