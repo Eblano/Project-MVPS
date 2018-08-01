@@ -26,7 +26,8 @@ namespace SealTeam4
         private void CreateLightOBJ()
         {
             GameObject lightGo = new GameObject();
-            lightGo.name = "CeillingLight";
+            lightGo.name = "CeillingLightSource";
+            lightGo.transform.SetParent(gameObject.transform);
             lightGo.AddComponent<PersistentIgnore>();
             light = lightGo.AddComponent<Light>();
             light.type = LightType.Spot;
