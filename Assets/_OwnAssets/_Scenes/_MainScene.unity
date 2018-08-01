@@ -227,6 +227,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1044430686693050, guid: af6b4b6ce3a27e4458d36ac4393d2307, type: 2}
+      propertyPath: m_Name
+      value: Managers
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114772663251373130, guid: af6b4b6ce3a27e4458d36ac4393d2307, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: af6b4b6ce3a27e4458d36ac4393d2307, type: 2}
@@ -629,17 +633,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 3211e06f-c4b2-44e3-ac83-6a040e6f64fa
+  Guid: e5f71e0a-5113-41cf-8367-15df4e798c7c
   Mapping:
   - Name: MainCamera
     Object: {fileID: 1123077324}
-    Id: 10870
+    Id: 12388
   - Name: MainCamera
     Object: {fileID: 1123077317}
-    Id: 10871
+    Id: 12389
   - Name: MainCamera
     Object: {fileID: 1123077321}
-    Id: 10872
+    Id: 12390
 --- !u!114 &1123077324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -696,17 +700,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 3211e06f-c4b2-44e3-ac83-6a040e6f64fa
+  Guid: e5f71e0a-5113-41cf-8367-15df4e798c7c
   Mapping:
   - Name: Level
     Object: {fileID: 1332449227}
-    Id: 10867
+    Id: 12391
   - Name: Level
     Object: {fileID: 1332449224}
-    Id: 10868
+    Id: 12392
   - Name: Level
     Object: {fileID: 1332449225}
-    Id: 10869
+    Id: 12393
 --- !u!114 &1332449227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2627,17 +2631,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 3211e06f-c4b2-44e3-ac83-6a040e6f64fa
+  Guid: e5f71e0a-5113-41cf-8367-15df4e798c7c
   Mapping:
   - Name: EventSystem
     Object: {fileID: 1903868624}
-    Id: 10873
+    Id: 12394
   - Name: EventSystem
     Object: {fileID: 1903868619}
-    Id: 10874
+    Id: 12395
   - Name: EventSystem
     Object: {fileID: 1903868622}
-    Id: 10875
+    Id: 12396
 --- !u!114 &1903868624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2666,17 +2670,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 3211e06f-c4b2-44e3-ac83-6a040e6f64fa
+  Guid: e5f71e0a-5113-41cf-8367-15df4e798c7c
   Mapping:
   - Name: RuntimeEditor
     Object: {fileID: 1955926211}
-    Id: 10876
+    Id: 12397
   - Name: RuntimeEditor
     Object: {fileID: 1955926209}
-    Id: 10877
+    Id: 12398
   - Name: RuntimeEditor
     Object: {fileID: 1955926218}
-    Id: 10878
+    Id: 12399
 --- !u!114 &1955926211 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114196523117519802, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
@@ -2801,25 +2805,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 3211e06f-c4b2-44e3-ac83-6a040e6f64fa
+  Guid: e5f71e0a-5113-41cf-8367-15df4e798c7c
   Mapping:
-  - Name: GameManager
+  - Name: Managers
     Object: {fileID: 2128280399}
-    Id: 10879
-  - Name: GameManager
+    Id: 12400
+  - Name: Managers
     Object: {fileID: 2128280397}
-    Id: 10880
-  - Name: GameManager
+    Id: 12401
+  - Name: Managers
     Object: {fileID: 2128280401}
-    Id: 10881
+    Id: 12402
 --- !u!114 &2128280399 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114767845761546020, guid: af6b4b6ce3a27e4458d36ac4393d2307,
     type: 2}
   m_PrefabInternal: {fileID: 350121405}
   m_Script: {fileID: 11500000, guid: e3e6e5caff00456448eef773e985c022, type: 3}
+--- !u!114 &2128280400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2128280397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbe8a60a27d9e14d9ae1d280fb8c5a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSources: []
 --- !u!4 &2128280401 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4455132867978186, guid: af6b4b6ce3a27e4458d36ac4393d2307,
     type: 2}
   m_PrefabInternal: {fileID: 350121405}
+--- !u!114 &2128280402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2128280397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fffec62f050bde14da31e344f0ae23b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorHandles: []
