@@ -5,7 +5,7 @@ using UnityEngine;
 public class DoorHandleSpawner : MonoBehaviour
 {
     public static DoorHandleSpawner instance;
-    private List<DoorHandle> doorHandles = new List<DoorHandle>();
+    [HideInInspector] public List<DoorHandle> doorHandles = new List<DoorHandle>();
 
     private void Start()
     {
@@ -15,9 +15,9 @@ public class DoorHandleSpawner : MonoBehaviour
 
     public void SpawnHandles()
     {
-        foreach(DoorHandle dH in doorHandles)
+        for(int i = 0; i < doorHandles.Count; i++)
         {
-            
+            doorHandles[i].InstantiateGrabNode(i);
         }
     }
 

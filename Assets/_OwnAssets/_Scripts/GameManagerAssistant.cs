@@ -228,6 +228,12 @@ namespace SealTeam4
             ClientScene.objects[aiGunID].GetComponent<NPCGun>().SyncAIGunEffects();
         }
 
+        [ClientRpc]
+        public void RpcSetUpDoorHandle(int doorIndex, NetworkInstanceId doorKnobID)
+        {
+            DoorHandleSpawner.instance.doorHandles[doorIndex].SetUpKnob(ClientScene.objects[doorKnobID].gameObject);
+        }
+
         private void SnapTo(GameObject child, GameObject parent)
         {
             if (child.GetComponent<Rigidbody>())
