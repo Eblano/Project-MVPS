@@ -9,7 +9,7 @@ namespace SealTeam4
     {
         [SerializeField] private Transform firingPt;
         [SerializeField] private GameObject hitEffect_Prefab;
-
+        [SerializeField] private GameObject bloodFX_Prefab;
         [SerializeField] private MuzzleFlash muzzleFlashEffect;
         private NetworkAnimator gunNetworkAnim;
         private NetworkedAudioSource networkedAudioSource;
@@ -20,6 +20,8 @@ namespace SealTeam4
         private float minHorizontalDispersion = 0.2f;
 
         private List<Vector3> hitPoints = new List<Vector3>();
+        
+
         private void Start()
         {
             gunNetworkAnim = GetComponent<NetworkAnimator>();
@@ -72,7 +74,7 @@ namespace SealTeam4
             Ray ray = new Ray(firingPt.position, firingPt.forward + offsetAmt);
             RaycastHit hitInfo;
 
-            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, layerToHit, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, layerToHit))
             {
                 IDamageable iDamagable = hitInfo.transform.root.GetComponent<IDamageable>();
 
@@ -80,8 +82,14 @@ namespace SealTeam4
 
                 if (iDamagable != null)
                 {
+                    // Deal Damage
                     iDamagable.OnHit(hitInfo.collider, GlobalEnums.WeaponType.PISTOL);
-                    
+
+                    // Spawn blood particles
+                    GameObject bloodFX = Instantiate(bloodFX_Prefab, 
+                                             hitInfo.point + (hitInfo.normal * 0.005F),
+                                             Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal)
+                                             ) as GameObject;
                 }
                 else
                 {
@@ -90,7 +98,7 @@ namespace SealTeam4
                                             hitEffect_Prefab, 
                                             hitInfo.point + (hitInfo.normal*0.005F), 
                                             Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal)
-                                            ) as GameObject;
+                                            );
                     Destroy(bulletHole, 360);
                 }
                 //Debug.Log(hitInfo.transform.name + " | " + hitInfo.transform.root.name);
