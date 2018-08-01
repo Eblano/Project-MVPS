@@ -26,12 +26,14 @@ GameObject:
   - component: {fileID: 65701855053586456}
   - component: {fileID: 65605645138062518}
   - component: {fileID: 65825135865274914}
+  - component: {fileID: 114834903717055332}
+  - component: {fileID: 114856053884218230}
   m_Layer: 20
   m_Name: Furniture_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4051295537086094
 Transform:
@@ -39,8 +41,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1873072860228882}
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -14.846658, y: 11.02, z: 4.7267437}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: -0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8833008, y: 0.88330126, z: 0.88330126}
   m_Children: []
   m_Father: {fileID: 0}
@@ -96,7 +98,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1873072860228882}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.5186126, y: 1.8338227, z: 0.9407847}
@@ -149,3 +151,29 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5186124, y: 1.8338226, z: 0.059167348}
   m_Center: {x: -0.015104665, y: -0.67163986, z: 0.90450853}
+--- !u!114 &114834903717055332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1873072860228882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6f2084ffa8a20645a1a2be3c04562dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setted: 0
+  rotation: {x: -90, y: 0, z: 0}
+--- !u!114 &114856053884218230
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1873072860228882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aa51cc7553e7444db73e5d0369719f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCollidersToCopy:
+  - {fileID: 65424422904776804}

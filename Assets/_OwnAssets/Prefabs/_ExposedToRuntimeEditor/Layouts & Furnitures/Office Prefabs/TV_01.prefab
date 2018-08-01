@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4922709530295736}
   - component: {fileID: 33489707494343182}
   - component: {fileID: 23241223143760706}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,9 @@ GameObject:
   - component: {fileID: 23612406460763352}
   - component: {fileID: 95169801654968816}
   - component: {fileID: 65457051069163330}
-  m_Layer: 0
+  - component: {fileID: 114526824930977338}
+  - component: {fileID: 114297097382873500}
+  m_Layer: 20
   m_Name: TV_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,8 +55,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1867717928072854}
-  m_LocalRotation: {x: 0.7071068, y: -0.0000002528811, z: -0.0000002528811, w: -0.7071068}
-  m_LocalPosition: {x: -2.05, y: 0, z: 0.36}
+  m_LocalRotation: {x: 0.7071068, y: -0.00000025288114, z: -0.00000025288114, w: -0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5.6139307, y: 5.613931, z: 5.613931}
   m_Children:
   - {fileID: 4922709530295736}
@@ -67,8 +69,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1281754026888972}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.2311743e-27, y: 8.526513e-14, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 9.209018e-27, y: 8.526515e-14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4790905891433448}
@@ -165,7 +167,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1867717928072854}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.03582982, y: 0.49801224, z: 0.28492323}
@@ -188,3 +190,29 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114297097382873500
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1867717928072854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aa51cc7553e7444db73e5d0369719f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCollidersToCopy:
+  - {fileID: 65457051069163330}
+--- !u!114 &114526824930977338
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1867717928072854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6f2084ffa8a20645a1a2be3c04562dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setted: 0
+  rotation: {x: -90, y: 0, z: 0}
