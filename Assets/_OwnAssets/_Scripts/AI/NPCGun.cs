@@ -12,6 +12,7 @@ namespace SealTeam4
 
         [SerializeField] private MuzzleFlash muzzleFlashEffect;
         private NetworkAnimator gunNetworkAnim;
+        private NetworkInstanceId gunNetID;
         private NetworkedAudioSource networkedAudioSource;
 
         private float timeToNextShot = 0;
@@ -24,6 +25,7 @@ namespace SealTeam4
         {
             gunNetworkAnim = GetComponent<NetworkAnimator>();
             networkedAudioSource = GetComponent<NetworkedAudioSource>();
+            gunNetID = GetComponent<NetworkIdentity>().netId;
         }
 
         private void Update()
@@ -98,14 +100,20 @@ namespace SealTeam4
                 //Debug.Log("Bullet Hit");
             }
 
+            GameManagerAssistant.instance.RpcSyncGunEffects(gunNetID);
+            SyncAIGunEffects();
+
+            if (gunNetworkAnim)
+                gunNetworkAnim.SetTrigger("AI_Fire");
+        }
+
+        public void SyncAIGunEffects()
+        {
             if (muzzleFlashEffect)
                 muzzleFlashEffect.Activate();
 
             if (networkedAudioSource)
                 networkedAudioSource.DirectPlay();
-
-            if (gunNetworkAnim)
-                gunNetworkAnim.SetTrigger("AI_Fire");
         }
     }
 }

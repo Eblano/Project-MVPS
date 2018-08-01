@@ -222,6 +222,12 @@ namespace SealTeam4
             NetworkServer.objects[gunNetID].GetComponent<Gun>().FireBullet();
         }
 
+        [ClientRpc]
+        public void RpcSyncGunEffects(NetworkInstanceId aiGunID)
+        {
+            ClientScene.objects[aiGunID].GetComponent<NPCGun>().SyncAIGunEffects();
+        }
+
         private void SnapTo(GameObject child, GameObject parent)
         {
             if (child.GetComponent<Rigidbody>())
