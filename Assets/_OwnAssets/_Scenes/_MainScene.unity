@@ -7760,17 +7760,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: a7eef716-6679-4d03-b4b2-f72ca0e1a908
+  Guid: 32ef605e-19b4-46f2-a0b7-873f9997b3ca
   Mapping:
   - Name: Realtime Lightings
     Object: {fileID: 776701470}
-    Id: 35169
+    Id: 35175
   - Name: Realtime Lightings
     Object: {fileID: 776701466}
-    Id: 35170
+    Id: 35176
   - Name: Realtime Lightings
     Object: {fileID: 776701467}
-    Id: 35171
+    Id: 35177
 --- !u!114 &776701470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13162,17 +13162,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: a7eef716-6679-4d03-b4b2-f72ca0e1a908
+  Guid: 32ef605e-19b4-46f2-a0b7-873f9997b3ca
   Mapping:
   - Name: MainCamera
     Object: {fileID: 1123077324}
-    Id: 35172
+    Id: 35178
   - Name: MainCamera
     Object: {fileID: 1123077317}
-    Id: 35173
+    Id: 35179
   - Name: MainCamera
     Object: {fileID: 1123077321}
-    Id: 35174
+    Id: 35180
 --- !u!114 &1123077324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14391,17 +14391,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: a7eef716-6679-4d03-b4b2-f72ca0e1a908
+  Guid: 32ef605e-19b4-46f2-a0b7-873f9997b3ca
   Mapping:
   - Name: City Layout
     Object: {fileID: 1332449227}
-    Id: 35175
+    Id: 35181
   - Name: City Layout
     Object: {fileID: 1332449224}
-    Id: 35176
+    Id: 35182
   - Name: City Layout
     Object: {fileID: 1332449225}
-    Id: 35177
+    Id: 35183
 --- !u!114 &1332449227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14641,7 +14641,7 @@ Prefab:
     - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
       propertyPath: Objects.Array.size
-      value: 111
+      value: 113
       objectReference: {fileID: 0}
     - target: {fileID: 114330725120075194, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
@@ -16532,6 +16532,18 @@ Prefab:
       propertyPath: Objects.Array.data[110]
       value: 
       objectReference: {fileID: 1667262025987636, guid: b693705ecb7ac734692a51fbffd3bbc5,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[111]
+      value: 
+      objectReference: {fileID: 1283824394165918, guid: 5004678757e5ccc4da38ebe83701e83f,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[112]
+      value: 
+      objectReference: {fileID: 1784983407526266, guid: 61c16fe055306de489783527b1bb9cb4,
         type: 2}
     m_RemovedComponents:
     - {fileID: 114897729706215326, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
@@ -21152,17 +21164,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: a7eef716-6679-4d03-b4b2-f72ca0e1a908
+  Guid: 32ef605e-19b4-46f2-a0b7-873f9997b3ca
   Mapping:
   - Name: EventSystem
     Object: {fileID: 1903868624}
-    Id: 35178
+    Id: 35184
   - Name: EventSystem
     Object: {fileID: 1903868619}
-    Id: 35179
+    Id: 35185
   - Name: EventSystem
     Object: {fileID: 1903868622}
-    Id: 35180
+    Id: 35186
 --- !u!114 &1903868624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22627,17 +22639,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: a7eef716-6679-4d03-b4b2-f72ca0e1a908
+  Guid: 32ef605e-19b4-46f2-a0b7-873f9997b3ca
   Mapping:
   - Name: RuntimeEditor
     Object: {fileID: 1955926211}
-    Id: 35181
+    Id: 35187
   - Name: RuntimeEditor
     Object: {fileID: 1955926209}
-    Id: 35182
+    Id: 35188
   - Name: RuntimeEditor
     Object: {fileID: 1955926218}
-    Id: 35183
+    Id: 35189
 --- !u!114 &1955926211 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114196523117519802, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
@@ -22772,17 +22784,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: a7eef716-6679-4d03-b4b2-f72ca0e1a908
+  Guid: 32ef605e-19b4-46f2-a0b7-873f9997b3ca
   Mapping:
   - Name: == Level ===
     Object: {fileID: 2011681953}
-    Id: 35184
+    Id: 35190
   - Name: == Level ===
     Object: {fileID: 2011681951}
-    Id: 35185
+    Id: 35191
   - Name: == Level ===
     Object: {fileID: 2011681954}
-    Id: 35186
+    Id: 35192
 --- !u!114 &2011681953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24053,8 +24065,8 @@ GameObject:
   - component: {fileID: 2128280404}
   - component: {fileID: 2128280399}
   - component: {fileID: 2128280403}
-  - component: {fileID: 2128280402}
   - component: {fileID: 2128280400}
+  - component: {fileID: 2128280402}
   - component: {fileID: 2128280398}
   m_Layer: 21
   m_Name: Managers
@@ -24074,17 +24086,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: a7eef716-6679-4d03-b4b2-f72ca0e1a908
+  Guid: 32ef605e-19b4-46f2-a0b7-873f9997b3ca
   Mapping:
   - Name: Managers
     Object: {fileID: 2128280399}
-    Id: 35187
+    Id: 35193
   - Name: Managers
     Object: {fileID: 2128280397}
-    Id: 35188
+    Id: 35194
   - Name: Managers
     Object: {fileID: 2128280401}
-    Id: 35189
+    Id: 35195
 --- !u!114 &2128280399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24138,10 +24150,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2128280397}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fffec62f050bde14da31e344f0ae23b9, type: 3}
+  m_Script: {fileID: 11500000, guid: c129ba8682abbef4d90ebd1bb3e316e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorHandles: []
 --- !u!114 &2128280403
 MonoBehaviour:
   m_ObjectHideFlags: 0

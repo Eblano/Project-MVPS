@@ -228,11 +228,11 @@ namespace SealTeam4
             ClientScene.objects[aiGunID].GetComponent<NPCGun>().SyncAIGunEffects();
         }
 
-        [ClientRpc]
-        public void RpcSetUpDoorHandle(int doorIndex, NetworkInstanceId doorKnobID)
-        {
-            DoorHandleSpawner.instance.doorHandles[doorIndex].SetUpKnob(ClientScene.objects[doorKnobID].gameObject);
-        }
+        //[ClientRpc]
+        //public void RpcSetUpDoorHandle(int doorIndex, NetworkInstanceId doorKnobID)
+        //{
+        //    DoorHandleSpawner.instance.doorHandles[doorIndex].SetUpKnob(ClientScene.objects[doorKnobID].gameObject);
+        //}
 
         public void RelaySenderCmdSpawnBloodPlayer(NetworkInstanceId gunNetID, Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
         {
@@ -288,6 +288,52 @@ namespace SealTeam4
         public void RpcSpawnBulletHoleServer(NetworkInstanceId gunNetID, Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
         {
             ClientScene.objects[gunNetID].GetComponent<NPCGun>().SpawnBulletHole(hitPos, normal, faceAngle);
+        }
+
+        public void RelaySenderCmdOpenDoor(int doorIndex, bool state)
+        {
+            if (state)
+            {
+                CmdOpenDoor(playerID, doorIndex);
+            }
+            else
+            {
+                CmdCloseDoor(playerID, doorIndex);
+            }
+        }
+
+        [Command]
+        private void CmdOpenDoor(NetworkInstanceId senderPlayerID, int doorIndex)
+        {
+            RpcOpenDoor(senderPlayerID, doorIndex);
+        }
+
+        [Command]
+        private void CmdCloseDoor(NetworkInstanceId senderPlayerID, int doorIndex)
+        {
+            RpcCloseDoor(senderPlayerID, doorIndex);
+        }
+
+        [ClientRpc]
+        private void RpcOpenDoor(NetworkInstanceId senderPlayerID, int doorIndex)
+        {
+            if (playerID == senderPlayerID)
+            {
+                return;
+            }
+
+            DoorKnobHandler.instance.SyncKnob(doorIndex, true);
+        }
+
+        [ClientRpc]
+        private void RpcCloseDoor(NetworkInstanceId senderPlayerID, int doorIndex)
+        {
+            if (playerID == senderPlayerID)
+            {
+                return;
+            }
+
+            DoorKnobHandler.instance.SyncKnob(doorIndex, false);
         }
 
         private void SnapTo(GameObject child, GameObject parent)

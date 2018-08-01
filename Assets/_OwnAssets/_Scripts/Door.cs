@@ -17,6 +17,7 @@ public class Door : MonoBehaviour
     private float doorTimer;
     private float minAngle;
     private float maxAngle;
+    public bool isClosed = true;
 
     private void Start()
     {
@@ -29,12 +30,13 @@ public class Door : MonoBehaviour
 
     public void EnableDoorRot()
     {
-        if (!isLocked)
+        if (!isLocked && isClosed)
         {
             rb.isKinematic = false;
             rb.AddTorque(openingTorque);
             Debug.Log("Helll");
             StartTimer();
+            isClosed = false;
         }
         else
         {
@@ -44,7 +46,8 @@ public class Door : MonoBehaviour
 
     public void CloseDoor()
     {
-        rb.AddTorque(-openingTorque);
+        if(!isClosed)
+            rb.AddTorque(-openingTorque);
     }
 
     private void CheckDoorClosingAngle()
@@ -55,6 +58,7 @@ public class Door : MonoBehaviour
             {
                 rb.isKinematic = true;
                 transform.localRotation = closedRot;
+                isClosed = true;
             }
         }
         else
@@ -63,6 +67,7 @@ public class Door : MonoBehaviour
             {
                 rb.isKinematic = true;
                 transform.localRotation = closedRot;
+                isClosed = true;
             }
         }
     }

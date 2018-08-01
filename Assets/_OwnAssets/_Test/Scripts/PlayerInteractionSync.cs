@@ -127,6 +127,9 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             return;
         }
 
+        if (!currGrabbedObj.GetComponent<NetworkIdentity>())
+            return;
+
         GameManagerAssistant.instance.RelaySenderCmdSnapToController(currGrabbedObj.GetComponent<NetworkIdentity>().netId, isLeftGrab);
     }
 
@@ -374,6 +377,12 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         if (currGrabbedObj == null)
         {
             Debug.Log("No grabbable");
+            return;
+        }
+
+        if (currGrabbedObj.GetComponent<DoorKnob>())
+        {
+            currGrabbedObj.GetComponent<DoorKnob>().ActivateDoor();
             return;
         }
 
