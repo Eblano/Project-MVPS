@@ -16,15 +16,15 @@ public class TransformationSync : NetworkBehaviour
     {
         if (isServer)
         {
-            if (Vector3.Distance(prevPos, transform.position) > moveThreshold || Quaternion.Angle(prevRot, transform.rotation) > angularThreshold)
+            //if (Vector3.Distance(prevPos, transform.position) > moveThreshold || Quaternion.Angle(prevRot, transform.rotation) > angularThreshold)
+            //{
+            if (IsCounterReady(ref counter, 1 / sendRatePerSecond))
             {
-                if (IsCounterReady(ref counter, 1 / sendRatePerSecond))
-                {
-                    RpcSyncTransform(transform.position, transform.eulerAngles);
-                    prevPos = transform.position;
-                    prevRot = transform.rotation;
-                }
+                RpcSyncTransform(transform.position, transform.eulerAngles);
+                prevPos = transform.position;
+                prevRot = transform.rotation;
             }
+            //}
         }
     }
 
