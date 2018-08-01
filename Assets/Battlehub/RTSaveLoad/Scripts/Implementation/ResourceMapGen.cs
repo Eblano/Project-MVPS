@@ -17,7 +17,8 @@ namespace Battlehub.RTSaveLoad
     {
         public static readonly string[] AllowedPath = new string[]
         {
-            "Assets/_OwnAssets/"
+            "Assets/_OwnAssets/",
+            "Assets/GitIgnoreFolder/Wz Shit/Office Assets/"
         };
 
         private const string bundleNameDelimiter = ">";
