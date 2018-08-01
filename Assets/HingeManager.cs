@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
-public class Door : MonoBehaviour
+public class HingeManager : MonoBehaviour
 {
     [SerializeField] private bool isLocked;
     [SerializeField] private float doorCloseAngle;
     [SerializeField] private Vector3 openingTorque;
-
+    [SerializeField] private List<HingeJoint> hj;
     [SerializeField] private bool isMaxClosedState;
 
     private HingeJoint doorHinge;
