@@ -137,11 +137,13 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
 
             if (damageableObj != null)
             {
+                GameManagerAssistant.instance.RelaySenderCmdSpawnBloodPlayer(gunNetID, hit.point, hit.normal, Quaternion.FromToRotation(Vector3.forward, -hit.normal).eulerAngles);
                 SpawnBlood(hit.point, hit.normal, Quaternion.FromToRotation(Vector3.forward, -hit.normal).eulerAngles);
                 damageableObj.OnHit(hit.collider, GlobalEnums.WeaponType.PISTOL);
             }
             else
             {
+                GameManagerAssistant.instance.RelaySenderCmdSpawnBulletHolePlayer(gunNetID, hit.point, hit.normal, Quaternion.FromToRotation(Vector3.forward, -hit.normal).eulerAngles);
                 SpawnBulletHole(hit.point, hit.normal, Quaternion.FromToRotation(Vector3.forward, -hit.normal).eulerAngles);
             }
             Instantiate(spawnPref, hit.point, firingPoint.rotation);
@@ -331,6 +333,8 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
                              hitPos + (normal * 0.005F),
                              Quaternion.Euler(faceAngle)
                              );
+
+        Destroy(bulletHole, 360);
     }
     #endregion GunHandlingMethods
 

@@ -87,21 +87,27 @@ namespace SealTeam4
                     // Deal Damage
                     iDamagable.OnHit(hitInfo.collider, GlobalEnums.WeaponType.PISTOL);
 
-                    // Spawn blood particles
-                    GameObject bloodFX = Instantiate(bloodFX_Prefab, 
-                                             hitInfo.point + (hitInfo.normal * 0.005F),
-                                             Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal)
-                                             ) as GameObject;
+                    //// Spawn blood particles
+                    //GameObject bloodFX = Instantiate(bloodFX_Prefab, 
+                    //                         hitInfo.point + (hitInfo.normal * 0.005F),
+                    //                         Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal)
+                    //                         ) as GameObject;
+
+                    GameManagerAssistant.instance.RpcSpawnBloodServer(gunNetID, hitInfo.point, hitInfo.normal, Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal).eulerAngles);
+                    SpawnBlood(hitInfo.point, hitInfo.normal, Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal).eulerAngles);
                 }
                 else
                 {
-                    // Spawn bullet hole
-                    GameObject bulletHole = Instantiate(
-                                            hitEffect_Prefab, 
-                                            hitInfo.point + (hitInfo.normal*0.005F), 
-                                            Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal)
-                                            );
-                    Destroy(bulletHole, 360);
+                    //// Spawn bullet hole
+                    //GameObject bulletHole = Instantiate(
+                    //                        hitEffect_Prefab, 
+                    //                        hitInfo.point + (hitInfo.normal*0.005F), 
+                    //                        Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal)
+                    //                        );
+                    //Destroy(bulletHole, 360);
+
+                    GameManagerAssistant.instance.RpcSpawnBulletHoleServer(gunNetID, hitInfo.point, hitInfo.normal, Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal).eulerAngles);
+                    SpawnBulletHole(hitInfo.point, hitInfo.normal, Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal).eulerAngles);
                 }
                 //Debug.Log(hitInfo.transform.name + " | " + hitInfo.transform.root.name);
                 //Debug.Log("Bullet Offset " + offsetAmt);
@@ -113,6 +119,26 @@ namespace SealTeam4
 
             if (gunNetworkAnim)
                 gunNetworkAnim.SetTrigger("AI_Fire");
+        }
+
+        public void SpawnBlood(Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
+        {
+            GameObject bloodFX = Instantiate(
+                                 bloodFX_Prefab,
+                                 hitPos + (normal * 0.005F),
+                                 Quaternion.Euler(faceAngle)
+                                 );
+        }
+
+        public void SpawnBulletHole(Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
+        {
+            GameObject bulletHole = Instantiate(
+                                 hitEffect_Prefab,
+                                 hitPos + (normal * 0.005F),
+                                 Quaternion.Euler(faceAngle)
+                                 );
+
+            Destroy(bulletHole, 360);
         }
 
         public void SyncAIGunEffects()

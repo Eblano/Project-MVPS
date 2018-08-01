@@ -1166,6 +1166,8 @@ MonoBehaviour:
   firingPt: {fileID: 4655238692456312}
   hitEffect_Prefab: {fileID: 1288424787541296, guid: a49fb48bcdd9dbf40b287a43cd400a4a,
     type: 2}
+  bloodFX_Prefab: {fileID: 1600078183947528, guid: a50b31d1a20ee0a4d8281e705c445667,
+    type: 2}
   muzzleFlashEffect: {fileID: 114535051774438486}
 --- !u!114 &114535051774438486
 MonoBehaviour:
@@ -1196,6 +1198,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendRatePerSecond: 30
+  moveThreshold: 0.005
+  angularThreshold: 0.01
 --- !u!198 &198139380456165596
 ParticleSystem:
   m_ObjectHideFlags: 1
