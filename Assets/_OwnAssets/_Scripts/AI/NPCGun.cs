@@ -9,7 +9,7 @@ namespace SealTeam4
     {
         [SerializeField] private Transform firingPt;
         [SerializeField] private GameObject hitEffect_Prefab;
-
+        [SerializeField] private GameObject bloodFX_Prefab;
         [SerializeField] private MuzzleFlash muzzleFlashEffect;
         private NetworkAnimator gunNetworkAnim;
         private NetworkInstanceId gunNetID;
@@ -21,6 +21,8 @@ namespace SealTeam4
         private float minHorizontalDispersion = 0.2f;
 
         private List<Vector3> hitPoints = new List<Vector3>();
+        
+
         private void Start()
         {
             gunNetworkAnim = GetComponent<NetworkAnimator>();
@@ -82,8 +84,14 @@ namespace SealTeam4
 
                 if (iDamagable != null)
                 {
+                    // Deal Damage
                     iDamagable.OnHit(hitInfo.collider, GlobalEnums.WeaponType.PISTOL);
-                    
+
+                    // Spawn blood particles
+                    GameObject bloodFX = Instantiate(bloodFX_Prefab, 
+                                             hitInfo.point + (hitInfo.normal * 0.005F),
+                                             Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal)
+                                             ) as GameObject;
                 }
                 else
                 {
@@ -92,7 +100,7 @@ namespace SealTeam4
                                             hitEffect_Prefab, 
                                             hitInfo.point + (hitInfo.normal*0.005F), 
                                             Quaternion.FromToRotation(Vector3.forward, -hitInfo.normal)
-                                            ) as GameObject;
+                                            );
                     Destroy(bulletHole, 360);
                 }
                 //Debug.Log(hitInfo.transform.name + " | " + hitInfo.transform.root.name);

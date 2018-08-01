@@ -5,6 +5,8 @@ namespace SealTeam4
     public class ReCalcTexture : MonoBehaviour
     {
         private Vector3 _currentScale;
+        
+
         private void Start()
         {
             GetComponent<MeshFilter>().mesh = RuntimeEditorUltiltes.instance.GetDefCubeMesh();
