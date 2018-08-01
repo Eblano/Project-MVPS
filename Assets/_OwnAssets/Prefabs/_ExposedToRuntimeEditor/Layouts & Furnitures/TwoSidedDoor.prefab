@@ -39,8 +39,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4777113963387712}
-  - component: {fileID: 114641793834450130}
-  m_Layer: 0
+  - component: {fileID: 114306135068996634}
+  - component: {fileID: 135662812604070734}
+  m_Layer: 13
   m_Name: GrabPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +239,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1283824394165918}
-  m_LocalRotation: {x: 0.7069847, y: 0, z: 0, w: -0.70722884}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: 0.931, y: 0.124, z: -1.74}
   m_LocalScale: {x: 139.22792, y: 139.22792, z: 139.22792}
   m_Children:
@@ -474,7 +475,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0.000049999988, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.18978465, y: 0.12400237, z: -1.9418802}
+  m_ConnectedAnchor: {x: -0.18978465, y: 0.12393263, z: -1.9418802}
   m_UseSpring: 0
   m_Spring:
     spring: 0
@@ -508,7 +509,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0.000049999988, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 2.051785, y: 0.12400237, z: -1.9418802}
+  m_ConnectedAnchor: {x: 2.051785, y: 0.12393263, z: -1.9418802}
   m_UseSpring: 0
   m_Spring:
     spring: 0
@@ -581,7 +582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLocked: 0
   doorCloseAngle: 5
-  openingTorque: {x: 0, y: 50, z: 0}
+  openingTorque: {x: 0, y: 80, z: 0}
   isMaxClosedState: 0
 --- !u!114 &114143455332004340
 MonoBehaviour:
@@ -598,6 +599,20 @@ MonoBehaviour:
   - {fileID: 114044085567736028}
   - {fileID: 114877864147793844}
   onTrigger: 0
+--- !u!114 &114306135068996634
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1130030086804510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84b2eb98e33ee9546934c3c3dd38da55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doors:
+  - {fileID: 114044085567736028}
+  - {fileID: 114877864147793844}
 --- !u!114 &114551846558567588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -609,23 +624,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a105ca00a9ca11444bf1886dd921d660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doors:
-  - {fileID: 114044085567736028}
-  - {fileID: 114877864147793844}
---- !u!114 &114641793834450130
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1130030086804510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ebf2d851924a0a408388262e2c0d457, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentObj: {fileID: 4219239808215624}
-  grabNodePref: {fileID: 1956389129952748, guid: d11e212d891e97f439c626b77c63d94c,
-    type: 2}
   doors:
   - {fileID: 114044085567736028}
   - {fileID: 114877864147793844}
@@ -642,7 +640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLocked: 0
   doorCloseAngle: 5
-  openingTorque: {x: 0, y: -50, z: 0}
+  openingTorque: {x: 0, y: -80, z: 0}
   isMaxClosedState: 1
 --- !u!114 &114990453160647216
 MonoBehaviour:
@@ -658,3 +656,15 @@ MonoBehaviour:
   doors:
   - {fileID: 114044085567736028}
   - {fileID: 114877864147793844}
+--- !u!135 &135662812604070734
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1130030086804510}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}

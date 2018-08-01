@@ -228,11 +228,11 @@ namespace SealTeam4
             ClientScene.objects[aiGunID].GetComponent<NPCGun>().SyncAIGunEffects();
         }
 
-        [ClientRpc]
-        public void RpcSetUpDoorHandle(int doorIndex, NetworkInstanceId doorKnobID)
-        {
-            DoorHandleSpawner.instance.doorHandles[doorIndex].SetUpKnob(ClientScene.objects[doorKnobID].gameObject);
-        }
+        //[ClientRpc]
+        //public void RpcSetUpDoorHandle(int doorIndex, NetworkInstanceId doorKnobID)
+        //{
+        //    DoorHandleSpawner.instance.doorHandles[doorIndex].SetUpKnob(ClientScene.objects[doorKnobID].gameObject);
+        //}
 
         public void RelaySenderCmdSpawnBloodPlayer(NetworkInstanceId gunNetID, Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
         {

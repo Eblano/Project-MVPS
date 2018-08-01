@@ -377,6 +377,12 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             return;
         }
 
+        if (currGrabbedObj.GetComponent<DoorKnob>())
+        {
+            currGrabbedObj.GetComponent<DoorKnob>().ActivateDoor();
+            return;
+        }
+
         // If grabbing the same object
         if (IsSameObjectGrab(control, currGrabbedObj))
         {

@@ -107,8 +107,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4178714791744106}
-  - component: {fileID: 114627470560481860}
-  m_Layer: 0
+  - component: {fileID: 135937739668332364}
+  - component: {fileID: 114531798057614696}
+  m_Layer: 13
   m_Name: GrabPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -455,7 +456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLocked: 0
   doorCloseAngle: 5
-  openingTorque: {x: 0, y: 50, z: 0}
+  openingTorque: {x: 0, y: 80, z: 0}
   isMaxClosedState: 0
 --- !u!114 &114255855448085808
 MonoBehaviour:
@@ -471,6 +472,19 @@ MonoBehaviour:
   doors:
   - {fileID: 114004605891067276}
   onTrigger: 0
+--- !u!114 &114531798057614696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1632308838241262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84b2eb98e33ee9546934c3c3dd38da55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doors:
+  - {fileID: 114004605891067276}
 --- !u!114 &114543197458137014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -482,22 +496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a105ca00a9ca11444bf1886dd921d660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doors:
-  - {fileID: 114004605891067276}
---- !u!114 &114627470560481860
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1632308838241262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ebf2d851924a0a408388262e2c0d457, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentObj: {fileID: 4177418335661350}
-  grabNodePref: {fileID: 1956389129952748, guid: d11e212d891e97f439c626b77c63d94c,
-    type: 2}
   doors:
   - {fileID: 114004605891067276}
 --- !u!114 &114636499437230602
@@ -513,3 +511,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doors:
   - {fileID: 114004605891067276}
+--- !u!135 &135937739668332364
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1632308838241262}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
