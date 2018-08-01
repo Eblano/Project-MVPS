@@ -9,21 +9,21 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1611117231333526}
+  m_RootGameObject: {fileID: 1537575291210142}
   m_IsPrefabParent: 1
---- !u!1 &1611117231333526
+--- !u!1 &1537575291210142
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4439100623191730}
-  - component: {fileID: 33772784532933232}
-  - component: {fileID: 23154450746159748}
-  - component: {fileID: 65909166265597708}
-  - component: {fileID: 114603849188494826}
-  - component: {fileID: 114047007057756234}
+  - component: {fileID: 4249366737259934}
+  - component: {fileID: 33520710883250658}
+  - component: {fileID: 23762645969834202}
+  - component: {fileID: 65160506191496670}
+  - component: {fileID: 114046176344862836}
+  - component: {fileID: 114869714903466816}
   m_Layer: 0
   m_Name: Binder_01
   m_TagString: Untagged
@@ -31,12 +31,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4439100623191730
+--- !u!4 &4249366737259934
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1611117231333526}
+  m_GameObject: {fileID: 1537575291210142}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: -0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -44,12 +44,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23154450746159748
+--- !u!23 &23762645969834202
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1611117231333526}
+  m_GameObject: {fileID: 1537575291210142}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -79,44 +79,31 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33772784532933232
+--- !u!33 &33520710883250658
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1611117231333526}
+  m_GameObject: {fileID: 1537575291210142}
   m_Mesh: {fileID: 4300000, guid: 4d5dd9ca2e526450b8631ae2311fd062, type: 3}
---- !u!65 &65909166265597708
+--- !u!65 &65160506191496670
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1611117231333526}
+  m_GameObject: {fileID: 1537575291210142}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.30392516, y: 0.08970644, z: 0.33845624}
   m_Center: {x: 0, y: 0, z: 0.1692243}
---- !u!114 &114047007057756234
+--- !u!114 &114046176344862836
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1611117231333526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aa51cc7553e7444db73e5d0369719f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxCollidersToCopy:
-  - {fileID: 65909166265597708}
---- !u!114 &114603849188494826
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1611117231333526}
+  m_GameObject: {fileID: 1537575291210142}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6f2084ffa8a20645a1a2be3c04562dc, type: 3}
@@ -124,3 +111,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setted: 0
   rotation: {x: -90, y: 0, z: 0}
+--- !u!114 &114869714903466816
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1537575291210142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aa51cc7553e7444db73e5d0369719f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCollidersToCopy:
+  - {fileID: 65160506191496670}

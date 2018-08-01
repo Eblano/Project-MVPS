@@ -9,35 +9,35 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1824155921265464}
+  m_RootGameObject: {fileID: 1845962384643046}
   m_IsPrefabParent: 1
---- !u!1 &1824155921265464
+--- !u!1 &1845962384643046
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4284404393092792}
-  - component: {fileID: 33760462604958378}
-  - component: {fileID: 65877875369876312}
-  - component: {fileID: 65608878803819350}
-  - component: {fileID: 23690590184634154}
-  - component: {fileID: 114133072914491250}
-  - component: {fileID: 114307765575180482}
+  - component: {fileID: 4093201236614600}
+  - component: {fileID: 33927248255598584}
+  - component: {fileID: 65600258709506412}
+  - component: {fileID: 65359984165289920}
+  - component: {fileID: 23227429210747572}
+  - component: {fileID: 114013973366065654}
+  - component: {fileID: 114358986712544194}
   m_Layer: 24
   m_Name: Ceilling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &4284404393092792
+  m_IsActive: 1
+--- !u!4 &4093201236614600
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1824155921265464}
+  m_GameObject: {fileID: 1845962384643046}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.1, z: 1}
@@ -45,12 +45,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23690590184634154
+--- !u!23 &23227429210747572
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1824155921265464}
+  m_GameObject: {fileID: 1845962384643046}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -80,54 +80,54 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33760462604958378
+--- !u!33 &33927248255598584
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1824155921265464}
+  m_GameObject: {fileID: 1845962384643046}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65608878803819350
+--- !u!65 &65359984165289920
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1824155921265464}
+  m_GameObject: {fileID: 1845962384643046}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65877875369876312
+--- !u!65 &65600258709506412
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1824155921265464}
+  m_GameObject: {fileID: 1845962384643046}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114133072914491250
+--- !u!114 &114013973366065654
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1824155921265464}
+  m_GameObject: {fileID: 1845962384643046}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c35993ad94241b74c888ed532f10218d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114307765575180482
+--- !u!114 &114358986712544194
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1824155921265464}
+  m_GameObject: {fileID: 1845962384643046}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3aa51cc7553e7444db73e5d0369719f5, type: 3}
