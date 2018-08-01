@@ -14,6 +14,8 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     [SerializeField] private MuzzleFlash muzzleFlashEffects;
     [SerializeField] private GameObject bulletPref;
     [SerializeField] private Transform bulletExitPoint;
+    [SerializeField] private GameObject bloodFX_Prefab;
+    [SerializeField] private GameObject hitEffect_Prefab;
     private InteractableObject interactableObject;
     private bool isTwoHandedGrab = false;
     private bool isBeingGrabbed = false;
@@ -135,9 +137,13 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
 
             if (damageableObj != null)
             {
+                SpawnBlood(hit.point, hit.normal, Quaternion.FromToRotation(Vector3.forward, -hit.normal).eulerAngles);
                 damageableObj.OnHit(hit.collider, GlobalEnums.WeaponType.PISTOL);
             }
-
+            else
+            {
+                SpawnBulletHole(hit.point, hit.normal, Quaternion.FromToRotation(Vector3.forward, -hit.normal).eulerAngles);
+            }
             Instantiate(spawnPref, hit.point, firingPoint.rotation);
         }
     }
@@ -307,6 +313,24 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         {
             networkedAudioSource.DirectPlay();
         }
+    }
+
+    public void SpawnBlood(Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
+    {
+        GameObject bloodFX = Instantiate(
+                             bloodFX_Prefab,
+                             hitPos + (normal * 0.005F),
+                             Quaternion.Euler(faceAngle)
+                             );
+    }
+
+    public void SpawnBulletHole(Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
+    {
+        GameObject bulletHole = Instantiate(
+                             hitEffect_Prefab,
+                             hitPos + (normal * 0.005F),
+                             Quaternion.Euler(faceAngle)
+                             );
     }
     #endregion GunHandlingMethods
 
