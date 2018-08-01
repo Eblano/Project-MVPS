@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 114134973361642180}
   - component: {fileID: 114095424428205528}
   - component: {fileID: 114196523117519802}
-  - component: {fileID: 114545316425812478}
+  - component: {fileID: 114897729706215326}
   m_Layer: 0
   m_Name: RuntimeEditor
   m_TagString: Untagged
@@ -5063,7 +5063,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1818878676946416
 GameObject:
   m_ObjectHideFlags: 1
@@ -8104,12 +8104,13 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 1734906592075510, guid: 1ff7ba5c7c5f0df439def6a84a937de7, type: 2}
-  - {fileID: 1595662225866092, guid: b2f41b672527f014d834a29f964c6cfe, type: 2}
+  - {fileID: 0}
   - {fileID: 1957394601454150, guid: a1fe527e52c49054981d985110d882e8, type: 2}
   - {fileID: 1909204507627134, guid: dae88e5aec30eb74fae259a7a6244654, type: 2}
   - {fileID: 1323889154404422, guid: 5dc168807068183469e3565ca0781588, type: 2}
   - {fileID: 1824155921265464, guid: ea34b07faf8fa404faf70d6b44a4e946, type: 2}
   - {fileID: 1836445417261910, guid: 6bb0ee241f351ec4987734057e917287, type: 2}
+  - {fileID: 1376068437525120, guid: b2f41b672527f014d834a29f964c6cfe, type: 2}
 --- !u!114 &114035996868310110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12629,28 +12630,6 @@ MonoBehaviour:
   m_FlexibleWidth: 1.08
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114545316425812478
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid: 15da42cf-f46f-4269-be8f-e301e4009be3
-  Mapping:
-  - Name: RuntimeEditor
-    Object: {fileID: 114196523117519802}
-    Id: 8921
-  - Name: RuntimeEditor
-    Object: {fileID: 146550}
-    Id: 8922
-  - Name: RuntimeEditor
-    Object: {fileID: 468744}
-    Id: 8923
 --- !u!114 &114550162458629886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -16067,6 +16046,28 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114897729706215326
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Guid: 351e8eee-a918-4aa0-a8fc-09cb0b3d6630
+  Mapping:
+  - Name: RuntimeEditor
+    Object: {fileID: 114196523117519802}
+    Id: 10983
+  - Name: RuntimeEditor
+    Object: {fileID: 146550}
+    Id: 10984
+  - Name: RuntimeEditor
+    Object: {fileID: 468744}
+    Id: 10985
 --- !u!114 &114900131642221852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19102,7 +19103,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -125, y: 0}
-  m_SizeDelta: {x: 250, y: -545}
+  m_SizeDelta: {x: 250, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224291191392861176
 RectTransform:
@@ -19285,10 +19286,10 @@ RectTransform:
   m_Father: {fileID: 224642734949914236}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 500}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224368177370376458
 RectTransform:
