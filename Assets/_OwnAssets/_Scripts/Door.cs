@@ -30,7 +30,7 @@ public class Door : MonoBehaviour
 
     public void EnableDoorRot()
     {
-        if (!isLocked)
+        if (!isLocked && isClosed)
         {
             rb.isKinematic = false;
             rb.AddTorque(openingTorque);
@@ -46,7 +46,8 @@ public class Door : MonoBehaviour
 
     public void CloseDoor()
     {
-        rb.AddTorque(-openingTorque);
+        if(!isClosed)
+            rb.AddTorque(-openingTorque);
     }
 
     private void CheckDoorClosingAngle()
