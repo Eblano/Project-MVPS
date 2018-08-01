@@ -234,6 +234,62 @@ namespace SealTeam4
             DoorHandleSpawner.instance.doorHandles[doorIndex].SetUpKnob(ClientScene.objects[doorKnobID].gameObject);
         }
 
+        public void RelaySenderCmdSpawnBloodPlayer(NetworkInstanceId gunNetID, Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
+        {
+            CmdSpawnBloodPlayer(playerID, gunNetID, hitPos, normal, faceAngle);
+        }
+
+        [Command]
+        private void CmdSpawnBloodPlayer(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID, Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
+        {
+            RpcSpawnBloodPlayer(senderPlayerID, gunNetID, hitPos, normal, faceAngle);
+        }
+
+        [ClientRpc]
+        private void RpcSpawnBloodPlayer(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID, Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
+        {
+            if (senderPlayerID == playerID)
+            {
+                return;
+            }
+
+            ClientScene.objects[gunNetID].GetComponent<Gun>().SpawnBlood(hitPos, normal, faceAngle);
+        }
+
+        public void RelaySenderCmdSpawnBulletHolePlayer(NetworkInstanceId gunNetID, Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
+        {
+            CmdSpawnBulletHolePlayer(playerID, gunNetID, hitPos, normal, faceAngle);
+        }
+
+        [Command]
+        private void CmdSpawnBulletHolePlayer(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID, Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
+        {
+            RpcSpawnBulletHolePlayer(senderPlayerID, gunNetID, hitPos, normal, faceAngle);
+        }
+
+        [ClientRpc]
+        private void RpcSpawnBulletHolePlayer(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID, Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
+        {
+            if (senderPlayerID == playerID)
+            {
+                return;
+            }
+
+            ClientScene.objects[gunNetID].GetComponent<Gun>().SpawnBulletHole(hitPos, normal, faceAngle);
+        }
+
+        [ClientRpc]
+        public void RpcSpawnBloodServer(NetworkInstanceId gunNetID, Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
+        {
+            ClientScene.objects[gunNetID].GetComponent<NPCGun>().SpawnBlood(hitPos, normal, faceAngle);
+        }
+
+        [ClientRpc]
+        public void RpcSpawnBulletHoleServer(NetworkInstanceId gunNetID, Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
+        {
+            ClientScene.objects[gunNetID].GetComponent<NPCGun>().SpawnBulletHole(hitPos, normal, faceAngle);
+        }
+
         private void SnapTo(GameObject child, GameObject parent)
         {
             if (child.GetComponent<Rigidbody>())
