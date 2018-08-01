@@ -5,17 +5,19 @@ namespace SealTeam4
     public class ReCalcTexture : MonoBehaviour
     {
         private Vector3 _currentScale;
-        
-
-        private void Start()
-        {
-            GetComponent<MeshFilter>().mesh = RuntimeEditorUltiltes.instance.GetDefCubeMesh();
-            Calculate();
-        }
+        private bool setMesh = false;
 
         private void Update()
         {
-            Calculate();
+            if(setMesh)
+            {
+                Calculate();
+            }
+            else if(GetComponent<MeshFilter>())
+            {
+                GetComponent<MeshFilter>().mesh = RuntimeEditorUltiltes.instance.GetDefCubeMesh();
+                setMesh = true;
+            }
         }
 
         public void Calculate()
