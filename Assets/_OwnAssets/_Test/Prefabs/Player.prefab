@@ -431,6 +431,7 @@ GameObject:
   - component: {fileID: 114291161829025212}
   - component: {fileID: 114640883552771858}
   - component: {fileID: 114476512881055528}
+  - component: {fileID: 208039607137258506}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2470,7 +2471,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1310987374780024}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.86, y: 0.078, z: -2.411}
+  m_LocalPosition: {x: -8.341627, y: 0.000000048428774, z: 9.399643}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4600396700682946}
@@ -4027,3 +4028,18 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0018452108, y: -0.493706, z: -0.010714978}
     m_Extent: {x: 0.20089716, y: 0.5566673, z: 0.39824203}
   m_DirtyAABB: 0
+--- !u!208 &208039607137258506
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1310987374780024}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.35, y: 1, z: 0.35}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0, y: 1, z: 0}
+  m_TimeToStationary: 0.5

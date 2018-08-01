@@ -44,6 +44,7 @@ namespace SealTeam4
             aiState.hostileHuman.knifeTargetT = GameManager.instance.GetFirstVIPCenterMassTransform();
             if (aiState.hostileHuman.knifeTargetT)
             {
+                aiController.LowerGun();
                 SetState_KnifeTarget_SpawnKnife();
             }
         }
