@@ -19,13 +19,20 @@ public class DoorKnobHandler : MonoBehaviour
         doorKnobs.Add(doorKnob);
     }
 
-    public void SendKnobState(DoorKnob doorKnobSync)
+    public void SendKnobState(DoorKnob doorKnobSync, bool state)
     {
-        GameManagerAssistant.instance.RelaySenderCmdOpenDoor(doorKnobs.IndexOf(doorKnobSync));
+        GameManagerAssistant.instance.RelaySenderCmdOpenDoor(doorKnobs.IndexOf(doorKnobSync), state);
     }
 
-    public void SyncKnob(int index)
+    public void SyncKnob(int index, bool isOpen)
     {
-        doorKnobs[index].OpenDoors();
+        if (isOpen)
+        {
+            doorKnobs[index].OpenDoors();
+        }
+        else
+        {
+            doorKnobs[index].CloseDoors();
+        }
     }
 }

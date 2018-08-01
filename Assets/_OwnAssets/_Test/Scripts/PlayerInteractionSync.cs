@@ -127,6 +127,9 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             return;
         }
 
+        if (!currGrabbedObj.GetComponent<NetworkIdentity>())
+            return;
+
         GameManagerAssistant.instance.RelaySenderCmdSnapToController(currGrabbedObj.GetComponent<NetworkIdentity>().netId, isLeftGrab);
     }
 

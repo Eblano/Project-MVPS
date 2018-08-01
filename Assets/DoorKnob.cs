@@ -14,8 +14,16 @@ public class DoorKnob : MonoBehaviour
 
     public void ActivateDoor()
     {
-        DoorKnobHandler.instance.SendKnobState(this);
-        OpenDoors();
+        if (doors[0].isClosed)
+        {
+            DoorKnobHandler.instance.SendKnobState(this, true);
+            OpenDoors();
+        }
+        else
+        {
+            DoorKnobHandler.instance.SendKnobState(this, false);
+            CloseDoors();
+        }
     }
 
     public void OpenDoors()
@@ -23,6 +31,14 @@ public class DoorKnob : MonoBehaviour
         foreach (Door door in doors)
         {
             door.EnableDoorRot();
+        }
+    }
+
+    public void CloseDoors()
+    {
+        foreach (Door door in doors)
+        {
+            door.CloseDoor();
         }
     }
 }

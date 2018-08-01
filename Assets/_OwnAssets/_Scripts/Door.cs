@@ -17,6 +17,7 @@ public class Door : MonoBehaviour
     private float doorTimer;
     private float minAngle;
     private float maxAngle;
+    public bool isClosed = true;
 
     private void Start()
     {
@@ -35,6 +36,7 @@ public class Door : MonoBehaviour
             rb.AddTorque(openingTorque);
             Debug.Log("Helll");
             StartTimer();
+            isClosed = false;
         }
         else
         {
@@ -55,6 +57,7 @@ public class Door : MonoBehaviour
             {
                 rb.isKinematic = true;
                 transform.localRotation = closedRot;
+                isClosed = true;
             }
         }
         else
@@ -63,6 +66,7 @@ public class Door : MonoBehaviour
             {
                 rb.isKinematic = true;
                 transform.localRotation = closedRot;
+                isClosed = true;
             }
         }
     }

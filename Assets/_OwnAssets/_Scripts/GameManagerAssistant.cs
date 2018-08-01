@@ -290,9 +290,16 @@ namespace SealTeam4
             ClientScene.objects[gunNetID].GetComponent<NPCGun>().SpawnBulletHole(hitPos, normal, faceAngle);
         }
 
-        public void RelaySenderCmdOpenDoor(int doorIndex)
+        public void RelaySenderCmdOpenDoor(int doorIndex, bool state)
         {
-            CmdOpenDoor(playerID, doorIndex);
+            if (state)
+            {
+                CmdOpenDoor(playerID, doorIndex);
+            }
+            else
+            {
+                CmdCloseDoor(playerID, doorIndex);
+            }
         }
 
         [Command]
@@ -301,15 +308,32 @@ namespace SealTeam4
             RpcOpenDoor(senderPlayerID, doorIndex);
         }
 
+        [Command]
+        private void CmdCloseDoor(NetworkInstanceId senderPlayerID, int doorIndex)
+        {
+            RpcCloseDoor(senderPlayerID, doorIndex);
+        }
+
         [ClientRpc]
         private void RpcOpenDoor(NetworkInstanceId senderPlayerID, int doorIndex)
         {
-            if(playerID == senderPlayerID)
+            if (playerID == senderPlayerID)
             {
                 return;
             }
 
-            DoorKnobHandler.instance.SyncKnob(doorIndex);
+            DoorKnobHandler.instance.SyncKnob(doorIndex, true);
+        }
+
+        [ClientRpc]
+        private void RpcCloseDoor(NetworkInstanceId senderPlayerID, int doorIndex)
+        {
+            if (playerID == senderPlayerID)
+            {
+                return;
+            }
+
+            DoorKnobHandler.instance.SyncKnob(doorIndex, false);
         }
 
         private void SnapTo(GameObject child, GameObject parent)
