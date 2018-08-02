@@ -31,10 +31,10 @@ namespace SealTeam4
                 Destroy(this);
             }
 
-            foreach (Light light in lights)
-            {
-                light.shadowResolution = UnityEngine.Rendering.LightShadowResolution.High;
-            }
+            //foreach (Light light in lights)
+            //{
+            //    light.shadowResolution = UnityEngine.Rendering.LightShadowResolution.High;
+            //}
         }
 
         public void SetLightMode(GlobalEnums.SKYBOXTYPE skyboxType)

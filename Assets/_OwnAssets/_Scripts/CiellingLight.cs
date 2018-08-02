@@ -8,7 +8,8 @@ namespace SealTeam4
     [ProtoBuf.ProtoContract(ImplicitFields = ProtoBuf.ImplicitFields.AllPublic)]
     public class CiellingLight : MonoBehaviour, IActions, INetworkCommandable
     {
-        private Light light;
+        private Light spotLight;
+        private Light pointLight;
         private BoxCollider collider;
         private List<string> actionableList = new List<string>();
 
@@ -28,17 +29,27 @@ namespace SealTeam4
             GameObject lightGo = new GameObject();
             lightGo.name = "CeillingLightSource";
             lightGo.transform.SetParent(gameObject.transform);
+            lightGo.transform.localPosition = new Vector3(0, 0.2f, 0);
             lightGo.AddComponent<PersistentIgnore>();
-            light = lightGo.AddComponent<Light>();
-            light.type = LightType.Spot;
-            light.shadows = LightShadows.Soft;
-            light.renderMode = LightRenderMode.ForcePixel;
-            light.cullingMask = ~(1 << LayerMask.NameToLayer("AreaMarker"));
+
+            spotLight = lightGo.AddComponent<Light>();
+            spotLight.type = LightType.Spot;
+            spotLight.shadows = LightShadows.Soft;
+            spotLight.renderMode = LightRenderMode.ForcePixel;
+
+            pointLight = lightGo.AddComponent<Light>();
+            pointLight.type = LightType.Point;
+            pointLight.shadows = LightShadows.Soft;
+            pointLight.renderMode = LightRenderMode.Auto;
+            pointLight.range = 0.3f;
+            pointLight.intensity = 0.5f;
+
+            spotLight.cullingMask = ~(1 << LayerMask.NameToLayer("AreaMarker"));
         }
 
         private void Update()
         {
-            if(light)
+            if(spotLight)
             {
                 UpdateLightParams();
                 UpdateActionables();
@@ -49,20 +60,22 @@ namespace SealTeam4
         {
             if (lightsOn)
             {
-                light.enabled = true;
+                spotLight.enabled = true;
+                pointLight.enabled = true;
             }
             else
             {
-                light.enabled = false;
+                spotLight.enabled = false;
+                pointLight.enabled = false;
             }
 
-            if(light)
+            if(spotLight)
             {
-                light.range = range;
-                light.intensity = intensity;
-                light.spotAngle = angle;
-                light.color = lightColor;
-                light.transform.rotation = transform.rotation * Quaternion.Euler(90, 0, 0);
+                spotLight.range = range;
+                spotLight.intensity = intensity;
+                spotLight.spotAngle = angle;
+                spotLight.color = lightColor;
+                spotLight.transform.rotation = transform.rotation * Quaternion.Euler(90, 0, 0);
             }
         }
 
@@ -84,8 +97,8 @@ namespace SealTeam4
 
         private void OnDisable()
         {
-            if(light)
-                Destroy(light.gameObject);
+            if(spotLight)
+                Destroy(spotLight.gameObject);
 
             GameManager.instance.UnregisterNetCmdObj(gameObject);
         }
