@@ -22,6 +22,8 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
     private GameManager gameManager;
 
+    private BipedGrabNode grabNode;
+
     public override void OnStartServer()
     {
         gameManager = GameManager.instance;
@@ -119,11 +121,12 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
         // Set current grabbed object as nearest game object within radius
         currGrabbedObj = GetNearestGameObjectWithinGrabRadius(grabRadius, snapTarget.position);
-        
-        if (currGrabbedObj.GetComponent<BipedGrabNode>())
+
+        grabNode = currGrabbedObj.GetComponent<BipedGrabNode>();
+
+        if (grabNode != null)
         {
-            GameManagerAssistant.instance.RelaySenderCmdSnapBiped(currGrabbedObj.GetComponent<NetworkIdentity>().netId, isLeftGrab);
-            BipedGrabSync(currGrabbedObj.GetComponent<BipedGrabNode>(), isLeftGrab);
+            grabNode.OnGrabbed(playerID, isLeftGrab);
             return;
         }
 
@@ -378,20 +381,16 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         rb.velocity = velo;
     }
 
-    public void BipedGrabSync(BipedGrabNode bipedNode, bool isLeft)
+    public Transform GetControllerTransform(bool isLeft)
     {
-        Transform snapTarget = null;
-
         if (isLeft)
         {
-            snapTarget = lControl;
+            return lControl;
         }
         else
         {
-            snapTarget = rControl;
+            return rControl;
         }
-
-        bipedNode.OnGrabbed(snapTarget);
     }
 
     public void GrabCalculate(GameObject currGrabbedObj, VRTK_DeviceFinder.Devices control)
@@ -476,9 +475,10 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
                 break;
         }
 
-        if (currGrabbedObj.GetComponent<BipedGrabNode>())
+        if (grabNode)
         {
-            currGrabbedObj.GetComponent<BipedGrabNode>().OnUngrabbed();
+            grabNode.OnUngrabbed();
+            grabNode = null;
             return;
         }
 
