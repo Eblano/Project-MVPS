@@ -278,6 +278,7 @@ GameObject:
   - component: {fileID: 114523453008386480}
   - component: {fileID: 114120004586611078}
   - component: {fileID: 114677679526188268}
+  - component: {fileID: 114396171240706056}
   m_Layer: 9
   m_Name: NPC
   m_TagString: Untagged
@@ -2942,13 +2943,14 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1252520042481744}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fde4790f75153294cb0604998f79c9ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sendRatePerSecond: 45
   moveThreshold: 0
+  angularThreshold: 0.01
 --- !u!114 &114120004586611078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3520,6 +3522,27 @@ MonoBehaviour:
   bipPos: 2
   snapBackRadius: 0.1
   isBeingGrabbed: 0
+--- !u!114 &114396171240706056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1252520042481744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.03846154
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 0.8
+  m_InterpolateMovement: 0.8
 --- !u!114 &114523453008386480
 MonoBehaviour:
   m_ObjectHideFlags: 1
