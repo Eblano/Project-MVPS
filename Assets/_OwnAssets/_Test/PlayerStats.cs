@@ -27,24 +27,13 @@ public class PlayerStats : MonoBehaviour, IDamageable, IObjectInfo
 
     private void Start()
     {
-        //if (GameManagerAssistant.instance.isServer)
-        //{
-        //    Destroy(this);
-        //}
-
         netID = GetComponent<NetworkIdentity>().netId;
     }
 
     public void TakeDamage(int damage)
     {
         totalHp -= damage;
-        UpdateOverlay();
         CheckHealth();
-    }
-
-    private void UpdateOverlay()
-    {
-        GameManagerAssistant.instance.TargetUpdatePanelTransparency(NetworkServer.objects[netID].connectionToClient, totalHp);
     }
 
     private void CheckHealth()
@@ -52,7 +41,11 @@ public class PlayerStats : MonoBehaviour, IDamageable, IObjectInfo
         if (totalHp <= 0)
         {
             // Stop game when dead
-            //Time.timeScale = 0;
+            GameManagerAssistant.instance.TargetOnPlayerDeath(NetworkServer.objects[netID].connectionToClient);
+        }
+        else
+        {
+            GameManagerAssistant.instance.TargetOnPlayerDamaged(NetworkServer.objects[netID].connectionToClient, totalHp);
         }
     }
 
