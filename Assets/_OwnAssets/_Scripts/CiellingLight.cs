@@ -32,6 +32,7 @@ namespace SealTeam4
             light = lightGo.AddComponent<Light>();
             light.type = LightType.Spot;
             light.shadows = LightShadows.Soft;
+            light.renderMode = LightRenderMode.ForcePixel;
             light.cullingMask = ~(1 << LayerMask.NameToLayer("AreaMarker"));
         }
 
@@ -61,7 +62,6 @@ namespace SealTeam4
                 light.intensity = intensity;
                 light.spotAngle = angle;
                 light.color = lightColor;
-                light.transform.position = transform.position;
                 light.transform.rotation = transform.rotation * Quaternion.Euler(90, 0, 0);
             }
         }

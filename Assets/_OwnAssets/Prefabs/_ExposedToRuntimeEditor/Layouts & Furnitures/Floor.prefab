@@ -20,11 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4672953767852070}
   - component: {fileID: 33224899810840086}
-  - component: {fileID: 65181905521873364}
   - component: {fileID: 65711323225044298}
   - component: {fileID: 23158369839866776}
   - component: {fileID: 114117788221020952}
-  - component: {fileID: 114649079439696640}
   m_Layer: 12
   m_Name: Floor
   m_TagString: Untagged
@@ -40,7 +38,7 @@ Transform:
   m_GameObject: {fileID: 1180809464480276}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.1, z: 1}
+  m_LocalScale: {x: 1, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -87,18 +85,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1180809464480276}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65181905521873364
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1180809464480276}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65711323225044298
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -122,16 +108,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35993ad94241b74c888ed532f10218d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114649079439696640
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1180809464480276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aa51cc7553e7444db73e5d0369719f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxCollidersToCopy:
-  - {fileID: 65181905521873364}
