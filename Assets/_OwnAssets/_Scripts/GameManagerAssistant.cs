@@ -365,6 +365,50 @@ namespace SealTeam4
         //    rb.angularVelocity = anguVelo;
         //}
 
+        public void RelaySenderCmdSnapBiped(NetworkInstanceId childID, bool isLeftController)
+        {
+            CmdSnapBiped(childID, playerID, isLeftController);
+        }
+
+        public void RelaySenderCmdUnSnapBiped(NetworkInstanceId childID)
+        {
+            CmdUnSnapBiped(playerID, childID);
+        }
+
+        [Command]
+        private void CmdSnapBiped(NetworkInstanceId childID, NetworkInstanceId senderPlayerID, bool isLeftController)
+        {
+            RpcSnapBiped(childID, senderPlayerID, isLeftController);
+        }
+
+        [Command]
+        private void CmdUnSnapBiped(NetworkInstanceId senderPlayerID, NetworkInstanceId childID)
+        {
+            RpcUnSnapBiped(senderPlayerID, childID);
+        }
+
+        [ClientRpc]
+        private void RpcSnapBiped(NetworkInstanceId childID, NetworkInstanceId senderPlayerID, bool isLeftController)
+        {
+            if (playerID == senderPlayerID)
+            {
+                return;
+            }
+
+            ClientScene.objects[senderPlayerID].GetComponent<PlayerInteractionSync>().BipedGrabSync(ClientScene.objects[childID].gameObject.GetComponent<BipedGrabNode>(), isLeftController);
+        }
+
+        [ClientRpc]
+        private void RpcUnSnapBiped(NetworkInstanceId senderPlayerID, NetworkInstanceId childID)
+        {
+            if (playerID == senderPlayerID)
+            {
+                return;
+            }
+
+            ClientScene.objects[childID].GetComponent<BipedGrabNode>().OnUngrabbed();
+        }
+
         private void SnapTo(GameObject child, GameObject parent)
         {
             if (child.GetComponent<Rigidbody>())

@@ -1,58 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using SealTeam4;
 
-public class BipedGrabNode : InteractableObject
+public class BipedGrabNode : MonoBehaviour
 {
     [SerializeField] private BipedController BC;
     [SerializeField] private AIController aIController;
     [SerializeField] private BipedController.BipedPosition bipPos;
     [SerializeField] private float snapBackRadius;
 
-    private Transform bipedTransform;
+    private Transform parent;
+    private Vector3 originalPos;
+    private Quaternion originalRot;
 
-    [SerializeField] private bool isBeingGrabbed = false;
-    private bool grabStateChanged = false;
+    private Transform bipedTransform;
 
     private void Start()
     {
         bipedTransform = BC.GetBipedPos(bipPos);
+        parent = transform.parent;
+        originalPos = transform.localPosition;
+        originalRot = transform.localRotation;
     }
 
-    private void Update()
+    public void OnGrabbed(Transform grabParent)
     {
-        CheckGrabState();
+        transform.SetParent(grabParent);
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+        BC.SetBiped(bipPos, this.transform, 1);
+        aIController.SetGrabModeTransform(transform);
     }
 
-    private void CheckGrabState()
+    public void OnUngrabbed()
     {
-        if (GetOwner() != null && WithinRadius())
-        {
-            isBeingGrabbed = true;
-        }
-        else
-        {
-            isBeingGrabbed = false;
-        }
-
-        if (grabStateChanged != isBeingGrabbed)
-        {
-            if (isBeingGrabbed)
-            {
-                BC.SetBiped(bipPos, this.transform, 1);
-                aIController.SetGrabModeTransform(transform);
-            }
-            else
-            {
-                BC.SetBiped(bipPos, null, 0);
-                transform.localPosition = Vector3.zero;
-                transform.localRotation = Quaternion.identity;
-                aIController.SetGrabModeTransform(null);
-            }
-
-            grabStateChanged = isBeingGrabbed;
-        }
+        transform.SetParent(parent);
+        BC.SetBiped(bipPos, null, 0);
+        transform.localPosition = originalPos;
+        transform.localRotation = originalRot;
+        aIController.SetGrabModeTransform(null);
     }
 
     private bool WithinRadius()
