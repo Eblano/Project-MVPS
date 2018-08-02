@@ -9859,17 +9859,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: b9b2f2eb-5ba4-43c5-9603-af51e8e1d75c
+  Guid: 6049c991-cf3c-4292-be52-2f93a6e0eca9
   Mapping:
   - Name: Realtime Lightings
     Object: {fileID: 776701470}
-    Id: 36318
+    Id: 36316
   - Name: Realtime Lightings
     Object: {fileID: 776701466}
-    Id: 36319
+    Id: 36317
   - Name: Realtime Lightings
     Object: {fileID: 776701467}
-    Id: 36320
+    Id: 36318
 --- !u!114 &776701470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17694,17 +17694,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: b9b2f2eb-5ba4-43c5-9603-af51e8e1d75c
+  Guid: 6049c991-cf3c-4292-be52-2f93a6e0eca9
   Mapping:
   - Name: MainCamera
     Object: {fileID: 1123077324}
-    Id: 36321
+    Id: 36319
   - Name: MainCamera
     Object: {fileID: 1123077317}
-    Id: 36322
+    Id: 36320
   - Name: MainCamera
     Object: {fileID: 1123077321}
-    Id: 36323
+    Id: 36321
 --- !u!114 &1123077324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19019,17 +19019,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: b9b2f2eb-5ba4-43c5-9603-af51e8e1d75c
+  Guid: 6049c991-cf3c-4292-be52-2f93a6e0eca9
   Mapping:
   - Name: City Layout
     Object: {fileID: 1332449227}
-    Id: 36324
+    Id: 36322
   - Name: City Layout
     Object: {fileID: 1332449224}
-    Id: 36325
+    Id: 36323
   - Name: City Layout
     Object: {fileID: 1332449225}
-    Id: 36326
+    Id: 36324
 --- !u!114 &1332449227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19278,6 +19278,11 @@ Prefab:
         type: 2}
       propertyPath: Objects.Array.size
       value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.size
+      value: 159
       objectReference: {fileID: 0}
     - target: {fileID: 468744, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
       propertyPath: m_LocalPosition.x
@@ -20699,6 +20704,66 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[149]
+      value: 
+      objectReference: {fileID: 1280939143966108, guid: d814ff895bb0c8a469241308d97061ca,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[150]
+      value: 
+      objectReference: {fileID: 1011797965639872, guid: 1250999767c6d034f93252a575083f00,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[151]
+      value: 
+      objectReference: {fileID: 1297021142308700, guid: fb78737baded10a4792901a80af8d533,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[152]
+      value: 
+      objectReference: {fileID: 1401569272365370, guid: f65fb1e6dac1da6408af8745c25168c9,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[153]
+      value: 
+      objectReference: {fileID: 1083596168189094, guid: fb78737baded10a4792901a80af8d533,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[154]
+      value: 
+      objectReference: {fileID: 1520022275198340, guid: fb78737baded10a4792901a80af8d533,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[155]
+      value: 
+      objectReference: {fileID: 1235608031812114, guid: fb78737baded10a4792901a80af8d533,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[156]
+      value: 
+      objectReference: {fileID: 1219819673898424, guid: 5a2374460bf41a443b1a13ca852b05b2,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[157]
+      value: 
+      objectReference: {fileID: 1366403713027928, guid: 516abc535f2701640954ecf165a0fb82,
+        type: 2}
+    - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.data[158]
+      value: 
+      objectReference: {fileID: 1585867067646390, guid: b9f43dd067040db4396427fe005ca3fb,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 114072108812583480, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
@@ -21128,17 +21193,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: b9b2f2eb-5ba4-43c5-9603-af51e8e1d75c
+  Guid: 6049c991-cf3c-4292-be52-2f93a6e0eca9
   Mapping:
   - Name: KeySFXManager
     Object: {fileID: 1431598280}
-    Id: 36327
+    Id: 36325
   - Name: KeySFXManager
     Object: {fileID: 1431598276}
-    Id: 36328
+    Id: 36326
   - Name: KeySFXManager
     Object: {fileID: 1431598277}
-    Id: 36329
+    Id: 36327
 --- !u!114 &1431598280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26284,17 +26349,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: b9b2f2eb-5ba4-43c5-9603-af51e8e1d75c
+  Guid: 6049c991-cf3c-4292-be52-2f93a6e0eca9
   Mapping:
   - Name: EventSystem
     Object: {fileID: 1903868624}
-    Id: 36330
+    Id: 36328
   - Name: EventSystem
     Object: {fileID: 1903868619}
-    Id: 36331
+    Id: 36329
   - Name: EventSystem
     Object: {fileID: 1903868622}
-    Id: 36332
+    Id: 36330
 --- !u!114 &1903868624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28499,17 +28564,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: b9b2f2eb-5ba4-43c5-9603-af51e8e1d75c
+  Guid: 6049c991-cf3c-4292-be52-2f93a6e0eca9
   Mapping:
   - Name: RuntimeEditor
     Object: {fileID: 1955926211}
-    Id: 36333
+    Id: 36331
   - Name: RuntimeEditor
     Object: {fileID: 1955926209}
-    Id: 36334
+    Id: 36332
   - Name: RuntimeEditor
     Object: {fileID: 1955926218}
-    Id: 36335
+    Id: 36333
 --- !u!114 &1955926211 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114196523117519802, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
@@ -28548,17 +28613,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: b9b2f2eb-5ba4-43c5-9603-af51e8e1d75c
+  Guid: 6049c991-cf3c-4292-be52-2f93a6e0eca9
   Mapping:
   - Name: == Scene Persistent ===
     Object: {fileID: 1979267193}
-    Id: 36336
+    Id: 36334
   - Name: == Scene Persistent ===
     Object: {fileID: 1979267191}
-    Id: 36337
+    Id: 36335
   - Name: == Scene Persistent ===
     Object: {fileID: 1979267194}
-    Id: 36338
+    Id: 36336
 --- !u!114 &1979267193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28709,17 +28774,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: b9b2f2eb-5ba4-43c5-9603-af51e8e1d75c
+  Guid: 6049c991-cf3c-4292-be52-2f93a6e0eca9
   Mapping:
   - Name: == Level ===
     Object: {fileID: 2011681953}
-    Id: 36339
+    Id: 36337
   - Name: == Level ===
     Object: {fileID: 2011681951}
-    Id: 36340
+    Id: 36338
   - Name: == Level ===
     Object: {fileID: 2011681954}
-    Id: 36341
+    Id: 36339
 --- !u!114 &2011681953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30193,10 +30258,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2128280401}
   - component: {fileID: 2128280404}
-  - component: {fileID: 2128280399}
   - component: {fileID: 2128280403}
   - component: {fileID: 2128280400}
   - component: {fileID: 2128280402}
+  - component: {fileID: 2128280405}
+  - component: {fileID: 2128280399}
   - component: {fileID: 2128280398}
   m_Layer: 21
   m_Name: Managers
@@ -30216,17 +30282,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: b9b2f2eb-5ba4-43c5-9603-af51e8e1d75c
+  Guid: 6049c991-cf3c-4292-be52-2f93a6e0eca9
   Mapping:
   - Name: Managers
     Object: {fileID: 2128280399}
-    Id: 36342
+    Id: 36340
   - Name: Managers
     Object: {fileID: 2128280397}
-    Id: 36343
+    Id: 36341
   - Name: Managers
     Object: {fileID: 2128280401}
-    Id: 36344
+    Id: 36342
 --- !u!114 &2128280399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30330,6 +30396,18 @@ MonoBehaviour:
   magazine_sar21_Prefab: {fileID: 1823229847869476, guid: 1fb9560ecbcd36b48a15fcb6c207b59b,
     type: 2}
   vipFollowTarget: {fileID: 0}
+--- !u!114 &2128280405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2128280397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a63d8afad3296864abd8a16ac8f6a29c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bipedGrabNodes: []
 --- !u!1 &2135079331
 GameObject:
   m_ObjectHideFlags: 0
