@@ -119,18 +119,18 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
         // Set current grabbed object as nearest game object within radius
         currGrabbedObj = GetNearestGameObjectWithinGrabRadius(grabRadius, snapTarget.position);
-
-        GrabCalculate(currGrabbedObj, control);
-
-        if (!currGrabbedObj)
-        {
-            return;
-        }
         
         if (currGrabbedObj.GetComponent<BipedGrabNode>())
         {
             GameManagerAssistant.instance.RelaySenderCmdSnapBiped(currGrabbedObj.GetComponent<NetworkIdentity>().netId, isLeftGrab);
             BipedGrabSync(currGrabbedObj.GetComponent<BipedGrabNode>(), isLeftGrab);
+            return;
+        }
+
+        GrabCalculate(currGrabbedObj, control);
+
+        if (!currGrabbedObj)
+        {
             return;
         }
 
