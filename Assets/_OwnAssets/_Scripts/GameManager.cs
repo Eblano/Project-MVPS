@@ -159,11 +159,11 @@ namespace SealTeam4
             }
             if (Input.GetKey(KeyCode.A))
             {
-                playerLPC.Rotate(0, -5 * Time.deltaTime, 0);
+                playerLPC.Rotate(0, -20 * Time.deltaTime, 0);
             }
             if (Input.GetKey(KeyCode.D))
             {
-                playerLPC.Rotate(0, 5 * Time.deltaTime, 0);
+                playerLPC.Rotate(0, 20 * Time.deltaTime, 0);
             }
 
             //if (Input.GetKeyDown(KeyCode.R))
