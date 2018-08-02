@@ -73,10 +73,10 @@ namespace SealTeam4
         private List<AIController> spawnedNPCs = new List<AIController>();
 
         [Space(10)]
-       
-        private string localPlayerName;
 
-        [SerializeField] private Image panelOverlay;
+        private Transform playerLPC;
+        private string localPlayerName;
+        //[SerializeField] private Image panelOverlay;
 
         private void Start()
         {
@@ -102,7 +102,7 @@ namespace SealTeam4
                 if (Input.GetKeyDown(KeyCode.S))
                     FindObjectOfType<NetworkManagerHUD>().enabled = !FindObjectOfType<NetworkManagerHUD>().enabled;
             }
-
+            
             switch (currGameManagerMode)
             {
                 case GameManagerMode.LEVELSETUP:
@@ -142,6 +142,28 @@ namespace SealTeam4
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 StartCoroutine(PlayerSizeCalibration.instance.CalibrateArmAndHeight());
+            }
+
+            if (!playerLPC)
+            {
+                return;
+            }
+
+            if (Input.GetKey(KeyCode.W))
+            {
+                playerLPC.Translate(playerLPC.forward * 5 * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                playerLPC.Translate(-playerLPC.forward * 5 * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                playerLPC.Rotate(0, -5 * Time.deltaTime, 0);
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                playerLPC.Rotate(0, 5 * Time.deltaTime, 0);
             }
 
             //if (Input.GetKeyDown(KeyCode.R))
@@ -210,7 +232,7 @@ namespace SealTeam4
                     (PlayerSpawnMarker)registeredMarkers.Find(x => x is PlayerSpawnMarker);
 
                 // Spawn local player controller at spawn position
-                Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation);
+                playerLPC = Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation).transform;
 
                 Destroy(Camera.main.gameObject);
                 Destroy(GameObject.Find("markerUICamera(Clone)"));
