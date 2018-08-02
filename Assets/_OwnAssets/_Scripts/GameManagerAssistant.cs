@@ -336,6 +336,29 @@ namespace SealTeam4
             DoorKnobHandler.instance.SyncKnob(doorIndex, false);
         }
 
+        //[Command]
+        //public void CmdApplyRBPhysics(NetworkInstanceId objApplyRB, Vector3 velo, Vector3 anguVelo)
+        //{
+        //    RpcApplyRBPhysics(objApplyRB, velo, anguVelo);
+        //}
+
+        //[ClientRpc]
+        //private void RpcApplyRBPhysics(NetworkInstanceId objApplyRB, Vector3 velo, Vector3 anguVelo)
+        //{
+        //    Rigidbody rb = ClientScene.objects[objApplyRB].GetComponent<Rigidbody>();
+
+        //    if (rb)
+        //    {
+        //        ApplyRigidbodyPhysics(rb, velo, anguVelo);
+        //    }
+        //}
+
+        //private void ApplyRigidbodyPhysics(Rigidbody rb, Vector3 velo, Vector3 anguVelo)
+        //{
+        //    rb.velocity = velo;
+        //    rb.angularVelocity = anguVelo;
+        //}
+
         private void SnapTo(GameObject child, GameObject parent)
         {
             if (child.GetComponent<Rigidbody>())
