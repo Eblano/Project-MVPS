@@ -169,8 +169,20 @@ namespace SealTeam4
                 case NpcSpawnData.NPCOutfit.FEMALE_TYPE1:
                 case NpcSpawnData.NPCOutfit.FEMALE_TYPE2:
                 case NpcSpawnData.NPCOutfit.FEMALE_TYPE3:
+                    bodyRenderer.sharedMesh = mesh_Female.bodyMesh;
+                    bottomsRenderer.sharedMesh = mesh_Female.bottomsMesh;
+                    eyesRenderer.sharedMesh = mesh_Female.eyesMesh;
+                    hairRenderer.sharedMesh = mesh_Female.hairMesh;
+                    shoesRenderer.sharedMesh = mesh_Female.shoesMesh;
+                    topsRenderer.sharedMesh = mesh_Female.topsMesh;
                     break;
                 case NpcSpawnData.NPCOutfit.MALE_VIP:
+                    bodyRenderer.sharedMesh = mesh_MaleVIP.bodyMesh;
+                    bottomsRenderer.sharedMesh = mesh_MaleVIP.bottomsMesh;
+                    eyesRenderer.sharedMesh = mesh_MaleVIP.eyesMesh;
+                    hairRenderer.sharedMesh = mesh_MaleVIP.hairMesh;
+                    shoesRenderer.sharedMesh = mesh_MaleVIP.shoesMesh;
+                    topsRenderer.sharedMesh = mesh_MaleVIP.topsMesh;
                     break;
             }
 
