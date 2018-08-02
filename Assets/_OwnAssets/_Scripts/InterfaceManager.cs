@@ -341,7 +341,7 @@ namespace SealTeam4
             if (Input.GetKeyDown(KeyCode.Alpha0) && actionBtnList.Count > 9)
                 actionBtnList[9].onClick.Invoke();
 
-            if(Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Z))
             {
                 if (Input.GetKeyDown(KeyCode.E))
                     showHideMarkersBtn.onClick.Invoke();

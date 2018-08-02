@@ -30,6 +30,11 @@ namespace SealTeam4
                 Debug.Log("Duplicate RealtimeGlobalLightingManager, removing this");
                 Destroy(this);
             }
+
+            //foreach (Light light in lights)
+            //{
+            //    light.shadowResolution = UnityEngine.Rendering.LightShadowResolution.High;
+            //}
         }
 
         public void SetLightMode(GlobalEnums.SKYBOXTYPE skyboxType)
