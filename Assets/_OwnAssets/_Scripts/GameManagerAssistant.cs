@@ -26,9 +26,15 @@ namespace SealTeam4
         }
 
         [TargetRpc]
-        public void TargetUpdatePanelTransparency(NetworkConnection networkConnection, int percent)
+        public void TargetOnPlayerDeath(NetworkConnection networkConnection)
         {
-            GameManager.instance.SetOverlayTransparency(percent);
+            GameManager.instance.ActivatedOnDeath();
+        }
+
+        [TargetRpc]
+        public void TargetOnPlayerDamaged(NetworkConnection networkConnection, int hpLeft)
+        {
+            GameManager.instance.ActivatedOnDamaged(hpLeft);
         }
 
         public void NetworkSpawnGameObj(GameObject GO)
