@@ -182,17 +182,29 @@ namespace SealTeam4
                 NpcSpawnData.NPCOutfit npcOutfit;
                 switch (npcSpawnData_RTEStorage.npcOutfit)
                 {
-                    case "MALE_A_TYPE1":
-                        npcOutfit = NpcSpawnData.NPCOutfit.MALE_A_TYPE1;
+                    case "MALE_TYPE1":
+                        npcOutfit = NpcSpawnData.NPCOutfit.MALE_TYPE1;
                         break;
-                    case "MALE_A_TYPE2":
-                        npcOutfit = NpcSpawnData.NPCOutfit.MALE_A_TYPE2;
+                    case "MALE_TYPE2":
+                        npcOutfit = NpcSpawnData.NPCOutfit.MALE_TYPE2;
                         break;
-                    case "MALE_A_TYPE3":
-                        npcOutfit = NpcSpawnData.NPCOutfit.MALE_A_TYPE3;
+                    case "MALE_TYPE3":
+                        npcOutfit = NpcSpawnData.NPCOutfit.MALE_TYPE3;
+                        break;
+                    case "FEMALE_TYPE1":
+                        npcOutfit = NpcSpawnData.NPCOutfit.MALE_TYPE1;
+                        break;
+                    case "FEMALE_TYPE2":
+                        npcOutfit = NpcSpawnData.NPCOutfit.MALE_TYPE2;
+                        break;
+                    case "FEMALE_TYPE3":
+                        npcOutfit = NpcSpawnData.NPCOutfit.MALE_TYPE3;
+                        break;
+                    case "MALE_VIP":
+                        npcOutfit = NpcSpawnData.NPCOutfit.MALE_VIP;
                         break;
                     default:
-                        npcOutfit = NpcSpawnData.NPCOutfit.MALE_A_TYPE1;
+                        npcOutfit = NpcSpawnData.NPCOutfit.MALE_TYPE1;
                         break;
                 }
 
