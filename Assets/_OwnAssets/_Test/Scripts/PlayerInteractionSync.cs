@@ -48,7 +48,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         LerpTransform(lControl, lHandTrans);
         LerpTransform(rControl, rHandTrans);
     }
-    
+
     public void LerpTransform(Transform t, Vector3AndQuaternion targetTransform)
     {
         t.position = Vector3.Lerp(t.position, targetTransform.pos, 0.5f);
@@ -124,6 +124,13 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
         if (!currGrabbedObj)
         {
+            return;
+        }
+        
+        if (currGrabbedObj.GetComponent<BipedGrabNode>())
+        {
+            GameManagerAssistant.instance.RelaySenderCmdSnapBiped(currGrabbedObj.GetComponent<NetworkIdentity>().netId, isLeftGrab);
+            BipedGrabSync(currGrabbedObj.GetComponent<BipedGrabNode>(), isLeftGrab);
             return;
         }
 
@@ -371,6 +378,22 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         rb.velocity = velo;
     }
 
+    public void BipedGrabSync(BipedGrabNode bipedNode, bool isLeft)
+    {
+        Transform snapTarget = null;
+
+        if (isLeft)
+        {
+            snapTarget = lControl;
+        }
+        else
+        {
+            snapTarget = rControl;
+        }
+
+        bipedNode.OnGrabbed(snapTarget);
+    }
+
     public void GrabCalculate(GameObject currGrabbedObj, VRTK_DeviceFinder.Devices control)
     {
         // If there is no grabbable object, stop running this method
@@ -439,7 +462,6 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         {
             return;
         }
-
         GameObject currGrabbedObj = null;
 
         switch (control)
@@ -452,6 +474,12 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
                 currGrabbedObj = rightHandObj;
                 rightHandObj = null;
                 break;
+        }
+
+        if (currGrabbedObj.GetComponent<BipedGrabNode>())
+        {
+            currGrabbedObj.GetComponent<BipedGrabNode>().OnUngrabbed();
+            return;
         }
 
         Transform grabbedObjParent;
@@ -531,7 +559,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
     public void SetAction(string action)
     {
-        
+
     }
 
     public string GetName()
