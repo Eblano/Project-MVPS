@@ -30,6 +30,7 @@ namespace SealTeam4
         [SerializeField] private GameObject t_PropertiesPanel;
         [SerializeField] private TMP_InputField t_DWPPrefixInputField;
         [SerializeField] private TMP_InputField t_InitEngageDelayInputField;
+        [SerializeField] private TMP_InputField t_MaxGunRangeInputField;
         [SerializeField] private TMP_Dropdown t_GunAccuracyDropdown;
 
         // Color when there is error
@@ -113,13 +114,21 @@ namespace SealTeam4
             else
                 spawnMarkerDropdownBGImg.color = origColor;
 
-            if(ref_npcSpawnData.initEngageDelay < 0)
+            if(ref_npcSpawnData.initEngageDelay < 0 || ref_npcSpawnData.initEngageDelay > 9999)
             {
-                movementSpdInputFieldBGImg.color = errorColor;
+                //movementSpdInputFieldBGImg.color = errorColor;
                 dataIsComplete = false;
             }
             else
-                movementSpdInputFieldBGImg.color = origColor;
+                //movementSpdInputFieldBGImg.color = origColor;
+
+            if (ref_npcSpawnData.maxGunRange < 0 || ref_npcSpawnData.maxGunRange > 9999)
+            {
+                //movementSpdInputFieldBGImg.color = errorColor;
+                dataIsComplete = false;
+            }
+            else
+                //movementSpdInputFieldBGImg.color = origColor;
 
             if (ref_npcSpawnData.movementSpdMultiplier < 1f || ref_npcSpawnData.movementSpdMultiplier > 5f)
             {
@@ -156,6 +165,7 @@ namespace SealTeam4
         {
             Setup_T_DWPPrefixInputField();
             Setup_T_InitEngageDelayInputField();
+            Setup_T_MaxGunRangeInputField();
             Setup_GunAccuracyDropdown();
 
             if (a_AITypeDropdown.options[a_AITypeDropdown.value].text == "Terrorist")
@@ -176,6 +186,13 @@ namespace SealTeam4
             t_InitEngageDelayInputField.onValueChanged.AddListener(delegate { OnValueChanged_InitEngageDelayInputField(); });
 
             t_InitEngageDelayInputField.text = ref_npcSpawnData.initEngageDelay.ToString();
+        }
+
+        private void Setup_T_MaxGunRangeInputField()
+        {
+            t_MaxGunRangeInputField.onValueChanged.AddListener(delegate { OnValueChanged_t_MaxGunRangeInputField(); });
+
+            t_MaxGunRangeInputField.text = ref_npcSpawnData.maxGunRange.ToString();
         }
 
         private void Setup_C_ThreatRespondBehaviourDropdown()
@@ -441,6 +458,11 @@ namespace SealTeam4
         private void OnValueChanged_InitEngageDelayInputField()
         {
             ref_npcSpawnData.initEngageDelay = float.Parse(t_InitEngageDelayInputField.text);
+        }
+
+        private void OnValueChanged_t_MaxGunRangeInputField()
+        {
+            ref_npcSpawnData.maxGunRange = float.Parse(t_MaxGunRangeInputField.text);
         }
 
         public string GetNPCName()

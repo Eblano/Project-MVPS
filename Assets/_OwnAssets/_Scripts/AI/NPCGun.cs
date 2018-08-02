@@ -17,8 +17,8 @@ namespace SealTeam4
 
         private float timeToNextShot = 0;
 
-        private float minVerticalDispersion = 0.04f;
-        private float minHorizontalDispersion = 0.08f;
+        private float minVerticalDispersion = 0.03f;
+        private float minHorizontalDispersion = 0.04f;
 
         private List<Vector3> hitPoints = new List<Vector3>();
         
