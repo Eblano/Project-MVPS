@@ -79,6 +79,7 @@ GameObject:
   - component: {fileID: 114701091495402454}
   - component: {fileID: 82931403031636602}
   - component: {fileID: 82632492681818826}
+  - component: {fileID: 114024248869403340}
   m_Layer: 13
   m_Name: SAR-21
   m_TagString: ExcludeTeleport
@@ -1511,6 +1512,27 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114024248869403340
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1091421823349118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.04
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 0.5
+  m_InterpolateMovement: 0.5
 --- !u!114 &114029017053225488
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1628,6 +1650,8 @@ MonoBehaviour:
   muzzleFlashEffects: {fileID: 114029017053225488}
   bulletPref: {fileID: 0}
   bulletExitPoint: {fileID: 0}
+  bloodFX_Prefab: {fileID: 0}
+  hitEffect_Prefab: {fileID: 0}
 --- !u!114 &114417862528091020
 MonoBehaviour:
   m_ObjectHideFlags: 1
