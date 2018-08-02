@@ -327,7 +327,7 @@ namespace SealTeam4
 public class NPCSpawnData_SStorage
 {
     // Default Values
-    private readonly string[] allNPCOutfits = { "MALE_A_TYPE1", "MALE_A_TYPE2", "MALE_A_TYPE3" };
+    private readonly string[] allNPCOutfits = { "MALE_TYPE1", "MALE_TYPE2", "MALE_TYPE3", "FEMALE_TYPE1" ,"FEMALE_TYPE2", "FEMALE_TYPE3", "MALE_VIP" };
     private readonly string[] allAITypes = { "Terrorist", "VIP", "Civillian" };
     private readonly string[] allCivillianThreatResponses = { "Freeze", "Run to Exit", "Random" };
     private readonly string[] allGunAccuracy = { "HIGH", "MID", "LOW" };
@@ -336,7 +336,7 @@ public class NPCSpawnData_SStorage
     public bool activateOnStart;
     public string npcName;
     public string spawnMarkerName;
-    public string npcOutfit = "MALE_A_TYPE1";
+    public string npcOutfit = "MALE_TYPE1";
     public string aiType = "Civillian";
     public float movementSpdMultiplier = 1;
 
