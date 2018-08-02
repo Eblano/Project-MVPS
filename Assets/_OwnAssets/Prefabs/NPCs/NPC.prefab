@@ -273,7 +273,6 @@ GameObject:
   - component: {fileID: 114550468227177510}
   - component: {fileID: 114257452370151248}
   - component: {fileID: 114061936503739662}
-  - component: {fileID: 114088079920164930}
   - component: {fileID: 114813067693896332}
   - component: {fileID: 114523453008386480}
   - component: {fileID: 114120004586611078}
@@ -2937,20 +2936,6 @@ MonoBehaviour:
     - {fileID: 65315160791872708}
     - {fileID: 65392970094334518}
     - {fileID: 65525704127496010}
---- !u!114 &114088079920164930
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1252520042481744}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fde4790f75153294cb0604998f79c9ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sendRatePerSecond: 45
-  moveThreshold: 0
-  angularThreshold: 0.01
 --- !u!114 &114120004586611078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3542,7 +3527,7 @@ MonoBehaviour:
   m_VelocityThreshold: 0.0001
   m_SnapThreshold: 5
   m_InterpolateRotation: 0.8
-  m_InterpolateMovement: 0.8
+  m_InterpolateMovement: 0.6
 --- !u!114 &114523453008386480
 MonoBehaviour:
   m_ObjectHideFlags: 1

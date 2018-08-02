@@ -15,7 +15,6 @@ public class DoorStayTrigger : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         onTrigger--;
-        Debug.Log(onTrigger);
         if(onTrigger == 0)
         {
             foreach (Door door in doors)

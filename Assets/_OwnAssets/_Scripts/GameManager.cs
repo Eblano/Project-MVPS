@@ -673,11 +673,16 @@ namespace SealTeam4
             InterfaceManager.instance.AddNewPlayer(playerName);
         }
 
-        public void SetOverlayTransparency(int percent)
+        public void ActivatedOnDeath()
         {
-            Color c = panelOverlay.color;
-            c.a = percent / 100.0f;
-            panelOverlay.color = c; 
+            //Color c = panelOverlay.color;
+            //c.a = percent / 100.0f;
+            //panelOverlay.color = c; 
+        }
+
+        public void ActivatedOnDamaged(int hpLeft)
+        {
+            // HI CLEM
         }
 
         public string RegisterNetCmdObj(GameObject go, bool uniqueName)
