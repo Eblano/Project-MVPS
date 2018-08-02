@@ -8,8 +8,8 @@ namespace SealTeam4
     public class NpcSpawnData
     {
         public string npcName;
-        public enum NPCOutfit { TYPE_1, TYPE_2, TYPE_3 };
-        public NPCOutfit npcOutfit = NPCOutfit.TYPE_1;
+        public enum NPCOutfit { MALE_A_TYPE1, MALE_A_TYPE2, MALE_A_TYPE3 };
+        public NPCOutfit npcOutfit = NPCOutfit.MALE_A_TYPE1;
         public string spawnMarkerName;
 
         public AIStats aiStats = new AIStats();
