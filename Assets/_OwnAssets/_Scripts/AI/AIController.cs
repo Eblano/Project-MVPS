@@ -30,22 +30,27 @@ namespace SealTeam4
         }
 
         [System.Serializable]
-        public class NPCOutfit
+        public class NPCModelMaterial
         {
             public Material bodyMat;
-            public Mesh bodyMesh;
             public Material bottomsMat;
-            public Mesh bottomsMesh;
             public Material eyesMat;
-            public Mesh eyesMesh;
             public Material hairMat;
-            public Mesh hairMesh;
             public Material shoesMat;
-            public Mesh shoesMesh;
             public Material topsMat;
-            public Mesh topsMesh;
         }
-        
+
+        [System.Serializable]
+        public class NPCModelMesh
+        {
+            public Mesh topsMesh;
+            public Mesh bodyMesh;
+            public Mesh bottomsMesh;
+            public Mesh eyesMesh;
+            public Mesh hairMesh;
+            public Mesh shoesMesh;
+        }
+
         [Header("Body Parts Renderers")]
         [SerializeField] private SkinnedMeshRenderer bodyRenderer;
         [SerializeField] private SkinnedMeshRenderer bottomsRenderer;
@@ -54,9 +59,19 @@ namespace SealTeam4
         [SerializeField] private SkinnedMeshRenderer shoesRenderer;
         [SerializeField] private SkinnedMeshRenderer topsRenderer;
 
-        [SerializeField] private NPCOutfit outfitType_A1;
-        [SerializeField] private NPCOutfit outfitType_A2;
-        [SerializeField] private NPCOutfit outfitType_A3;
+        [Header("Body Meshes")]
+        [SerializeField] private NPCModelMesh mesh_Male;
+        [SerializeField] private NPCModelMesh mesh_Female;
+        [SerializeField] private NPCModelMesh mesh_MaleVIP;
+
+        [Header("Body Materials")]
+        [SerializeField] private NPCModelMaterial outfit_Male_Type1;
+        [SerializeField] private NPCModelMaterial outfit_Male_Type2;
+        [SerializeField] private NPCModelMaterial outfit_Male_Type3;
+        [SerializeField] private NPCModelMaterial outfit_Female_Type1;
+        [SerializeField] private NPCModelMaterial outfit_Female_Type2;
+        [SerializeField] private NPCModelMaterial outfit_Female_Type3;
+        [SerializeField] private NPCModelMaterial outfit_Male_VIP;
 
         private string npcName;
 
@@ -141,47 +156,83 @@ namespace SealTeam4
 
             switch (outfit)
             {
-                case NpcSpawnData.NPCOutfit.MALE_A_TYPE1:
-                    bodyRenderer.material = outfitType_A1.bodyMat;
-                    bodyRenderer.sharedMesh = outfitType_A1.bodyMesh;
-                    bottomsRenderer.material = outfitType_A1.bottomsMat;
-                    bottomsRenderer.sharedMesh = outfitType_A1.bottomsMesh;
-                    eyesRenderer.material = outfitType_A1.eyesMat;
-                    eyesRenderer.sharedMesh = outfitType_A1.eyesMesh;
-                    hairRenderer.material = outfitType_A1.hairMat;
-                    hairRenderer.sharedMesh = outfitType_A1.hairMesh;
-                    shoesRenderer.material = outfitType_A1.shoesMat;
-                    shoesRenderer.sharedMesh = outfitType_A1.shoesMesh;
-                    topsRenderer.material = outfitType_A1.topsMat;
-                    topsRenderer.sharedMesh = outfitType_A1.topsMesh;
+                case NpcSpawnData.NPCOutfit.MALE_TYPE1:
+                case NpcSpawnData.NPCOutfit.MALE_TYPE2:
+                case NpcSpawnData.NPCOutfit.MALE_TYPE3:
+                    bodyRenderer.sharedMesh = mesh_Male.bodyMesh;
+                    bottomsRenderer.sharedMesh = mesh_Male.bottomsMesh;
+                    eyesRenderer.sharedMesh = mesh_Male.eyesMesh;
+                    hairRenderer.sharedMesh = mesh_Male.hairMesh;
+                    shoesRenderer.sharedMesh = mesh_Male.shoesMesh;
+                    topsRenderer.sharedMesh = mesh_Male.topsMesh;
                     break;
-                case NpcSpawnData.NPCOutfit.MALE_A_TYPE2:
-                    bodyRenderer.material = outfitType_A2.bodyMat;
-                    bodyRenderer.sharedMesh = outfitType_A2.bodyMesh;
-                    bottomsRenderer.material = outfitType_A2.bottomsMat;
-                    bottomsRenderer.sharedMesh = outfitType_A2.bottomsMesh;
-                    eyesRenderer.material = outfitType_A2.eyesMat;
-                    eyesRenderer.sharedMesh = outfitType_A2.eyesMesh;
-                    hairRenderer.material = outfitType_A2.hairMat;
-                    hairRenderer.sharedMesh = outfitType_A2.hairMesh;
-                    shoesRenderer.material = outfitType_A2.shoesMat;
-                    shoesRenderer.sharedMesh = outfitType_A2.shoesMesh;
-                    topsRenderer.material = outfitType_A2.topsMat;
-                    topsRenderer.sharedMesh = outfitType_A2.topsMesh;
+                case NpcSpawnData.NPCOutfit.FEMALE_TYPE1:
+                case NpcSpawnData.NPCOutfit.FEMALE_TYPE2:
+                case NpcSpawnData.NPCOutfit.FEMALE_TYPE3:
                     break;
-                case NpcSpawnData.NPCOutfit.MALE_A_TYPE3:
-                    bodyRenderer.material = outfitType_A3.bodyMat;
-                    bodyRenderer.sharedMesh = outfitType_A3.bodyMesh;
-                    bottomsRenderer.material = outfitType_A3.bottomsMat;
-                    bottomsRenderer.sharedMesh = outfitType_A3.bottomsMesh;
-                    eyesRenderer.material = outfitType_A3.eyesMat;
-                    eyesRenderer.sharedMesh = outfitType_A3.eyesMesh;
-                    hairRenderer.material = outfitType_A3.hairMat;
-                    hairRenderer.sharedMesh = outfitType_A3.hairMesh;
-                    shoesRenderer.material = outfitType_A3.shoesMat;
-                    shoesRenderer.sharedMesh = outfitType_A3.shoesMesh;
-                    topsRenderer.material = outfitType_A3.topsMat;
-                    topsRenderer.sharedMesh = outfitType_A3.topsMesh;
+                case NpcSpawnData.NPCOutfit.MALE_VIP:
+                    break;
+            }
+
+
+            // Apply Material
+            switch (outfit)
+            {
+                case NpcSpawnData.NPCOutfit.MALE_TYPE1:
+                    bodyRenderer.material = outfit_Male_Type1.bodyMat;
+                    bottomsRenderer.material = outfit_Male_Type1.bottomsMat;
+                    eyesRenderer.material = outfit_Male_Type1.eyesMat;
+                    hairRenderer.material = outfit_Male_Type1.hairMat;
+                    shoesRenderer.material = outfit_Male_Type1.shoesMat;
+                    topsRenderer.material = outfit_Male_Type1.topsMat;
+                    break;
+                case NpcSpawnData.NPCOutfit.MALE_TYPE2:
+                    bodyRenderer.material = outfit_Male_Type2.bodyMat;
+                    bottomsRenderer.material = outfit_Male_Type2.bottomsMat;
+                    eyesRenderer.material = outfit_Male_Type2.eyesMat;
+                    hairRenderer.material = outfit_Male_Type2.hairMat;
+                    shoesRenderer.material = outfit_Male_Type2.shoesMat;
+                    topsRenderer.material = outfit_Male_Type2.topsMat;
+                    break;
+                case NpcSpawnData.NPCOutfit.MALE_TYPE3:
+                    bodyRenderer.material = outfit_Male_Type3.bodyMat;
+                    bottomsRenderer.material = outfit_Male_Type3.bottomsMat;
+                    eyesRenderer.material = outfit_Male_Type3.eyesMat;
+                    hairRenderer.material = outfit_Male_Type3.hairMat;
+                    shoesRenderer.material = outfit_Male_Type3.shoesMat;
+                    topsRenderer.material = outfit_Male_Type3.topsMat;
+                    break;
+                case NpcSpawnData.NPCOutfit.FEMALE_TYPE1:
+                    bodyRenderer.material = outfit_Female_Type1.bodyMat;
+                    bottomsRenderer.material = outfit_Female_Type1.bottomsMat;
+                    eyesRenderer.material = outfit_Female_Type1.eyesMat;
+                    hairRenderer.material = outfit_Female_Type1.hairMat;
+                    shoesRenderer.material = outfit_Female_Type1.shoesMat;
+                    topsRenderer.material = outfit_Female_Type1.topsMat;
+                    break;
+                case NpcSpawnData.NPCOutfit.FEMALE_TYPE2:
+                    bodyRenderer.material = outfit_Female_Type2.bodyMat;
+                    bottomsRenderer.material = outfit_Female_Type2.bottomsMat;
+                    eyesRenderer.material = outfit_Female_Type2.eyesMat;
+                    hairRenderer.material = outfit_Female_Type2.hairMat;
+                    shoesRenderer.material = outfit_Female_Type2.shoesMat;
+                    topsRenderer.material = outfit_Female_Type2.topsMat;
+                    break;
+                case NpcSpawnData.NPCOutfit.FEMALE_TYPE3:
+                    bodyRenderer.material = outfit_Female_Type3.bodyMat;
+                    bottomsRenderer.material = outfit_Female_Type3.bottomsMat;
+                    eyesRenderer.material = outfit_Female_Type3.eyesMat;
+                    hairRenderer.material = outfit_Female_Type3.hairMat;
+                    shoesRenderer.material = outfit_Female_Type3.shoesMat;
+                    topsRenderer.material = outfit_Female_Type3.topsMat;
+                    break;
+                case NpcSpawnData.NPCOutfit.MALE_VIP:
+                    bodyRenderer.material = outfit_Male_VIP.bodyMat;
+                    bottomsRenderer.material = outfit_Male_VIP.bottomsMat;
+                    eyesRenderer.material = outfit_Male_VIP.eyesMat;
+                    hairRenderer.material = outfit_Male_VIP.hairMat;
+                    shoesRenderer.material = outfit_Male_VIP.shoesMat;
+                    topsRenderer.material = outfit_Male_VIP.topsMat;
                     break;
             }
         }

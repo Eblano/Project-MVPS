@@ -2808,45 +2808,76 @@ MonoBehaviour:
   hairRenderer: {fileID: 137351806842577054}
   shoesRenderer: {fileID: 137380791042087304}
   topsRenderer: {fileID: 137010181532034852}
-  outfitType_A1:
-    bodyMat: {fileID: 2100000, guid: 894a7efe1404a7b46b5170fd766d1703, type: 2}
-    bodyMesh: {fileID: 4300004, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    bottomsMat: {fileID: 2100000, guid: d65a18dd9c2cc0e4bb174cd3c1252eb8, type: 2}
-    bottomsMesh: {fileID: 4300008, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    eyesMat: {fileID: 2100000, guid: 894a7efe1404a7b46b5170fd766d1703, type: 2}
-    eyesMesh: {fileID: 4300000, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    hairMat: {fileID: 2100000, guid: 6bebd02a43f494143bb74d77d046e9c5, type: 2}
-    hairMesh: {fileID: 4300010, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    shoesMat: {fileID: 2100000, guid: a896d070df3557c49a945007420174b4, type: 2}
-    shoesMesh: {fileID: 4300014, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    topsMat: {fileID: 2100000, guid: e600a0efef1f0bb47b4562f6fe046e6e, type: 2}
+  mesh_Male:
     topsMesh: {fileID: 4300012, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-  outfitType_A2:
-    bodyMat: {fileID: 2100000, guid: 9260a730c4bd72e40be30856551f4932, type: 2}
     bodyMesh: {fileID: 4300004, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    bottomsMat: {fileID: 2100000, guid: ca1381515c879a147afbd81ba55bb5f9, type: 2}
     bottomsMesh: {fileID: 4300008, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    eyesMat: {fileID: 2100000, guid: 9260a730c4bd72e40be30856551f4932, type: 2}
     eyesMesh: {fileID: 4300000, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    hairMat: {fileID: 2100000, guid: 7e3f3def21b08f040a3df1312b889bf1, type: 2}
     hairMesh: {fileID: 4300010, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    shoesMat: {fileID: 2100000, guid: 49e89dad40aa5274fa157ccae8b8506d, type: 2}
     shoesMesh: {fileID: 4300014, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    topsMat: {fileID: 2100000, guid: fd9eeafdfa7be1a468f3d5380e2192d7, type: 2}
-    topsMesh: {fileID: 4300012, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-  outfitType_A3:
-    bodyMat: {fileID: 2100000, guid: 6d13b589a8a279347a8a530674effcfd, type: 2}
-    bodyMesh: {fileID: 4300004, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    bottomsMat: {fileID: 2100000, guid: b0adf00f422d63e42b4eeabcde49227f, type: 2}
-    bottomsMesh: {fileID: 4300008, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    eyesMat: {fileID: 2100000, guid: 6d13b589a8a279347a8a530674effcfd, type: 2}
-    eyesMesh: {fileID: 4300000, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    hairMat: {fileID: 2100000, guid: 7d66662c8a1027546803af3bcfe65402, type: 2}
-    hairMesh: {fileID: 4300010, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    shoesMat: {fileID: 2100000, guid: 6697b832ec41a1948b710264f0ac7331, type: 2}
-    shoesMesh: {fileID: 4300014, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
-    topsMat: {fileID: 2100000, guid: 4ba73a17247beda40808bd716248076e, type: 2}
-    topsMesh: {fileID: 4300012, guid: 697c359be22a80046b73243b0d342a6b, type: 3}
+  mesh_Female:
+    topsMesh: {fileID: 4300008, guid: 8dac4c5ecee93794e9ead89513574101, type: 3}
+    bodyMesh: {fileID: 4300004, guid: 8dac4c5ecee93794e9ead89513574101, type: 3}
+    bottomsMesh: {fileID: 4300012, guid: 8dac4c5ecee93794e9ead89513574101, type: 3}
+    eyesMesh: {fileID: 4300004, guid: 8dac4c5ecee93794e9ead89513574101, type: 3}
+    hairMesh: {fileID: 4300010, guid: 8dac4c5ecee93794e9ead89513574101, type: 3}
+    shoesMesh: {fileID: 4300006, guid: 8dac4c5ecee93794e9ead89513574101, type: 3}
+  mesh_MaleVIP:
+    topsMesh: {fileID: 4300012, guid: b85f6ac09440ebb48a4932430ce159d1, type: 3}
+    bodyMesh: {fileID: 4300004, guid: b85f6ac09440ebb48a4932430ce159d1, type: 3}
+    bottomsMesh: {fileID: 4300010, guid: b85f6ac09440ebb48a4932430ce159d1, type: 3}
+    eyesMesh: {fileID: 4300004, guid: b85f6ac09440ebb48a4932430ce159d1, type: 3}
+    hairMesh: {fileID: 4300006, guid: b85f6ac09440ebb48a4932430ce159d1, type: 3}
+    shoesMesh: {fileID: 4300008, guid: b85f6ac09440ebb48a4932430ce159d1, type: 3}
+  outfit_Male_Type1:
+    bodyMat: {fileID: 0}
+    bottomsMat: {fileID: 0}
+    eyesMat: {fileID: 0}
+    hairMat: {fileID: 0}
+    shoesMat: {fileID: 0}
+    topsMat: {fileID: 0}
+  outfit_Male_Type2:
+    bodyMat: {fileID: 0}
+    bottomsMat: {fileID: 0}
+    eyesMat: {fileID: 0}
+    hairMat: {fileID: 0}
+    shoesMat: {fileID: 0}
+    topsMat: {fileID: 0}
+  outfit_Male_Type3:
+    bodyMat: {fileID: 0}
+    bottomsMat: {fileID: 0}
+    eyesMat: {fileID: 0}
+    hairMat: {fileID: 0}
+    shoesMat: {fileID: 0}
+    topsMat: {fileID: 0}
+  outfit_Female_Type1:
+    bodyMat: {fileID: 2100000, guid: 535ba685fcc114046947bde5025b1a38, type: 2}
+    bottomsMat: {fileID: 2100000, guid: cc5b64049200af64796c44bc0ea325b7, type: 2}
+    eyesMat: {fileID: 2100000, guid: 535ba685fcc114046947bde5025b1a38, type: 2}
+    hairMat: {fileID: 2100000, guid: 7411a7b901d67154397094ae2628d3b6, type: 2}
+    shoesMat: {fileID: 2100000, guid: fafbd294be797ad438d76b2bb0215674, type: 2}
+    topsMat: {fileID: 2100000, guid: 13a752d9c6dec5042a313d749a1d8900, type: 2}
+  outfit_Female_Type2:
+    bodyMat: {fileID: 0}
+    bottomsMat: {fileID: 0}
+    eyesMat: {fileID: 0}
+    hairMat: {fileID: 0}
+    shoesMat: {fileID: 0}
+    topsMat: {fileID: 0}
+  outfit_Female_Type3:
+    bodyMat: {fileID: 0}
+    bottomsMat: {fileID: 0}
+    eyesMat: {fileID: 0}
+    hairMat: {fileID: 0}
+    shoesMat: {fileID: 0}
+    topsMat: {fileID: 0}
+  outfit_Male_VIP:
+    bodyMat: {fileID: 0}
+    bottomsMat: {fileID: 0}
+    eyesMat: {fileID: 0}
+    hairMat: {fileID: 0}
+    shoesMat: {fileID: 0}
+    topsMat: {fileID: 0}
   headT: {fileID: 4831855432151194}
   rightHandT: {fileID: 4975296701076458}
   centerMassT: {fileID: 4540439457157570}
