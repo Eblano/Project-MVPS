@@ -154,10 +154,27 @@ namespace SealTeam4
                 return;
             }
 
+            Debug.Log(gameObject.name + ", " + outfit.ToString());
+
+            // Applying Mesh
             switch (outfit)
             {
                 case NpcSpawnData.NPCOutfit.MALE_TYPE1:
+                    bodyRenderer.sharedMesh = mesh_Male.bodyMesh;
+                    bottomsRenderer.sharedMesh = mesh_Male.bottomsMesh;
+                    eyesRenderer.sharedMesh = mesh_Male.eyesMesh;
+                    hairRenderer.sharedMesh = mesh_Male.hairMesh;
+                    shoesRenderer.sharedMesh = mesh_Male.shoesMesh;
+                    topsRenderer.sharedMesh = mesh_Male.topsMesh;
+                    break;
                 case NpcSpawnData.NPCOutfit.MALE_TYPE2:
+                    bodyRenderer.sharedMesh = mesh_Male.bodyMesh;
+                    bottomsRenderer.sharedMesh = mesh_Male.bottomsMesh;
+                    eyesRenderer.sharedMesh = mesh_Male.eyesMesh;
+                    hairRenderer.sharedMesh = mesh_Male.hairMesh;
+                    shoesRenderer.sharedMesh = mesh_Male.shoesMesh;
+                    topsRenderer.sharedMesh = mesh_Male.topsMesh;
+                    break;
                 case NpcSpawnData.NPCOutfit.MALE_TYPE3:
                     bodyRenderer.sharedMesh = mesh_Male.bodyMesh;
                     bottomsRenderer.sharedMesh = mesh_Male.bottomsMesh;
@@ -167,7 +184,21 @@ namespace SealTeam4
                     topsRenderer.sharedMesh = mesh_Male.topsMesh;
                     break;
                 case NpcSpawnData.NPCOutfit.FEMALE_TYPE1:
+                    bodyRenderer.sharedMesh = mesh_Female.bodyMesh;
+                    bottomsRenderer.sharedMesh = mesh_Female.bottomsMesh;
+                    eyesRenderer.sharedMesh = mesh_Female.eyesMesh;
+                    hairRenderer.sharedMesh = mesh_Female.hairMesh;
+                    shoesRenderer.sharedMesh = mesh_Female.shoesMesh;
+                    topsRenderer.sharedMesh = mesh_Female.topsMesh;
+                    break;
                 case NpcSpawnData.NPCOutfit.FEMALE_TYPE2:
+                    bodyRenderer.sharedMesh = mesh_Female.bodyMesh;
+                    bottomsRenderer.sharedMesh = mesh_Female.bottomsMesh;
+                    eyesRenderer.sharedMesh = mesh_Female.eyesMesh;
+                    hairRenderer.sharedMesh = mesh_Female.hairMesh;
+                    shoesRenderer.sharedMesh = mesh_Female.shoesMesh;
+                    topsRenderer.sharedMesh = mesh_Female.topsMesh;
+                    break;
                 case NpcSpawnData.NPCOutfit.FEMALE_TYPE3:
                     bodyRenderer.sharedMesh = mesh_Female.bodyMesh;
                     bottomsRenderer.sharedMesh = mesh_Female.bottomsMesh;
