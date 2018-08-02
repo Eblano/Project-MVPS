@@ -180,7 +180,11 @@ namespace SealTeam4
             new ExtensionFilter("RTA File", "rta")
                 };
 
-            string filePath = StandaloneFileBrowser.OpenFilePanel("Import Assets", "", extensions, false)[0];
+            string[] filePaths = StandaloneFileBrowser.OpenFilePanel("Import Assets", "", extensions, false);
+            string filePath = "";
+
+            if (filePaths.Length > 0)
+                filePath = filePaths[0];
 
             if (!File.Exists(filePath))
             {

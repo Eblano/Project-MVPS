@@ -301,6 +301,7 @@ namespace SealTeam4
                 npcSpawnData.aiStats.normalMoveSpeed *= npcSpawnData_RTEStorage.movementSpdMultiplier;
                 npcSpawnData.aiStats.runningSpeed *= npcSpawnData_RTEStorage.movementSpdMultiplier;
                 npcSpawnData.aiStats.initEngageDelay = npcSpawnData_RTEStorage.initEngageDelay;
+                npcSpawnData.aiStats.maxGunRange = npcSpawnData_RTEStorage.maxGunRange;
 
                 npcSpawnDataList.Add(npcSpawnData);
             }
@@ -333,7 +334,8 @@ public class NPCSpawnData_SStorage
     [Header("Terrorist Properties")]
     public string gunAccuracy = "HIGH";
     public string dynamicWaypointPrefix = "";
-    public float initEngageDelay;
+    public float initEngageDelay = 0;
+    public float maxGunRange = 20f;
 
     public string[] GetAllCivillianStressResponses()
     {

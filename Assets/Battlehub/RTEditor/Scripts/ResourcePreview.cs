@@ -458,6 +458,9 @@ namespace Battlehub.RTEditor
                 {
                     if (GetPointOnDragPlane(out point))
                     {
+                        if (!m_instance)
+                            return;
+
                         m_instance.transform.position = point;
                         Ray ray = RuntimeEditorApplication.ActiveSceneCamera.ScreenPointToRay(Input.mousePosition);
                         RaycastHit hit = Physics.RaycastAll(ray).Where(h => h.transform != m_instance.transform).FirstOrDefault();

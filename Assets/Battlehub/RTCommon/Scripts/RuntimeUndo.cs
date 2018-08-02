@@ -331,7 +331,7 @@ namespace Battlehub.RTCommon
 
         public static void RegisterCreatedObject(GameObject g)
         {
-            if (!Enabled)
+            if (!g || !Enabled)
             {
                 return;
             }

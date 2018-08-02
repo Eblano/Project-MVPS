@@ -180,11 +180,11 @@ namespace SealTeam4
                 case AIState.HostileHuman.ShootTargetState.MOVE_TO_SHOOT_TARGET:
                     ShootTarget_MoveToShootTarget();
                     break;
-                case AIState.HostileHuman.ShootTargetState.TRACK_TARGET:
-                    ShootTarget_TrackTarget();
-                    break;
                 case AIState.HostileHuman.ShootTargetState.AIM_GUN_ON_TARGET:
                     ShootTarget_AimGunOnTarget();
+                    break;
+                case AIState.HostileHuman.ShootTargetState.TRACK_TARGET:
+                    ShootTarget_TrackTarget();
                     break;
                 case AIState.HostileHuman.ShootTargetState.SHOOT:
                     ShootTarget_Shoot();
@@ -313,11 +313,11 @@ namespace SealTeam4
                 return;
             }
                     
-            if (aiController.WithinDistance(aiState.hostileHuman.shootTargetT.position, aiStats.maxGunRange) &&
+            if (aiController.WithinDistance(aiState.hostileHuman.shootTargetT.position, aiStats.maxGunRange - 1) &&
                 aiController.InLOS3PT(aiState.hostileHuman.shootTargetT.position, aiState.hostileHuman.shootTargetT.root.name)
                 )
             {
-                SetState_ShootTarget_TrackTarget();
+                SetState_ShootTarget_AimGunOnTarget();
                 return;
             }
 
@@ -373,9 +373,9 @@ namespace SealTeam4
                 return;
             }
 
-            if (aiController.LookingAtTarget(aiState.hostileHuman.shootTargetT.position, aiStats.targetDir_AngleMarginOfError))
+            if (aiController.LookingAtTarget(aiState.hostileHuman.shootTargetT.position, aiStats.lookAngleMarginOfError))
             {
-                SetState_ShootTarget_AimGunOnTarget();
+                SetState_ShootTarget_Shoot();
                 return;
             }
         }
@@ -406,7 +406,7 @@ namespace SealTeam4
                 return;
             }
 
-            if (aiController.LookingAtTarget(aiState.hostileHuman.knifeTargetT.position, aiStats.targetDir_AngleMarginOfError))
+            if (aiController.LookingAtTarget(aiState.hostileHuman.knifeTargetT.position, aiStats.shootTargetAngleOfError))
             {
                 SetState_KnifeTarget_Knife();
                 return;
@@ -419,7 +419,7 @@ namespace SealTeam4
                 aiController.SetGunTransformOffset(aiController.pistol_HoldingGunOffset);
 
             aiController.AimGun();
-            SetState_ShootTarget_Shoot();
+            SetState_ShootTarget_TrackTarget();
         }
 
         private void ShootTarget_Shoot()
@@ -433,13 +433,13 @@ namespace SealTeam4
                 return;
             }
 
-            if (!aiController.LookingAtTarget(aiState.hostileHuman.shootTargetT.position, aiStats.targetDir_AngleMarginOfError))
+            if (!aiController.LookingAtTarget(aiState.hostileHuman.shootTargetT.position, aiStats.shootTargetAngleOfError))
             {
                 SetState_ShootTarget_TrackTarget();
                 return;
             }
             
-            if (!aiController.WithinDistance(aiState.hostileHuman.shootTargetT.position, aiStats.maxGunRange + 1) ||
+            if (!aiController.WithinDistance(aiState.hostileHuman.shootTargetT.position, aiStats.maxGunRange) ||
                 !aiController.InLOS(aiState.hostileHuman.shootTargetT.position, aiState.hostileHuman.shootTargetT.root.name))
             {
                 SetState_ShootTarget_MoveToShootTarget();
@@ -467,7 +467,7 @@ namespace SealTeam4
                 return;
             }
 
-            if (!aiController.LookingAtTarget(aiState.hostileHuman.knifeTargetT.position, aiStats.targetDir_AngleMarginOfError))
+            if (!aiController.LookingAtTarget(aiState.hostileHuman.knifeTargetT.position, aiStats.shootTargetAngleOfError))
             {
                 aiState.hostileHuman.currKnifeSwingCD = aiStats.knifeSwingCD;
                 SetState_KnifeTarget_TrackTarget();

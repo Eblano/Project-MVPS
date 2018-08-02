@@ -24,7 +24,7 @@ namespace SealTeam4
         #endregion
 
         #region Hidden Parameters
-        [HideInInspector] public float lookAngleMarginOfError = 2f; // Min angle of error when rotating to face target
+        [HideInInspector] public float lookAngleMarginOfError = 1f; // Min angle of error when rotating to face target
         [HideInInspector] public float stopDist = 0.05f; // Stop distance to any target
         [HideInInspector] public float stopDist_Convo = 1.0f; // Stop distance for conversation
 
@@ -46,7 +46,7 @@ namespace SealTeam4
 
         // For Terrorist
         [HideInInspector] public List<string> allDynamicWaypoints;
-        [HideInInspector] public float targetDir_AngleMarginOfError = 5f;
+        [HideInInspector] public float shootTargetAngleOfError = 5f;
         [HideInInspector] public float losMarginSize = 0.5f;
         [HideInInspector] public float knifeSwingCD = 1f;
         [HideInInspector] public float meleeDist = 0.6f;
