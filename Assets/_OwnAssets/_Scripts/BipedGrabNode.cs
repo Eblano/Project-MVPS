@@ -9,42 +9,49 @@ public class BipedGrabNode : MonoBehaviour
     [SerializeField] private BipedController BC;
     [SerializeField] private AIController aIController;
     [SerializeField] private BipedController.BipedPosition bipPos;
-    [SerializeField] private float snapBackRadius;
 
-    private Transform parent;
-    private Vector3 originalPos;
-    private Quaternion originalRot;
+    //[SerializeField] private float snapBackRadius;
 
-    private Transform bipedTransform;
+    //private Transform parent;
+    //private Vector3 originalPos;
+    //private Quaternion originalRot;
 
-    private void Start()
+    //private Transform bipedTransform;
+
+    //private void Start()
+    //{
+    //    bipedTransform = BC.GetBipedPos(bipPos);
+    //    parent = transform.parent;
+    //    originalPos = transform.localPosition;
+    //    originalRot = transform.localRotation;
+    //}
+
+    public void OnGrabbed(NetworkInstanceId playerId, bool isLeft)
     {
-        bipedTransform = BC.GetBipedPos(bipPos);
-        parent = transform.parent;
-        originalPos = transform.localPosition;
-        originalRot = transform.localRotation;
+        BipedManager.instance.SendOnGrab(this, isLeft);
+        OnGrabbedSync(ClientScene.objects[playerId].GetComponent<PlayerInteractionSync>().GetControllerTransform(isLeft));
     }
 
-    public void OnGrabbed(Transform grabParent)
+    public void OnGrabbedSync(Transform parent)
     {
-        transform.SetParent(grabParent);
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
-        BC.SetBiped(bipPos, this.transform, 1);
+        BC.SetBiped(bipPos, parent, 1);
         aIController.SetGrabModeTransform(transform);
     }
 
     public void OnUngrabbed()
     {
-        transform.SetParent(parent);
+        BipedManager.instance.SendUngrab(this);
+        OnUngrabbedSync();
+    }
+
+    public void OnUngrabbedSync()
+    {
         BC.SetBiped(bipPos, null, 0);
-        transform.localPosition = originalPos;
-        transform.localRotation = originalRot;
         aIController.SetGrabModeTransform(null);
     }
 
-    private bool WithinRadius()
-    {
-        return Vector3.Distance(bipedTransform.position, transform.position) < snapBackRadius;
-    }
+    //private bool WithinRadius()
+    //{
+    //    return Vector3.Distance(bipedTransform.position, transform.position) < snapBackRadius;
+    //}
 }

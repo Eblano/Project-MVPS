@@ -22,6 +22,8 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
     private GameManager gameManager;
 
+    private BipedGrabNode grabNode;
+
     public override void OnStartServer()
     {
         gameManager = GameManager.instance;
@@ -119,12 +121,12 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
         // Set current grabbed object as nearest game object within radius
         currGrabbedObj = GetNearestGameObjectWithinGrabRadius(grabRadius, snapTarget.position);
-        
-        if (currGrabbedObj.GetComponent<BipedGrabNode>())
+
+        grabNode = currGrabbedObj.GetComponent<BipedGrabNode>();
+
+        if (grabNode != null)
         {
-            GameManagerAssistant.instance.RelaySenderCmdSnapBiped(currGrabbedObj.GetComponent<NetworkIdentity>().netId, isLeftGrab);
-            Debug.Log(currGrabbedObj.name);
-            currGrabbedObj.GetComponent<BipedGrabNode>().OnGrabbed(GetControllerTransform(isLeftGrab));
+            grabNode.OnGrabbed(playerID, isLeftGrab);
             return;
         }
 
@@ -473,9 +475,10 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
                 break;
         }
 
-        if (currGrabbedObj.GetComponent<BipedGrabNode>())
+        if (grabNode)
         {
-            GameManagerAssistant.instance.RelaySenderCmdUnSnapBiped(currGrabbedObj.GetComponent<NetworkIdentity>().netId);
+            grabNode.OnUngrabbed();
+            grabNode = null;
             return;
         }
 

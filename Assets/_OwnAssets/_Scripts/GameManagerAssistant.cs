@@ -365,48 +365,48 @@ namespace SealTeam4
         //    rb.angularVelocity = anguVelo;
         //}
 
-        public void RelaySenderCmdSnapBiped(NetworkInstanceId childID, bool isLeftController)
+        public void RelaySenderCmdSnapBiped(int childID, bool isLeftController)
         {
             CmdSnapBiped(childID, playerID, isLeftController);
         }
 
-        public void RelaySenderCmdUnSnapBiped(NetworkInstanceId childID)
+        public void RelaySenderCmdUnSnapBiped(int childID)
         {
             CmdUnSnapBiped(playerID, childID);
         }
 
         [Command]
-        private void CmdSnapBiped(NetworkInstanceId childID, NetworkInstanceId senderPlayerID, bool isLeftController)
+        private void CmdSnapBiped(int childID, NetworkInstanceId senderPlayerID, bool isLeftController)
         {
             RpcSnapBiped(childID, senderPlayerID, isLeftController);
         }
 
         [Command]
-        private void CmdUnSnapBiped(NetworkInstanceId senderPlayerID, NetworkInstanceId childID)
+        private void CmdUnSnapBiped(NetworkInstanceId senderPlayerID, int childID)
         {
             RpcUnSnapBiped(senderPlayerID, childID);
         }
 
         [ClientRpc]
-        private void RpcSnapBiped(NetworkInstanceId childID, NetworkInstanceId senderPlayerID, bool isLeftController)
+        private void RpcSnapBiped(int childID, NetworkInstanceId senderPlayerID, bool isLeftController)
         {
             if (playerID == senderPlayerID)
             {
                 return;
             }
 
-            ClientScene.objects[childID].GetComponent<BipedGrabNode>().OnGrabbed(ClientScene.objects[senderPlayerID].GetComponent<PlayerInteractionSync>().GetControllerTransform(isLeftController));
+            BipedManager.instance.CallOnGrab(childID, ClientScene.objects[senderPlayerID].GetComponent<PlayerInteractionSync>().GetControllerTransform(isLeftController));
         }
 
         [ClientRpc]
-        private void RpcUnSnapBiped(NetworkInstanceId senderPlayerID, NetworkInstanceId childID)
+        private void RpcUnSnapBiped(NetworkInstanceId senderPlayerID, int childID)
         {
             if (playerID == senderPlayerID)
             {
                 return;
             }
 
-            ClientScene.objects[childID].GetComponent<BipedGrabNode>().OnUngrabbed();
+            BipedManager.instance.CallUnGrab(childID);
         }
 
         private void SnapTo(GameObject child, GameObject parent)
