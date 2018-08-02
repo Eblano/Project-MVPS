@@ -26,23 +26,29 @@ namespace SealTeam4
 
         private void CreateLightOBJ()
         {
-            GameObject lightGo = new GameObject();
-            lightGo.name = "CeillingLightSource";
-            lightGo.transform.SetParent(gameObject.transform);
-            lightGo.transform.localPosition = new Vector3(0, 0.2f, 0);
-            lightGo.AddComponent<PersistentIgnore>();
+            GameObject spotLightGO = new GameObject();
+            spotLightGO.name = "spotLight";
+            spotLightGO.transform.SetParent(gameObject.transform);
+            spotLightGO.transform.localPosition = new Vector3(0, -0.1f, 0);
+            spotLightGO.AddComponent<PersistentIgnore>();
 
-            spotLight = lightGo.AddComponent<Light>();
+            spotLight = spotLightGO.AddComponent<Light>();
             spotLight.type = LightType.Spot;
             spotLight.shadows = LightShadows.Soft;
             spotLight.renderMode = LightRenderMode.ForcePixel;
 
-            pointLight = lightGo.AddComponent<Light>();
+            GameObject pointLightGO = new GameObject();
+            pointLightGO.name = "pointLight";
+            pointLightGO.transform.SetParent(gameObject.transform);
+            pointLightGO.transform.localPosition = new Vector3(0, -0.5f, 0);
+            pointLightGO.AddComponent<PersistentIgnore>();
+
+            pointLight = pointLightGO.AddComponent<Light>();
             pointLight.type = LightType.Point;
             pointLight.shadows = LightShadows.Soft;
             pointLight.renderMode = LightRenderMode.Auto;
-            pointLight.range = 0.3f;
-            pointLight.intensity = 0.5f;
+            pointLight.range = 0.5f;
+            pointLight.intensity = 3f;
 
             spotLight.cullingMask = ~(1 << LayerMask.NameToLayer("AreaMarker"));
         }
