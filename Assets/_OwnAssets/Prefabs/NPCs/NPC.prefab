@@ -2232,8 +2232,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1252520042481744}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -7.685, y: 0.000000048428774, z: 1.9345024}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_Children:
   - {fileID: 4544946871551202}
   - {fileID: 4181283577732712}
@@ -2909,7 +2909,7 @@ MonoBehaviour:
     knifeHandDmg: 25
     knifeLegDmg: 25
     allDynamicWaypoints: []
-    targetDir_AngleMarginOfError: 3
+    shootTargetAngleOfError: 5
     losMarginSize: 0.3
     knifeSwingCD: 3
     meleeDist: 0.3
