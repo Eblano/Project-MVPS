@@ -753,7 +753,7 @@ namespace SealTeam4
 
         public void RecieveNetCmdObjMsg(string targetGoName, string msg)
         {
-            foreach(GameObject go in networkCommandableGameobjects.FindAll(x => x.name == targetGoName).FindAll(y => y != null))
+            foreach(GameObject go in networkCommandableGameobjects.FindAll(y => y != null).FindAll(x => x.name == targetGoName))
             {
                 if(go && go.GetComponent<INetworkCommandable>() != null)
                 {

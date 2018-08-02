@@ -30,27 +30,33 @@ namespace SealTeam4
         }
 
         [System.Serializable]
-        public class OutfitMaterials
+        public class NPCOutfit
         {
-            public Material body;
-            public Material bottoms;
-            public Material eyes;
-            public Material hair;
-            public Material shoes;
-            public Material tops;
+            public Material bodyMat;
+            public Mesh bodyMesh;
+            public Material bottomsMat;
+            public Mesh bottomsMesh;
+            public Material eyesMat;
+            public Mesh eyesMesh;
+            public Material hairMat;
+            public Mesh hairMesh;
+            public Material shoesMat;
+            public Mesh shoesMesh;
+            public Material topsMat;
+            public Mesh topsMesh;
         }
         
         [Header("Body Parts Renderers")]
-        [SerializeField] private Renderer bodyRenderer;
-        [SerializeField] private Renderer bottomsRenderer;
-        [SerializeField] private Renderer eyesRenderer;
-        [SerializeField] private Renderer hairRenderer;
-        [SerializeField] private Renderer shoesRenderer;
-        [SerializeField] private Renderer topsRenderer;
+        [SerializeField] private SkinnedMeshRenderer bodyRenderer;
+        [SerializeField] private SkinnedMeshRenderer bottomsRenderer;
+        [SerializeField] private SkinnedMeshRenderer eyesRenderer;
+        [SerializeField] private SkinnedMeshRenderer hairRenderer;
+        [SerializeField] private SkinnedMeshRenderer shoesRenderer;
+        [SerializeField] private SkinnedMeshRenderer topsRenderer;
 
-        [SerializeField] private OutfitMaterials outfitType_1;
-        [SerializeField] private OutfitMaterials outfitType_2;
-        [SerializeField] private OutfitMaterials outfitType_3;
+        [SerializeField] private NPCOutfit outfitType_A1;
+        [SerializeField] private NPCOutfit outfitType_A2;
+        [SerializeField] private NPCOutfit outfitType_A3;
 
         private string npcName;
 
@@ -135,29 +141,47 @@ namespace SealTeam4
 
             switch (outfit)
             {
-                case NpcSpawnData.NPCOutfit.TYPE_1:
-                    bodyRenderer.material = outfitType_1.body;
-                    bottomsRenderer.material = outfitType_1.bottoms;
-                    eyesRenderer.material = outfitType_1.eyes;
-                    hairRenderer.material = outfitType_1.hair;
-                    shoesRenderer.material = outfitType_1.shoes;
-                    topsRenderer.material = outfitType_1.tops;
+                case NpcSpawnData.NPCOutfit.MALE_A_TYPE1:
+                    bodyRenderer.material = outfitType_A1.bodyMat;
+                    bodyRenderer.sharedMesh = outfitType_A1.bodyMesh;
+                    bottomsRenderer.material = outfitType_A1.bottomsMat;
+                    bottomsRenderer.sharedMesh = outfitType_A1.bottomsMesh;
+                    eyesRenderer.material = outfitType_A1.eyesMat;
+                    eyesRenderer.sharedMesh = outfitType_A1.eyesMesh;
+                    hairRenderer.material = outfitType_A1.hairMat;
+                    hairRenderer.sharedMesh = outfitType_A1.hairMesh;
+                    shoesRenderer.material = outfitType_A1.shoesMat;
+                    shoesRenderer.sharedMesh = outfitType_A1.shoesMesh;
+                    topsRenderer.material = outfitType_A1.topsMat;
+                    topsRenderer.sharedMesh = outfitType_A1.topsMesh;
                     break;
-                case NpcSpawnData.NPCOutfit.TYPE_2:
-                    bodyRenderer.material = outfitType_2.body;
-                    bottomsRenderer.material = outfitType_2.bottoms;
-                    eyesRenderer.material = outfitType_2.eyes;
-                    hairRenderer.material = outfitType_2.hair;
-                    shoesRenderer.material = outfitType_2.shoes;
-                    topsRenderer.material = outfitType_2.tops;
+                case NpcSpawnData.NPCOutfit.MALE_A_TYPE2:
+                    bodyRenderer.material = outfitType_A2.bodyMat;
+                    bodyRenderer.sharedMesh = outfitType_A2.bodyMesh;
+                    bottomsRenderer.material = outfitType_A2.bottomsMat;
+                    bottomsRenderer.sharedMesh = outfitType_A2.bottomsMesh;
+                    eyesRenderer.material = outfitType_A2.eyesMat;
+                    eyesRenderer.sharedMesh = outfitType_A2.eyesMesh;
+                    hairRenderer.material = outfitType_A2.hairMat;
+                    hairRenderer.sharedMesh = outfitType_A2.hairMesh;
+                    shoesRenderer.material = outfitType_A2.shoesMat;
+                    shoesRenderer.sharedMesh = outfitType_A2.shoesMesh;
+                    topsRenderer.material = outfitType_A2.topsMat;
+                    topsRenderer.sharedMesh = outfitType_A2.topsMesh;
                     break;
-                case NpcSpawnData.NPCOutfit.TYPE_3:
-                    bodyRenderer.material = outfitType_3.body;
-                    bottomsRenderer.material = outfitType_3.bottoms;
-                    eyesRenderer.material = outfitType_3.eyes;
-                    hairRenderer.material = outfitType_3.hair;
-                    shoesRenderer.material = outfitType_3.shoes;
-                    topsRenderer.material = outfitType_3.tops;
+                case NpcSpawnData.NPCOutfit.MALE_A_TYPE3:
+                    bodyRenderer.material = outfitType_A3.bodyMat;
+                    bodyRenderer.sharedMesh = outfitType_A3.bodyMesh;
+                    bottomsRenderer.material = outfitType_A3.bottomsMat;
+                    bottomsRenderer.sharedMesh = outfitType_A3.bottomsMesh;
+                    eyesRenderer.material = outfitType_A3.eyesMat;
+                    eyesRenderer.sharedMesh = outfitType_A3.eyesMesh;
+                    hairRenderer.material = outfitType_A3.hairMat;
+                    hairRenderer.sharedMesh = outfitType_A3.hairMesh;
+                    shoesRenderer.material = outfitType_A3.shoesMat;
+                    shoesRenderer.sharedMesh = outfitType_A3.shoesMesh;
+                    topsRenderer.material = outfitType_A3.topsMat;
+                    topsRenderer.sharedMesh = outfitType_A3.topsMesh;
                     break;
             }
         }
@@ -641,10 +665,13 @@ namespace SealTeam4
 
         public void SetGrabModeTransform(Transform grabSource)
         {
-            if (grabSource)
-                aiFSM_VIP_UnderAttack.SetProcess_GrabbedFollowPlayer(grabSource);
-            else
-                aiFSM_VIP_UnderAttack.SetProcess_FollowPlayer();
+            if(aiState.aIMode == AIState.AIMode.VIP_UNDER_ATTACK)
+            {
+                if (grabSource)
+                    aiFSM_VIP_UnderAttack.SetProcess_GrabbedFollowPlayer(grabSource);
+                else
+                    aiFSM_VIP_UnderAttack.SetProcess_FollowPlayer();
+            }
         }
 
         public Vector3 GetHighestPointPos()
