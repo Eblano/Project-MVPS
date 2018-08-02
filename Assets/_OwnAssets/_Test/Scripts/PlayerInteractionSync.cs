@@ -123,7 +123,8 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         if (currGrabbedObj.GetComponent<BipedGrabNode>())
         {
             GameManagerAssistant.instance.RelaySenderCmdSnapBiped(currGrabbedObj.GetComponent<NetworkIdentity>().netId, isLeftGrab);
-            BipedGrabSync(currGrabbedObj.GetComponent<BipedGrabNode>(), isLeftGrab);
+            Debug.Log(currGrabbedObj.name);
+            currGrabbedObj.GetComponent<BipedGrabNode>().OnGrabbed(GetControllerTransform(isLeftGrab));
             return;
         }
 
@@ -378,20 +379,16 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         rb.velocity = velo;
     }
 
-    public void BipedGrabSync(BipedGrabNode bipedNode, bool isLeft)
+    public Transform GetControllerTransform(bool isLeft)
     {
-        Transform snapTarget = null;
-
         if (isLeft)
         {
-            snapTarget = lControl;
+            return lControl;
         }
         else
         {
-            snapTarget = rControl;
+            return rControl;
         }
-
-        bipedNode.OnGrabbed(snapTarget);
     }
 
     public void GrabCalculate(GameObject currGrabbedObj, VRTK_DeviceFinder.Devices control)
@@ -478,7 +475,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
         if (currGrabbedObj.GetComponent<BipedGrabNode>())
         {
-            currGrabbedObj.GetComponent<BipedGrabNode>().OnUngrabbed();
+            GameManagerAssistant.instance.RelaySenderCmdUnSnapBiped(currGrabbedObj.GetComponent<NetworkIdentity>().netId);
             return;
         }
 

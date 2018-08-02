@@ -395,7 +395,7 @@ namespace SealTeam4
                 return;
             }
 
-            ClientScene.objects[senderPlayerID].GetComponent<PlayerInteractionSync>().BipedGrabSync(ClientScene.objects[childID].gameObject.GetComponent<BipedGrabNode>(), isLeftController);
+            ClientScene.objects[childID].GetComponent<BipedGrabNode>().OnGrabbed(ClientScene.objects[senderPlayerID].GetComponent<PlayerInteractionSync>().GetControllerTransform(isLeftController));
         }
 
         [ClientRpc]
