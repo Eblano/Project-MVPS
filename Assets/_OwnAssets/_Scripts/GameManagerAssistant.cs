@@ -16,8 +16,10 @@ namespace SealTeam4
         {
             if (isServer)
             {
-                if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.C) && Input.GetKeyDown(KeyCode.B))
+                Debug.Log("Is server in");
+                if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.C) && Input.GetKeyDown(KeyCode.B))
                 {
+                    Debug.Log("Is key pressed");
                     if (IsReadyForCalibration())
                     {
                         CalibratePlayers();
