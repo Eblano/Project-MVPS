@@ -121,6 +121,7 @@ namespace SealTeam4
                 {
                     npcsSeatedInArea.Add(npc);
                     seat.GetComponent<SeatMarker>().SetSeatAvailability(npc);
+                    Debug.Log("Give Seat " + seat.name + " to " + npc.name);
                     return seat.GetComponent<SeatMarker>();
                 }
             }
