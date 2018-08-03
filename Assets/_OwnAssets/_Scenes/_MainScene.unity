@@ -19277,7 +19277,7 @@ Prefab:
     - target: {fileID: 114330725120075194, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
       propertyPath: Objects.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
@@ -19292,7 +19292,7 @@ Prefab:
     - target: {fileID: 114278480474638160, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
       propertyPath: Objects.Array.size
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 114300930361846548, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
@@ -19300,6 +19300,11 @@ Prefab:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114801237792246358, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
+        type: 2}
+      propertyPath: Objects.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114257519739094116, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
       propertyPath: Objects.Array.size
       value: 0
@@ -20801,12 +20806,12 @@ Prefab:
     - target: {fileID: 114332030825346048, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
       propertyPath: TypeHint
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 114659927894899750, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
       propertyPath: TypeHint
-      value: 8
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 114035893277493710, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
@@ -21324,7 +21329,7 @@ Prefab:
         type: 2}
       propertyPath: Objects.Array.data[0]
       value: 
-      objectReference: {fileID: 1257017604932858, guid: 5c804c1fc3b26504aa30e9cba89848e1,
+      objectReference: {fileID: 1555934962263090, guid: 9365252a32d41234c816aa6e952f1628,
         type: 2}
     - target: {fileID: 114330725120075194, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
@@ -21353,7 +21358,7 @@ Prefab:
     - target: {fileID: 114330725120075194, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
       propertyPath: TypeHint
-      value: 8
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114072108812583480, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
@@ -30975,7 +30980,12 @@ MonoBehaviour:
     type: 2}
   gameMasterUI_Prefab: {fileID: 1176464834026370, guid: 201a82403bbff884b9c7d5d75b29d3e7,
     type: 2}
-  npc_Prefab: {fileID: 1252520042481744, guid: 45488b27bc622c54387ed43900a40ed1, type: 2}
+  maleNPC_Prefab: {fileID: 1099407147035818, guid: ee0089b6f26315f44b7030fd4c6ad98d,
+    type: 2}
+  femaleNPC_Prefab: {fileID: 1162695082283586, guid: bde10259f3cb5894886245eb7aeccd3f,
+    type: 2}
+  vipNPC_Prefab: {fileID: 1963270329964846, guid: 923fff002492e38499d7ef8d5f5c8610,
+    type: 2}
   totalRegMarkers: 0
   refreshRate: 3
   pistol_p226_Prefab: {fileID: 1645996731050356, guid: 81efbefc967e4194cb7e98304112e925,

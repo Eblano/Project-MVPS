@@ -40,17 +40,6 @@ namespace SealTeam4
             public Material topsMat;
         }
 
-        [System.Serializable]
-        public class NPCModelMesh
-        {
-            public Mesh topsMesh;
-            public Mesh bodyMesh;
-            public Mesh bottomsMesh;
-            public Mesh eyesMesh;
-            public Mesh hairMesh;
-            public Mesh shoesMesh;
-        }
-
         [Header("Body Parts Renderers")]
         [SerializeField] private SkinnedMeshRenderer bodyRenderer;
         [SerializeField] private SkinnedMeshRenderer bottomsRenderer;
@@ -58,11 +47,6 @@ namespace SealTeam4
         [SerializeField] private SkinnedMeshRenderer hairRenderer;
         [SerializeField] private SkinnedMeshRenderer shoesRenderer;
         [SerializeField] private SkinnedMeshRenderer topsRenderer;
-
-        [Header("Body Meshes")]
-        [SerializeField] private NPCModelMesh mesh_Male;
-        [SerializeField] private NPCModelMesh mesh_Female;
-        [SerializeField] private NPCModelMesh mesh_MaleVIP;
 
         [Header("Body Materials")]
         [SerializeField] private NPCModelMaterial outfit_Male_Type1;
@@ -144,6 +128,9 @@ namespace SealTeam4
             aiFSM_VIP_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
 
             SetupOutfit(outfit);
+
+            // Spawn NPC on all clients
+            GameManagerAssistant.instance.NetworkSpawnGameObj(gameObject);
         }
 
         private void SetupOutfit(NpcSpawnData.NPCOutfit outfit)
@@ -153,71 +140,7 @@ namespace SealTeam4
                 Debug.Log("One or more renderers are missing, failed to set outfit");
                 return;
             }
-
-            Debug.Log(gameObject.name + ", " + outfit.ToString());
-
-            // Applying Mesh
-            switch (outfit)
-            {
-                case NpcSpawnData.NPCOutfit.MALE_TYPE1:
-                    bodyRenderer.sharedMesh = mesh_Male.bodyMesh;
-                    bottomsRenderer.sharedMesh = mesh_Male.bottomsMesh;
-                    eyesRenderer.sharedMesh = mesh_Male.eyesMesh;
-                    hairRenderer.sharedMesh = mesh_Male.hairMesh;
-                    shoesRenderer.sharedMesh = mesh_Male.shoesMesh;
-                    topsRenderer.sharedMesh = mesh_Male.topsMesh;
-                    break;
-                case NpcSpawnData.NPCOutfit.MALE_TYPE2:
-                    bodyRenderer.sharedMesh = mesh_Male.bodyMesh;
-                    bottomsRenderer.sharedMesh = mesh_Male.bottomsMesh;
-                    eyesRenderer.sharedMesh = mesh_Male.eyesMesh;
-                    hairRenderer.sharedMesh = mesh_Male.hairMesh;
-                    shoesRenderer.sharedMesh = mesh_Male.shoesMesh;
-                    topsRenderer.sharedMesh = mesh_Male.topsMesh;
-                    break;
-                case NpcSpawnData.NPCOutfit.MALE_TYPE3:
-                    bodyRenderer.sharedMesh = mesh_Male.bodyMesh;
-                    bottomsRenderer.sharedMesh = mesh_Male.bottomsMesh;
-                    eyesRenderer.sharedMesh = mesh_Male.eyesMesh;
-                    hairRenderer.sharedMesh = mesh_Male.hairMesh;
-                    shoesRenderer.sharedMesh = mesh_Male.shoesMesh;
-                    topsRenderer.sharedMesh = mesh_Male.topsMesh;
-                    break;
-                case NpcSpawnData.NPCOutfit.FEMALE_TYPE1:
-                    bodyRenderer.sharedMesh = mesh_Female.bodyMesh;
-                    bottomsRenderer.sharedMesh = mesh_Female.bottomsMesh;
-                    eyesRenderer.sharedMesh = mesh_Female.eyesMesh;
-                    hairRenderer.sharedMesh = mesh_Female.hairMesh;
-                    shoesRenderer.sharedMesh = mesh_Female.shoesMesh;
-                    topsRenderer.sharedMesh = mesh_Female.topsMesh;
-                    break;
-                case NpcSpawnData.NPCOutfit.FEMALE_TYPE2:
-                    bodyRenderer.sharedMesh = mesh_Female.bodyMesh;
-                    bottomsRenderer.sharedMesh = mesh_Female.bottomsMesh;
-                    eyesRenderer.sharedMesh = mesh_Female.eyesMesh;
-                    hairRenderer.sharedMesh = mesh_Female.hairMesh;
-                    shoesRenderer.sharedMesh = mesh_Female.shoesMesh;
-                    topsRenderer.sharedMesh = mesh_Female.topsMesh;
-                    break;
-                case NpcSpawnData.NPCOutfit.FEMALE_TYPE3:
-                    bodyRenderer.sharedMesh = mesh_Female.bodyMesh;
-                    bottomsRenderer.sharedMesh = mesh_Female.bottomsMesh;
-                    eyesRenderer.sharedMesh = mesh_Female.eyesMesh;
-                    hairRenderer.sharedMesh = mesh_Female.hairMesh;
-                    shoesRenderer.sharedMesh = mesh_Female.shoesMesh;
-                    topsRenderer.sharedMesh = mesh_Female.topsMesh;
-                    break;
-                case NpcSpawnData.NPCOutfit.MALE_VIP:
-                    bodyRenderer.sharedMesh = mesh_MaleVIP.bodyMesh;
-                    bottomsRenderer.sharedMesh = mesh_MaleVIP.bottomsMesh;
-                    eyesRenderer.sharedMesh = mesh_MaleVIP.eyesMesh;
-                    hairRenderer.sharedMesh = mesh_MaleVIP.hairMesh;
-                    shoesRenderer.sharedMesh = mesh_MaleVIP.shoesMesh;
-                    topsRenderer.sharedMesh = mesh_MaleVIP.topsMesh;
-                    break;
-            }
-
-
+            
             // Apply Material
             switch (outfit)
             {
@@ -494,7 +417,6 @@ namespace SealTeam4
                 aiAnimController.Anim_Die();
                 aiState.alive = false;
                 aiState.active = false;
-                Destroy(centerMassT.gameObject);
                 StopMovement();
             }
         }

@@ -48,7 +48,9 @@ namespace SealTeam4
         public enum MARKER_TYPE { AREA, WAYPOINT, NPCSPAWN, SEAT, PLAYER_SPAWN_MARKER, EXIT, ACCESSORY };
 
         [Header("NPC Prefabs")]
-        [SerializeField] private GameObject npc_Prefab;
+        [SerializeField] private GameObject maleNPC_Prefab;
+        [SerializeField] private GameObject femaleNPC_Prefab;
+        [SerializeField] private GameObject vipNPC_Prefab;
 
         // List of markers GameManager keeps track of
         [Header("Registered Markers Counter")]
@@ -473,7 +475,25 @@ namespace SealTeam4
                 NPCSpawnMarker npcSpawnMarker = GetSpawnMarkerByName(npcSpawnData.spawnMarkerName);
 
                 // Spawn NPC
-                GameObject npc = Instantiate(npc_Prefab, npcSpawnMarker.pointPosition, npcSpawnMarker.pointRotation);
+                GameObject npcToSpawn = maleNPC_Prefab;
+                switch (npcSpawnData.npcOutfit)
+                {
+                    case NpcSpawnData.NPCOutfit.MALE_VIP:
+                        npcToSpawn = vipNPC_Prefab;
+                        break;
+                    case NpcSpawnData.NPCOutfit.MALE_TYPE1:
+                    case NpcSpawnData.NPCOutfit.MALE_TYPE2:
+                    case NpcSpawnData.NPCOutfit.MALE_TYPE3:
+                        npcToSpawn = maleNPC_Prefab;
+                        break;
+                    case NpcSpawnData.NPCOutfit.FEMALE_TYPE1:
+                    case NpcSpawnData.NPCOutfit.FEMALE_TYPE2:
+                    case NpcSpawnData.NPCOutfit.FEMALE_TYPE3:
+                        npcToSpawn = femaleNPC_Prefab;
+                        break;
+                }
+                GameObject npc = Instantiate(npcToSpawn, npcSpawnMarker.pointPosition, npcSpawnMarker.pointRotation);
+
                 // Set name
                 npc.name = npcSpawnData.npcName;
 
@@ -483,9 +503,6 @@ namespace SealTeam4
 
                 // Adding NPC reference to list
                 spawnedNPCs.Add(npcGOAIController);
-
-                // Spawn NPC on all clients
-                GameManagerAssistant.instance.NetworkSpawnGameObj(npc);
             }
         }
 
