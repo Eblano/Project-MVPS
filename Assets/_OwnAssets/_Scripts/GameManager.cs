@@ -766,5 +766,12 @@ namespace SealTeam4
         {
             return currGameManagerMode == GameManagerMode.LEVELSETUP;
         }
+
+        public void ApplyCorrection(Vector3 dirCorrection, float angleCorrection)
+        {
+            Debug.Log(dirCorrection + " / / " + angleCorrection);
+            playerLPC.Translate(dirCorrection);
+            playerLPC.Rotate(0, -angleCorrection, 0);
+        }
     }
 }

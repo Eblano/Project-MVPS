@@ -10,9 +10,21 @@ namespace SealTeam4
         public static GameManagerAssistant instance;
         public List<IActions> allActions;
         public NetworkInstanceId playerID;
+        private List<PlayerCalibrationInfo> playerCalibrationInfos = new List<PlayerCalibrationInfo>();
 
         private void Update()
         {
+            if (isServer)
+            {
+                if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.C) && Input.GetKeyDown(KeyCode.B))
+                {
+                    if (IsReadyForCalibration())
+                    {
+                        CalibratePlayers();
+                    }
+                }
+            }
+
             if (isLocalPlayer)
                 instance = this;
             else
@@ -409,6 +421,114 @@ namespace SealTeam4
             BipedManager.instance.CallUnGrab(childID);
         }
 
+        public void RelaySenderCmdAddCalibrateInfo(Vector3 pos, bool isLeft)
+        {
+            CmdAddCalibrateInfo(playerID, pos, isLeft);
+        }
+
+        [Command]
+        private void CmdAddCalibrateInfo(NetworkInstanceId senderPlayerId, Vector3 pos, bool isLeft)
+        {
+            CalibrateInfo(senderPlayerId, pos, isLeft);
+        }
+
+        [TargetRpc]
+        public void TargetCalibrateLPC(NetworkConnection conn, Vector3 posCorrection, float rotCorrection)
+        {
+            GameManager.instance.ApplyCorrection(posCorrection, rotCorrection);
+        }
+
+        #region Calibration
+        public void CalibrateInfo(NetworkInstanceId senderPlayerId, Vector3 pos, bool isLeft)
+        {
+            Debug.Log("Registered" + senderPlayerId);
+            if (IsUniquePlayerID(senderPlayerId))
+            {
+                PlayerCalibrationInfo pci = new PlayerCalibrationInfo();
+                pci.NetworkInstanceIdPlayer = senderPlayerId;
+                playerCalibrationInfos.Add(pci);
+                AddCalibrationPos(senderPlayerId, pos, isLeft);
+            }
+            else
+            {
+                AddCalibrationPos(senderPlayerId, pos, isLeft);
+            }
+        }
+
+        private void CalibratePlayers()
+        {
+            // Using first registered player as calibration point
+            for (int counter = 1; counter < playerCalibrationInfos.Count; counter++)
+            {
+                TargetCalibrateLPC
+                    (
+                    NetworkServer.objects[playerCalibrationInfos[counter].NetworkInstanceIdPlayer].connectionToClient,
+                    playerCalibrationInfos[0].LeftControllerPos - playerCalibrationInfos[counter].LeftControllerPos,
+                    Vector3.Angle(playerCalibrationInfos[counter].LeftControllerPos - playerCalibrationInfos[counter].RightControllerPos, playerCalibrationInfos[0].LeftControllerPos - playerCalibrationInfos[0].RightControllerPos)
+                    );
+            }
+        }
+
+        private bool IsReadyForCalibration()
+        {
+            if (playerCalibrationInfos.Count < 2)
+            {
+                Debug.Log("Not enough data to calibrate");
+                return false;
+            }
+
+            foreach(PlayerCalibrationInfo pci in playerCalibrationInfos)
+            {
+                if (pci.LeftControllerPos == Vector3.zero || pci.RightControllerPos == Vector3.zero)
+                {
+                    Debug.Log("Empty positional data in left or right controller");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void AddCalibrationPos(NetworkInstanceId playerId, Vector3 pos, bool isLeft)
+        {
+            if (isLeft)
+            {
+                foreach (PlayerCalibrationInfo pci in playerCalibrationInfos)
+                {
+                    if (pci.NetworkInstanceIdPlayer == playerId)
+                    {
+                        pci.LeftControllerPos = pos;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                foreach (PlayerCalibrationInfo pci in playerCalibrationInfos)
+                {
+                    if (pci.NetworkInstanceIdPlayer == playerId)
+                    {
+                        pci.RightControllerPos = pos;
+                        return;
+                    }
+                }
+            }
+        }
+
+        private bool IsUniquePlayerID(NetworkInstanceId playerId)
+        {
+            foreach (PlayerCalibrationInfo pci in playerCalibrationInfos)
+            {
+                if (pci.NetworkInstanceIdPlayer == playerId)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        #endregion Calibration
+
         private void SnapTo(GameObject child, GameObject parent)
         {
             if (child.GetComponent<Rigidbody>())
@@ -433,5 +553,12 @@ namespace SealTeam4
             child.transform.localRotation = Quaternion.identity;
         }
         #endregion PlayerInteractions
+    }
+
+    public class PlayerCalibrationInfo
+    {
+        public NetworkInstanceId NetworkInstanceIdPlayer { get; set; }
+        public Vector3 LeftControllerPos { get; set; }
+        public Vector3 RightControllerPos { get; set; }
     }
 }

@@ -179,24 +179,22 @@ namespace SealTeam4
         {
             switch (control)
             {
-                //case VRTK_DeviceFinder.Devices.LeftController:
-                //    // Checks if user held down button for long enough
-                //    if (Time.time > leftTimer)
-                //    {
-                //        Debug.Log("ZH DIED");
-                //        //GameManager.instance.CmdAddCalibrationPoint(gameObject.name, lHandCont.position);
-                //        NetworkPlayerPosManager.localInstance.CmdAddCalibrationPointToGameManager(gameObject.name, lHandCont.position);
-                //    }
-                //    break;
-                //case VRTK_DeviceFinder.Devices.RightController:
-                //    // Checks if user held down button for long enough
-                //    if (Time.time > rightTimer)
-                //    {
-                //        Debug.Log("ZH MUM DIED");
-                //        //GameManager.instance.CmdAddCalibrationPoint(gameObject.name, rHandCont.position);
-                //        NetworkPlayerPosManager.localInstance.CmdAddCalibrationPointToGameManager(gameObject.name, rHandCont.position);
-                //    }
-                //    break;
+                case VRTK_DeviceFinder.Devices.LeftController:
+                    // Checks if user held down button for long enough
+                    if (Time.time > leftTimer)
+                    {
+                        Debug.Log("LeftCalibSend");
+                        GameManagerAssistant.instance.RelaySenderCmdAddCalibrateInfo(lHandCont.position, true);
+                    }
+                    break;
+                case VRTK_DeviceFinder.Devices.RightController:
+                    // Checks if user held down button for long enough
+                    if (Time.time > rightTimer)
+                    {
+                        Debug.Log("RightCalibSend");
+                        GameManagerAssistant.instance.RelaySenderCmdAddCalibrateInfo(rHandCont.position, false);
+                    }
+                    break;
             }
         }
     }
