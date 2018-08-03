@@ -394,7 +394,7 @@ public class NPCSchedule_SStorage
 public class AccessoryData_SStorage
 {
     private readonly string[] allAccessoryTypes =
-        { "P226", "SAR21", "P226 Magazine", "Sar21 Magazine"};
+        { "P226", "SAR21", "P226 Magazine", "Sar21 Magazine", "Torchlight"};
     public string accessoryItem = "P226";
     public string accessoryMarker;
 

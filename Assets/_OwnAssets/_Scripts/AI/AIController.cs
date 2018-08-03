@@ -75,6 +75,12 @@ namespace SealTeam4
         public TransformOffset knife_TOffset;
         private GameObject ref_knife;
 
+        [Header("Audio & SFX")]
+        private AudioSource audioS;
+        private NetworkedAudioSource netAudioS;
+        [SerializeField] private AudioClip oof_SFX;
+        [SerializeField] private AudioClip scream_SFX;
+
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
         private AIAnimEventReciever aiAnimEventReciever;
@@ -118,6 +124,8 @@ namespace SealTeam4
             nmAgent = GetComponent<NavMeshAgent>();
             aiAnimController = GetComponent<AIAnimationController>();
             aiAnimEventReciever = GetComponent<AIAnimEventReciever>();
+            audioS = GetComponent<AudioSource>();
+            netAudioS = GetComponent<NetworkedAudioSource>();
             this.aiStats = aiStats;
 
             // Initializing FSM classes
@@ -913,7 +921,7 @@ namespace SealTeam4
                 return;
 
             aiAnimController.Anim_Flinch();
-
+            PlayHurtSFX();
 
             if (aiState.invincible)
                 return;
@@ -975,6 +983,25 @@ namespace SealTeam4
         public bool IsInDistress()
         {
             return aiState.aIMode == AIState.AIMode.CIVILIAN_UNDER_ATTACK;
+        }
+
+        public void PlayHurtSFX()
+        {
+            audioS.clip = oof_SFX;
+            audioS.Play();
+            //netAudioS.Play();
+        }
+
+        public void PlayScreamSFX()
+        {
+            if (audioS.clip != scream_SFX)
+                audioS.clip = scream_SFX;
+
+            if(!audioS.isPlaying)
+            {
+                audioS.Play();
+                //netAudioS.Play();
+            }
         }
     }
 }

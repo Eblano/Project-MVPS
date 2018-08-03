@@ -2721,8 +2721,8 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
+  Spatialize: 1
+  SpatializePostEffects: 1
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
@@ -2993,6 +2993,8 @@ MonoBehaviour:
     posOffset: {x: -0.03, y: 0.1, z: 0.02}
     rotOffset: {x: 90, y: -90, z: 0}
     scale: 5
+  oof_SFX: {fileID: 8300000, guid: 9159b612f1a3b3d47854ef0f651b5c96, type: 3}
+  scream_SFX: {fileID: 8300000, guid: 1c7785a823f2cdb48891442cdd5dafe0, type: 3}
   aiState:
     active: 0
     alive: 1

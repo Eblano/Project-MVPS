@@ -64,6 +64,7 @@ namespace SealTeam4
         [SerializeField] private GameObject magazine_p226_Prefab;
         [SerializeField] private GameObject rifle_sar21_Prefab;
         [SerializeField] private GameObject magazine_sar21_Prefab;
+        [SerializeField] private GameObject torchlight_Prefab;
 
         private List<GameObject> networkCommandableGameobjects = new List<GameObject>();
 
@@ -573,6 +574,9 @@ namespace SealTeam4
                         break;
                     case "Sar21 Magazine":
                         accessoryItemPrefab = magazine_sar21_Prefab;
+                        break;
+                    case "Torchlight":
+                        accessoryItemPrefab = torchlight_Prefab;
                         break;
                 }
 
