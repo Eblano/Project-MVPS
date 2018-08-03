@@ -95,14 +95,14 @@ MonoBehaviour:
   - {fileID: 1099407147035818, guid: ee0089b6f26315f44b7030fd4c6ad98d, type: 2}
   - {fileID: 1162695082283586, guid: bde10259f3cb5894886245eb7aeccd3f, type: 2}
   - {fileID: 1963270329964846, guid: 923fff002492e38499d7ef8d5f5c8610, type: 2}
-  m_CustomConfig: 0
+  m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
     m_PacketSize: 1440
     m_FragmentSize: 500
     m_ResendTimeout: 1200
-    m_DisconnectTimeout: 2000
-    m_ConnectTimeout: 2000
+    m_DisconnectTimeout: 20000
+    m_ConnectTimeout: 5000
     m_MinUpdateTimeout: 10
     m_PingTimeout: 500
     m_ReducedPingTimeout: 100
