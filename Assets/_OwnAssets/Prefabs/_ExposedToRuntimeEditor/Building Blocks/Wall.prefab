@@ -26,13 +26,14 @@ GameObject:
   - component: {fileID: 114822481834893530}
   - component: {fileID: 114909844740110552}
   - component: {fileID: 114776594840292774}
+  - component: {fileID: 114940539255203636}
   m_Layer: 25
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4724400303196628
 Transform:
   m_ObjectHideFlags: 1
@@ -148,3 +149,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxCollidersToCopy: []
+--- !u!114 &114940539255203636
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1848791588437024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d378f3255e146f9458f68a028f2b67de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

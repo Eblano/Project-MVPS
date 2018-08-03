@@ -35,4 +35,9 @@ public class NetworkedAudioSource : MonoBehaviour
     {
         audioSources[counter++ % audioSources.Length].Play();
     }
+
+    public void DirectStop()
+    {
+        audioSources[counter++ % audioSources.Length].Stop();
+    }
 }

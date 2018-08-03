@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 82567027747454696}
   - component: {fileID: 82718656736110618}
   - component: {fileID: 114794567881190390}
+  - component: {fileID: 114359318506523318}
   m_Layer: 0
   m_Name: p226_Pistol_AI
   m_TagString: Untagged
@@ -1131,6 +1132,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54a05c00bc88b344ab11270ddf66005f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114359318506523318
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1231583803769750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d378f3255e146f9458f68a028f2b67de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114445516938635452
