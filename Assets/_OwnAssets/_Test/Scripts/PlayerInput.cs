@@ -185,6 +185,7 @@ namespace SealTeam4
                     {
                         Debug.Log("LeftCalibSend");
                         GameManagerAssistant.instance.RelaySenderCmdAddCalibrateInfo(lHandCont.position, true);
+                        ControllerHapticsManager.PlayHaptic(ControllerHapticsManager.HapticType.GUNFIRE, control);
                     }
                     break;
                 case VRTK_DeviceFinder.Devices.RightController:
@@ -193,6 +194,7 @@ namespace SealTeam4
                     {
                         Debug.Log("RightCalibSend");
                         GameManagerAssistant.instance.RelaySenderCmdAddCalibrateInfo(rHandCont.position, false);
+                        ControllerHapticsManager.PlayHaptic(ControllerHapticsManager.HapticType.GUNFIRE, control);
                     }
                     break;
             }
