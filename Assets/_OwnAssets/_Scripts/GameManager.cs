@@ -796,9 +796,10 @@ namespace SealTeam4
 
         public void ApplyCorrection(Vector3 dirCorrection, float angleCorrection)
         {
+            dirCorrection.y = 0;
             Debug.Log(dirCorrection + " / / " + angleCorrection);
             playerLPC.Translate(dirCorrection);
-            playerLPC.Rotate(0, -angleCorrection, 0);
+            playerLPC.Rotate(0, -angleCorrection + 180, 0);
         }
 
         #region Calibration
