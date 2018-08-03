@@ -10,7 +10,7 @@ namespace SealTeam4
         public static GameManagerAssistant instance;
         public List<IActions> allActions;
         public NetworkInstanceId playerID;
-        private List<PlayerCalibrationInfo> playerCalibrationInfos = new List<PlayerCalibrationInfo>();
+        [SerializeField] private List<PlayerCalibrationInfo> playerCalibrationInfos = new List<PlayerCalibrationInfo>();
 
         private void Update()
         {
@@ -446,6 +446,7 @@ namespace SealTeam4
             Debug.Log("Registered" + senderPlayerId);
             if (IsUniquePlayerID(senderPlayerId))
             {
+                Debug.Log("New entry" + senderPlayerId);
                 PlayerCalibrationInfo pci = new PlayerCalibrationInfo();
                 pci.NetworkInstanceIdPlayer = senderPlayerId;
                 playerCalibrationInfos.Add(pci);
@@ -453,6 +454,7 @@ namespace SealTeam4
             }
             else
             {
+                Debug.Log("Existing entry" + senderPlayerId);
                 AddCalibrationPos(senderPlayerId, pos, isLeft);
             }
         }
@@ -557,6 +559,7 @@ namespace SealTeam4
         #endregion PlayerInteractions
     }
 
+    [System.Serializable]
     public class PlayerCalibrationInfo
     {
         public NetworkInstanceId NetworkInstanceIdPlayer { get; set; }
