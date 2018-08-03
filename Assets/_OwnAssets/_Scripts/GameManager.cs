@@ -80,6 +80,8 @@ namespace SealTeam4
         private string localPlayerName;
         //[SerializeField] private Image panelOverlay;
 
+        [SerializeField] private List<PlayerCalibrationInfo> playerCalibrationInfos = new List<PlayerCalibrationInfo>();
+
         private void Start()
         {
             if (instance == null)
@@ -99,12 +101,12 @@ namespace SealTeam4
         {
             if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Z))
             {
-                if(Input.GetKeyDown(KeyCode.N))
+                if (Input.GetKeyDown(KeyCode.N))
                     FindObjectOfType<NavMeshSurface>().BuildNavMesh();
                 if (Input.GetKeyDown(KeyCode.S))
                     FindObjectOfType<NetworkManagerHUD>().enabled = !FindObjectOfType<NetworkManagerHUD>().enabled;
             }
-            
+
             switch (currGameManagerMode)
             {
                 case GameManagerMode.LEVELSETUP:
@@ -121,21 +123,29 @@ namespace SealTeam4
 
         private void Host_Update()
         {
-            if (Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Z) && Input.GetKeyDown(KeyCode.P))
             {
-                foreach(AIController npc in spawnedNPCs)
+                foreach (AIController npc in spawnedNPCs)
                 {
                     if (npc.GetNPCType() == AIStats.NPCType.CIVILLIAN || npc.GetNPCType() == AIStats.NPCType.VIP)
                         npc.TriggerUnderAttackState();
                 }
             }
-
+            
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.C) && Input.GetKeyDown(KeyCode.B))
+            {
+                Debug.Log("Is key pressed");
+                if (IsReadyForCalibration())
+                {
+                    CalibratePlayers();
+                }
+            }
             CheckPlayers();
         }
-        
+
         private void Client_Update()
         {
-            if(!setupDone && localPlayerName != "Player(Clone)" && GameManagerAssistant.instance)
+            if (!setupDone && localPlayerName != "Player(Clone)" && GameManagerAssistant.instance)
             {
                 RegisterClientOnServer(localPlayerName);
                 setupDone = true;
@@ -218,7 +228,7 @@ namespace SealTeam4
             // Spawn and Build NavMesh
             NavMeshSurface nmSurface = Instantiate(navMeshSurfaceInitator_Prefab, Vector3.zero, Quaternion.identity).GetComponent<NavMeshSurface>();
             nmSurface.BuildNavMesh();
-            
+
             // Instantiate admin interface
             Instantiate(gameMasterUI_Prefab, Vector3.zero, Quaternion.identity);
         }
@@ -227,7 +237,7 @@ namespace SealTeam4
         {
             currGameManagerMode = GameManagerMode.CLIENT;
 
-            if(registeredMarkers.Count > 0)
+            if (registeredMarkers.Count > 0)
             {
                 // Find spawn marker
                 PlayerSpawnMarker playerSpawnMarker =
@@ -247,7 +257,7 @@ namespace SealTeam4
             ActivateNPCs();
         }
         #endregion
-        
+
         // ************
         // RuntimeEditor Methods
         // ************
@@ -282,7 +292,7 @@ namespace SealTeam4
 
             List<BaseMarker> markersWithSameName = registeredMarkers.FindAll(y => y != null).FindAll(x => x.gameObject.name == markerName);
 
-            foreach(BaseMarker markerWithSameName in markersWithSameName)
+            foreach (BaseMarker markerWithSameName in markersWithSameName)
             {
                 if (markerWithSameName != marker)
                     return false;
@@ -351,7 +361,7 @@ namespace SealTeam4
         {
             registeredMarkers.Add(marker);
 
-            if(!MarkerNameIsNotUsedByOtherMarkers(marker))
+            if (!MarkerNameIsNotUsedByOtherMarkers(marker))
             {
                 if (marker is NPCSpawnMarker)
                     return GetUniqueMarkerName(MARKER_TYPE.NPCSPAWN);
@@ -368,7 +378,7 @@ namespace SealTeam4
                 if (marker is SeatMarker)
                     return GetUniqueMarkerName(MARKER_TYPE.SEAT);
             }
-            
+
             return marker.name;
         }
 
@@ -378,15 +388,15 @@ namespace SealTeam4
         /// <param name="gameObject"></param>
         public void UnregisterMarker(GameObject gameObject)
         {
-            if(gameObject && registeredMarkers.Exists(x => x == gameObject.GetComponent<BaseMarker>()))
+            if (gameObject && registeredMarkers.Exists(x => x == gameObject.GetComponent<BaseMarker>()))
                 registeredMarkers.Remove(registeredMarkers.Find(x => x == gameObject.GetComponent<BaseMarker>()));
         }
 
         public void CheckPlayers()
         {
-            for(int i = 0; i < players_ref.Count; i++)
+            for (int i = 0; i < players_ref.Count; i++)
             {
-                if(!players_ref[i])
+                if (!players_ref[i])
                 {
                     InterfaceManager.instance.RemovePlayer(playerNames[i]);
                     playerNames.Remove(playerNames[i]);
@@ -398,9 +408,9 @@ namespace SealTeam4
 
         public bool AllPointMarkersOnPoint()
         {
-            foreach(BaseMarker marker in registeredMarkers)
+            foreach (BaseMarker marker in registeredMarkers)
             {
-                if(marker is PointMarker)
+                if (marker is PointMarker)
                 {
                     if (marker.GetComponent<PointMarker>().validPoint == false)
                         return false;
@@ -409,7 +419,7 @@ namespace SealTeam4
             return true;
         }
         #endregion
-        
+
         public void RestartScene()
         {
             PlayerPrefs.SetString("SceneToLoad", "_MainScene");
@@ -455,7 +465,7 @@ namespace SealTeam4
 
         public void SpawnAndSetupNPC()
         {
-            if(!ScriptStorage.instance)
+            if (!ScriptStorage.instance)
             {
                 Debug.Log("Cant find Script Storage");
                 return;
@@ -538,7 +548,7 @@ namespace SealTeam4
 
                 GameObject accessoryItemPrefab = null;
 
-                switch(accessoryData.accessoryItem)
+                switch (accessoryData.accessoryItem)
                 {
                     case "P226":
                         accessoryItemPrefab = pistol_p226_Prefab;
@@ -554,7 +564,7 @@ namespace SealTeam4
                         break;
                 }
 
-                if(!accessoryItemPrefab)
+                if (!accessoryItemPrefab)
                 {
                     Debug.Log("Cant find item to spawn");
                     return;
@@ -574,7 +584,7 @@ namespace SealTeam4
             foreach (AIController npc in spawnedNPCs)
             {
                 if (npc.GetName() == targetNPCName &&
-                    npc.GetNPCType() != AIStats.NPCType.NONE && 
+                    npc.GetNPCType() != AIStats.NPCType.NONE &&
                     npc != requester && npc.AvailableForConversation())
                 {
                     return npc;
@@ -635,7 +645,7 @@ namespace SealTeam4
 
             return waypointMarker.pointRotation;
         }
-        
+
         private NPCSpawnMarker GetSpawnMarkerByName(string markeName)
         {
             return (NPCSpawnMarker)registeredMarkers.FindAll(x => x is NPCSpawnMarker).Find(x => x.name == markeName);
@@ -650,7 +660,7 @@ namespace SealTeam4
         {
             return (AreaMarker)registeredMarkers.FindAll(x => x is AreaMarker).Find(x => x.name == areaName);
         }
-        
+
         public bool CheckIfObjectIsRegisteredArea(GameObject gameObject)
         {
             return registeredMarkers.Exists(x => x.gameObject == gameObject);
@@ -758,7 +768,7 @@ namespace SealTeam4
 
         public void UnregisterNetCmdObj(GameObject go)
         {
-            if(networkCommandableGameobjects.Exists(x => x == go))
+            if (networkCommandableGameobjects.Exists(x => x == go))
                 networkCommandableGameobjects.Remove(go);
         }
 
@@ -770,9 +780,9 @@ namespace SealTeam4
 
         public void RecieveNetCmdObjMsg(string targetGoName, string msg)
         {
-            foreach(GameObject go in networkCommandableGameobjects.FindAll(y => y != null).FindAll(x => x.name == targetGoName))
+            foreach (GameObject go in networkCommandableGameobjects.FindAll(y => y != null).FindAll(x => x.name == targetGoName))
             {
-                if(go && go.GetComponent<INetworkCommandable>() != null)
+                if (go && go.GetComponent<INetworkCommandable>() != null)
                 {
                     go.GetComponent<INetworkCommandable>().RecieveCommand(msg);
                 }
@@ -790,5 +800,107 @@ namespace SealTeam4
             playerLPC.Translate(dirCorrection);
             playerLPC.Rotate(0, -angleCorrection, 0);
         }
+
+        #region Calibration
+        public void CalibrateInfo(NetworkInstanceId senderPlayerId, Vector3 pos, bool isLeft)
+        {
+            Debug.Log("Registered" + senderPlayerId);
+            if (IsUniquePlayerID(senderPlayerId))
+            {
+                Debug.Log("New entry" + senderPlayerId);
+                PlayerCalibrationInfo pci = new PlayerCalibrationInfo();
+                pci.NetworkInstanceIdPlayer = senderPlayerId;
+                playerCalibrationInfos.Add(pci);
+                AddCalibrationPos(senderPlayerId, pos, isLeft);
+            }
+            else
+            {
+                Debug.Log("Existing entry" + senderPlayerId);
+                AddCalibrationPos(senderPlayerId, pos, isLeft);
+            }
+        }
+
+        private void CalibratePlayers()
+        {
+            // Using first registered player as calibration point
+            for (int counter = 1; counter < playerCalibrationInfos.Count; counter++)
+            {
+                GameManagerAssistant.instance.TargetCalibrateLPC
+                    (
+                    NetworkServer.objects[playerCalibrationInfos[counter].NetworkInstanceIdPlayer].connectionToClient,
+                    playerCalibrationInfos[0].LeftControllerPos - playerCalibrationInfos[counter].LeftControllerPos,
+                    Vector3.Angle(playerCalibrationInfos[counter].LeftControllerPos - playerCalibrationInfos[counter].RightControllerPos, playerCalibrationInfos[0].LeftControllerPos - playerCalibrationInfos[0].RightControllerPos)
+                    );
+            }
+        }
+
+        private bool IsReadyForCalibration()
+        {
+            if (playerCalibrationInfos.Count < 2)
+            {
+                Debug.Log("Not enough data to calibrate");
+                return false;
+            }
+
+            foreach (PlayerCalibrationInfo pci in playerCalibrationInfos)
+            {
+                if (pci.LeftControllerPos == Vector3.zero || pci.RightControllerPos == Vector3.zero)
+                {
+                    Debug.Log("Empty positional data in left or right controller");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void AddCalibrationPos(NetworkInstanceId playerId, Vector3 pos, bool isLeft)
+        {
+            if (isLeft)
+            {
+                foreach (PlayerCalibrationInfo pci in playerCalibrationInfos)
+                {
+                    if (pci.NetworkInstanceIdPlayer == playerId)
+                    {
+                        pci.LeftControllerPos = pos;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                foreach (PlayerCalibrationInfo pci in playerCalibrationInfos)
+                {
+                    if (pci.NetworkInstanceIdPlayer == playerId)
+                    {
+                        pci.RightControllerPos = pos;
+                        return;
+                    }
+                }
+            }
+        }
+
+        private bool IsUniquePlayerID(NetworkInstanceId playerId)
+        {
+            foreach (PlayerCalibrationInfo pci in playerCalibrationInfos)
+            {
+                if (pci.NetworkInstanceIdPlayer == playerId)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        #endregion Calibration
+
+    }
+
+    [System.Serializable]
+    public class PlayerCalibrationInfo
+    {
+        public NetworkInstanceId NetworkInstanceIdPlayer { get; set; }
+        public Vector3 LeftControllerPos { get; set; }
+        public Vector3 RightControllerPos { get; set; }
     }
 }
