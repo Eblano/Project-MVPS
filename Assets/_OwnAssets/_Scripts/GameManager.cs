@@ -78,7 +78,6 @@ namespace SealTeam4
 
         private Transform playerLPC;
         private string localPlayerName;
-        //[SerializeField] private Image panelOverlay;
 
         [SerializeField] private List<PlayerCalibrationInfo> playerCalibrationInfos = new List<PlayerCalibrationInfo>();
 
@@ -161,21 +160,32 @@ namespace SealTeam4
                 return;
             }
 
-            if (Input.GetKey(KeyCode.W))
+            if(Input.GetKey(KeyCode.LeftShift))
             {
-                playerLPC.Translate(playerLPC.forward * 5 * Time.deltaTime);
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                playerLPC.Translate(-playerLPC.forward * 5 * Time.deltaTime);
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                playerLPC.Rotate(0, -20 * Time.deltaTime, 0);
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                playerLPC.Rotate(0, 20 * Time.deltaTime, 0);
+                if (Input.GetKey(KeyCode.W))
+                {
+                    playerLPC.Translate(playerLPC.forward * 5 * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.S))
+                {
+                    playerLPC.Translate(-playerLPC.forward * 5 * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.A))
+                {
+                    playerLPC.Translate(-playerLPC.right * 5 * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.D))
+                {
+                    playerLPC.Translate(playerLPC.right * 5 * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.Q))
+                {
+                    playerLPC.Rotate(0, -20 * Time.deltaTime, 0);
+                }
+                if (Input.GetKey(KeyCode.E))
+                {
+                    playerLPC.Rotate(0, 20 * Time.deltaTime, 0);
+                }
             }
 
             //if (Input.GetKeyDown(KeyCode.R))
@@ -231,6 +241,8 @@ namespace SealTeam4
 
             // Instantiate admin interface
             Instantiate(gameMasterUI_Prefab, Vector3.zero, Quaternion.identity);
+
+            FindObjectOfType<SteamAudio.SteamAudioManager>().ExportScene(false);
         }
 
         public void GM_SwitchToClientMode()
