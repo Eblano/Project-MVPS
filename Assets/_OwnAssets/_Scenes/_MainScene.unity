@@ -30191,6 +30191,7 @@ GameObject:
   - component: {fileID: 2128280405}
   - component: {fileID: 2128280399}
   - component: {fileID: 2128280398}
+  - component: {fileID: 2128280406}
   m_Layer: 21
   m_Name: Managers
   m_TagString: Untagged
@@ -30341,6 +30342,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bipedGrabNodes: []
+--- !u!114 &2128280406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2128280397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4576053e6ac4964287500815ebc2f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioEngine: 0
+  materialPreset: 0
+  materialValue:
+    LowFreqAbsorption: 0.1
+    MidFreqAbsorption: 0.2
+    HighFreqAbsorption: 0.3
+    Scattering: 0.05
+    LowFreqTransmission: 0.1
+    MidFreqTransmission: 0.05
+    HighFreqTransmission: 0.03
+  simulationPreset: 0
+  simulationValue:
+    RealtimeRays: 4096
+    RealtimeSecondaryRays: 1024
+    RealtimeBounces: 2
+    BakeRays: 16384
+    BakeSecondaryRays: 4096
+    BakeBounces: 32
+    Duration: 1
+    AmbisonicsOrder: 1
+    MaxSources: 32
+  updateComponents: 1
+  currentAudioListener: {fileID: 0}
+  showLoadTimeOptions: 0
+  showMassBakingOptions: 0
 --- !u!1 &2135079331
 GameObject:
   m_ObjectHideFlags: 0

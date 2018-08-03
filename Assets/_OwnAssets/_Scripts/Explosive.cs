@@ -44,6 +44,7 @@ public class Explosive : MonoBehaviour, IActions, INetworkCommandable
         //GameManagerAssistant.instance.CmdSyncHaps(, ControllerHapticsManager.HapticType.GUNFIRE, VRTK.VRTK_DeviceFinder.Devices.RightController);
         action.Clear();
         Destroy(gameObject);
+        GameManager.instance.TriggerThreatInLevel();
     }
 
     public string GetName()
