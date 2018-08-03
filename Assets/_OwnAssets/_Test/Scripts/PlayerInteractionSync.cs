@@ -22,7 +22,10 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
     private GameManager gameManager;
 
-    private BipedGrabNode grabNode;
+    private BipedGrabNode lGrabNode;
+    private BipedGrabNode rGrabNode;
+
+    [SerializeField] private Animator anim;
 
     public override void OnStartServer()
     {
@@ -110,10 +113,12 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             case VRTK_DeviceFinder.Devices.LeftController:
                 snapTarget = lControl;
                 isLeftGrab = true;
+                anim.SetBool("LeftHandGrab", true);
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
                 snapTarget = rControl;
                 isLeftGrab = false;
+                anim.SetBool("RightHandGrab", true);
                 break;
         }
 
@@ -124,13 +129,26 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
         if (currGrabbedObj)
         {
-            grabNode = currGrabbedObj.GetComponent<BipedGrabNode>();
-        }
+            if (isLeftGrab)
+            {
+                lGrabNode = currGrabbedObj.GetComponent<BipedGrabNode>();
 
-        if (grabNode != null)
-        {
-            grabNode.OnGrabbed(playerID, isLeftGrab);
-            return;
+                if (lGrabNode != null)
+                {
+                    lGrabNode.OnGrabbed(playerID, isLeftGrab);
+                    return;
+                }
+            }
+            else
+            {
+                rGrabNode = currGrabbedObj.GetComponent<BipedGrabNode>();
+
+                if (rGrabNode != null)
+                {
+                    rGrabNode.OnGrabbed(playerID, isLeftGrab);
+                    return;
+                }
+            }
         }
 
         GrabCalculate(currGrabbedObj, control);
@@ -154,10 +172,23 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         {
             case VRTK_DeviceFinder.Devices.LeftController:
                 isLeftGrab = true;
+                anim.SetBool("LeftHandGrab", false);
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
                 isLeftGrab = false;
+                anim.SetBool("RightHandGrab", false);
                 break;
+        }
+
+        if ((lGrabNode || rGrabNode) && isLeftGrab)
+        {
+            lGrabNode.OnUngrabbed();
+            lGrabNode = null;
+        }
+        else
+        {
+            rGrabNode.OnUngrabbed();
+            rGrabNode = null;
         }
 
         UnGrabCalculate(control, velo, anguVelo);
@@ -476,13 +507,6 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
                 currGrabbedObj = rightHandObj;
                 rightHandObj = null;
                 break;
-        }
-
-        if (grabNode)
-        {
-            grabNode.OnUngrabbed();
-            grabNode = null;
-            return;
         }
 
         Transform grabbedObjParent;
