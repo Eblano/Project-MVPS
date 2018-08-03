@@ -395,7 +395,7 @@ namespace SealTeam4
                 aiState.seated = false;
                 if (aiState.currSeatTarget)
                 {
-                    aiState.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(true);
+                    aiState.currSeatTarget.SetSeatAvailability(this);
                     aiState.currSeatTarget = null;
                 }
                 return true;

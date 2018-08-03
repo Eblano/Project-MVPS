@@ -10,7 +10,7 @@ namespace SealTeam4
     public class AreaMarker : BaseAreaMarker, IActions, IObjectInfo
     {
         private List<GameObject> registeredSeats = new List<GameObject>();
-        [SerializeField] private int numRegisteredSeats = 0;
+        [SerializeField] private int totalSeatsInArea = 0;
         [SerializeIgnore] private float refreshRate = 3.0f;
         private float currRefreshRate;
 
@@ -56,7 +56,7 @@ namespace SealTeam4
 
         private void UpdateRegisteredSeatNumber()
         {
-            numRegisteredSeats = registeredSeats.Count;
+            totalSeatsInArea = registeredSeats.Count;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -117,9 +117,10 @@ namespace SealTeam4
         {
             foreach(GameObject seat in registeredSeats)
             {
-                if(seat.GetComponent<SeatMarker>().SeatAvailable())
+                if(!seat.GetComponent<SeatMarker>().SeatTaken())
                 {
                     npcsSeatedInArea.Add(npc);
+                    seat.GetComponent<SeatMarker>().SetSeatAvailability(npc);
                     return seat.GetComponent<SeatMarker>();
                 }
             }

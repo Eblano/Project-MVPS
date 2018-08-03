@@ -241,7 +241,15 @@ namespace SealTeam4
         public void MoveToWaypoint(Vector3 waypointPos, float moveSpeed, float extraStoppingDistance)
         {
             if (!aiController.ReachedDestination(aiState.currWaypointPosition, extraStoppingDistance))
+            {
+                if(!aiState.currSeatTarget.SeatTakenByOwnSelf(aiController))
+                {
+                    aiState.currSubschedule--;
+                    return;
+                }
+
                 aiController.MoveAITowardsNMAgentDestination(moveSpeed);
+            }
             else
                 aiState.currSubschedule++;
         }
@@ -345,14 +353,12 @@ namespace SealTeam4
 
             if (aiState.currSeatTarget)
             {
-                aiState.currSeatTarget.GetComponent<SeatMarker>().SetSeatAvailability(false);
                 aiController.SetNMAgentDestination(aiState.currSeatTarget.transform.position);
                 aiState.currSubschedule++;
             }
             else
             {
                 Debug.Log("No Seat Found in " + areaMarker.name);
-                aiState.currSubschedule = -1;
             }
         }
 

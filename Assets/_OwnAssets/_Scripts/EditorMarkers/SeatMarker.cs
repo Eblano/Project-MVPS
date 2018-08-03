@@ -11,7 +11,7 @@ namespace SealTeam4
     public class SeatMarker : BaseMarker
     {
         private AreaMarker ownedByArea;
-        [SerializeField] private bool seatAvailable = true;
+        [SerializeField] private AIController seatTakenBy = null;
 
         protected new void Start()
         {
@@ -38,18 +38,23 @@ namespace SealTeam4
             return area == ownedByArea;
         }
 
-        public bool SeatAvailable()
+        public bool SeatTakenByOwnSelf(AIController seater)
         {
-            return seatAvailable;
+            return seater == seatTakenBy;
+        }
+
+        public bool SeatTaken()
+        {
+            return seatTakenBy;
         }
 
         /// <summary>
         /// Set seat availablity
         /// </summary>
         /// <param name="occupied">True if seat is occupied</param>
-        public void SetSeatAvailability(bool seatAvailable)
+        public void SetSeatAvailability(AIController takenBy)
         {
-            this.seatAvailable = seatAvailable;
+            this.seatTakenBy = takenBy;
         }
     }
 }
