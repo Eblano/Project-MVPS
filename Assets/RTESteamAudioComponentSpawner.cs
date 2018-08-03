@@ -11,16 +11,18 @@ namespace SealTeam4
         {
             if(!GameManager.instance.IsInLevelEditMode())
             {
-                if(GetComponent<AudioSource>())
+                if (GetComponent<AudioSource>())
                 {
-                    SteamAudioSource sas = gameObject.AddComponent<SteamAudioSource>();
-                    AudioSource audioS = GetComponent<AudioSource>();
+                    foreach (AudioSource audioS in GetComponents<AudioSource>())
+                    {
+                        audioS.spatialize = true;
+                        audioS.spatializePostEffects = true;
+                        audioS.dopplerLevel = 0;
+                        audioS.rolloffMode = AudioRolloffMode.Linear;
+                        audioS.spatialBlend = 1;
+                    }
 
-                    audioS.spatialize = true;
-                    audioS.spatializePostEffects = true;
-                    audioS.dopplerLevel = 0;
-                    audioS.rolloffMode = AudioRolloffMode.Linear;
-                    audioS.spatialBlend = 1;
+                    SteamAudioSource sas = gameObject.AddComponent<SteamAudioSource>();
 
                     sas.physicsBasedAttenuation = true;
                     sas.directBinaural = true;

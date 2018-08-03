@@ -49,7 +49,7 @@ namespace SealTeam4
         [HideInInspector] public float shootTargetAngleOfError = 5f;
         [HideInInspector] public float losMarginSize = 0.5f;
         [HideInInspector] public float knifeSwingCD = 1f;
-        [HideInInspector] public float meleeDist = 0.6f;
+        [HideInInspector] public float meleeDist = 0.8f;
         [HideInInspector] public float initEngageDelay = 0f;
 
         // For VIP

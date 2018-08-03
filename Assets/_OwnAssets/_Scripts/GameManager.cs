@@ -242,7 +242,7 @@ namespace SealTeam4
             // Instantiate admin interface
             Instantiate(gameMasterUI_Prefab, Vector3.zero, Quaternion.identity);
 
-            FindObjectOfType<SteamAudio.SteamAudioManager>().ExportScene(false);
+            //FindObjectOfType<SteamAudio.SteamAudioManager>().ExportScene(false);
         }
 
         public void GM_SwitchToClientMode()
