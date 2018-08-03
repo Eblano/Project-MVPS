@@ -113,12 +113,14 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             case VRTK_DeviceFinder.Devices.LeftController:
                 snapTarget = lControl;
                 isLeftGrab = true;
-                anim.SetBool("LeftHandGrab", true);
+                if (anim)
+                    anim.SetBool("LeftHandGrab", true);
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
                 snapTarget = rControl;
                 isLeftGrab = false;
-                anim.SetBool("RightHandGrab", true);
+                if (anim)
+                    anim.SetBool("RightHandGrab", true);
                 break;
         }
 
@@ -172,23 +174,31 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         {
             case VRTK_DeviceFinder.Devices.LeftController:
                 isLeftGrab = true;
-                anim.SetBool("LeftHandGrab", false);
+                if (anim)
+                    anim.SetBool("LeftHandGrab", false);
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
                 isLeftGrab = false;
-                anim.SetBool("RightHandGrab", false);
+                if (anim)
+                    anim.SetBool("RightHandGrab", false);
                 break;
         }
 
-        if ((lGrabNode || rGrabNode) && isLeftGrab)
+        if (isLeftGrab)
         {
-            lGrabNode.OnUngrabbed();
-            lGrabNode = null;
+            if (lGrabNode)
+            {
+                lGrabNode.OnUngrabbed();
+                lGrabNode = null;
+            }
         }
         else
         {
-            rGrabNode.OnUngrabbed();
-            rGrabNode = null;
+            if (rGrabNode)
+            {
+                rGrabNode.OnUngrabbed();
+                rGrabNode = null;
+            }
         }
 
         UnGrabCalculate(control, velo, anguVelo);
