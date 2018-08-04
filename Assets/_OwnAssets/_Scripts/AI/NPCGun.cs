@@ -37,10 +37,10 @@ namespace SealTeam4
                 Debug.DrawLine(firingPt.position, point, Color.green);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                FireGun(GlobalEnums.GunAccuracy.HIGH);
-            }
+            //if (Input.GetKeyDown(KeyCode.Space))
+            //{
+            //    FireGun(GlobalEnums.GunAccuracy.HIGH);
+            //}
         }
 
         public void FireGun(GlobalEnums.GunAccuracy accuracy)
