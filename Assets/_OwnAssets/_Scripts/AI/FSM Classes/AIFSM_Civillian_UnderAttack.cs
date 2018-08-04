@@ -52,7 +52,7 @@ namespace SealTeam4
                     aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.RUNTOEXIT;
                     break;
                 case AIStats.CivillianStressResponseMode.RANDOM:
-                    switch (Random.Range(0, 1))
+                    switch (Random.Range(0, 2))
                     {
                         case 0:
                             aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.FREEZE;
