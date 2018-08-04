@@ -43,6 +43,8 @@ namespace SealTeam4
         [HideInInspector] public int knifeBodyDmg = 75;
         [HideInInspector] public int knifeHandDmg = 25;
         [HideInInspector] public int knifeLegDmg = 25;
+        [HideInInspector] public float baseScreamInterval = 3f;
+        [HideInInspector] public float screamIntervalOffset = 1f;
 
         // For Terrorist
         [HideInInspector] public List<string> allDynamicWaypoints;

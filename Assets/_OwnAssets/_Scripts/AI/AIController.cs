@@ -992,9 +992,7 @@ namespace SealTeam4
         public void PlayHurtSFX()
         {
             audioS.clip = oof_SFX;
-            audioS.Play();
-            //netAudioS.Play();
-            Debug.Log("IM HIT");
+            netAudioS.Play();
         }
 
         public void PlayScreamSFX()
@@ -1002,10 +1000,17 @@ namespace SealTeam4
             if (audioS.clip != scream_SFX)
                 audioS.clip = scream_SFX;
 
-            if(!audioS.isPlaying)
+            if (aiState.civilian.underAttack.nextScream == -1000)
             {
-                audioS.Play();
-                //netAudioS.Play();
+                aiState.civilian.underAttack.nextScream = 
+                    aiStats.baseScreamInterval + Random.Range(-aiStats.screamIntervalOffset, aiStats.screamIntervalOffset);
+            }
+
+            if (aiState.civilian.underAttack.nextScream < 0)
+            {
+                netAudioS.Play();
+                aiState.civilian.underAttack.nextScream =
+                    aiStats.baseScreamInterval + Random.Range(-aiStats.screamIntervalOffset, aiStats.screamIntervalOffset);
             }
         }
     }
