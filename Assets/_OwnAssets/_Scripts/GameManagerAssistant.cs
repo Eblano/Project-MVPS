@@ -90,7 +90,13 @@ namespace SealTeam4
 
         public void RelaySenderCmdSnapToController(NetworkInstanceId childID, bool isLeftController)
         {
+            if (childID == null)
+            {
+                Debug.Log("Trying to send " + "RelaySenderCmdSnapToController" + " without a valid ID");
+            }
+
             CmdSnapToController(childID, playerID, isLeftController);
+            Debug.Log("I AM " + ClientScene.FindLocalObject(playerID).name + ", and I am trying to snap: " + ClientScene.FindLocalObject(childID).name);
         }
 
         public void RelaySenderCmdUnSnapFromController(bool isLeftController, Vector3 velo, Vector3 anguVelo)
@@ -175,7 +181,7 @@ namespace SealTeam4
                 return;
             }
 
-            if (!ClientScene.objects[childID])
+            if (!ClientScene.objects.ContainsKey(childID))
             {
                 Debug.Log("Cannot find child Id");
                 return;
