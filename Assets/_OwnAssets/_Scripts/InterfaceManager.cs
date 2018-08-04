@@ -428,7 +428,10 @@ namespace SealTeam4
 
         public void RemovePlayer(string playerName)
         {
-            Destroy(currActivePlayerContainers.Find(x => x.playerNameTxt.text == playerName).gameObject);
+            if (currActivePlayerContainers.Exists(x => x.playerNameTxt.text == playerName))
+                Destroy(currActivePlayerContainers.Find(x => x.playerNameTxt.text == playerName).gameObject);
+            else
+                return;
             
             if(currActivePlayerContainers.Count > 0)
                 currActivePlayerContainers[0].SetVIPFollowButtonState(true);
