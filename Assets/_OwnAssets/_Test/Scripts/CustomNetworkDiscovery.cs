@@ -23,23 +23,23 @@ public class CustomNetworkDiscovery : NetworkDiscovery
             Destroy(this);
         }
 
-        base.Initialize();
-        base.StartAsClient();
+        //base.Initialize();
+        //base.StartAsClient();
         StartCoroutine(DeleteExpiredEntries());
     }
 
     public void ScanForGames()
     {
-        StopBroadcast();
-        base.Initialize();
-        base.StartAsClient();
+        //StopBroadcast();
+        //base.Initialize();
+        //base.StartAsClient();
     }
 
     public void StartToBroadcast()
     {
-        StopBroadcast();
-        base.Initialize();
-        base.StartAsServer();
+        //StopBroadcast();
+        //base.Initialize();
+        //base.StartAsServer();
         NetworkManager.singleton.StartHost();
     }
 
