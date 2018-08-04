@@ -457,8 +457,11 @@ namespace SealTeam4
         [ClientRpc]
         private void RpcSyncGrabAnim(NetworkInstanceId senderPlayerId, bool isLeft, bool isGrab)
         {
-            if (playerID == senderPlayerId || !ClientScene.objects.ContainsKey(senderPlayerId))
+            Debug.Log("Contains key: " + ClientScene.objects.ContainsKey(senderPlayerId) + senderPlayerId);
+            if (!ClientScene.objects.ContainsKey(senderPlayerId))
+            {
                 return;
+            }
 
             ClientScene.objects[senderPlayerId].GetComponent<PlayerInteractionSync>().AnimateHand(isLeft, isGrab);
         }
