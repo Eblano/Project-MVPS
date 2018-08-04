@@ -422,10 +422,13 @@ namespace SealTeam4
         {
             if(aiStats.GetTotalHP() == 0)
             {
+                StopMovement();
                 aiAnimController.Anim_Die();
                 aiState.alive = false;
                 aiState.active = false;
-                StopMovement();
+                Destroy(centerMassT.gameObject);
+                nmAgent.enabled = false;
+                this.enabled = false;
             }
         }
 
@@ -991,6 +994,7 @@ namespace SealTeam4
             audioS.clip = oof_SFX;
             audioS.Play();
             //netAudioS.Play();
+            Debug.Log("IM HIT");
         }
 
         public void PlayScreamSFX()
