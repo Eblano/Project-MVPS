@@ -169,6 +169,18 @@ namespace SealTeam4
         [ClientRpc]
         private void RpcSnapToController(NetworkInstanceId childID, NetworkInstanceId senderPlayerID, bool isLeftController)
         {
+            if (!ClientScene.objects.ContainsKey(senderPlayerID))
+            {
+                Debug.Log("Cannot find sender playerId");
+                return;
+            }
+
+            if (!ClientScene.objects[childID])
+            {
+                Debug.Log("Cannot find child Id");
+                return;
+            }
+
             ClientScene.objects[senderPlayerID].GetComponent<PlayerInteractionSync>().SyncControllerSnap(isLeftController, ClientScene.objects[childID].gameObject);
         }
 

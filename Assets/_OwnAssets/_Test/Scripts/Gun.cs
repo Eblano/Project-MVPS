@@ -146,7 +146,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
                 GameManagerAssistant.instance.RelaySenderCmdSpawnBulletHolePlayer(gunNetID, hit.point, hit.normal, Quaternion.FromToRotation(Vector3.forward, -hit.normal).eulerAngles);
                 SpawnBulletHole(hit.point, hit.normal, Quaternion.FromToRotation(Vector3.forward, -hit.normal).eulerAngles);
             }
-            Instantiate(spawnPref, hit.point, firingPoint.rotation);
+            //Instantiate(spawnPref, hit.point, firingPoint.rotation);
         }
     }
     #endregion HelperMethods
