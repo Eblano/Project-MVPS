@@ -443,6 +443,26 @@ namespace SealTeam4
             GameManager.instance.ApplyCorrection(posCorrection, rotCorrection);
         }
 
+        public void RelaySenderCmdSyncGrabAnim(bool isLeft, bool isGrab)
+        {
+            CmdSyncGrabAnim(playerID, isLeft, isGrab);
+        }
+
+        [Command]
+        private void CmdSyncGrabAnim(NetworkInstanceId senderPlayerId, bool isLeft, bool isGrab)
+        {
+            RpcSyncGrabAnim(playerID, isLeft, isGrab);
+        }
+
+        [ClientRpc]
+        private void RpcSyncGrabAnim(NetworkInstanceId senderPlayerId, bool isLeft, bool isGrab)
+        {
+            if (playerID == senderPlayerId || !ClientScene.objects.ContainsKey(senderPlayerId))
+                return;
+
+            ClientScene.objects[senderPlayerId].GetComponent<PlayerInteractionSync>().AnimateHand(isLeft, isGrab);
+        }
+
         private void SnapTo(GameObject child, GameObject parent)
         {
             if (child.GetComponent<Rigidbody>())

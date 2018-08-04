@@ -96,6 +96,18 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         SnapObjectToController(obj, snapTarget, obj.GetComponent<InteractableObject>().GetGrabPosition());
     }
 
+    public void AnimateHand(bool isLeft, bool isGrab)
+    {
+        if (isLeft)
+        {
+            anim.SetBool("LeftHandGrab", isGrab);
+        }
+        else
+        {
+            anim.SetBool("RightHandGrab", isGrab);
+        }
+    }
+
     public void Grab(VRTK_DeviceFinder.Devices control, float grabRadius)
     {
         // If the controller is grabbing something
@@ -114,13 +126,19 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
                 snapTarget = lControl;
                 isLeftGrab = true;
                 if (anim)
+                {
+                    GameManagerAssistant.instance.RelaySenderCmdSyncGrabAnim(true, true);
                     anim.SetBool("LeftHandGrab", true);
+                }
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
                 snapTarget = rControl;
                 isLeftGrab = false;
                 if (anim)
+                {
+                    GameManagerAssistant.instance.RelaySenderCmdSyncGrabAnim(false, true);
                     anim.SetBool("RightHandGrab", true);
+                }
                 break;
         }
 
@@ -175,12 +193,18 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             case VRTK_DeviceFinder.Devices.LeftController:
                 isLeftGrab = true;
                 if (anim)
+                {
+                    GameManagerAssistant.instance.RelaySenderCmdSyncGrabAnim(true, false);
                     anim.SetBool("LeftHandGrab", false);
+                }
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
                 isLeftGrab = false;
                 if (anim)
+                {
+                    GameManagerAssistant.instance.RelaySenderCmdSyncGrabAnim(false, false);
                     anim.SetBool("RightHandGrab", false);
+                }
                 break;
         }
 
