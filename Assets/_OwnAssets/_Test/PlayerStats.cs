@@ -41,11 +41,13 @@ public class PlayerStats : MonoBehaviour, IDamageable, IObjectInfo
         if (totalHp <= 0)
         {
             // Stop game when dead
-            GameManagerAssistant.instance.TargetOnPlayerDeath(NetworkServer.objects[netID].connectionToClient);
+            if(NetworkServer.objects.ContainsKey(netID))
+                GameManagerAssistant.instance.TargetOnPlayerDeath(NetworkServer.objects[netID].connectionToClient);
         }
         else
         {
-            GameManagerAssistant.instance.TargetOnPlayerDamaged(NetworkServer.objects[netID].connectionToClient, totalHp);
+            if (NetworkServer.objects.ContainsKey(netID))
+                GameManagerAssistant.instance.TargetOnPlayerDamaged(NetworkServer.objects[netID].connectionToClient, totalHp);
         }
     }
 
