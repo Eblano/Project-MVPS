@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 54081780531882390}
   m_Layer: 13
   m_Name: p226_Mag
-  m_TagString: Untagged
+  m_TagString: CanBeHolstered
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -221,7 +221,6 @@ MonoBehaviour:
   parentTransform: {fileID: 0}
   snapRange: 0.1
   bulletsInMag: 20
-  bulletCapacity: 0
 --- !u!135 &135091534250818308
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 54664742151035770}
   m_Layer: 13
   m_Name: SAR-21_Mag
-  m_TagString: Untagged
+  m_TagString: CanBeHolstered
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,6 +117,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: b332bc96651e22a4b951e88ebf3c98f9, type: 2}
   m_StaticBatchInfo:
@@ -219,8 +220,6 @@ MonoBehaviour:
   parentTransform: {fileID: 0}
   snapRange: 0.1
   bulletsInMag: 30
-  bulletCapacity: 0
-  magCollider: {fileID: 65667088024906866}
 --- !u!135 &135104972029167282
 SphereCollider:
   m_ObjectHideFlags: 1
