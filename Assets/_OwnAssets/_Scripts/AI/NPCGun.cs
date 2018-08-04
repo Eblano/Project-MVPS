@@ -71,7 +71,7 @@ namespace SealTeam4
                     0);
 
 
-            int layerToHit = ~(1 << LayerMask.NameToLayer("UI"));
+            int layerToHit = ~(1 << LayerMask.NameToLayer("UI")) | ~(1 << LayerMask.NameToLayer("Player"));
 
             Ray ray = new Ray(firingPt.position, firingPt.forward + offsetAmt);
             RaycastHit hitInfo;

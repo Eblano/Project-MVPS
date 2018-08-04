@@ -56,7 +56,7 @@ namespace SealTeam4
 
         // For VIP
         [HideInInspector] public float vipFollowPlayerDistance = 2f;
-        [HideInInspector] public float vipGrabbedPlayerDistance = 0.3f;
+        [HideInInspector] public float vipGrabbedPlayerDistance = 0f;
         #endregion
 
         public int GetTotalHP()
