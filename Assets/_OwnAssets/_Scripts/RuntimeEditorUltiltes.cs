@@ -56,6 +56,7 @@ namespace SealTeam4
         private bool fixedEditorCamViewport = false;
 
         private bool hideWallCeilling = false;
+        private bool hideMarkers = false;
 
         private void Awake()
         {
@@ -504,7 +505,25 @@ namespace SealTeam4
 
         public void ToggleMarkerVisibility()
         {
-            markerUICamera.gameObject.SetActive(!markerUICamera.gameObject.activeInHierarchy);
+
+            if (hideMarkers)
+            {
+                markerUICamera.cullingMask =
+                    markerUICamera.cullingMask |
+                    (1 << LayerMask.NameToLayer("Marker")) |
+                    (1 << LayerMask.NameToLayer("AreaMarker")) |
+                    (1 << LayerMask.NameToLayer("FloatingUI"));
+            }
+            else
+            {
+                markerUICamera.cullingMask =
+                    markerUICamera.cullingMask &
+                    ~(1 << LayerMask.NameToLayer("Marker")) &
+                    ~(1 << LayerMask.NameToLayer("AreaMarker")) &
+                    ~(1 << LayerMask.NameToLayer("FloatingUI"));
+            }
+
+            hideMarkers = !hideMarkers;
         }
 
         public void ToggleWallsCeillingVisibility()

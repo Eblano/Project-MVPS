@@ -418,8 +418,12 @@ namespace SealTeam4
             if (aiController.GunSpawned())
                 aiController.SetGunTransformOffset(aiController.pistol_HoldingGunOffset);
 
-            aiController.AimGun();
-            SetState_ShootTarget_TrackTarget();
+            bool done = aiController.AimGun();
+            if (done)
+            {
+                SetState_ShootTarget_TrackTarget();
+                return;
+            }
         }
 
         private void ShootTarget_Shoot()

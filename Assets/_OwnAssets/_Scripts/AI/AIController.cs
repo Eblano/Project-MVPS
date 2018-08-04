@@ -522,9 +522,10 @@ namespace SealTeam4
             ref_pistol.transform.LookAt(target);
         }
 
-        public void AimGun()
+        public bool AimGun()
         {
             aiAnimController.Anim_AimGun();
+            return true;
         }
 
         public void FireGun()
