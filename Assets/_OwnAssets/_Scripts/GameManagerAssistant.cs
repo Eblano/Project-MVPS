@@ -96,7 +96,6 @@ namespace SealTeam4
             }
 
             CmdSnapToController(childID, playerID, isLeftController);
-            Debug.Log("I AM " + ClientScene.FindLocalObject(playerID).name + ", and I am trying to snap: " + ClientScene.FindLocalObject(childID).name);
         }
 
         public void RelaySenderCmdUnSnapFromController(bool isLeftController, Vector3 velo, Vector3 anguVelo)
