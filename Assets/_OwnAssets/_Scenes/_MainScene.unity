@@ -30350,8 +30350,10 @@ GameObject:
   - component: {fileID: 2128280404}
   - component: {fileID: 2128280403}
   - component: {fileID: 2128280400}
+  - component: {fileID: 2128280407}
   - component: {fileID: 2128280402}
   - component: {fileID: 2128280405}
+  - component: {fileID: 2128280406}
   - component: {fileID: 2128280399}
   - component: {fileID: 2128280398}
   m_Layer: 21
@@ -30505,6 +30507,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bipedGrabNodes: []
+--- !u!114 &2128280406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2128280397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eae97b67b86605d4bacc41eb09a5903b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ppv: {fileID: 2128280407}
+  smoothness: 20
+  increment: 0.1
+  vignetteDura: 1
+--- !u!114 &2128280407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2128280397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: d76309264652b4f4a9080c4e10c8665e, type: 2}
+  isGlobal: 0
+  blendDistance: 0
+  weight: 0
+  priority: 0
 --- !u!1 &2135079331
 GameObject:
   m_ObjectHideFlags: 0

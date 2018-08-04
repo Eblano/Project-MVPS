@@ -971,7 +971,7 @@ namespace SealTeam4
                     if (weaponType == GlobalEnums.WeaponType.PISTOL)
                         aiStats.TakeDamage(aiStats.bulletHeadDmg);
                     else if (weaponType == GlobalEnums.WeaponType.KNIFE)
-                        aiStats.TakeDamage(aiStats.bulletHeadDmg);
+                        aiStats.TakeDamage(aiStats.knifeHeadDmg);
                     return;
                 }
             }
@@ -983,7 +983,7 @@ namespace SealTeam4
                     if (weaponType == GlobalEnums.WeaponType.PISTOL)
                         aiStats.TakeDamage(aiStats.bulletHandDmg);
                     else if (weaponType == GlobalEnums.WeaponType.KNIFE)
-                        aiStats.TakeDamage(aiStats.knifeLegDmg);
+                        aiStats.TakeDamage(aiStats.knifeHandDmg);
                     return;
                 }
             }

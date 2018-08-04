@@ -751,7 +751,7 @@ namespace SealTeam4
 
         public void ActivatedOnDamaged(int hpLeft)
         {
-            // HI CLEM
+            PPVHandler.instance.CheckHpEffect(hpLeft);
         }
 
         public string RegisterNetCmdObj(GameObject go, bool uniqueName)
