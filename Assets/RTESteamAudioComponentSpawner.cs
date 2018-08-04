@@ -11,9 +11,11 @@ namespace SealTeam4
         {
             if(!GameManager.instance.IsInLevelEditMode())
             {
-                if (GetComponent<AudioSource>())
+                if (GetComponents<AudioSource>().Length > 0)
                 {
-                    foreach (AudioSource audioS in GetComponents<AudioSource>())
+                    AudioSource[] aSList = GetComponents<AudioSource>();
+
+                    foreach (AudioSource audioS in aSList)
                     {
                         audioS.spatialize = true;
                         audioS.spatializePostEffects = true;

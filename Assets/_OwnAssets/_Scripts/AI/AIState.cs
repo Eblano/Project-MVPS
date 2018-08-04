@@ -72,6 +72,7 @@ namespace SealTeam4
                 public Mode mode = Mode.SETUP;
 
                 public bool bracing = false;
+                public float nextScream = -1000;
                 public float timeLeftBeforeFindingNewRandPosition = 0;
                 public Vector3 currMoveVector = Vector3.zero;
             }

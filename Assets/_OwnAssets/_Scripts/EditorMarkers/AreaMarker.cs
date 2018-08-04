@@ -18,9 +18,13 @@ namespace SealTeam4
         private List<AIController> npcsSeatedInArea = new List<AIController>();
         private List<AIController> npcsInArea = new List<AIController>();
 
+        [SerializeIgnore] [SerializeField] private AudioClip talkingAmbientSFX;
+        private AudioSource audioS;
+
         private new void Start()
         {
             base.Start();
+            audioS = GetComponent<AudioSource>();
             actionList.Add("Dismiss all seated NPCs");
         }
 
@@ -51,7 +55,8 @@ namespace SealTeam4
                     npcsInDistress++;
             }
 
-            // Play sounds?
+            if (npcsTalking > 0)
+                PlayTalkingAmbientSFX();
         }
 
         private void UpdateRegisteredSeatNumber()
@@ -187,6 +192,15 @@ namespace SealTeam4
         public int GetContentIndexToHighlight()
         {
             return -1;
+        }
+
+        public void PlayTalkingAmbientSFX()
+        {
+            if (audioS.clip != talkingAmbientSFX)
+                audioS.clip = talkingAmbientSFX;
+
+            if (!audioS.isPlaying)
+                audioS.Play();
         }
     }
 }

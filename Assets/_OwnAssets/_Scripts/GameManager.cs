@@ -300,8 +300,12 @@ namespace SealTeam4
         {
             string markerName = marker.name;
 
-            if (!registeredMarkers.Exists(x => x.gameObject.name == markerName))
-                return true;
+            try
+            {
+                if (!registeredMarkers.Exists(x => x.gameObject.name == markerName))
+                    return true;
+            }
+            catch (MissingReferenceException e) { }
 
             List<BaseMarker> markersWithSameName = registeredMarkers.FindAll(y => y != null).FindAll(x => x.gameObject.name == markerName);
 

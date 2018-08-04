@@ -102,7 +102,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 2
 --- !u!65 &65169925193873582
 BoxCollider:
@@ -160,6 +160,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendRatePerSecond: 30
+  moveThreshold: 0.005
+  angularThreshold: 0.01
 --- !u!114 &114534931342450192
 MonoBehaviour:
   m_ObjectHideFlags: 1
