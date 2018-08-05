@@ -493,6 +493,7 @@ namespace SealTeam4
 
         private void OnBackToEditorBtn()
         {
+            UnityEngine.Networking.NetworkManager.singleton.StopHost();
             GameManager.instance.RestartScene();
         }
     }
