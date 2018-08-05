@@ -9,7 +9,7 @@ public class ApplyLocalOffset : MonoBehaviour
     
     public void ApplyOffset()
     {
-        transform.localPosition = posOffset;
-        transform.localRotation = Quaternion.Euler(rotOffset);
+        transform.parent.localPosition = posOffset;
+        transform.parent.localRotation = Quaternion.Euler(rotOffset);
     }
 }
