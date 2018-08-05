@@ -89,6 +89,12 @@ namespace SealTeam4
                 return;
             }
 
+            if (!ClientScene.objects[senderPlayerID].gameObject.GetComponent<PlayerSizeCalibration>())
+            {
+                Debug.Log("Calib script not found");
+                return;
+            }
+
             ClientScene.objects[senderPlayerID].gameObject.GetComponent<PlayerSizeCalibration>().ApplyScale(yScale, handScale);
         }
 
