@@ -260,7 +260,7 @@ namespace SealTeam4
                 playerLPC = Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation).transform;
 
                 Destroy(Camera.main.gameObject);
-                Destroy(GameObject.Find("markerUICamera(Clone)"));
+                Destroy(GameObject.Find("MarkerUICamera(Clone)"));
             }
         }
 
