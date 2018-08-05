@@ -421,10 +421,10 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
     {
         // Set controller as object's parent
         objToSnap.transform.SetParent(controllerTransform);
+        //objToSnap.transform.localPosition = grabTransform.localPosition;
         // Zero out the local transformation
         objToSnap.transform.localPosition = -grabTransform.localPosition; // multiply 1/parent scale
-        //objToSnap.transform.localPosition = grabTransform.localPosition;
-        objToSnap.transform.localRotation = Quaternion.identity;
+        objToSnap.transform.localRotation *= grabTransform.localRotation;
         if (!objToSnap.GetComponent<Rigidbody>())
         {
             return;
