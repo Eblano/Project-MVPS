@@ -366,6 +366,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4815995378850662}
+  - component: {fileID: 114390920340838738}
   m_Layer: 0
   m_Name: GrabPoint
   m_TagString: Untagged
@@ -657,7 +658,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1091421823349118}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.9354572, y: 0.57989115, z: 0.163}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.13616042, y: 0.13616015, z: 0.13616015}
   m_Children:
   - {fileID: 4731679982756704}
@@ -1684,6 +1685,19 @@ MonoBehaviour:
     type: 2}
   hitEffect_Prefab: {fileID: 1288424787541296, guid: a49fb48bcdd9dbf40b287a43cd400a4a,
     type: 2}
+--- !u!114 &114390920340838738
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1527699214130246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6262efd6cc81d044e850b5c16f111426, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posOffset: {x: 0, y: 0.07, z: 0.05}
+  rotOffset: {x: -90, y: 90, z: 0}
 --- !u!114 &114417862528091020
 MonoBehaviour:
   m_ObjectHideFlags: 1
