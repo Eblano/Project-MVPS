@@ -8,6 +8,7 @@ using VRTK;
 public class PlayerInteractionSync : NetworkBehaviour, IActions
 {
     [SerializeField] private Transform headset, lControl, rControl;
+    [SerializeField] private Transform realLHandTrans, realRHandTrans;
     [SerializeField] private GameObject leftHandObj;    // DEBUG
     [SerializeField] private GameObject rightHandObj;   // DEBUG
     private Vector3AndQuaternion head, lHand, rHand;
@@ -42,7 +43,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         return headset;
     }
 
-    public Transform GetLHandPos()
+    public Transform GetLControllerPos()
     {
         return lControl;
     }
@@ -82,12 +83,12 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         switch (control)
         {
             case VRTK_DeviceFinder.Devices.LeftController:
-                snapTarget = lControl;
+                snapTarget = realLHandTrans;
                 leftHandObj = obj;
                 rightHandObj = null;
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
-                snapTarget = rControl;
+                snapTarget = realRHandTrans;
                 rightHandObj = obj;
                 leftHandObj = null;
                 break;
@@ -123,7 +124,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         switch (control)
         {
             case VRTK_DeviceFinder.Devices.LeftController:
-                snapTarget = lControl;
+                snapTarget = realLHandTrans;
                 isLeftGrab = true;
                 if (anim)
                 {
@@ -132,7 +133,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
                 }
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
-                snapTarget = rControl;
+                snapTarget = realRHandTrans;
                 isLeftGrab = false;
                 if (anim)
                 {
@@ -422,7 +423,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         // Zero out the local transformation
         objToSnap.transform.localPosition = -grabTransform.localPosition; // multiply 1/parent scale
         //objToSnap.transform.localPosition = grabTransform.localPosition;
-        objToSnap.transform.localRotation = Quaternion.identity;
+        objToSnap.transform.localRotation = grabTransform.localRotation;
         if (!objToSnap.GetComponent<Rigidbody>())
         {
             return;
@@ -453,11 +454,11 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
     {
         if (isLeft)
         {
-            return lControl;
+            return realLHandTrans;
         }
         else
         {
-            return rControl;
+            return realRHandTrans;
         }
     }
 
@@ -509,11 +510,11 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         {
             case VRTK_DeviceFinder.Devices.LeftController:
                 leftHandObj = currGrabbedObj;
-                snapTarget = lControl;
+                snapTarget = realLHandTrans;
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
                 rightHandObj = currGrabbedObj;
-                snapTarget = rControl;
+                snapTarget = realRHandTrans;
                 break;
         }
 

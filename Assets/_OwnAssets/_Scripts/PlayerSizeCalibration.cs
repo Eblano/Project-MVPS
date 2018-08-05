@@ -79,7 +79,7 @@ public class PlayerSizeCalibration : MonoBehaviour
         Vector3 headPos = headRef.position;
         Vector3 handPos = lhandRef.position;
 
-        Vector3 lHandReal = interactionSync.GetLHandPos().position;
+        Vector3 lHandReal = interactionSync.GetLControllerPos().position;
         Vector3 headReal = interactionSync.GetHeadPos().position;
 
         Debug.Log("Hand: " + lHandReal);

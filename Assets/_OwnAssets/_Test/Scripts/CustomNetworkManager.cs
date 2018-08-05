@@ -31,6 +31,8 @@ namespace SealTeam4
 
         public override void OnStartServer()
         {
+            base.StopServer();
+            NetworkServer.Reset();
             base.OnStartServer();
             Debug.Log("OnStartServer");
             numOfPlayers = -1;
