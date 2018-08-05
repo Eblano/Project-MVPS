@@ -443,7 +443,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         }
         else
         {
-            objToSnap.transform.localRotation = Quaternion.identity;
+            objToSnap.transform.localRotation = grabTransform.localRotation;
             objToSnap.transform.localPosition = -grabTransform.localPosition; // multiply 1/parent scale
         }
 
@@ -504,7 +504,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         if (IsSameObjectGrab(control, currGrabbedObj))
         {
             Debug.Log("SameObjectGrab");
-            //TransferObject(control, currGrabbedObj);
+            TransferObject(control, currGrabbedObj);
             return;
         }
 
