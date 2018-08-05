@@ -582,13 +582,14 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         currGrabbedObj.GetComponent<InteractableObject>().SetOwner(null);
         if (grabbedObjParent)
         {
-            //ITwoHandedObject twoHandedObject;
-            //twoHandedObject = grabbedObjParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
+            // PROOOOOOOOOOOOOOOOOOOOOOBLEM IS HEHEHRHHEWHHSFHFSDBJHSDBJHSDBDJSBDHBSDBDFJSBHD
+            ITwoHandedObject twoHandedObject;
+            twoHandedObject = grabbedObjParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
 
-            //if (twoHandedObject != null)
-            //{
-            //    twoHandedObject.SecondHandInactive();
-            //}
+            if (twoHandedObject != null)
+            {
+                twoHandedObject.SecondHandInactive();
+            }
 
             currGrabbedObj.transform.SetParent(grabbedObjParent);
 
