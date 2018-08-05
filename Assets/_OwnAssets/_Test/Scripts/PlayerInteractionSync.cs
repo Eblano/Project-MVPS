@@ -435,14 +435,14 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             if (isLeft)
             {
                 ApplyLocalOffset localOff = grabTransform.GetComponent<ApplyLocalOffset>();
-                objToSnap.transform.localPosition = localOff.GetRightPosOffset();
-                objToSnap.transform.localRotation = localOff.GetRightRotOffset();
+                objToSnap.transform.localPosition = localOff.GetLeftPosOffset();
+                objToSnap.transform.localRotation = localOff.GetLeftRotOffset();
             }
             else
             {
                 ApplyLocalOffset localOff = grabTransform.GetComponent<ApplyLocalOffset>();
-                objToSnap.transform.localPosition = localOff.GetLeftPosOffset();
-                objToSnap.transform.localRotation = localOff.GetLeftRotOffset();
+                objToSnap.transform.localPosition = localOff.GetRightPosOffset();
+                objToSnap.transform.localRotation = localOff.GetRightRotOffset();
             }
             Debug.Log("Applying local offset" + objToSnap.name);
         }
