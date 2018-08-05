@@ -189,7 +189,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         if (!currGrabbedObj.GetComponent<NetworkIdentity>())
             return;
 
-        //GameManagerAssistant.instance.RelaySenderCmdSnapToController(currGrabbedObj.GetComponent<NetworkIdentity>().netId, isLeftGrab);
+        GameManagerAssistant.instance.RelaySenderCmdSnapToController(currGrabbedObj.GetComponent<NetworkIdentity>().netId, isLeftGrab);
     }
 
     public void Ungrab(VRTK_DeviceFinder.Devices control, Vector3 velo, Vector3 anguVelo)
@@ -234,7 +234,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         }
 
         UnGrabCalculate(control, velo, anguVelo);
-        //GameManagerAssistant.instance.RelaySenderCmdUnSnapFromController(isLeftGrab, velo, anguVelo);
+        GameManagerAssistant.instance.RelaySenderCmdUnSnapFromController(isLeftGrab, velo, anguVelo);
     }
 
     public void TriggerClick(VRTK_DeviceFinder.Devices control, NetworkInstanceId networkInstanceId)
