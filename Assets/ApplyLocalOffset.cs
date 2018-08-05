@@ -9,15 +9,20 @@ public class ApplyLocalOffset : MonoBehaviour
     [SerializeField] private Vector3 posLOffset;
     [SerializeField] private Vector3 rotLOffset;
 
-    public void ApplyRightOffset()
+    public Vector3 GetRightPosOffset()
     {
-        transform.parent.localPosition = posROffset;
-        transform.parent.localRotation = Quaternion.Euler(rotROffset);
+        return posROffset;
     }
-
-    public void ApplyLeftOffset()
+    public Quaternion GetRightRotOffset()
     {
-        transform.parent.localPosition = posLOffset;
-        transform.parent.localRotation = Quaternion.Euler(rotLOffset);
+        return Quaternion.Euler(rotROffset);
+    }
+    public Vector3 GetLeftPosOffset()
+    {
+        return posLOffset;
+    }
+    public Quaternion GetLeftRotOffset()
+    {
+        return Quaternion.Euler(rotLOffset);
     }
 }
