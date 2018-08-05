@@ -25,12 +25,7 @@ public class PlayerSizeCalibration : MonoBehaviour
     {
         interactionSync = GetComponent<PlayerInteractionSync>();
 
-        if (!interactionSync.isLocalPlayer)
-        {
-            Destroy(this);
-            return;
-        }
-        else
+        if (interactionSync.isLocalPlayer)
         {
             instance = this;
         }
