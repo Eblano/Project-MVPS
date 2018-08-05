@@ -218,8 +218,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6262efd6cc81d044e850b5c16f111426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posOffset: {x: 0.04, y: 0.08, z: 0.02}
-  rotOffset: {x: -180, y: 90, z: -90}
+  posROffset: {x: 0.04, y: 0.08, z: 0.02}
+  rotROffset: {x: -180, y: 90, z: -90}
+  posLOffset: {x: -0.05, y: 0.08, z: 0.1}
+  rotLOffset: {x: -180, y: -90, z: -90}
 --- !u!114 &114530830247834486
 MonoBehaviour:
   m_ObjectHideFlags: 1
