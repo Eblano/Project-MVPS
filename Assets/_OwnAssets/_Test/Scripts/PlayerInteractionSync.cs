@@ -9,6 +9,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 {
     [SerializeField] private Transform headset, lControl, rControl;
     [SerializeField] private Transform realLHandTrans, realRHandTrans;
+    [SerializeField] private Transform scanL, scanR;
     [SerializeField] private GameObject leftHandObj;    // DEBUG
     [SerializeField] private GameObject rightHandObj;   // DEBUG
     private Vector3AndQuaternion head, lHand, rHand;
@@ -121,6 +122,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         }
 
         Transform snapTarget = null;
+        Transform handTranss = null;
 
         bool isLeftGrab = false;
 
@@ -129,6 +131,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             case VRTK_DeviceFinder.Devices.LeftController:
                 snapTarget = realLHandTrans;
                 isLeftGrab = true;
+                handTranss = scanL;
                 if (anim)
                 {
                     GameManagerAssistant.instance.RelaySenderCmdSyncGrabAnim(true, true);
@@ -138,6 +141,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             case VRTK_DeviceFinder.Devices.RightController:
                 snapTarget = realRHandTrans;
                 isLeftGrab = false;
+                handTranss = scanR;
                 if (anim)
                 {
                     GameManagerAssistant.instance.RelaySenderCmdSyncGrabAnim(false, true);
@@ -149,7 +153,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         GameObject currGrabbedObj;
 
         // Set current grabbed object as nearest game object within radius
-        currGrabbedObj = GetNearestGameObjectWithinGrabRadius(grabRadius, snapTarget.position);
+        currGrabbedObj = GetNearestGameObjectWithinGrabRadius(grabRadius, handTranss.position);
 
         if (currGrabbedObj)
         {
@@ -439,8 +443,8 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         }
         else
         {
-            objToSnap.transform.localPosition = -grabTransform.localPosition; // multiply 1/parent scale
             objToSnap.transform.localRotation = Quaternion.identity;
+            objToSnap.transform.localPosition = -grabTransform.localPosition; // multiply 1/parent scale
         }
 
         if (!objToSnap.GetComponent<Rigidbody>())
@@ -500,7 +504,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         if (IsSameObjectGrab(control, currGrabbedObj))
         {
             Debug.Log("SameObjectGrab");
-            TransferObject(control, currGrabbedObj);
+            //TransferObject(control, currGrabbedObj);
             return;
         }
 
