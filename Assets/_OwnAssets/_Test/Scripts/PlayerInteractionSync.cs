@@ -391,6 +391,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         // If there is no grabbable within the radius, stop running this method
         if (grabbablesWithinRadius.Length == 0)
         {
+            Debug.Log("No objects near grab radius");
             return null;
         }
 
