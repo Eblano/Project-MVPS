@@ -799,11 +799,11 @@ namespace SealTeam4
             }
         }
 
-        public void TriggerThreatInLevel()
+        public void TriggerThreatInLevel(bool affectTerrorist)
         {
             foreach (AIController npc in spawnedNPCs)
             {
-                npc.TriggerUnderThreatMode();
+                npc.TriggerUnderThreatMode(affectTerrorist);
             }
         }
 

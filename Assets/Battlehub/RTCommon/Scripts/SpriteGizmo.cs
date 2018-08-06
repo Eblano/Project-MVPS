@@ -8,43 +8,48 @@ namespace Battlehub.RTCommon
         [SerializeField, HideInInspector]
         private SphereCollider m_collider;
 
+        private void Start()
+        {
+            this.enabled = false;
+        }
+
         private void OnEnable()
-        {    
-            GLRenderer glRenderer = GLRenderer.Instance;
-            if(glRenderer)
-            {
-                glRenderer.Add(this);
-            }
+        {
+            //GLRenderer glRenderer = GLRenderer.Instance;
+            //if(glRenderer)
+            //{
+            //    glRenderer.Add(this);
+            //}
 
-            m_collider = GetComponent<SphereCollider>();
+            //m_collider = GetComponent<SphereCollider>();
 
-            if(m_collider == null)
-            {
-                m_collider = gameObject.AddComponent<SphereCollider>();
-                m_collider.radius = 0.25f;
-            }
-            if(m_collider != null)
-            {
-                if(m_collider.hideFlags == HideFlags.None)
-                {
-                    m_collider.hideFlags = HideFlags.HideInInspector;
-                }
-            } 
+            //if(m_collider == null)
+            //{
+            //    m_collider = gameObject.AddComponent<SphereCollider>();
+            //    m_collider.radius = 0.25f;
+            //}
+            //if(m_collider != null)
+            //{
+            //    if(m_collider.hideFlags == HideFlags.None)
+            //    {
+            //        m_collider.hideFlags = HideFlags.HideInInspector;
+            //    }
+            //} 
         }
 
         private void OnDisable()
         {
-            GLRenderer glRenderer = GLRenderer.Instance;
-            if (glRenderer)
-            {
-                glRenderer.Remove(this);
-            }
+            //GLRenderer glRenderer = GLRenderer.Instance;
+            //if (glRenderer)
+            //{
+            //    glRenderer.Remove(this);
+            //}
 
-            if(m_collider != null)
-            {
-                Destroy(m_collider);
-                m_collider = null;
-            }
+            //if(m_collider != null)
+            //{
+            //    Destroy(m_collider);
+            //    m_collider = null;
+            //}
         }
 
         void IGL.Draw(int cullingMask)

@@ -289,7 +289,7 @@ namespace SealTeam4
 
             aiController.DrawWeapon();
             SetState_ShootTarget_MoveToShootTarget();
-            GameManager.instance.TriggerThreatInLevel();
+            GameManager.instance.TriggerThreatInLevel(false);
         }
 
         private void KnifeTarget_DrawKnife()
@@ -299,7 +299,7 @@ namespace SealTeam4
 
             aiController.DrawWeapon();
             SetState_KnifeTarget_MoveToKnifeTarget();
-            GameManager.instance.TriggerThreatInLevel();
+            GameManager.instance.TriggerThreatInLevel(false);
         }
 
         private void ShootTarget_MoveToShootTarget()

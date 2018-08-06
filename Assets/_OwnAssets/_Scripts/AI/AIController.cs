@@ -273,12 +273,15 @@ namespace SealTeam4
             }
         }
 
-        public void TriggerUnderThreatMode()
+        public void TriggerUnderThreatMode(bool affectTerrorist)
         {
             if (aiStats.npcType == AIStats.NPCType.CIVILLIAN)
                 aiState.aIMode = AIState.AIMode.CIVILIAN_UNDER_ATTACK;
             else if (aiStats.npcType == AIStats.NPCType.VIP)
                 aiState.aIMode = AIState.AIMode.VIP_UNDER_ATTACK;
+
+            if (affectTerrorist && aiStats.npcType == AIStats.NPCType.TERRORIST)
+                aiState.aIMode = AIState.AIMode.CIVILIAN_UNDER_ATTACK;
         }
 
         public bool RequestStartConvo(AIController requester)

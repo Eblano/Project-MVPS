@@ -34,7 +34,6 @@ public class Door : MonoBehaviour
         {
             rb.isKinematic = false;
             rb.AddTorque(openingTorque);
-            Debug.Log("Helll");
             StartTimer();
             isClosed = false;
         }

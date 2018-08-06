@@ -24,6 +24,12 @@ namespace SealTeam4
 
         private void CreateLightOBJ()
         {
+            Light[] childLights = gameObject.GetComponentsInChildren<Light>();
+            foreach(Light child in childLights)
+            {
+                Destroy(child.gameObject);
+            }
+
             GameObject pointLightGO = new GameObject();
             pointLightGO.name = "pointLight";
             pointLightGO.transform.SetParent(gameObject.transform);
