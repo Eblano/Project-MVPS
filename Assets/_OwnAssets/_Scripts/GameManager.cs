@@ -843,6 +843,11 @@ namespace SealTeam4
             playerLPC.Rotate(0, -angleCorrection + 180, 0);
         }
 
+        public float GetPlayerHP(string playerName)
+        {
+            return players_ref.Find(x => x.name == playerName).GetComponent<PlayerStats>().GetHP();
+        }
+
         #region Calibration
         public void CalibrateInfo(NetworkInstanceId senderPlayerId, Vector3 pos, bool isLeft)
         {
