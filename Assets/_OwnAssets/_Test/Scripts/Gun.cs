@@ -25,6 +25,13 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     private NetworkedAudioSource networkedAudioSource;
     private NetworkInstanceId gunNetID;
 
+    private class Rays
+    {
+        public Vector3 start;
+        public Vector3 end;
+    }
+    private List<Rays> hitrays = new List<Rays>();
+
     private void Start()
     {
         interactableObject = GetComponent<InteractableObject>();
@@ -43,6 +50,11 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
         if (secondaryGrabTransforms.Count > 0)
         {
             CheckGrabState();
+        }
+
+        foreach(Rays rayy in hitrays)
+        {
+            Debug.DrawLine(rayy.start, rayy.end);
         }
 
         //if (Input.GetKeyDown(KeyCode.Space))
@@ -130,13 +142,18 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// </summary>
     public void FireBullet()
     {
-        Debug.Log("Fire");
         RaycastHit hit;
 
         if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit, Mathf.Infinity))
         {
-            Debug.Log("Fire Hit");
             IDamageable damageableObj = hit.collider.transform.root.GetComponent<IDamageable>();
+            Rays rayy = new Rays
+            {
+                start = firingPoint.position,
+                end = hit.point
+            };
+
+            hitrays.Add(rayy);
 
             if (damageableObj != null)
             {
