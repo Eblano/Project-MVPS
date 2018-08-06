@@ -201,11 +201,11 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     {
         VRTK.VRTK_DeviceFinder.Devices devices = VRTK.VRTK_DeviceFinder.Devices.Headset;
 
-        if (transform.parent.name == "LHand")
+        if (transform.parent.name == "mixamorig:LeftHand")
         {
             devices = VRTK.VRTK_DeviceFinder.Devices.LeftController;
         }
-        else if (transform.parent.name == "RHand")
+        else if (transform.parent.name == "mixamorig:LeftHand")
         {
             devices = VRTK.VRTK_DeviceFinder.Devices.RightController;
         }
@@ -216,9 +216,9 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             // Fire bullet
             //GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNFIRE, devices);
 
-            ControllerHapticsManager.PlayHaptic(ControllerHapticsManager.HapticType.GUNFIRE, devices);
             GameManagerAssistant.instance.CmdGunFire(gunNetID);
             GameManagerAssistant.instance.RelaySenderCmdGunEffectSync(gunNetID);
+            ControllerHapticsManager.PlayHaptic(ControllerHapticsManager.HapticType.GUNFIRE, devices);
             if (gunNetworkAnim)
             {
                 gunNetworkAnim.SetTrigger("Fire");

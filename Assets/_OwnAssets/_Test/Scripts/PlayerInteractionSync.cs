@@ -610,20 +610,11 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         // Check if object is snappable
         if (currGrabbedObj.GetComponent<SnappableObject>())
         {
-            // Check for nearby snappable spots
-            if (currGrabbedObj.GetComponent<SnappableObject>().IsNearSnappables())
-            {
-                currGrabbedObj.GetComponent<SnappableObject>().CheckSnappable();
-            }
-            else
-            {
-                ApplyControllerPhysics(currGrabbedObj.GetComponent<Rigidbody>(), velo, anguVelo);
-            }
+            currGrabbedObj.GetComponent<SnappableObject>().CheckSnappable();
+            return;
         }
-        else
-        {
-            ApplyControllerPhysics(currGrabbedObj.GetComponent<Rigidbody>(), velo, anguVelo);
-        }
+
+        ApplyControllerPhysics(currGrabbedObj.GetComponent<Rigidbody>(), velo, anguVelo);
     }
 
     public void SyncControllerSnap(bool isLeftControl, GameObject childObj)
