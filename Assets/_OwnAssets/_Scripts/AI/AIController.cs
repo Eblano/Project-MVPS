@@ -953,7 +953,7 @@ namespace SealTeam4
 
             if (aiState.invincible)
                 return;
-
+            Debug.Log(c.name);
             foreach (Collider bodyColl in hitBoxColliders.bodyColliders)
             {
                 if (c == bodyColl)
