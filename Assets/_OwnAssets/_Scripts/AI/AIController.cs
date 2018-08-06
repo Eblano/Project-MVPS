@@ -449,7 +449,6 @@ namespace SealTeam4
                 aiState.alive = false;
                 aiState.active = false;
                 Destroy(centerMassT.gameObject);
-                nmAgent.enabled = false;
                 this.enabled = false;
             }
         }

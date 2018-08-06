@@ -561,6 +561,7 @@ namespace SealTeam4
             foreach (AccessoryData_SStorage accessoryData in accessoryList)
             {
                 // Get accessory spawn marker
+                Debug.Log(accessoryData.accessoryMarker);
                 AccessoryMarker accessorySpawnMarker = GetAccessoryMarkerByName(accessoryData.accessoryMarker);
 
                 GameObject accessoryItemPrefab = null;
@@ -590,7 +591,7 @@ namespace SealTeam4
                     return;
                 }
 
-                GameObject accessoryItem = Instantiate(accessoryItemPrefab, accessorySpawnMarker.pointPosition, accessorySpawnMarker.pointRotation);
+                GameObject accessoryItem = Instantiate(accessoryItemPrefab, accessorySpawnMarker.pointPosition + new Vector3(0, 0.3f, 0), accessorySpawnMarker.pointRotation);
 
                 if (GameManagerAssistant.instance)
                     GameManagerAssistant.instance.NetworkSpawnGameObj(accessoryItem);

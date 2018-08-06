@@ -35,7 +35,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4058805371957912
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1073698060572030}
@@ -48,7 +48,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23545489392764736
 MeshRenderer:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1073698060572030}
@@ -85,14 +85,14 @@ MeshRenderer:
   m_SortingOrder: 0
 --- !u!33 &33164868820903100
 MeshFilter:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1073698060572030}
   m_Mesh: {fileID: 4300000, guid: 7b0220970d4da495eafa2487c85f2eed, type: 3}
 --- !u!65 &65487573874860246
 BoxCollider:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1073698060572030}
@@ -104,7 +104,7 @@ BoxCollider:
   m_Center: {x: -0.000008806586, y: -0.0000014901165, z: 0.81807244}
 --- !u!65 &65571779033743192
 BoxCollider:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1073698060572030}
@@ -116,7 +116,7 @@ BoxCollider:
   m_Center: {x: -0.000008821487, y: -0.7120953, z: 0.45488548}
 --- !u!65 &65709231250307042
 BoxCollider:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1073698060572030}
@@ -128,7 +128,7 @@ BoxCollider:
   m_Center: {x: -0.000008821487, y: 0.69865704, z: 0.81807244}
 --- !u!114 &114525827364543152
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1073698060572030}
@@ -141,7 +141,7 @@ MonoBehaviour:
   rotation: {x: -90, y: 0, z: 0}
 --- !u!114 &114999704183618160
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1073698060572030}

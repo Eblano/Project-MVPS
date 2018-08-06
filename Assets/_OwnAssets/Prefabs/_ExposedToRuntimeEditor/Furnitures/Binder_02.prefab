@@ -33,7 +33,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4950807358602762
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1643499309731806}
@@ -46,7 +46,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23637287051054766
 MeshRenderer:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1643499309731806}
@@ -81,14 +81,14 @@ MeshRenderer:
   m_SortingOrder: 0
 --- !u!33 &33735398978276732
 MeshFilter:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1643499309731806}
   m_Mesh: {fileID: 4300000, guid: 1907e6c6bea4a4baeaade75eb67b63a4, type: 3}
 --- !u!65 &65588067231007502
 BoxCollider:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1643499309731806}
@@ -100,7 +100,7 @@ BoxCollider:
   m_Center: {x: 0, y: 0, z: 0.1692243}
 --- !u!114 &114175382473085890
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1643499309731806}
@@ -113,7 +113,7 @@ MonoBehaviour:
   rotation: {x: -90, y: 0, z: 0}
 --- !u!114 &114793395380184428
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1643499309731806}

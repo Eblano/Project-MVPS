@@ -34,11 +34,11 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4854968573496996
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1046766990128232}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: -0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 90, y: 100.000015, z: 90}
   m_Children: []
@@ -47,7 +47,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!23 &23871718303745830
 MeshRenderer:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1046766990128232}
@@ -83,14 +83,14 @@ MeshRenderer:
   m_SortingOrder: 0
 --- !u!33 &33453039437402432
 MeshFilter:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1046766990128232}
   m_Mesh: {fileID: 4300000, guid: f8106a21bb009c64995c5ac18dfec72f, type: 3}
 --- !u!65 &65014358058241950
 BoxCollider:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1046766990128232}
@@ -102,7 +102,7 @@ BoxCollider:
   m_Center: {x: 0.000003376015, y: -0.0000011064114, z: -0.0032747057}
 --- !u!65 &65655802991389622
 BoxCollider:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1046766990128232}
@@ -114,7 +114,7 @@ BoxCollider:
   m_Center: {x: 0.000003376015, y: -0.0000011064114, z: -0.0032747057}
 --- !u!114 &114082633965564316
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1046766990128232}
@@ -127,7 +127,7 @@ MonoBehaviour:
   - {fileID: 65655802991389622}
 --- !u!114 &114290180000736280
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1046766990128232}

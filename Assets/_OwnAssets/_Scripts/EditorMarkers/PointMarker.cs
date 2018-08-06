@@ -51,7 +51,7 @@ namespace SealTeam4
                 RaycastHit hitInfo;
                 lineRenderer.SetPosition(0, transform.position);
 
-                int layer = 1 << LayerMask.NameToLayer("Ground");
+                int layer = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Furniture");
 
                 if (Physics.Raycast(transform.position, -transform.up, out hitInfo, 100, layer))
                 {

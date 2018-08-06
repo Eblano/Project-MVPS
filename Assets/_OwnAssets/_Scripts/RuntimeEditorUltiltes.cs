@@ -540,5 +540,10 @@ namespace SealTeam4
         {
             GameManager.instance.RestartScene();
         }
+
+        public void ExitApplication()
+        {
+            Application.Quit();
+        }
     }
 }
