@@ -80,7 +80,6 @@ GameObject:
   - component: {fileID: 82931403031636602}
   - component: {fileID: 82632492681818826}
   - component: {fileID: 114024248869403340}
-  - component: {fileID: 114682865027586534}
   m_Layer: 13
   m_Name: SAR-21
   m_TagString: ExcludeTeleport
@@ -1303,7 +1302,7 @@ AudioSource:
   Loop: 0
   Mute: 0
   Spatialize: 0
-  SpatializePostEffects: 1
+  SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 2.9577851
@@ -1771,17 +1770,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   GraphTimeMultiplier: 0.15
   GraphIntensityMultiplier: 1
---- !u!114 &114682865027586534
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1091421823349118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d378f3255e146f9458f68a028f2b67de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114701091495402454
 MonoBehaviour:
   m_ObjectHideFlags: 1
