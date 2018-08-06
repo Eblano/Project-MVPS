@@ -524,7 +524,6 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             {
                 //twoHandedObject.SecondHandActive();
                 Debug.Log("Second Grab");
-                return;
             }
 
             if (currGrabbedObj.GetComponent<SlideHandler>())
@@ -592,7 +591,6 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             {
                 // twoHandedObject.SecondHandInactive();
                 Debug.Log("Second UnGrab");
-                return;
             }
 
             currGrabbedObj.transform.SetParent(grabbedObjParent);
