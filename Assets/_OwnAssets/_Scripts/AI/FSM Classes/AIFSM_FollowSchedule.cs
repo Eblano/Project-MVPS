@@ -232,7 +232,6 @@ namespace SealTeam4
         {
             aiState.currWaypointPosition = GetWaypointMarkerPosition();
             aiState.currWaypointRotation = GetWaypointMarkerRotation();
-            Debug.Log("Waypt pos: " + aiState.currWaypointPosition);
             aiController.SetNMAgentDestination(aiState.currWaypointPosition);
             aiController.AddAction("Skip Waypoint (Next)");
             aiState.currSubschedule++;
