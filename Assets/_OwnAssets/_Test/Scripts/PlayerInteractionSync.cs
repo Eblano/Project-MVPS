@@ -449,7 +449,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         else
         {
             objToSnap.transform.localPosition = -grabTransform.localPosition; // multiply 1/parent scale
-            objToSnap.transform.localRotation = grabTransform.localRotation;
+            objToSnap.transform.localRotation = Quaternion.identity;
             Debug.Log("Just reset" + objToSnap.name);
         }
 
@@ -522,7 +522,9 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             twoHandedObject = objectParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
             if (objectParent.GetComponent<Gun>() && currGrabbedObj.CompareTag("SecondGrabPoint"))
             {
-                twoHandedObject.SecondHandActive();
+                //twoHandedObject.SecondHandActive();
+                Debug.Log("Second Grab");
+                return;
             }
 
             if (currGrabbedObj.GetComponent<SlideHandler>())
@@ -586,9 +588,11 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             ITwoHandedObject twoHandedObject;
             twoHandedObject = grabbedObjParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
 
-            if (twoHandedObject != null)
+            if (twoHandedObject != null && currGrabbedObj.CompareTag("SecondGrabPoint"))
             {
-                twoHandedObject.SecondHandInactive();
+                // twoHandedObject.SecondHandInactive();
+                Debug.Log("Second UnGrab");
+                return;
             }
 
             currGrabbedObj.transform.SetParent(grabbedObjParent);
