@@ -13,7 +13,7 @@ public class Door : MonoBehaviour
 
     private HingeJoint doorHinge;
     private Quaternion closedRot;
-    private Rigidbody rb;
+    [SerializeField] private Rigidbody rb;
     private float doorTimer;
     private float minAngle;
     private float maxAngle;
