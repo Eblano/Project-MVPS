@@ -11,6 +11,7 @@ namespace SealTeam4
         [Header("UI Components")]
         public TextMeshProUGUI playerNameTxt;
         [SerializeField] private Button vipFollowTargetBtn;
+        [SerializeField] private Image hpBar;
         [SerializeField] private bool vipFollowTargetBtn_ToggleOn = false;
 
         [Header("Colors")]
@@ -38,6 +39,11 @@ namespace SealTeam4
                 vipFollowTargetBtn.image.color = unselectedColor;
 
             vipFollowTargetBtn_ToggleOn = state;
+        }
+
+        public void SetHP(float hpAmt)
+        {
+            hpBar.fillAmount = hpAmt;
         }
 
         private void OnClick_VIPFollowTargetBtn()
