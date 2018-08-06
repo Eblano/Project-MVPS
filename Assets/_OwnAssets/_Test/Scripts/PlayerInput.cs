@@ -73,6 +73,9 @@ namespace SealTeam4
 
         private void FixedUpdate()
         {
+            if(lHandEvents.GetAxis(VRTK_ControllerEvents.Vector2AxisAlias.TouchpadTwo).sqrMagnitude > 0)
+                GameManager.instance.JoyController((lHandEvents.GetAxis(VRTK_ControllerEvents.Vector2AxisAlias.TouchpadTwo)));
+
             head.SetPosAndRot(headset);
             lHand.SetPosAndRot(lHandCont);
             rHand.SetPosAndRot(rHandCont);
