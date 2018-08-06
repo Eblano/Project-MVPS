@@ -16,20 +16,20 @@ namespace SealTeam4
         }
 
         #region ServerMethods
-        public void CheckSnappable()
+        public bool CheckSnappable()
         {
             // Get all snappable positions within snappable radius
             Collider[] snappabbablesWithinRadius = Physics.OverlapSphere(transform.position, snapRange, 1 << LayerMask.NameToLayer("SnapLayer"), QueryTriggerInteraction.Collide);
             // If there is no snappabbable within the radius, stop running this method
             if (snappabbablesWithinRadius.Length == 0)
             {
-                return;
+                return false;
             }
 
             // If snap position is already taken up
             if (snappabbablesWithinRadius[0].transform.childCount > 0)
             {
-                return;
+                return false;
             }
 
             float nearestDist = float.MaxValue;
@@ -47,6 +47,8 @@ namespace SealTeam4
             }
 
             SnapObject(nearestColl.transform);
+
+            return true;
         }
         #endregion ServerMethods
 

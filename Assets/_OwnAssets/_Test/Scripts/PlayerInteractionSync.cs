@@ -610,8 +610,10 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         // Check if object is snappable
         if (currGrabbedObj.GetComponent<SnappableObject>())
         {
-            currGrabbedObj.GetComponent<SnappableObject>().CheckSnappable();
-            return;
+            if (!currGrabbedObj.GetComponent<SnappableObject>().CheckSnappable())
+            {
+                ApplyControllerPhysics(currGrabbedObj.GetComponent<Rigidbody>(), velo, anguVelo);
+            }
         }
 
         ApplyControllerPhysics(currGrabbedObj.GetComponent<Rigidbody>(), velo, anguVelo);
