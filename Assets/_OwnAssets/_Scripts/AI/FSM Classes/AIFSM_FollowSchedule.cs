@@ -98,14 +98,13 @@ namespace SealTeam4
                     Setup_MoveToWaypoint();
                     break;
                 case 2:
-                    MoveToWaypoint(aiState.currWaypointPosition, aiStats.normalMoveSpeed, 0);
+                    MoveToPoint(aiState.currWaypointPosition, aiStats.normalMoveSpeed, aiStats.stopDist);
                     break;
                 case 3:
                     Terminate_MoveToWaypoint();
                     break;
                 case 4:
                     aiState.currSubschedule = 0;
-                    aiState.currSchedule++;
                     break;
                 default:
                     aiState.currSubschedule = 0;
@@ -128,7 +127,7 @@ namespace SealTeam4
                     Setup_MoveToWaypoint();
                     break;
                 case 2:
-                    MoveToWaypoint(aiState.currWaypointPosition, aiStats.normalMoveSpeed, 0);
+                    MoveToPoint(aiState.currWaypointPosition, aiStats.normalMoveSpeed, aiStats.stopDist);
                     break;
                 case 3:
                     RotateToTargetRotation(aiState.currWaypointRotation);
@@ -161,7 +160,7 @@ namespace SealTeam4
                     Setup_SitDownInArea();
                     break;
                 case 2:
-                    MoveToWaypoint(aiState.currSeatTarget.transform.position, aiStats.normalMoveSpeed, 0);
+                    MoveToPoint(aiState.currSeatTarget.transform.position, aiStats.normalMoveSpeed, aiStats.stopDist);
                     break;
                 case 3:
                     RotateToTargetRotation(aiState.currSeatTarget.transform.rotation);
@@ -200,7 +199,7 @@ namespace SealTeam4
                     TalkToOtherNPC_FindPartner(npcSchedules[aiState.currSchedule].argument_1);
                     break;
                 case 2:
-                    MoveToWaypoint(aiState.currConvoNPCTarget.transform.position, aiStats.normalMoveSpeed, aiStats.stopDist_Convo);
+                    MoveToPoint(aiState.currConvoNPCTarget.transform.position, aiStats.normalMoveSpeed, aiStats.stopDist_Convo);
                     break;
                 case 3:
                     Terminate_MoveToWaypoint();
@@ -233,14 +232,17 @@ namespace SealTeam4
         {
             aiState.currWaypointPosition = GetWaypointMarkerPosition();
             aiState.currWaypointRotation = GetWaypointMarkerRotation();
+            Debug.Log("Waypt pos: " + aiState.currWaypointPosition);
             aiController.SetNMAgentDestination(aiState.currWaypointPosition);
             aiController.AddAction("Skip Waypoint (Next)");
             aiState.currSubschedule++;
         }
 
-        public void MoveToWaypoint(Vector3 waypointPos, float moveSpeed, float extraStoppingDistance)
+        public void MoveToPoint(Vector3 point, float moveSpeed, float extraStoppingDistance)
         {
-            if (!aiController.ReachedDestination(aiState.currWaypointPosition, extraStoppingDistance))
+            aiController.SetNMAgentDestination(point);
+
+            if (!aiController.WithinDistance(point, extraStoppingDistance))
                 aiController.MoveAITowardsNMAgentDestination(moveSpeed);
             else
                 aiState.currSubschedule++;
