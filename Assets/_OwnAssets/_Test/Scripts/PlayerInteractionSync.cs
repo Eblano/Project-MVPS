@@ -468,7 +468,8 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             twoHandedObject = objectParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
             if (objectParent.GetComponent<Gun>() && currGrabbedObj.CompareTag("SecondGrabPoint"))
             {
-                twoHandedObject.SecondHandActive();
+                //twoHandedObject.SecondHandActive();
+                return;
             }
 
             if (currGrabbedObj.GetComponent<SlideHandler>())
@@ -529,7 +530,8 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
             if (twoHandedObject != null)
             {
-                twoHandedObject.SecondHandInactive();
+                //twoHandedObject.SecondHandInactive();
+                return;
             }
 
             currGrabbedObj.transform.SetParent(grabbedObjParent);
