@@ -353,6 +353,7 @@ GameObject:
   - component: {fileID: 114580191807827532}
   - component: {fileID: 82114579071536996}
   - component: {fileID: 114662407038250596}
+  - component: {fileID: 114589687808177240}
   m_Layer: 9
   m_Name: NPCFemale
   m_TagString: Untagged
@@ -3639,6 +3640,17 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 0.8
   m_InterpolateMovement: 0.6
+--- !u!114 &114589687808177240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1162695082283586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d378f3255e146f9458f68a028f2b67de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114662407038250596
 MonoBehaviour:
   m_ObjectHideFlags: 1
