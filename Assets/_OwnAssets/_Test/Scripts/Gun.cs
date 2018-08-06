@@ -130,9 +130,12 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// </summary>
     public void FireBullet()
     {
+        Debug.Log("Fire");
         RaycastHit hit;
+
         if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit, Mathf.Infinity))
         {
+            Debug.Log("Fire Hit");
             IDamageable damageableObj = hit.collider.transform.root.GetComponent<IDamageable>();
 
             if (damageableObj != null)
