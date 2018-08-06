@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 114338829164328208}
   - component: {fileID: 82216747498737764}
   - component: {fileID: 82315701287963148}
+  - component: {fileID: 114925598847248736}
   m_Layer: 13
   m_Name: p226
   m_TagString: ExcludeTeleport
@@ -1470,6 +1471,17 @@ MonoBehaviour:
     i15: 37
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114925598847248736
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1645996731050356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d378f3255e146f9458f68a028f2b67de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135088076658358008
 SphereCollider:
   m_ObjectHideFlags: 1
