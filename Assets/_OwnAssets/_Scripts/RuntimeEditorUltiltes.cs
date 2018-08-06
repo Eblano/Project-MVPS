@@ -543,7 +543,7 @@ namespace SealTeam4
 
         public void ExitApplicationDialog()
         {
-            PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
+            PopupWindow.Show("Confirmation", "Exit Game?",
                 "Yes",
                 args =>
                 {
