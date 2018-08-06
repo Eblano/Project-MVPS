@@ -143,14 +143,15 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     public void FireBullet()
     {
         RaycastHit hit;
+        Ray ray = new Ray(firingPoint.position, firingPoint.forward);
 
-        if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             Debug.Log("firingPoint.position" + firingPoint.position);
             IDamageable damageableObj = hit.collider.transform.root.GetComponent<IDamageable>();
             Rays rayy = new Rays
             {
-                start = firingPoint.position,
+                start = ray.origin,
                 end = hit.point
             };
 
