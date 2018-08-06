@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 114338829164328208}
   - component: {fileID: 82216747498737764}
   - component: {fileID: 82315701287963148}
+  - component: {fileID: 114265515194861962}
   m_Layer: 13
   m_Name: p226
   m_TagString: CanBeHolstered
@@ -900,8 +901,8 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
+  Spatialize: 1
+  SpatializePostEffects: 1
   Priority: 128
   DopplerLevel: 1
   MinDistance: 2.525005
@@ -995,8 +996,8 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
+  Spatialize: 1
+  SpatializePostEffects: 1
   Priority: 128
   DopplerLevel: 1
   MinDistance: 2.525005
@@ -1252,6 +1253,27 @@ MonoBehaviour:
   rotROffset: {x: -90, y: 90, z: 0}
   posLOffset: {x: 0.04, y: 0.14, z: 0.06}
   rotLOffset: {x: -90, y: -90, z: 0}
+--- !u!114 &114265515194861962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1645996731050356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.04
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 1
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114298894440477404
 MonoBehaviour:
   m_ObjectHideFlags: 1
