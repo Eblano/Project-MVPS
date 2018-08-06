@@ -233,6 +233,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4731679982756704}
   - component: {fileID: 65312661492207806}
+  - component: {fileID: 65657678814538192}
+  - component: {fileID: 136121639706482598}
+  - component: {fileID: 65545573650712474}
   m_Layer: 10
   m_Name: GunParts
   m_TagString: ExcludeTeleport
@@ -658,7 +661,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1091421823349118}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.285, z: -0.624}
   m_LocalScale: {x: 0.13616042, y: 0.13616015, z: 0.13616015}
   m_Children:
   - {fileID: 4731679982756704}
@@ -1222,6 +1225,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.069822, y: 0.42812732, z: 0.37}
   m_Center: {x: -0.4580829, y: 1.7940634, z: 0}
+--- !u!65 &65545573650712474
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1326159653312322}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.36079106, y: 0.74247867, z: 0.35}
+  m_Center: {x: -2.7890158, y: 1.2587605, z: 6.781913e-13}
+--- !u!65 &65657678814538192
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1326159653312322}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5127931, y: 1.0784881, z: 0.37526006}
+  m_Center: {x: 0.21453544, y: 1.0541273, z: 0.00000015047758}
 --- !u!82 &82037316203197700
 AudioSource:
   m_ObjectHideFlags: 1
@@ -1902,6 +1929,19 @@ CapsuleCollider:
   m_Height: 0.55
   m_Direction: 2
   m_Center: {x: 0, y: 0.055, z: 0}
+--- !u!136 &136121639706482598
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1326159653312322}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.29270607
+  m_Height: 1.7321159
+  m_Direction: 0
+  m_Center: {x: 1.8689411, y: 1.6072941, z: -4.455843e-13}
 --- !u!136 &136158894197917812
 CapsuleCollider:
   m_ObjectHideFlags: 1
