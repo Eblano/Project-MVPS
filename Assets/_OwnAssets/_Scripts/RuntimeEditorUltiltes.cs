@@ -541,9 +541,19 @@ namespace SealTeam4
             GameManager.instance.RestartScene();
         }
 
-        public void ExitApplication()
+        public void ExitApplicationDialog()
         {
-            Application.Quit();
+            PopupWindow.Show("Confirmation", "Start Currently Loaded Scene?",
+                "Yes",
+                args =>
+                {
+                    if (!args.Cancel)
+                    {
+                        Application.Quit();
+                    }
+                },
+                "Cancel"
+                );
         }
     }
 }
