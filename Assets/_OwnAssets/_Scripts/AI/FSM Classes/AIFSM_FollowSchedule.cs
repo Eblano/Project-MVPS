@@ -105,6 +105,7 @@ namespace SealTeam4
                     break;
                 case 4:
                     aiState.currSubschedule = 0;
+                    aiState.currSchedule++;
                     break;
                 default:
                     aiState.currSubschedule = 0;
