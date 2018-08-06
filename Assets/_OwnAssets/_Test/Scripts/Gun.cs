@@ -146,6 +146,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
 
         if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit, Mathf.Infinity))
         {
+            Debug.Log("firingPoint.position" + firingPoint.position);
             IDamageable damageableObj = hit.collider.transform.root.GetComponent<IDamageable>();
             Rays rayy = new Rays
             {
