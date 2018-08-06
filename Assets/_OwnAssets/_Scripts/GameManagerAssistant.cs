@@ -60,42 +60,25 @@ namespace SealTeam4
             NetworkASManager.instance.PlayAudioSource(audioSourceNum);
         }
 
-        public void RelaySenderCmdSyncScale(Vector3 yScale, Vector3 handScale)
-        {
-            CmdSyncScale(playerID, yScale, handScale);
-        }
-
         [Command]
-        private void CmdSyncScale(NetworkInstanceId senderPlayerID, Vector3 yScale, Vector3 handScale)
+        public void CmdSyncScale(NetworkInstanceId networkId, Vector3 yScale, Vector3 handScale)
         {
-            RpcSyncScale(senderPlayerID, yScale, handScale);
+            RpcSyncScale(networkId, yScale, handScale);
         }
 
         [ClientRpc]
-        private void RpcSyncScale(NetworkInstanceId senderPlayerID, Vector3 yScale, Vector3 handScale)
+        public void RpcSyncScale(NetworkInstanceId networkId, Vector3 yScale, Vector3 handScale)
         {
-            Debug.Log("NetworkID: " + senderPlayerID);
-            Debug.Log("NetworkObject: " + ClientScene.objects[senderPlayerID]);
-            Debug.Log("GO Name: " + ClientScene.objects[senderPlayerID].gameObject.name);
+            Debug.Log("NetworkID: " + networkId);
+            Debug.Log("NetworkObject: " + ClientScene.objects[networkId]);
+            Debug.Log("GO Name: " + ClientScene.objects[networkId].gameObject.name);
 
-            if (senderPlayerID == GameManagerAssistant.instance.playerID)
-            {
-                Debug.Log("Same player, dont scale");
-                return;
-            }
-
-            if (!ClientScene.objects.ContainsKey(senderPlayerID))
+            if (!ClientScene.objects.ContainsKey(networkId))
             {
                 return;
             }
 
-            if (!ClientScene.objects[senderPlayerID].gameObject.GetComponent<PlayerSizeCalibration>())
-            {
-                Debug.Log("Calib script not found");
-                return;
-            }
-
-            ClientScene.objects[senderPlayerID].gameObject.GetComponent<PlayerSizeCalibration>().ApplyScale(yScale, handScale);
+            ClientScene.objects[networkId].gameObject.GetComponent<PlayerSizeCalibration>().ApplyScale(yScale, handScale);
         }
 
         #region PlayerInteractions
@@ -107,11 +90,6 @@ namespace SealTeam4
 
         public void RelaySenderCmdSnapToController(NetworkInstanceId childID, bool isLeftController)
         {
-            if (childID == null)
-            {
-                Debug.Log("Trying to send " + "RelaySenderCmdSnapToController" + " without a valid ID");
-            }
-
             CmdSnapToController(childID, playerID, isLeftController);
         }
 
@@ -191,18 +169,6 @@ namespace SealTeam4
         [ClientRpc]
         private void RpcSnapToController(NetworkInstanceId childID, NetworkInstanceId senderPlayerID, bool isLeftController)
         {
-            if (!ClientScene.objects.ContainsKey(senderPlayerID))
-            {
-                Debug.Log("Cannot find sender playerId");
-                return;
-            }
-
-            if (!ClientScene.objects.ContainsKey(childID))
-            {
-                Debug.Log("Cannot find child Id");
-                return;
-            }
-
             ClientScene.objects[senderPlayerID].GetComponent<PlayerInteractionSync>().SyncControllerSnap(isLeftController, ClientScene.objects[childID].gameObject);
         }
 
@@ -215,7 +181,7 @@ namespace SealTeam4
         [ClientRpc]
         private void RpcGunShellSync(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID, Vector3 force)
         {
-            if (senderPlayerID == GameManagerAssistant.instance.playerID)
+            if (senderPlayerID == playerID)
             {
                 return;
             }
@@ -226,7 +192,7 @@ namespace SealTeam4
         [ClientRpc]
         private void RpcGunEffectSync(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID)
         {
-            if (senderPlayerID == GameManagerAssistant.instance.playerID)
+            if (senderPlayerID == playerID)
             {
                 return;
             }
@@ -237,7 +203,7 @@ namespace SealTeam4
         [ClientRpc]
         private void RpcDropMagazine(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID)
         {
-            if (senderPlayerID == GameManagerAssistant.instance.playerID)
+            if (senderPlayerID == playerID)
             {
                 return;
             }
@@ -248,7 +214,7 @@ namespace SealTeam4
         [ClientRpc]
         private void RpcTorchlightState(NetworkInstanceId senderPlayerID, NetworkInstanceId torchNetID, bool lightState)
         {
-            if (senderPlayerID == GameManagerAssistant.instance.playerID)
+            if (senderPlayerID == playerID)
             {
                 return;
             }
@@ -288,7 +254,7 @@ namespace SealTeam4
         [ClientRpc]
         private void RpcSpawnBloodPlayer(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID, Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
         {
-            if (senderPlayerID == GameManagerAssistant.instance.playerID)
+            if (senderPlayerID == playerID)
             {
                 return;
             }
@@ -310,7 +276,7 @@ namespace SealTeam4
         [ClientRpc]
         private void RpcSpawnBulletHolePlayer(NetworkInstanceId senderPlayerID, NetworkInstanceId gunNetID, Vector3 hitPos, Vector3 normal, Vector3 faceAngle)
         {
-            if (senderPlayerID == GameManagerAssistant.instance.playerID)
+            if (senderPlayerID == playerID)
             {
                 return;
             }
@@ -357,7 +323,7 @@ namespace SealTeam4
         [ClientRpc]
         private void RpcOpenDoor(NetworkInstanceId senderPlayerID, int doorIndex)
         {
-            if (GameManagerAssistant.instance.playerID == senderPlayerID)
+            if (playerID == senderPlayerID)
             {
                 return;
             }
@@ -368,7 +334,7 @@ namespace SealTeam4
         [ClientRpc]
         private void RpcCloseDoor(NetworkInstanceId senderPlayerID, int doorIndex)
         {
-            if (GameManagerAssistant.instance.playerID == senderPlayerID)
+            if (playerID == senderPlayerID)
             {
                 return;
             }
@@ -424,7 +390,7 @@ namespace SealTeam4
         [ClientRpc]
         private void RpcSnapBiped(int childID, NetworkInstanceId senderPlayerID, bool isLeftController)
         {
-            if (GameManagerAssistant.instance.playerID == senderPlayerID)
+            if (playerID == senderPlayerID)
             {
                 return;
             }
@@ -435,7 +401,7 @@ namespace SealTeam4
         [ClientRpc]
         private void RpcUnSnapBiped(NetworkInstanceId senderPlayerID, int childID)
         {
-            if (GameManagerAssistant.instance.playerID == senderPlayerID)
+            if (playerID == senderPlayerID)
             {
                 return;
             }
@@ -458,29 +424,6 @@ namespace SealTeam4
         public void TargetCalibrateLPC(NetworkConnection conn, Vector3 posCorrection, float rotCorrection)
         {
             GameManager.instance.ApplyCorrection(posCorrection, rotCorrection);
-        }
-
-        public void RelaySenderCmdSyncGrabAnim(bool isLeft, bool isGrab)
-        {
-            CmdSyncGrabAnim(playerID, isLeft, isGrab);
-        }
-
-        [Command]
-        private void CmdSyncGrabAnim(NetworkInstanceId senderPlayerId, bool isLeft, bool isGrab)
-        {
-            RpcSyncGrabAnim(senderPlayerId, isLeft, isGrab);
-        }
-
-        [ClientRpc]
-        private void RpcSyncGrabAnim(NetworkInstanceId senderPlayerId, bool isLeft, bool isGrab)
-        {
-            Debug.Log("Contains key: " + ClientScene.objects.ContainsKey(senderPlayerId) + senderPlayerId);
-            if (!ClientScene.objects.ContainsKey(senderPlayerId))
-            {
-                return;
-            }
-
-            ClientScene.objects[senderPlayerId].GetComponent<PlayerInteractionSync>().AnimateHand(isLeft, isGrab);
         }
 
         private void SnapTo(GameObject child, GameObject parent)

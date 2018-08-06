@@ -14,6 +14,7 @@ public class PlayerSizeCalibration : MonoBehaviour
     [SerializeField] private VRIK vrIK;
     private VRIK.References vrIKRefs;
     private PlayerInteractionSync interactionSync;
+    private NetworkInstanceId networkInstanceId;
     private float heightScale, armScale;
     [SerializeField] private int breakCounter = 10;
     public static PlayerSizeCalibration instance;
@@ -25,10 +26,17 @@ public class PlayerSizeCalibration : MonoBehaviour
     {
         interactionSync = GetComponent<PlayerInteractionSync>();
 
-        if (interactionSync.isLocalPlayer)
+        if (!interactionSync.isLocalPlayer)
+        {
+            Destroy(this);
+            return;
+        }
+        else
         {
             instance = this;
         }
+
+        networkInstanceId = GetComponent<NetworkIdentity>().netId;
 
         vrIKRefs = vrIK.references;
         ulArmBone = vrIKRefs.leftUpperArm;
@@ -74,7 +82,7 @@ public class PlayerSizeCalibration : MonoBehaviour
         Vector3 headPos = headRef.position;
         Vector3 handPos = lhandRef.position;
 
-        Vector3 lHandReal = interactionSync.GetLControllerPos().position;
+        Vector3 lHandReal = interactionSync.GetLHandPos().position;
         Vector3 headReal = interactionSync.GetHeadPos().position;
 
         Debug.Log("Hand: " + lHandReal);
@@ -162,7 +170,7 @@ public class PlayerSizeCalibration : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
 
-        GameManagerAssistant.instance.RelaySenderCmdSyncScale(transform.localScale, llArmBone.localScale);
+        GameManagerAssistant.instance.CmdSyncScale(networkInstanceId, transform.localScale, llArmBone.localScale);
 
         yield return null;
     }

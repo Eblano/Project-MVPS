@@ -1521,17 +1521,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 2f54752b-96b6-4ee5-8784-6467ae8d43f3
+  Guid: 39903eee-ea1a-4e4a-90bd-07429ea4f512
   Mapping:
   - Name: Steam Audio Manager Settings
     Object: {fileID: 158416010}
-    Id: 36867
+    Id: 36757
   - Name: Steam Audio Manager Settings
     Object: {fileID: 158416008}
-    Id: 36868
+    Id: 36758
   - Name: Steam Audio Manager Settings
     Object: {fileID: 158416012}
-    Id: 36869
+    Id: 36759
 --- !u!114 &158416010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3217,7 +3217,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 343598864}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 24.7, y: -157, z: -23.4}
+  m_LocalPosition: {x: 55.1, y: -157, z: -54.4}
   m_LocalScale: {x: 1, y: 1.0000005, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 776701467}
@@ -3234,7 +3234,7 @@ Light:
   m_Type: 0
   m_Color: {r: 1, g: 0.99528337, b: 0.8820755, a: 1}
   m_Intensity: 2
-  m_Range: 141.79
+  m_Range: 250
   m_SpotAngle: 141.5
   m_CookieSize: 10
   m_Shadows:
@@ -6703,7 +6703,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 578000528}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -74.4, y: -157, z: 74}
+  m_LocalPosition: {x: -104.9, y: -157, z: 105}
   m_LocalScale: {x: 1, y: 1.0000005, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 776701467}
@@ -6720,7 +6720,7 @@ Light:
   m_Type: 0
   m_Color: {r: 1, g: 0.99528337, b: 0.8820755, a: 1}
   m_Intensity: 2
-  m_Range: 141.79
+  m_Range: 250
   m_SpotAngle: 141.5
   m_CookieSize: 10
   m_Shadows:
@@ -9796,11 +9796,6 @@ Prefab:
     - target: {fileID: 114330725120075194, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
       propertyPath: Objects.Array.size
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 114332030825346048, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
-        type: 2}
-      propertyPath: Objects.Array.size
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 468744, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
@@ -9833,7 +9828,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 468744, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 114688524198205884, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
         type: 2}
@@ -11221,51 +11216,6 @@ Prefab:
       value: 
       objectReference: {fileID: 1841896896742250, guid: 3bbda46b0eba73d4fb731d0ab7a5b58d,
         type: 2}
-    - target: {fileID: 114332030825346048, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
-        type: 2}
-      propertyPath: Objects.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 954b2ec55623a61458b0842e9ab300fb, type: 2}
-    - target: {fileID: 114332030825346048, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
-        type: 2}
-      propertyPath: Objects.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: 4ad773f6dd26d174fb16db143d51cc32, type: 2}
-    - target: {fileID: 114332030825346048, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
-        type: 2}
-      propertyPath: Objects.Array.data[2]
-      value: 
-      objectReference: {fileID: 2100000, guid: 69397d70323a7c34880f1344641545b0, type: 2}
-    - target: {fileID: 114332030825346048, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
-        type: 2}
-      propertyPath: Objects.Array.data[3]
-      value: 
-      objectReference: {fileID: 2100000, guid: 3bfbbdf805e6b1f4d87c09c5245cf01a, type: 2}
-    - target: {fileID: 114332030825346048, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
-        type: 2}
-      propertyPath: Objects.Array.data[4]
-      value: 
-      objectReference: {fileID: 2100000, guid: 2a37ee4e602278e4e92ce6b01f0b9216, type: 2}
-    - target: {fileID: 114332030825346048, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
-        type: 2}
-      propertyPath: Objects.Array.data[5]
-      value: 
-      objectReference: {fileID: 2100000, guid: 773b2e0ce66e5ef49959e031ec64ea64, type: 2}
-    - target: {fileID: 114330725120075194, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
-        type: 2}
-      propertyPath: Objects.Array.data[7]
-      value: 
-      objectReference: {fileID: 1965761076588952, guid: df6e912d9e306a2429c88c7119abcfe5,
-        type: 2}
-    - target: {fileID: 114332030825346048, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
-        type: 2}
-      propertyPath: Objects.Array.data[6]
-      value: 
-      objectReference: {fileID: 2100000, guid: 7c66988a4ace82c439d426d806181441, type: 2}
-    - target: {fileID: 146550, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114079439959342928, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ec9d3d73559d4d44dae4eecfce9aedc1, type: 2}
@@ -11403,7 +11353,7 @@ Transform:
   - {fileID: 343598865}
   - {fileID: 875589919}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &776701468
 MonoBehaviour:
@@ -11445,17 +11395,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 2f54752b-96b6-4ee5-8784-6467ae8d43f3
+  Guid: 39903eee-ea1a-4e4a-90bd-07429ea4f512
   Mapping:
   - Name: Realtime Lightings
     Object: {fileID: 776701470}
-    Id: 36870
+    Id: 36760
   - Name: Realtime Lightings
     Object: {fileID: 776701466}
-    Id: 36871
+    Id: 36761
   - Name: Realtime Lightings
     Object: {fileID: 776701467}
-    Id: 36872
+    Id: 36762
 --- !u!114 &776701470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14630,7 +14580,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 875589918}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -74.1, y: -157, z: -25.1}
+  m_LocalPosition: {x: -104.8, y: -157, z: -55.2}
   m_LocalScale: {x: 1, y: 1.0000005, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 776701467}
@@ -14647,7 +14597,7 @@ Light:
   m_Type: 0
   m_Color: {r: 1, g: 0.99528337, b: 0.8820755, a: 1}
   m_Intensity: 2
-  m_Range: 141.79
+  m_Range: 250
   m_SpotAngle: 141.5
   m_CookieSize: 10
   m_Shadows:
@@ -19280,17 +19230,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 2f54752b-96b6-4ee5-8784-6467ae8d43f3
+  Guid: 39903eee-ea1a-4e4a-90bd-07429ea4f512
   Mapping:
   - Name: MainCamera
     Object: {fileID: 1123077324}
-    Id: 36873
+    Id: 36763
   - Name: MainCamera
     Object: {fileID: 1123077317}
-    Id: 36874
+    Id: 36764
   - Name: MainCamera
     Object: {fileID: 1123077321}
-    Id: 36875
+    Id: 36765
 --- !u!114 &1123077324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20592,7 +20542,7 @@ Transform:
   - {fileID: 2078123225}
   - {fileID: 1805723240}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1332449226
 MonoBehaviour:
@@ -20605,17 +20555,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 2f54752b-96b6-4ee5-8784-6467ae8d43f3
+  Guid: 39903eee-ea1a-4e4a-90bd-07429ea4f512
   Mapping:
   - Name: City Layout
     Object: {fileID: 1332449227}
-    Id: 36876
+    Id: 36766
   - Name: City Layout
     Object: {fileID: 1332449224}
-    Id: 36877
+    Id: 36767
   - Name: City Layout
     Object: {fileID: 1332449225}
-    Id: 36878
+    Id: 36768
 --- !u!114 &1332449227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21278,17 +21228,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 2f54752b-96b6-4ee5-8784-6467ae8d43f3
+  Guid: 39903eee-ea1a-4e4a-90bd-07429ea4f512
   Mapping:
   - Name: KeySFXManager
     Object: {fileID: 1431598280}
-    Id: 36879
+    Id: 36769
   - Name: KeySFXManager
     Object: {fileID: 1431598276}
-    Id: 36880
+    Id: 36770
   - Name: KeySFXManager
     Object: {fileID: 1431598277}
-    Id: 36881
+    Id: 36771
 --- !u!114 &1431598280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26448,17 +26398,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 2f54752b-96b6-4ee5-8784-6467ae8d43f3
+  Guid: 39903eee-ea1a-4e4a-90bd-07429ea4f512
   Mapping:
   - Name: EventSystem
     Object: {fileID: 1903868624}
-    Id: 36882
+    Id: 36772
   - Name: EventSystem
     Object: {fileID: 1903868619}
-    Id: 36883
+    Id: 36773
   - Name: EventSystem
     Object: {fileID: 1903868622}
-    Id: 36884
+    Id: 36774
 --- !u!114 &1903868624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28663,17 +28613,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 2f54752b-96b6-4ee5-8784-6467ae8d43f3
+  Guid: 39903eee-ea1a-4e4a-90bd-07429ea4f512
   Mapping:
   - Name: RuntimeEditor
     Object: {fileID: 1955926211}
-    Id: 36885
+    Id: 36775
   - Name: RuntimeEditor
     Object: {fileID: 1955926209}
-    Id: 36886
+    Id: 36776
   - Name: RuntimeEditor
     Object: {fileID: 1955926218}
-    Id: 36887
+    Id: 36777
 --- !u!114 &1955926211 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114196523117519802, guid: ec9d3d73559d4d44dae4eecfce9aedc1,
@@ -28712,17 +28662,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 2f54752b-96b6-4ee5-8784-6467ae8d43f3
+  Guid: 39903eee-ea1a-4e4a-90bd-07429ea4f512
   Mapping:
   - Name: == Scene Persistent ===
     Object: {fileID: 1979267193}
-    Id: 36888
+    Id: 36778
   - Name: == Scene Persistent ===
     Object: {fileID: 1979267191}
-    Id: 36889
+    Id: 36779
   - Name: == Scene Persistent ===
     Object: {fileID: 1979267194}
-    Id: 36890
+    Id: 36780
 --- !u!114 &1979267193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28747,7 +28697,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1999499742
 GameObject:
@@ -28873,17 +28823,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 2f54752b-96b6-4ee5-8784-6467ae8d43f3
+  Guid: 39903eee-ea1a-4e4a-90bd-07429ea4f512
   Mapping:
   - Name: == Level ===
     Object: {fileID: 2011681953}
-    Id: 36891
+    Id: 36781
   - Name: == Level ===
     Object: {fileID: 2011681951}
-    Id: 36892
+    Id: 36782
   - Name: == Level ===
     Object: {fileID: 2011681954}
-    Id: 36893
+    Id: 36783
 --- !u!114 &2011681953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28908,7 +28858,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2014755294
 GameObject:
@@ -29681,7 +29631,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2091484860}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 24.7, y: -157, z: 74}
+  m_LocalPosition: {x: 55.1, y: -157, z: 104.7}
   m_LocalScale: {x: 1, y: 1.0000005, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 776701467}
@@ -29698,7 +29648,7 @@ Light:
   m_Type: 0
   m_Color: {r: 1, g: 0.99528337, b: 0.8820755, a: 1}
   m_Intensity: 2
-  m_Range: 141.79
+  m_Range: 250
   m_SpotAngle: 141.5
   m_CookieSize: 10
   m_Shadows:
@@ -30359,10 +30309,8 @@ GameObject:
   - component: {fileID: 2128280404}
   - component: {fileID: 2128280403}
   - component: {fileID: 2128280400}
-  - component: {fileID: 2128280407}
   - component: {fileID: 2128280402}
   - component: {fileID: 2128280405}
-  - component: {fileID: 2128280406}
   - component: {fileID: 2128280399}
   - component: {fileID: 2128280398}
   m_Layer: 21
@@ -30383,17 +30331,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17704c156e256dc419f9b73503f08b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Guid: 2f54752b-96b6-4ee5-8784-6467ae8d43f3
+  Guid: 39903eee-ea1a-4e4a-90bd-07429ea4f512
   Mapping:
   - Name: Managers
     Object: {fileID: 2128280399}
-    Id: 36894
+    Id: 36784
   - Name: Managers
     Object: {fileID: 2128280397}
-    Id: 36895
+    Id: 36785
   - Name: Managers
     Object: {fileID: 2128280401}
-    Id: 36896
+    Id: 36786
 --- !u!114 &2128280399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30437,7 +30385,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2128280402
 MonoBehaviour:
@@ -30501,8 +30449,7 @@ MonoBehaviour:
     type: 2}
   magazine_sar21_Prefab: {fileID: 1823229847869476, guid: 1fb9560ecbcd36b48a15fcb6c207b59b,
     type: 2}
-  torchlight_Prefab: {fileID: 1523129825574992, guid: 2cb2e1449117af140b69a01ff43ffaf4,
-    type: 2}
+  torchlight_Prefab: {fileID: 0}
   vipFollowTarget: {fileID: 0}
   playerCalibrationInfos: []
 --- !u!114 &2128280405
@@ -30517,37 +30464,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bipedGrabNodes: []
---- !u!114 &2128280406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2128280397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eae97b67b86605d4bacc41eb09a5903b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ppv: {fileID: 2128280407}
-  smoothness: 20
-  increment: 0.1
-  vignetteDura: 1
---- !u!114 &2128280407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2128280397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: d76309264652b4f4a9080c4e10c8665e, type: 2}
-  isGlobal: 1
-  blendDistance: 0
-  weight: 0
-  priority: 0
 --- !u!1 &2135079331
 GameObject:
   m_ObjectHideFlags: 0

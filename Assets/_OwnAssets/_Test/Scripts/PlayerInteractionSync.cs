@@ -8,8 +8,6 @@ using VRTK;
 public class PlayerInteractionSync : NetworkBehaviour, IActions
 {
     [SerializeField] private Transform headset, lControl, rControl;
-    [SerializeField] private Transform realLHandTrans, realRHandTrans;
-    [SerializeField] private Transform scanL, scanR;
     [SerializeField] private GameObject leftHandObj;    // DEBUG
     [SerializeField] private GameObject rightHandObj;   // DEBUG
     private Vector3AndQuaternion head, lHand, rHand;
@@ -44,7 +42,7 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         return headset;
     }
 
-    public Transform GetLControllerPos()
+    public Transform GetLHandPos()
     {
         return lControl;
     }
@@ -80,37 +78,22 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
     private void TransferObject(VRTK_DeviceFinder.Devices control, GameObject obj)
     {
         Transform snapTarget = null;
-        bool isLeft = false;
 
         switch (control)
         {
             case VRTK_DeviceFinder.Devices.LeftController:
-                snapTarget = realLHandTrans;
+                snapTarget = lControl;
                 leftHandObj = obj;
                 rightHandObj = null;
-                isLeft = true;
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
-                snapTarget = realRHandTrans;
+                snapTarget = rControl;
                 rightHandObj = obj;
                 leftHandObj = null;
-                isLeft = false;
                 break;
         }
 
-        SnapObjectToController(isLeft, obj, snapTarget, obj.GetComponent<InteractableObject>().GetGrabPosition());
-    }
-
-    public void AnimateHand(bool isLeft, bool isGrab)
-    {
-        if (isLeft)
-        {
-            anim.SetBool("LeftHandGrab", isGrab);
-        }
-        else
-        {
-            anim.SetBool("RightHandGrab", isGrab);
-        }
+        SnapObjectToController(obj, snapTarget, obj.GetComponent<InteractableObject>().GetGrabPosition());
     }
 
     public void Grab(VRTK_DeviceFinder.Devices control, float grabRadius)
@@ -122,38 +105,29 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         }
 
         Transform snapTarget = null;
-        Transform handTranss = null;
 
         bool isLeftGrab = false;
 
         switch (control)
         {
             case VRTK_DeviceFinder.Devices.LeftController:
-                snapTarget = realLHandTrans;
+                snapTarget = lControl;
                 isLeftGrab = true;
-                handTranss = scanL;
                 if (anim)
-                {
-                    GameManagerAssistant.instance.RelaySenderCmdSyncGrabAnim(true, true);
                     anim.SetBool("LeftHandGrab", true);
-                }
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
-                snapTarget = realRHandTrans;
+                snapTarget = rControl;
                 isLeftGrab = false;
-                handTranss = scanR;
                 if (anim)
-                {
-                    GameManagerAssistant.instance.RelaySenderCmdSyncGrabAnim(false, true);
                     anim.SetBool("RightHandGrab", true);
-                }
                 break;
         }
 
         GameObject currGrabbedObj;
 
         // Set current grabbed object as nearest game object within radius
-        currGrabbedObj = GetNearestGameObjectWithinGrabRadius(grabRadius, handTranss.position);
+        currGrabbedObj = GetNearestGameObjectWithinGrabRadius(grabRadius, snapTarget.position);
 
         if (currGrabbedObj)
         {
@@ -201,18 +175,12 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
             case VRTK_DeviceFinder.Devices.LeftController:
                 isLeftGrab = true;
                 if (anim)
-                {
-                    GameManagerAssistant.instance.RelaySenderCmdSyncGrabAnim(true, false);
                     anim.SetBool("LeftHandGrab", false);
-                }
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
                 isLeftGrab = false;
                 if (anim)
-                {
-                    GameManagerAssistant.instance.RelaySenderCmdSyncGrabAnim(false, false);
                     anim.SetBool("RightHandGrab", false);
-                }
                 break;
         }
 
@@ -398,7 +366,6 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         // If there is no grabbable within the radius, stop running this method
         if (grabbablesWithinRadius.Length == 0)
         {
-            Debug.Log("No objects near grab radius");
             return null;
         }
 
@@ -424,35 +391,14 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
     /// </summary>
     /// <param name="objToSnap"></param>
     /// <param name="controllerTransform"></param>
-    private void SnapObjectToController(bool isLeft, GameObject objToSnap, Transform controllerTransform, Transform grabTransform)
+    private void SnapObjectToController(GameObject objToSnap, Transform controllerTransform, Transform grabTransform)
     {
         // Set controller as object's parent
         objToSnap.transform.SetParent(controllerTransform);
-        //objToSnap.transform.localPosition = grabTransform.localPosition;
         // Zero out the local transformation
-        if (grabTransform.GetComponent<ApplyLocalOffset>())
-        {
-            if (isLeft)
-            {
-                ApplyLocalOffset localOff = grabTransform.GetComponent<ApplyLocalOffset>();
-                objToSnap.transform.localPosition = localOff.GetLeftPosOffset();
-                objToSnap.transform.localRotation = localOff.GetLeftRotOffset();
-            }
-            else
-            {
-                ApplyLocalOffset localOff = grabTransform.GetComponent<ApplyLocalOffset>();
-                objToSnap.transform.localPosition = localOff.GetRightPosOffset();
-                objToSnap.transform.localRotation = localOff.GetRightRotOffset();
-            }
-            Debug.Log("Applying local offset" + objToSnap.name);
-        }
-        else
-        {
-            objToSnap.transform.localPosition = -grabTransform.localPosition; // multiply 1/parent scale
-            objToSnap.transform.localRotation = grabTransform.localRotation;
-            Debug.Log("Just reset" + objToSnap.name);
-        }
-
+        objToSnap.transform.localPosition = -grabTransform.localPosition; // multiply 1/parent scale
+        //objToSnap.transform.localPosition = grabTransform.localPosition;
+        objToSnap.transform.localRotation = Quaternion.identity;
         if (!objToSnap.GetComponent<Rigidbody>())
         {
             return;
@@ -483,11 +429,11 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
     {
         if (isLeft)
         {
-            return realLHandTrans;
+            return lControl;
         }
         else
         {
-            return realRHandTrans;
+            return rControl;
         }
     }
 
@@ -535,26 +481,22 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
 
         Transform snapTarget = null;
 
-        bool isLeft = false;
-
         // Store grabbed object on the correct hand
         switch (control)
         {
             case VRTK_DeviceFinder.Devices.LeftController:
                 leftHandObj = currGrabbedObj;
-                snapTarget = realLHandTrans;
-                isLeft = true;
+                snapTarget = lControl;
                 break;
             case VRTK_DeviceFinder.Devices.RightController:
                 rightHandObj = currGrabbedObj;
-                snapTarget = realRHandTrans;
-                isLeft = false;
+                snapTarget = rControl;
                 break;
         }
 
         InteractableObject interactableObject = currGrabbedObj.GetComponent<InteractableObject>();
         interactableObject.SetOwner(gameObject);
-        SnapObjectToController(isLeft, currGrabbedObj, snapTarget, interactableObject.GetGrabPosition());
+        SnapObjectToController(currGrabbedObj, snapTarget, interactableObject.GetGrabPosition());
     }
 
     public void UnGrabCalculate(VRTK_DeviceFinder.Devices control, Vector3 velo, Vector3 anguVelo)
@@ -583,7 +525,6 @@ public class PlayerInteractionSync : NetworkBehaviour, IActions
         currGrabbedObj.GetComponent<InteractableObject>().SetOwner(null);
         if (grabbedObjParent)
         {
-            // PROOOOOOOOOOOOOOOOOOOOOOBLEM IS HEHEHRHHEWHHSFHFSDBJHSDBJHSDBDJSBDHBSDBDFJSBHD
             ITwoHandedObject twoHandedObject;
             twoHandedObject = grabbedObjParent.GetComponent(typeof(ITwoHandedObject)) as ITwoHandedObject;
 

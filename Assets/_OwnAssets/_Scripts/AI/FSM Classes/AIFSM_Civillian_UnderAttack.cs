@@ -10,8 +10,6 @@ namespace SealTeam4
 
         public void FSM_Update()
         {
-            aiState.civilian.underAttack.nextScream -= Time.deltaTime;
-
             switch (aiState.civilian.underAttack.mode)
             {
                 case AIState.Civilian.UnderAttack.Mode.SETUP:
@@ -52,7 +50,7 @@ namespace SealTeam4
                     aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.RUNTOEXIT;
                     break;
                 case AIStats.CivillianStressResponseMode.RANDOM:
-                    switch (Random.Range(0, 2))
+                    switch (Random.Range(0, 1))
                     {
                         case 0:
                             aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.FREEZE;
@@ -75,7 +73,6 @@ namespace SealTeam4
                 aiState.civilian.underAttack.bracing = true;
                 aiController.SetNMAgentDestination(aiController.transform.position);
             }
-            aiController.PlayScreamSFX();
         }
 
         private void RunToExit()
@@ -89,7 +86,6 @@ namespace SealTeam4
                     if (aiState.civilian.underAttack.currMoveVector == aiController.gameObject.transform.position)
                     {
                         aiState.civilian.underAttack.mode = AIState.Civilian.UnderAttack.Mode.FREEZE;
-                        aiController.PlayScreamSFX();
                         break;
                     }
 
@@ -98,7 +94,6 @@ namespace SealTeam4
                     break;
                 case 1:
                     aiController.MoveAITowardsNMAgentDestination(aiStats.runningSpeed);
-                    aiController.PlayScreamSFX();
 
                     if (aiController.ReachedDestination(aiState.civilian.underAttack.currMoveVector, 0))
                         actionStage++;

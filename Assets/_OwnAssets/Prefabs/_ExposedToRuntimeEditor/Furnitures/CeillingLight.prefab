@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23671825278002312}
   - component: {fileID: 114715362672294400}
   - component: {fileID: 114511278264138168}
-  - component: {fileID: 65001707977650990}
   m_Layer: 20
   m_Name: CeillingLight
   m_TagString: Untagged
@@ -86,18 +85,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1588225948965912}
   m_Mesh: {fileID: 4300000, guid: f5c1da1a870e43b4cb780209fba92339, type: 3}
---- !u!65 &65001707977650990
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1588225948965912}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.03, z: 0.5}
-  m_Center: {x: 0, y: -0.0153951915, z: 0}
 --- !u!114 &114511278264138168
 MonoBehaviour:
   m_ObjectHideFlags: 1

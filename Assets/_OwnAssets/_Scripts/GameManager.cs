@@ -260,7 +260,7 @@ namespace SealTeam4
                 playerLPC = Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation).transform;
 
                 Destroy(Camera.main.gameObject);
-                Destroy(GameObject.Find("MarkerUICamera(Clone)"));
+                Destroy(GameObject.Find("markerUICamera(Clone)"));
             }
         }
 
@@ -300,12 +300,8 @@ namespace SealTeam4
         {
             string markerName = marker.name;
 
-            try
-            {
-                if (!registeredMarkers.Exists(x => x.gameObject.name == markerName))
-                    return true;
-            }
-            catch (MissingReferenceException e) { }
+            if (!registeredMarkers.Exists(x => x.gameObject.name == markerName))
+                return true;
 
             List<BaseMarker> markersWithSameName = registeredMarkers.FindAll(y => y != null).FindAll(x => x.gameObject.name == markerName);
 
@@ -751,7 +747,7 @@ namespace SealTeam4
 
         public void ActivatedOnDamaged(int hpLeft)
         {
-            PPVHandler.instance.CheckHpEffect(hpLeft);
+            // HI CLEM
         }
 
         public string RegisterNetCmdObj(GameObject go, bool uniqueName)

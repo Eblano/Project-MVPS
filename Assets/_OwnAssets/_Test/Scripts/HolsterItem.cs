@@ -9,10 +9,9 @@ public class HolsterItem : MonoBehaviour
     {
         if(other.transform.parent == null && other.gameObject.CompareTag("CanBeHolstered"))
         {
-            Debug.Log("Holstered: " + other.name);
             other.transform.SetParent(transform);
             other.GetComponent<Rigidbody>().isKinematic = true;
-            //other.GetComponent<SyncParent>().RpcSetParent(gameObject);
+            other.GetComponent<SyncParent>().RpcSetParent(gameObject);
             other.transform.localPosition = Vector3.zero;
             other.transform.localRotation = Quaternion.identity;
         }

@@ -428,10 +428,7 @@ namespace SealTeam4
 
         public void RemovePlayer(string playerName)
         {
-            if (currActivePlayerContainers.Exists(x => x.playerNameTxt.text == playerName))
-                Destroy(currActivePlayerContainers.Find(x => x.playerNameTxt.text == playerName).gameObject);
-            else
-                return;
+            Destroy(currActivePlayerContainers.Find(x => x.playerNameTxt.text == playerName).gameObject);
             
             if(currActivePlayerContainers.Count > 0)
                 currActivePlayerContainers[0].SetVIPFollowButtonState(true);
@@ -493,7 +490,6 @@ namespace SealTeam4
 
         private void OnBackToEditorBtn()
         {
-            UnityEngine.Networking.NetworkManager.singleton.StopHost();
             GameManager.instance.RestartScene();
         }
     }

@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 54276506696950918}
   m_Layer: 13
   m_Name: TorchAttachment
-  m_TagString: CanBeHolstered
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,7 +89,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4289210639969020}
-  - component: {fileID: 114580166160355212}
   m_Layer: 13
   m_Name: GrabPoint
   m_TagString: Untagged
@@ -104,7 +103,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1523129825574992}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.78, y: 0.8, z: -4.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4530334651010960}
@@ -243,13 +242,13 @@ Light:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1504514122536728}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 8
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 2.69
   m_Range: 100
-  m_SpotAngle: 30
+  m_SpotAngle: 18
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
@@ -299,21 +298,6 @@ MonoBehaviour:
   grabPosition: {fileID: 4289210639969020}
   parentTransform: {fileID: 0}
   snapRange: 0.1
---- !u!114 &114580166160355212
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1960284380119422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6262efd6cc81d044e850b5c16f111426, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  posROffset: {x: 0.05, y: 0.1, z: 0.025}
-  rotROffset: {x: 0, y: 90, z: 0}
-  posLOffset: {x: 0.05, y: 0.1, z: 0.025}
-  rotLOffset: {x: 0, y: -90, z: 0}
 --- !u!114 &114829597776278822
 MonoBehaviour:
   m_ObjectHideFlags: 1

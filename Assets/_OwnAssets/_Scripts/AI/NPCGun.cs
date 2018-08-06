@@ -37,10 +37,10 @@ namespace SealTeam4
                 Debug.DrawLine(firingPt.position, point, Color.green);
             }
 
-            //if (Input.GetKeyDown(KeyCode.Space))
-            //{
-            //    FireGun(GlobalEnums.GunAccuracy.HIGH);
-            //}
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                FireGun(GlobalEnums.GunAccuracy.HIGH);
+            }
         }
 
         public void FireGun(GlobalEnums.GunAccuracy accuracy)
@@ -71,7 +71,7 @@ namespace SealTeam4
                     0);
 
 
-            int layerToHit = ~(1 << LayerMask.NameToLayer("UI")) | ~(1 << LayerMask.NameToLayer("Player"));
+            int layerToHit = ~(1 << LayerMask.NameToLayer("UI"));
 
             Ray ray = new Ray(firingPt.position, firingPt.forward + offsetAmt);
             RaycastHit hitInfo;

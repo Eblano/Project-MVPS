@@ -68,8 +68,7 @@ namespace SealTeam4
             }
             else
             {
-                if(GameObject.Find("MarkerUICamera(Clone)"))
-                    camToTrack = GameObject.Find("MarkerUICamera(Clone)").GetComponent<Camera>();
+                camToTrack = GameObject.Find("MarkerUICamera(Clone)").GetComponent<Camera>();
             }
 
             if (RuntimeEditorUltiltes.instance)

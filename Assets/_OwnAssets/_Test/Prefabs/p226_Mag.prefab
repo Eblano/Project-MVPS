@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4382078092568822}
-  - component: {fileID: 114354927329996712}
   m_Layer: 0
   m_Name: GrabPoint
   m_TagString: Untagged
@@ -59,7 +58,7 @@ GameObject:
   - component: {fileID: 54081780531882390}
   m_Layer: 13
   m_Name: p226_Mag
-  m_TagString: CanBeHolstered
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,7 +96,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1887284202064132}
   m_LocalRotation: {x: -0.49991274, y: -0.50008726, z: -0.49991274, w: 0.50008726}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3.031, y: 1.1910053, z: 0.37846518}
   m_LocalScale: {x: 2.1701484, y: 2.170147, z: 2.170147}
   m_Children:
   - {fileID: 4037799414628014}
@@ -207,21 +206,6 @@ MonoBehaviour:
     i15: 162
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114354927329996712
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1489167270953188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6262efd6cc81d044e850b5c16f111426, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  posROffset: {x: 0.04, y: 0.08, z: 0.02}
-  rotROffset: {x: -180, y: 90, z: -90}
-  posLOffset: {x: -0.05, y: 0.08, z: 0.1}
-  rotLOffset: {x: -180, y: -90, z: -90}
 --- !u!114 &114530830247834486
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -237,6 +221,7 @@ MonoBehaviour:
   parentTransform: {fileID: 0}
   snapRange: 0.1
   bulletsInMag: 20
+  bulletCapacity: 0
 --- !u!135 &135091534250818308
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -79,10 +79,7 @@ namespace SealTeam4
         private AudioSource audioS;
         private NetworkedAudioSource netAudioS;
         [SerializeField] private AudioClip oof_SFX;
-
-        private AudioClip npcScreamSFX;
-        [SerializeField] private AudioClip maleScreamSFX;
-        [SerializeField] private AudioClip femaleScreamSFX;
+        [SerializeField] private AudioClip scream_SFX;
 
         private NavMeshAgent nmAgent;
         private AIAnimationController aiAnimController;
@@ -139,28 +136,9 @@ namespace SealTeam4
             aiFSM_VIP_UnderAttack.InitializeFSM(this, transform, aiState, aiStats, aiAnimController);
 
             SetupOutfit(outfit);
-            SetupVoiceSFX(outfit);
 
             // Spawn NPC on all clients
             GameManagerAssistant.instance.NetworkSpawnGameObj(gameObject);
-        }
-
-        private void SetupVoiceSFX(NpcSpawnData.NPCOutfit outfit)
-        {
-            switch (outfit)
-            {
-                case NpcSpawnData.NPCOutfit.MALE_VIP:
-                case NpcSpawnData.NPCOutfit.MALE_TYPE1:
-                case NpcSpawnData.NPCOutfit.MALE_TYPE2:
-                case NpcSpawnData.NPCOutfit.MALE_TYPE3:
-                    npcScreamSFX = maleScreamSFX;
-                    break;
-                case NpcSpawnData.NPCOutfit.FEMALE_TYPE1:
-                case NpcSpawnData.NPCOutfit.FEMALE_TYPE2:
-                case NpcSpawnData.NPCOutfit.FEMALE_TYPE3:
-                    npcScreamSFX = femaleScreamSFX;
-                    break;
-            }
         }
 
         private void SetupOutfit(NpcSpawnData.NPCOutfit outfit)
@@ -444,13 +422,10 @@ namespace SealTeam4
         {
             if(aiStats.GetTotalHP() == 0)
             {
-                StopMovement();
                 aiAnimController.Anim_Die();
                 aiState.alive = false;
                 aiState.active = false;
-                Destroy(centerMassT.gameObject);
-                nmAgent.enabled = false;
-                this.enabled = false;
+                StopMovement();
             }
         }
 
@@ -547,10 +522,9 @@ namespace SealTeam4
             ref_pistol.transform.LookAt(target);
         }
 
-        public bool AimGun()
+        public void AimGun()
         {
             aiAnimController.Anim_AimGun();
-            return true;
         }
 
         public void FireGun()
@@ -971,7 +945,7 @@ namespace SealTeam4
                     if (weaponType == GlobalEnums.WeaponType.PISTOL)
                         aiStats.TakeDamage(aiStats.bulletHeadDmg);
                     else if (weaponType == GlobalEnums.WeaponType.KNIFE)
-                        aiStats.TakeDamage(aiStats.knifeHeadDmg);
+                        aiStats.TakeDamage(aiStats.bulletHeadDmg);
                     return;
                 }
             }
@@ -983,7 +957,7 @@ namespace SealTeam4
                     if (weaponType == GlobalEnums.WeaponType.PISTOL)
                         aiStats.TakeDamage(aiStats.bulletHandDmg);
                     else if (weaponType == GlobalEnums.WeaponType.KNIFE)
-                        aiStats.TakeDamage(aiStats.knifeHandDmg);
+                        aiStats.TakeDamage(aiStats.knifeLegDmg);
                     return;
                 }
             }
@@ -1014,25 +988,19 @@ namespace SealTeam4
         public void PlayHurtSFX()
         {
             audioS.clip = oof_SFX;
-            netAudioS.Play();
+            audioS.Play();
+            //netAudioS.Play();
         }
 
         public void PlayScreamSFX()
         {
-            if (audioS.clip != npcScreamSFX)
-                audioS.clip = npcScreamSFX;
+            if (audioS.clip != scream_SFX)
+                audioS.clip = scream_SFX;
 
-            if (aiState.civilian.underAttack.nextScream == -1000)
+            if(!audioS.isPlaying)
             {
-                aiState.civilian.underAttack.nextScream = 
-                    aiStats.baseScreamInterval + Random.Range(-aiStats.screamIntervalOffset, aiStats.screamIntervalOffset);
-            }
-
-            if (aiState.civilian.underAttack.nextScream < 0)
-            {
-                netAudioS.Play();
-                aiState.civilian.underAttack.nextScream =
-                    aiStats.baseScreamInterval + Random.Range(-aiStats.screamIntervalOffset, aiStats.screamIntervalOffset);
+                audioS.Play();
+                //netAudioS.Play();
             }
         }
     }

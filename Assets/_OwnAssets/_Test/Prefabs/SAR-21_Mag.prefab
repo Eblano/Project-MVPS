@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4671135008194286}
-  - component: {fileID: 114569548629076618}
   m_Layer: 0
   m_Name: GrabPoint
   m_TagString: Untagged
@@ -59,7 +58,7 @@ GameObject:
   - component: {fileID: 54664742151035770}
   m_Layer: 13
   m_Name: SAR-21_Mag
-  m_TagString: CanBeHolstered
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +117,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: b332bc96651e22a4b951e88ebf3c98f9, type: 2}
   m_StaticBatchInfo:
@@ -174,21 +172,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.007924531, y: 0.0023651214, z: 0.012461188}
   m_Center: {x: 0.0002602702, y: 2.9698166e-18, z: -0.00041796445}
---- !u!114 &114569548629076618
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1420854556813494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6262efd6cc81d044e850b5c16f111426, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  posROffset: {x: 0.02, y: 0.09, z: 0.06}
-  rotROffset: {x: -24.5, y: -90, z: 90}
-  posLOffset: {x: 0.02, y: 0.09, z: 0.06}
-  rotLOffset: {x: -24.5, y: 90, z: 90}
 --- !u!114 &114643666767014772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -236,6 +219,8 @@ MonoBehaviour:
   parentTransform: {fileID: 0}
   snapRange: 0.1
   bulletsInMag: 30
+  bulletCapacity: 0
+  magCollider: {fileID: 65667088024906866}
 --- !u!135 &135104972029167282
 SphereCollider:
   m_ObjectHideFlags: 1
