@@ -265,6 +265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4164727943849680}
   - component: {fileID: 114739797313361542}
+  - component: {fileID: 114400203437225402}
   m_Layer: 0
   m_Name: LocalPlayerController
   m_TagString: Untagged
@@ -1651,6 +1652,18 @@ MonoBehaviour:
   right: {fileID: 1352493144622032}
   objects: []
   assignAllBeforeIdentified: 0
+--- !u!114 &114400203437225402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1353271438003168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3225714525d66724880f8d009ca260dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 4896740521702436}
 --- !u!114 &114442182015370618
 MonoBehaviour:
   m_ObjectHideFlags: 1

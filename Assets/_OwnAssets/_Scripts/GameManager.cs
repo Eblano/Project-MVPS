@@ -78,6 +78,8 @@ namespace SealTeam4
         [Space(10)]
 
         private Transform playerLPC;
+        private Transform playerCamHead;
+        [SerializeField] private float speed = 5.0f;
         private string localPlayerName;
 
         [SerializeField] private List<PlayerCalibrationInfo> playerCalibrationInfos = new List<PlayerCalibrationInfo>();
@@ -165,27 +167,43 @@ namespace SealTeam4
             {
                 if (Input.GetKey(KeyCode.W))
                 {
-                    playerLPC.Translate(playerLPC.forward * 5 * Time.deltaTime);
+                    Vector3 forwardDir = playerCamHead.forward;
+                    forwardDir.y = 0;
+                    forwardDir = forwardDir.normalized;
+
+                    playerLPC.Translate(forwardDir  * speed * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.S))
                 {
-                    playerLPC.Translate(-playerLPC.forward * 5 * Time.deltaTime);
+                    Vector3 forwardDir = playerCamHead.forward;
+                    forwardDir.y = 0;
+                    forwardDir = forwardDir.normalized;
+
+                    playerLPC.Translate(-forwardDir * speed * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.A))
                 {
-                    playerLPC.Translate(-playerLPC.right * 5 * Time.deltaTime);
+                    Vector3 rightDir = playerCamHead.right;
+                    rightDir.y = 0;
+                    rightDir = rightDir.normalized;
+
+                    playerLPC.Translate(-rightDir * speed * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.D))
                 {
-                    playerLPC.Translate(playerLPC.right * 5 * Time.deltaTime);
+                    Vector3 rightDir = playerCamHead.right;
+                    rightDir.y = 0;
+                    rightDir = rightDir.normalized;
+
+                    playerLPC.Translate(rightDir * speed * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.Q))
                 {
-                    playerLPC.Rotate(0, -20 * Time.deltaTime, 0);
+                    playerLPC.Rotate(0, -(speed*4) * Time.deltaTime, 0);
                 }
                 if (Input.GetKey(KeyCode.E))
                 {
-                    playerLPC.Rotate(0, 20 * Time.deltaTime, 0);
+                    playerLPC.Rotate(0, (speed * 4) * Time.deltaTime, 0);
                 }
             }
 
@@ -258,6 +276,8 @@ namespace SealTeam4
 
                 // Spawn local player controller at spawn position
                 playerLPC = Instantiate(localPlayerController_Prefab, playerSpawnMarker.pointPosition, playerSpawnMarker.pointRotation).transform;
+                if(playerLPC.GetComponent<PlayerCoordinates>())
+                    playerCamHead = playerLPC.GetComponent<PlayerCoordinates>().head;
 
                 Destroy(Camera.main.gameObject);
                 Destroy(GameObject.Find("MarkerUICamera(Clone)"));
