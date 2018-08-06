@@ -54,16 +54,6 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
 
         Debug.Log("firingPoint.position" + firingPoint.position);
 
-        //if (Input.GetKeyDown(KeyCode.H))
-        //{
-        //    FireBullet();
-        //}
-
-        //if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.H))
-        //{
-        //    FireBullet();
-        //}
-
         foreach (Rays rayy in hitrays)
         {
             Debug.DrawLine(rayy.start, rayy.end);
@@ -152,10 +142,10 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
     /// <summary>
     /// Uses raycast to check for a hit.
     /// </summary>
-    public void FireBullet()
+    public void FireBullet(Vector3 origin, Vector3 originForward)
     {
         RaycastHit hit;
-        Ray ray = new Ray(firingPoint.position, firingPoint.forward);
+        Ray ray = new Ray(origin, originForward);
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
@@ -250,7 +240,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             // Fire bullet
             //GameManagerAssistant.instance.CmdSyncHaps(networkInstanceId, ControllerHapticsManager.HapticType.GUNFIRE, devices);
 
-            GameManagerAssistant.instance.CmdGunFire(gunNetID);
+            GameManagerAssistant.instance.CmdGunFire(gunNetID, firingPoint.position, firingPoint.forward);
             GameManagerAssistant.instance.RelaySenderCmdGunEffectSync(gunNetID);
             ControllerHapticsManager.PlayHaptic(ControllerHapticsManager.HapticType.GUNFIRE, devices);
             if (gunNetworkAnim)

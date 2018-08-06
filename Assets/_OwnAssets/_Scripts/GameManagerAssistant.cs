@@ -257,9 +257,9 @@ namespace SealTeam4
         }
 
         [Command]
-        public void CmdGunFire(NetworkInstanceId gunNetID)
+        public void CmdGunFire(NetworkInstanceId gunNetID, Vector3 origin, Vector3 originForward)
         {
-            NetworkServer.objects[gunNetID].GetComponent<Gun>().FireBullet();
+            NetworkServer.objects[gunNetID].GetComponent<Gun>().FireBullet(origin, originForward);
         }
 
         [ClientRpc]
