@@ -52,7 +52,19 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
             CheckGrabState();
         }
 
-        foreach(Rays rayy in hitrays)
+        Debug.Log("firingPoint.position" + firingPoint.position);
+
+        //if (Input.GetKeyDown(KeyCode.H))
+        //{
+        //    FireBullet();
+        //}
+
+        //if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.H))
+        //{
+        //    FireBullet();
+        //}
+
+        foreach (Rays rayy in hitrays)
         {
             Debug.DrawLine(rayy.start, rayy.end);
         }
@@ -147,7 +159,7 @@ public class Gun : NetworkBehaviour, IUsableObject, ITwoHandedObject, IButtonAct
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            Debug.Log("firingPoint.position" + firingPoint.position);
+            //Debug.Log("firingPoint.position" + firingPoint.position);
             IDamageable damageableObj = hit.collider.transform.root.GetComponent<IDamageable>();
             Rays rayy = new Rays
             {
