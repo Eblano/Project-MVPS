@@ -80,6 +80,7 @@ namespace SealTeam4
         private Transform playerLPC;
         private Transform playerCamHead;
         [SerializeField] private float speed = 5.0f;
+        [SerializeField] private float joystickDeadRadius = 0.35f; 
         private string localPlayerName;
 
         [SerializeField] private List<PlayerCalibrationInfo> playerCalibrationInfos = new List<PlayerCalibrationInfo>();
@@ -843,6 +844,11 @@ namespace SealTeam4
             playerLPC.Rotate(0, -angleCorrection + 180, 0);
         }
 
+        public float GetPlayerHP(string playerName)
+        {
+            return players_ref.Find(x => x.name == playerName).GetComponent<PlayerStats>().GetHP();
+        }
+
         #region Calibration
         public void CalibrateInfo(NetworkInstanceId senderPlayerId, Vector3 pos, bool isLeft)
         {
@@ -936,6 +942,42 @@ namespace SealTeam4
         }
         #endregion Calibration
 
+        public void JoyController(Vector2 controllerAxis)
+        {
+            if (controllerAxis.y > joystickDeadRadius)
+            {
+                Vector3 forwardDir = playerCamHead.forward;
+                forwardDir.y = 0;
+                forwardDir = forwardDir.normalized;
+
+                playerLPC.Translate(forwardDir * speed * Time.deltaTime);
+            }
+            else if (controllerAxis.y < -joystickDeadRadius)
+            {
+                Vector3 forwardDir = playerCamHead.forward;
+                forwardDir.y = 0;
+                forwardDir = forwardDir.normalized;
+
+                playerLPC.Translate(-forwardDir * speed * Time.deltaTime);
+            }
+
+            if (controllerAxis.x < -joystickDeadRadius)
+            {
+                Vector3 rightDir = playerCamHead.right;
+                rightDir.y = 0;
+                rightDir = rightDir.normalized;
+
+                playerLPC.Translate(-rightDir * speed * Time.deltaTime);
+            }
+            else if (controllerAxis.x > joystickDeadRadius)
+            {
+                Vector3 rightDir = playerCamHead.right;
+                rightDir.y = 0;
+                rightDir = rightDir.normalized;
+
+                playerLPC.Translate(rightDir * speed * Time.deltaTime);
+            }
+        }
     }
 
     [System.Serializable]

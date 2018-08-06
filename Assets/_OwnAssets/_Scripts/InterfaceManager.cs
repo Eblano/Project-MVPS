@@ -76,6 +76,9 @@ namespace SealTeam4
         [SerializeField] private GameObject playerContainer_Prefab;
         private List<PlayerContainer> currActivePlayerContainers = new List<PlayerContainer>();
 
+        private float playerHPUpdateCD = 0;
+        private float playerHPUpdateInteral = 0.5f;
+
         [Space(10)]
 
         [SerializeField] private TextMeshProUGUI gameTime;
@@ -170,6 +173,7 @@ namespace SealTeam4
                 selectedGOTxt.text = "Nothing Selected";
 
             UpdateMarker();
+            UpdatePlayerHP();
             UpdateActionList();
             ListenForKeys();
         }
@@ -178,6 +182,21 @@ namespace SealTeam4
         {
             currGameTime += Time.deltaTime;
             gameTime.text = string.Format("{0:00}:{1:00}", (currGameTime / 60) % 60, currGameTime % 60);
+        }
+
+        private void UpdatePlayerHP()
+        {
+            if (playerHPUpdateCD <= 0)
+            {
+                foreach (PlayerContainer container in currActivePlayerContainers)
+                {
+                    container.SetHP(GameManager.instance.GetPlayerHP(container.playerNameTxt.text));
+                }
+
+                playerHPUpdateCD = playerHPUpdateInteral;
+            }
+            else
+                playerHPUpdateCD -= Time.deltaTime;
         }
 
         public void UnToggleAllPlayerContainerVIPFollowTarget(PlayerContainer exclude)

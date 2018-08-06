@@ -102,6 +102,11 @@ public class PlayerStats : MonoBehaviour, IDamageable, IObjectInfo
         return objectInfos;
     }
 
+    public float GetHP()
+    {
+        return totalHp / 100f;
+    }
+
     public AIStats.NPCType GetNPCType()
     {
         return AIStats.NPCType.NONE;
